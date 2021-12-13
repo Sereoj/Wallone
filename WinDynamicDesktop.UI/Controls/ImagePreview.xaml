@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="WinDynamicDesktop.UI.Controls.ImagePreview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WinDynamicDesktop.UI.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:ImagePreviewViewModel,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    SnapsToDevicePixels="True"
+    UseLayoutRounding="True"
+    mc:Ignorable="d">
+    <Grid x:Name="Slider" Background="Gray">
+        <!--  Изображение прорисовка  -->
+        <Image x:Name="Preview" Source="{Binding PreviewImage}" />
+        <Image x:Name="Image" Source="{Binding Image}" />
+        <Button
+            x:Name="Left"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
+            Content="Left" />
+        <Button
+            x:Name="Right"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Stretch"
+            Content="Right" />
+    </Grid>
+</UserControl>

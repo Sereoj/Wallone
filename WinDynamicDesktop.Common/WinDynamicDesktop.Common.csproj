@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\Comfortaa.ttf" />
+    <None Remove="Fonts\gardens.otf" />
+    <None Remove="Fonts\icomoon-ultimate.ttf" />
+    <None Remove="Fonts\icomoon.ttf" />
+    <None Remove="Fonts\IcoMoon_0.ttf" />
+  </ItemGroup>
+
+    <ItemGroup>
+		<Folder Include="Styles\" />
+    </ItemGroup>
+	
+    <ItemGroup>
+        <Resource Include="Fonts\Comfortaa.ttf">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Fonts\gardens.otf">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Fonts\icomoon-ultimate.ttf">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Fonts\icomoon.ttf">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Fonts\IcoMoon_0.ttf">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\Placeholder.png">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+    </ItemGroup>
+	
+    <ItemGroup>
+        <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+        <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    </ItemGroup>
+
+</Project>

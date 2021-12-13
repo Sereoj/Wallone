@@ -1,0 +1,18 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    x:Name="Style"
+    x:Uid="StyleFonts">
+
+
+    <!--#region Isons Fonts-->
+    <FontFamily x:Key="FontIconMoonFree">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/#IcoMoon-Free</FontFamily>
+    <FontFamily x:Key="FontIconMoon">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/#icomoon</FontFamily>
+    <FontFamily x:Key="FontIconMoonUltimate">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/#icomoon-ultimate</FontFamily>
+    <!--#endregion-->
+    <FontFamily x:Key="FontComfortaa">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/Comfortaa.ttf</FontFamily>
+    <FontFamily x:Key="FontGardensC">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/gardens.otf</FontFamily>
+
+    <ImageSource x:Key="Placeholder">pack://application:,,,/WinDynamicDesktop.Common;component/Images/Placeholder.png</ImageSource>
+</ResourceDictionary>
