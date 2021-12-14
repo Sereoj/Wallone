@@ -1,10 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using WinDynamicDesktop.Core.Models;
 
 namespace WinDynamicDesktop.Core.Services
@@ -13,10 +7,9 @@ namespace WinDynamicDesktop.Core.Services
     {
         public static ObservableCollection<Thumb> GetThumbs(string page = null)
         {
-            var request = RequestRouter.Get("wallpapers", page);
-            return request.StatusCode == System.Net.HttpStatusCode.OK
-                ? JsonConvert.DeserializeObject<ObservableCollection<Thumb>>(request.Content)
-                : null;
+            var items = RequestRouter<ObservableCollection<Thumb>>
+                .Get("walpapers", page);
+            return null;
         }
     }
 }

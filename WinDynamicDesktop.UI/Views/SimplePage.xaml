@@ -50,7 +50,7 @@
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Image Source="{StaticResource Placeholder}" Stretch="UniformToFill"/>
+                    <Image Source="{StaticResource Placeholder}" />
                 </Grid>
             </Grid>
         </Grid>

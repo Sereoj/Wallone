@@ -6,6 +6,7 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Events;
@@ -36,15 +37,16 @@ namespace WinDynamicDesktop.UI.ViewModels
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
-            foreach (var item in ThumbService.GetThumbs())
-            {
-                Library.Add(new ArticleViewModel(regionManager)
-                {
-                    ID = item.ID,
-                    Name = item.Name,
-                    ImageSource = new BitmapImage(item.Preview)
-                });
-            }
+            ThumbService.GetThumbs(null);
+            //foreach (var item in )
+            //{
+            //    Library.Add(new ArticleViewModel(regionManager)
+            //    {
+            //        ID = item.ID,
+            //        Name = item.Name,
+            //        ImageSource = new BitmapImage(item.Preview)
+            //    });
+            //}
             this.eventAggregator.GetEvent<ScrollEvent>().Subscribe(ScrollLineReceived);
         }
 
