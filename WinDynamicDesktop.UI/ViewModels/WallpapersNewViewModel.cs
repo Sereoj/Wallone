@@ -7,16 +7,17 @@ using System.Diagnostics;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
-    public class WallpapersPopular : BindableBase, INavigationAware
+    public class WallpapersNewViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
-        private string header = "Популярные";
+        private string header = "Новые";
         public string Header
         {
             get { return header; }
             set { SetProperty(ref header, value); }
         }
-        public WallpapersPopular(IRegionManager regionManager)
+
+        public WallpapersNewViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
         }

@@ -14,7 +14,7 @@ using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
-    public class Wallpapers : BindableBase, INavigationAware
+    public class WallpapersViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
         private readonly IEventAggregator eventAggregator;
@@ -27,12 +27,12 @@ namespace WinDynamicDesktop.UI.ViewModels
             get { return header; }
             set { SetProperty(ref header, value); }
         }
-        public Wallpapers()
+        public WallpapersViewModel()
         {
             Library.Add(new ArticleViewModel(regionManager));
             Library.Add(new ArticleViewModel(regionManager));
         }
-        public Wallpapers(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public WallpapersViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
