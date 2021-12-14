@@ -89,6 +89,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            regionManager.RequestNavigate("PageRegion", "Wallpapers");
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
