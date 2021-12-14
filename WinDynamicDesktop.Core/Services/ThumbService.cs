@@ -7,9 +7,9 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class ThumbService
     {
-        public static async Task<List<Thumb>> GetThumbsAsync(string page = null)
+        public static Task<List<Thumb>> GetThumbsAsync(string page = null)
         {
-            var items = await RequestRouter<List<Thumb>>.GetAsync("wallpapers", page).ConfigureAwait(true);
+            var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers", page);
             return items;
         }
 

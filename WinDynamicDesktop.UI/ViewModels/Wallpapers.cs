@@ -36,8 +36,8 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
-
-            var task = ThumbService.GetThumbsAsync(null);
+            
+            Loaded();
 
             this.eventAggregator.GetEvent<ScrollEvent>().Subscribe(ScrollLineReceived);
         }
@@ -70,6 +70,21 @@ namespace WinDynamicDesktop.UI.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             //throw new NotImplementedException();
+        }
+
+
+        public async void Loaded()
+        {
+            var items = await ThumbService.GetThumbsAsync(null);
+            foreach (var item in items)
+            {
+                Library.Add(new ArticleViewModel(regionManager)
+                {
+                    ID = item.ID,
+                    Name = item.Name,
+                    ImageSource = new BitmapImage(item.Preview)
+                });
+            }
         }
     }
 }
