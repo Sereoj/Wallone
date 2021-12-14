@@ -37,16 +37,8 @@ namespace WinDynamicDesktop.UI.ViewModels
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
-            ThumbService.GetThumbs(null);
-            //foreach (var item in )
-            //{
-            //    Library.Add(new ArticleViewModel(regionManager)
-            //    {
-            //        ID = item.ID,
-            //        Name = item.Name,
-            //        ImageSource = new BitmapImage(item.Preview)
-            //    });
-            //}
+            var task = ThumbService.GetThumbsAsync(null);
+
             this.eventAggregator.GetEvent<ScrollEvent>().Subscribe(ScrollLineReceived);
         }
 
