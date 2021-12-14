@@ -8,7 +8,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
-    d:DataContext="{d:DesignInstance Type=viewmodels:Wallpapers,
+    d:DataContext="{d:DesignInstance Type=viewmodels:WallpapersViewModel,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="900"
     d:DesignWidth="960"
@@ -57,6 +57,22 @@
                                 IsHitTestVisible="True"
                                 ShowGridLines="True">
                                 <Image
+                                    x:Name="Placeholder"
+                                    Grid.IsSharedSizeScope="True"
+                                    Source="{StaticResource Placeholder}"
+                                    Stretch="UniformToFill">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ImageSource, NotifyOnSourceUpdated=True}">
+                                                    <Setter Property="Visibility" Value="Hidden" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <Image
+                                    x:Name="Thumb"
                                     Grid.IsSharedSizeScope="True"
                                     Source="{Binding ImageSource}"
                                     Stretch="UniformToFill" />
