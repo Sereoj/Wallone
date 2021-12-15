@@ -11,10 +11,11 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Events;
 using WinDynamicDesktop.Core.Services;
+using WinDynamicDesktop.UI.Interfaces;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
-    public class WallpapersViewModel : BindableBase, INavigationAware
+    public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
         private readonly IEventAggregator eventAggregator;
@@ -36,7 +37,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
-            
             Loaded();
 
             this.eventAggregator.GetEvent<ScrollEvent>().Subscribe(ScrollLineReceived);
@@ -48,11 +48,6 @@ namespace WinDynamicDesktop.UI.ViewModels
             {
                 if (e.VerticalOffset == e.ExtentHeight - e.ViewportHeight)
                 {
-                    //Library.Add(new ArticleViewModel(regionManager)
-                    //{
-                    //    ID = "",
-                    //    Name = "",
-                    //});
                 }
             }
         }
@@ -71,7 +66,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             //throw new NotImplementedException();
         }
-
 
         public async void Loaded()
         {

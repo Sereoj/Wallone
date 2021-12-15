@@ -2,11 +2,14 @@
     x:Class="WinDynamicDesktop.UI.Views.WallpapersNew"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WinDynamicDesktop.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WinDynamicDesktop.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:WallpapersNewViewModel}"
     d:DesignHeight="900"
     d:DesignWidth="960"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -16,24 +19,39 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="40" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" MaxWidth="50" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" MaxWidth="50" />
+            </Grid.ColumnDefinitions>
             <!--  Grid Header  -->
-            <Grid x:Name="Header" Grid.Row="0">
+            <Grid
+                x:Name="Header"
+                Grid.Row="0"
+                Grid.Column="1">
                 <TextBlock
-                    Margin="50,0,0,0"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="24"
-                    Text="{Binding Header}" />
+                    Text="{Binding Header, FallbackValue=Content}" />
             </Grid>
             <!--  Grid Article  -->
             <Grid
                 x:Name="Article"
                 Grid.Row="1"
-                Margin="50,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top" />
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
+                <ui:GridView x:Name="ItemsRepeater" ItemsSource="{Binding Library}">
+                    <ui:GridView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
+                            <controls:Article />
+                        </DataTemplate>
+                    </ui:GridView.ItemTemplate>
+                </ui:GridView>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

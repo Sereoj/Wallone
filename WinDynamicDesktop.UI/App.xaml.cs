@@ -22,10 +22,13 @@ namespace WinDynamicDesktop.UI
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<Main>();
+            containerRegistry.RegisterForNavigation<Indicator, ViewModels.IndicatorViewModel>();
+
             containerRegistry.RegisterForNavigation<Wallpapers, ViewModels.WallpapersViewModel>();
             containerRegistry.RegisterForNavigation<WallpapersNew, ViewModels.WallpapersNewViewModel>();
             containerRegistry.RegisterForNavigation<WallpapersPopular, ViewModels.WallpapersPopularViewModel>();
             containerRegistry.RegisterForNavigation<WallpapersWait, ViewModels.WallpapersWaitViewModel>();
+
             containerRegistry.RegisterForNavigation<SimplePage, ViewModels.SimplePageViewModel>();
             containerRegistry.RegisterForNavigation<ImagePreview, ViewModels.ImagePreviewViewModel>();
         }

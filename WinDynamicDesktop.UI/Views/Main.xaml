@@ -64,30 +64,8 @@
                     x:Uid="Categories"
                     Content="Категории"
                     Icon="GlobalNavigationButton"
-                    Tag="Categories">
-                    <ui:NavigationViewItem.MenuItems>
-                        <ui:NavigationViewItem Content="Авто" Tag="Linux">
-                            <ui:NavigationViewItem.Icon>
-                                <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xEABD;" />
-                            </ui:NavigationViewItem.Icon>
-                        </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Авто" Tag="Linux">
-                            <ui:NavigationViewItem.Icon>
-                                <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xEABD;" />
-                            </ui:NavigationViewItem.Icon>
-                        </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Авто" Tag="Linux">
-                            <ui:NavigationViewItem.Icon>
-                                <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xEABD;" />
-                            </ui:NavigationViewItem.Icon>
-                        </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Авто" Tag="Linux">
-                            <ui:NavigationViewItem.Icon>
-                                <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xEABD;" />
-                            </ui:NavigationViewItem.Icon>
-                        </ui:NavigationViewItem>
-                    </ui:NavigationViewItem.MenuItems>
-                </ui:NavigationViewItem>
+                    MenuItemsSource="{Binding Categories}"
+                    Tag="Categories" />
                 <ui:NavigationViewItemSeparator />
                 <ui:NavigationViewItem
                     x:Uid="New"

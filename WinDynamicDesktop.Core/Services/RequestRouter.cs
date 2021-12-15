@@ -18,7 +18,7 @@ namespace WinDynamicDesktop.Core.Services
         {
             var client = new RestClient(domain);
             var request = new RestRequest($"{method}/{fields}", DataFormat.Json);
-            var result =  client.Get(request);
+            var result = client.Get(request);
             return result;
         }
     }

@@ -7,15 +7,14 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class ThumbService
     {
-        public static Task<List<Thumb>> GetThumbsAsync(string page = null)
+        public static Task<List<Thumb>> GetThumbsAsync(string fields = null)
         {
-            var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers", page);
+            var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers", fields);
             return items;
         }
-
-        public static List<Thumb> GetThumbs(string page = null)
+        public static List<Thumb> GetThumbs(string fields = null)
         {
-            var items = RequestRouter<List<Thumb>>.Get("wallpapers", page);
+            var items = RequestRouter<List<Thumb>>.Get("wallpapers", fields);
             return (List<Thumb>)items;
         }
     }

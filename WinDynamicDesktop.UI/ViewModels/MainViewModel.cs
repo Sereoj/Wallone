@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Controls;
+using System.Windows.Media;
 using WinDynamicDesktop.Core.Events;
 using WinDynamicDesktop.Core.Services;
 
@@ -16,7 +17,15 @@ namespace WinDynamicDesktop.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
         private readonly IEventAggregator eventAggregator;
-        private ObservableCollection<NavigationViewItem> categories;
+
+        private ObservableCollection<NavigationViewItem> brands = new ObservableCollection<NavigationViewItem>();
+        public ObservableCollection<NavigationViewItem> Brands
+        {а
+            get { return brands; }
+            set { SetProperty(ref brands, value); }
+        }
+
+        private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
         public ObservableCollection<NavigationViewItem> Categories
         {
             get { return categories; }
@@ -42,15 +51,16 @@ namespace WinDynamicDesktop.UI.ViewModels
         public MainViewModel()
         {
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
-            Categories = new ObservableCollection<NavigationViewItem>();
         }
         public MainViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
+
+            LoadCategory();
+
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
             ScrollViewerScrollChangedCommand = new DelegateCommand<ScrollChangedEventArgs>(OnScrollChanged);
-            Categories = CategoriesService.GetCategories();
         }
 
         private void OnScrollChanged(ScrollChangedEventArgs e)
@@ -99,6 +109,22 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+        }
+
+        public async void LoadCategory()
+        {
+            var font = new FontFamily(new Uri(App.Current.Resources["Fonts"].ToString()), "#IcoMoon-Free");
+            var items = await CategoriesService.GetCategoryAsync(null);
+
+            foreach (var item in items)
+            {
+                Categories.Add(new NavigationViewItem()
+                {
+                    Content = item.Name,
+                    Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon},
+                    Tag = item.Tag
+                });
+            }
         }
     }
 }
