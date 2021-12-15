@@ -20,7 +20,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private ObservableCollection<NavigationViewItem> brands = new ObservableCollection<NavigationViewItem>();
         public ObservableCollection<NavigationViewItem> Brands
-        {а
+        {
             get { return brands; }
             set { SetProperty(ref brands, value); }
         }
