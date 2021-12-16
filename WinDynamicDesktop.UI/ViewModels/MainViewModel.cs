@@ -6,6 +6,7 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using WinDynamicDesktop.Core.Events;
@@ -57,6 +58,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
+            LoadBrands();
             LoadCategory();
 
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
@@ -110,7 +112,21 @@ namespace WinDynamicDesktop.UI.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
+        public async void LoadBrands()
+        {
+            var font = new FontFamily(new Uri(App.Current.Resources["Fonts"].ToString()), "#IcoMoon-Free");
+            var items = await BrandsService.GetBrandAsync(null);
 
+            foreach (var item in items)
+            {
+                Brands.Add(new NavigationViewItem()
+                {
+                    Content = item.Name,
+                    Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
+                    Tag = item.Tag
+                });
+            }
+        }
         public async void LoadCategory()
         {
             var font = new FontFamily(new Uri(App.Current.Resources["Fonts"].ToString()), "#IcoMoon-Free");
@@ -121,7 +137,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                 Categories.Add(new NavigationViewItem()
                 {
                     Content = item.Name,
-                    Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon},
+                    Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
                     Tag = item.Tag
                 });
             }

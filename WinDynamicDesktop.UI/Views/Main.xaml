@@ -40,25 +40,8 @@
                     Content="Бренды"
                     Icon="AllApps"
                     IsHitTestVisible="True"
-                    Tag="Brands">
-                    <ui:NavigationViewItem.MenuItems>
-                        <ui:NavigationViewItem Content="Windows" Tag="Windows">
-                            <ui:NavigationViewItem.Icon>
-                                <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xEAC2;" />
-                            </ui:NavigationViewItem.Icon>
-                        </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="MacOS" Tag="MacOS">
-                            <ui:NavigationViewItem.Icon>
-                                <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xEABE;" />
-                            </ui:NavigationViewItem.Icon>
-                        </ui:NavigationViewItem>
-                        <ui:NavigationViewItem Content="Linux" Tag="Linux">
-                            <ui:NavigationViewItem.Icon>
-                                <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xEABD;" />
-                            </ui:NavigationViewItem.Icon>
-                        </ui:NavigationViewItem>
-                    </ui:NavigationViewItem.MenuItems>
-                </ui:NavigationViewItem>
+                    MenuItemsSource="{Binding Brands}"
+                    Tag="Brands" />
                 <!--  Categories  -->
                 <ui:NavigationViewItem
                     x:Uid="Categories"

@@ -8,7 +8,7 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class BrandsService
     {
-        public static Task<List<Brand>> GetCategoryAsync(string fields = null)
+        public static Task<List<Brand>> GetBrandAsync(string fields = null)
         {
             var items = RequestRouter<List<Brand>>.GetAsync("brands", fields);
             return items;
