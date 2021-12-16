@@ -7,6 +7,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.Authorization.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:RegisterViewModel}"
     d:DesignHeight="900"
     d:DesignWidth="1200"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -25,30 +26,56 @@
         <Grid
             Grid.Row="1"
             Grid.Column="1"
-            Height="240"
+            Height="400"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <TextBlock
                 HorizontalAlignment="Center"
+                VerticalAlignment="Top"
                 FontSize="22"
-                Text="Ваш E-Mail" />
+                Text="Регистрация" />
             <TextBlock
-                Margin="0,26,0,0"
+                Margin="0,28,0,0"
                 HorizontalAlignment="Center"
-                FontSize="14"
-                Text="На электронный адрес придет код активации" />
+                VerticalAlignment="Top"
+                FontSize="18"
+                Text="Создание вашего профиля" />
+            <TextBox
+                Width="325"
+                MaxHeight="35"
+                Margin="0,60,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Text="Name"
+                UndoLimit="100" />
             <TextBox
                 Width="325"
                 MaxHeight="35"
                 Margin="0,100,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="admin@w2me.ru"
+                Text="Email"
+                UndoLimit="100" />
+            <TextBox
+                Width="325"
+                MaxHeight="35"
+                Margin="0,140,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Text="Password"
+                UndoLimit="100" />
+            <TextBox
+                Width="325"
+                MaxHeight="35"
+                Margin="0,180,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Text="Confirm Password"
                 UndoLimit="100" />
             <Button
                 Width="162"
                 Height="40"
-                Margin="0,145,0,0"
+                Margin="0,225,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding NavigateCommand}"
@@ -56,7 +83,7 @@
                 Content="Продолжить"
                 Style="{StaticResource AccentButtonStyle}" />
             <ui:HyperlinkButton
-                Margin="0,190,0,0"
+                Margin="0,270,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding NavigateCommand}"

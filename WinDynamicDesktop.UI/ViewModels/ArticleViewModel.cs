@@ -36,16 +36,17 @@ namespace WinDynamicDesktop.UI.ViewModels
         public ArticleViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-            ImageSource = new BitmapImage(new System.Uri("pack://application:,,,/WinDynamicDesktop.Common;component/Images/Placeholder.png"));
             ArticleMouseDownCommand = new DelegateCommand<MouseButtonEventArgs>(OnArticleMouseDown);
         }
 
         private void OnArticleMouseDown(MouseButtonEventArgs obj)
         {
-            var param = new NavigationParameters();
-            param.Add("ID", ID);
-            param.Add("Name", Name);
-            param.Add("ImageSource", ImageSource);
+            var param = new NavigationParameters
+            {
+                { "ID", ID },
+                { "Name", Name },
+                { "ImageSource", ImageSource }
+            };
             regionManager.RequestNavigate("PageRegion", "SimplePage", param);
         }
         public void OnNavigatedTo(NavigationContext navigationContext)

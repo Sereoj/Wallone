@@ -44,13 +44,13 @@
                 Grid.Row="1"
                 Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="6*" />
+                    <RowDefinition Height="2*" />
                     <RowDefinition Height="60" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Image Source="{StaticResource Placeholder}" />
+                    <Image Source="{StaticResource Placeholder}" Stretch="Uniform" />
                 </Grid>
             </Grid>
         </Grid>
