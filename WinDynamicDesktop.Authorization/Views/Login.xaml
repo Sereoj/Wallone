@@ -76,6 +76,20 @@
                 Cursor="Hand">
                 Регистрация
             </ui:HyperlinkButton>
+            <Border
+                Name="MessageError"
+                Height="40"
+                Margin="0,240,0,0"
+                VerticalAlignment="Top"
+                Background="{ui:StaticResource SystemControlHighlightAltListAccentHighBrush}"
+                CornerRadius="20">
+                <TextBlock
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    Foreground="{ui:StaticResource SystemControlHighlightAltAltMediumHighBrush}"
+                    Text="{Binding Message}" />
+            </Border>
         </Grid>
     </Grid>
 </UserControl>
