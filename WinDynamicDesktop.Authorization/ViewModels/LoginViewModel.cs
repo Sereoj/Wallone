@@ -1,8 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
 using System.Diagnostics;
+using System.Windows;
 using WinDynamicDesktop.Authorization.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
@@ -10,7 +13,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
     public class LoginViewModel : BindableBase
     {
         readonly IRegionManager _regionManager;
-
 
         private string email;
         public string Email
@@ -48,7 +50,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     break;
                 case "Confirm":
                     Login();
-                    //_regionManager.RequestNavigate("ContentRegion", "Confirm");
                     break;
                 default:
                     break;
@@ -57,29 +58,26 @@ namespace WinDynamicDesktop.Authorization.ViewModels
 
         private async void Login()
         {
+            string msg = null;
             var json = await UserService.GetLoginAsync(Email, Password);
             var objects = JObject.Parse(json);
-            
+
             if(objects["auth.failed"] != null)
             {
-                Message = objects["auth.failed"].ToString();
+                msg = objects["auth.failed"].ToString();
             }
-
-            if (objects["email"] != null && objects["password"] != null)
+            else if(objects["token"] != null)
             {
-                Message = objects["email"][0].ToString() + "\n" + objects["password"][0].ToString();
+                _regionManager.RequestNavigate("ContentRegion", "Main");
             }
-
-            if(objects["email"] != null)
+            else if(objects is JObject)
             {
-                Message = objects["email"][0].ToString();
+                foreach (var item in objects)
+                {
+                    msg += item.Value[0] + " ";
+                }
             }
-
-            if (objects["password"] != null)
-            {
-                Message = objects["password"][0].ToString();
-            }
-
+            Message = msg;
         }
     }
 }

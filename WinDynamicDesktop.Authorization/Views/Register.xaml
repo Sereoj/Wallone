@@ -46,7 +46,7 @@
                 Margin="0,60,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="Name"
+                Text="{Binding Name, TargetNullValue=Name}"
                 UndoLimit="100" />
             <TextBox
                 Width="325"
@@ -54,7 +54,7 @@
                 Margin="0,100,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="Email"
+                Text="{Binding Email, TargetNullValue=Email}"
                 UndoLimit="100" />
             <TextBox
                 Width="325"
@@ -62,7 +62,7 @@
                 Margin="0,140,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="Password"
+                Text="{Binding Password, TargetNullValue=Password}"
                 UndoLimit="100" />
             <TextBox
                 Width="325"
@@ -70,7 +70,7 @@
                 Margin="0,180,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="Confirm Password"
+                Text="{Binding Confirm, TargetNullValue='Confirm Password'}"
                 UndoLimit="100" />
             <Button
                 Width="162"
@@ -91,6 +91,17 @@
                 Cursor="Hand">
                 Авторизация
             </ui:HyperlinkButton>
+            <Grid
+                Height="50"
+                Margin="0,310,0,0"
+                VerticalAlignment="Top">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    Text="{Binding Message}"
+                    TextWrapping="Wrap" />
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

@@ -1,6 +1,7 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
+using WinDynamicDesktop.Authorization.Controls;
 using WinDynamicDesktop.Authorization.Views;
 
 namespace WinDynamicDesktop.Authorization
@@ -14,10 +15,11 @@ namespace WinDynamicDesktop.Authorization
         }
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<Register>();
-            containerRegistry.RegisterForNavigation<Login>();
-            containerRegistry.RegisterForNavigation<Confirm>();
-            containerRegistry.RegisterForNavigation<Photo>();
+            containerRegistry.RegisterForNavigation<MessageControl, ViewModels.MessageViewModel>();
+            containerRegistry.RegisterForNavigation<Register, ViewModels.RegisterViewModel>();
+            containerRegistry.RegisterForNavigation<Login, ViewModels.LoginViewModel>();
+            containerRegistry.RegisterForNavigation<Confirm, ViewModels.ConfirmViewModel>();
+            containerRegistry.RegisterForNavigation<Photo, ViewModels.PhotoViewModel>();
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
