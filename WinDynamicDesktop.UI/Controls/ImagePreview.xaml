@@ -16,19 +16,143 @@
     SnapsToDevicePixels="True"
     UseLayoutRounding="True"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="FontSize" Value="26" />
+            <Setter Property="FontFamily" Value="{StaticResource FontIconMoonUltimate}" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Width" Value="128" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="5">
+                            <ContentControl
+                                x:Name="Content"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                Opacity="0.8" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Content" Property="Opacity" Value="1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Storyboard x:Key="FadeAnimation">
+            <DoubleAnimation
+                FillBehavior="Stop"
+                Storyboard.TargetProperty="Opacity"
+                From="0"
+                To="1"
+                Duration="0:0:0.6">
+                <DoubleAnimation.EasingFunction>
+                    <SineEase EasingMode="EaseInOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </UserControl.Resources>
+
     <Grid x:Name="Slider" Background="Gray">
         <!--  Изображение прорисовка  -->
-        <Image x:Name="Preview" Source="{Binding PreviewImage}" />
-        <Image x:Name="Image" Source="{Binding Image}" />
+        <Image
+            x:Name="Placeholder"
+            Grid.IsSharedSizeScope="True"
+            Source="{StaticResource Placeholder1280}"
+            Stretch="UniformToFill"
+            Visibility="Hidden">
+            <Image.Style>
+                <Style TargetType="Image">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ImageSource, NotifyOnSourceUpdated=True}">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+        <Image
+            x:Name="Thumb"
+            Grid.IsSharedSizeScope="True"
+            Source="{Binding ImageSource}"
+            Stretch="UniformToFill" />
         <Button
             x:Name="Left"
             HorizontalAlignment="Left"
             VerticalAlignment="Stretch"
-            Content="Left" />
+            Background="{x:Null}"
+            Command="{Binding PreviousCommand}"
+            Content="&#xEDC6;"
+            Cursor="Hand" />
         <Button
             x:Name="Right"
             HorizontalAlignment="Right"
             VerticalAlignment="Stretch"
-            Content="Right" />
+            Background="{x:Null}"
+            Command="{Binding NextCommand}"
+            Content="&#xEDBE;"
+            Cursor="Hand" />
+
+        <ListBox
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            Focusable="False"
+            IsSynchronizedWithCurrentItem="True"
+            ItemsSource="{Binding Items}"
+            SelectedIndex="{Binding SelectedIndex}">
+            <ListBox.Style>
+                <Style TargetType="{x:Type ListBox}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Style>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="OverridesDefaultStyle" Value="true" />
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Grid
+                                    Height="32"
+                                    Background="Transparent"
+                                    Cursor="Hand">
+                                    <Rectangle
+                                        x:Name="Indicator"
+                                        Width="30"
+                                        Height="3"
+                                        Margin="3,0"
+                                        Fill="White"
+                                        Opacity="0.5" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Indicator" Property="Opacity" Value="1" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
     </Grid>
 </UserControl>

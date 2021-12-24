@@ -60,7 +60,9 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             switch (obj)
             {
                 case "Login":
-                    _regionManager.RequestNavigate("ContentRegion", "Login");
+                    //TODO:
+                    //_regionManager.RequestNavigate("ContentRegion", "Login");
+                    _regionManager.RequestNavigate("ContentRegion", "Main");
                     break;
                 case "Confirm":
                     Register();

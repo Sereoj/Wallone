@@ -12,62 +12,71 @@
     d:DesignHeight="200"
     d:DesignWidth="400"
     mc:Ignorable="d">
-    <Grid
-        x:Name="ArticleGrid"
-        Width="400"
-        Height="200"
-        MinWidth="400"
-        MinHeight="200"
-        Background="LightGray"
-        IsHitTestVisible="True"
-        ShowGridLines="True">
-        <Image
-            x:Name="Placeholder"
-            Grid.IsSharedSizeScope="True"
-            Source="{StaticResource Placeholder}"
-            Stretch="UniformToFill">
-            <Image.Style>
-                <Style TargetType="Image">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding ImageSource, NotifyOnSourceUpdated=True}">
-                            <Setter Property="Visibility" Value="Hidden" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
-        </Image>
-        <Image
-            x:Name="Thumb"
-            Grid.IsSharedSizeScope="True"
-            Source="{Binding ImageSource}"
-            Stretch="UniformToFill" />
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="40" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <StackPanel
-                Grid.Row="1"
-                Grid.ColumnSpan="3"
-                Background="Black"
-                Opacity=".8" />
-            <TextBlock
-                Grid.Row="1"
-                Grid.ColumnSpan="2"
-                Margin="10,5,0,0"
-                FontSize="18"
-                Foreground="AliceBlue"
-                Text="{Binding Name, TargetNullValue=Template}" />
+    <Border>
+        <Grid
+            x:Name="ArticleGrid"
+            Width="400"
+            Height="200"
+            MinWidth="400"
+            MinHeight="200"
+            Background="LightGray"
+            IsHitTestVisible="True"
+            ShowGridLines="True">
+            <Image
+                x:Name="Placeholder"
+                Grid.IsSharedSizeScope="True"
+                Source="{StaticResource Placeholder}"
+                Stretch="UniformToFill">
+                <Image.Style>
+                    <Style TargetType="Image">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ImageSource, NotifyOnSourceUpdated=True}">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Image.Style>
+            </Image>
+            <Image
+                x:Name="Thumb"
+                Grid.IsSharedSizeScope="True"
+                Source="{Binding ImageSource}"
+                Stretch="UniformToFill" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    Background="Black"
+                    Opacity=".8" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    Margin="10,5,0,0"
+                    FontSize="18"
+                    Foreground="AliceBlue"
+                    Text="{Binding Name, TargetNullValue=Template}" />
+            </Grid>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDown">
+                    <prism:InvokeCommandAction Command="{Binding ArticleMouseDownCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </Grid>
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="MouseDown">
-                <prism:InvokeCommandAction Command="{Binding ArticleMouseDownCommand}" />
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-    </Grid>
+        <Border.Effect>
+            <DropShadowEffect
+                Opacity="0.3"
+                RenderingBias="Quality"
+                ShadowDepth="2"
+                Color="Black" />
+        </Border.Effect>
+    </Border>
 </UserControl>

@@ -10,8 +10,6 @@ namespace WinDynamicDesktop.Authorization.Services
 {
     public class UserService
     {
-        private readonly User user;
-
         public static Task<string> GetLoginAsync(string email, string password)
         {
             var items = RequestRouter<string, Login>.PostAsync("login", new Login() { email = email, password = password });

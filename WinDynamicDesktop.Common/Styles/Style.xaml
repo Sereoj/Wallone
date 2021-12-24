@@ -17,5 +17,8 @@
     <FontFamily x:Key="FontGardensC">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/gardens.otf</FontFamily>
 
     <ImageSource x:Key="Placeholder">pack://application:,,,/WinDynamicDesktop.Common;component/Images/Placeholder.png</ImageSource>
+    <ImageSource x:Key="Placeholder1280">pack://application:,,,/WinDynamicDesktop.Common;component/Images/Placeholder1280x720.png</ImageSource>
     <ImageSource x:Key="TransparentPlaceholder">pack://application:,,,/WinDynamicDesktop.Common;component/Images/TransparentPlaceholder.png</ImageSource>
+
+    <SolidColorBrush x:Key="AppBackground" Color="#F1F2F3" />
 </ResourceDictionary>
