@@ -57,71 +57,67 @@
                 x:Name="Article"
                 Grid.Row="1"
                 Grid.Column="1">
-                <StackPanel>
-                    <Border
-                        x:Name="SimplePageArticle"
-                        Margin="0,5,0,0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Background="#FFFFFF"
-                        CornerRadius="15">
-                        <StackPanel>
-                            <controls:ImagePreview DataContext="{Binding ImagePreview}" />
-                            <StackPanel x:Name="Descriprion">
-                                <TextBlock
-                                    Margin="10,0,0,0"
-                                    FontSize="24"
-                                    Foreground="#8D8D8C"
-                                    Text="Description" />
-                                <TextBlock
-                                    Margin="10,15,10,10"
-                                    FontSize="20"
-                                    Text="{Binding Description}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                            <WrapPanel x:Name="UserAccount">
-                                <Border
-                                    Margin="10"
-                                    BorderBrush="#F1F2F3"
-                                    BorderThickness="1"
-                                    CornerRadius="10">
-                                    <WrapPanel Margin="5">
-                                        <ui:PersonPicture
-                                            Width="40"
-                                            Height="40"
-                                            DisplayName="{Binding Username}" />
-                                        <TextBlock
-                                            Margin="10,0,0,0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            FontSize="24"
-                                            Text="{Binding Username}" />
-                                    </WrapPanel>
-                                </Border>
-                            </WrapPanel>
-                            <ui:GridView
-                                x:Name="ThemeDownload"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                                <Button
-                                    Width="200"
-                                    Content="Избранные"
-                                    Style="{StaticResource AccentButtonStyle}" />
-                                <Button
-                                    Width="200"
-                                    Content="Скачать"
-                                    Style="{StaticResource AccentButtonStyle}" />
-                            </ui:GridView>
+                <Border
+                    x:Name="SimplePageArticle"
+                    Margin="0,5,0,0"
+                    Background="#FFFFFF"
+                    CornerRadius="15">
+                    <StackPanel>
+                        <ContentControl prism:RegionManager.RegionName="Slider" />
+                        <StackPanel x:Name="Descriprion">
+                            <TextBlock
+                                Margin="10,0,0,0"
+                                FontSize="24"
+                                Foreground="#8D8D8C"
+                                Text="Description" />
+                            <TextBlock
+                                Margin="10,15,10,10"
+                                FontSize="20"
+                                Text="{Binding Description}"
+                                TextWrapping="Wrap" />
                         </StackPanel>
-                        <Border.Effect>
-                            <DropShadowEffect
-                                Opacity="0.3"
-                                RenderingBias="Quality"
-                                ShadowDepth="2"
-                                Color="Black" />
-                        </Border.Effect>
-                    </Border>
-                </StackPanel>
+                        <WrapPanel x:Name="UserAccount">
+                            <Border
+                                Margin="10"
+                                BorderBrush="#F1F2F3"
+                                BorderThickness="1"
+                                CornerRadius="10">
+                                <WrapPanel Margin="5">
+                                    <ui:PersonPicture
+                                        Width="40"
+                                        Height="40"
+                                        DisplayName="{Binding Username}" />
+                                    <TextBlock
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="24"
+                                        Text="{Binding Username}" />
+                                </WrapPanel>
+                            </Border>
+                        </WrapPanel>
+                        <ui:GridView
+                            x:Name="ThemeDownload"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <Button
+                                Width="200"
+                                Content="Избранные"
+                                Style="{StaticResource AccentButtonStyle}" />
+                            <Button
+                                Width="200"
+                                Content="Скачать"
+                                Style="{StaticResource AccentButtonStyle}" />
+                        </ui:GridView>
+                    </StackPanel>
+                    <Border.Effect>
+                        <DropShadowEffect
+                            Opacity="0.3"
+                            RenderingBias="Quality"
+                            ShadowDepth="2"
+                            Color="Black" />
+                    </Border.Effect>
+                </Border>
             </Grid>
         </Grid>
     </Border>

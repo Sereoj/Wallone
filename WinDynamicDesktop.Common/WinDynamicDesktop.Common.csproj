@@ -13,18 +13,10 @@
     <None Remove="Fonts\IcoMoon_0.ttf" />
     <None Remove="Images\Placeholder1280x720.png" />
     <None Remove="Images\TransparentPlaceholder.png" />
-    <None Remove="Themes\Big_Sur\Big_Sur_1.jpg" />
-    <None Remove="Themes\Big_Sur\Big_Sur_2.jpg" />
-    <None Remove="Themes\Big_Sur\Big_Sur_3.jpg" />
-    <None Remove="Themes\Big_Sur\Big_Sur_4.jpg" />
-    <None Remove="Themes\Big_Sur\Big_Sur_5.jpg" />
-    <None Remove="Themes\Big_Sur\Big_Sur_6.jpg" />
-    <None Remove="Themes\Big_Sur\Big_Sur_7.jpg" />
-    <None Remove="Themes\Big_Sur\Big_Sur_8.jpg" />
-    <None Remove="Themes\Big_Sur\theme.json" />
   </ItemGroup>
 
     <ItemGroup>
+		<Folder Include="Properties\" />
 		<Folder Include="Styles\" />
     </ItemGroup>
 	
@@ -53,40 +45,10 @@
         <Resource Include="Images\TransparentPlaceholder.png">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_1.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_2.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_3.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_4.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_5.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_6.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_7.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\Big_Sur_8.jpg">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Themes\Big_Sur\theme.json">
-          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-        </Resource>
     </ItemGroup>
 	
     <ItemGroup>
         <PackageReference Include="ModernWpfUI" Version="0.9.4" />
         <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     </ItemGroup>
-	
-    <ProjectExtensions><VisualStudio><UserProperties themes_4big_3sur_4theme_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>
-
 </Project>

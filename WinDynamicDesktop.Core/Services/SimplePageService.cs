@@ -19,6 +19,10 @@ namespace WinDynamicDesktop.Core.Services
             if (page != null)
                 simplePage = page;
         }
+        public static SimplePage GetSimplePage()
+        {
+            return simplePage;
+        }
         public static string GetHeader()
         {
             return simplePage.name ?? "Lorem ipsum";

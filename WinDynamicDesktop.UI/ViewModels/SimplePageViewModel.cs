@@ -34,18 +34,12 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string description;
         public string Description
         {
-            get => description; 
-            set => SetProperty(ref description, value); 
-        }
-        private ImagePreviewViewModel imagePreview;
-        public ImagePreviewViewModel ImagePreview
-        {
-            get { return imagePreview; }
-            set { SetProperty(ref imagePreview, value); }
+            get => description;
+            set => SetProperty(ref description, value);
         }
         public SimplePageViewModel()
         {
-               
+
         }
         public SimplePageViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
@@ -68,7 +62,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
-
         public async void Loaded(string id)
         {
             var data = await SimplePageService.GetPageAsync(id);
@@ -79,6 +72,12 @@ namespace WinDynamicDesktop.UI.ViewModels
             Header = SimplePageService.GetHeader();
             Username = SimplePageService.GetUsername();
             Description = SimplePageService.GetDescription();
+
+            var param = new NavigationParameters
+            {
+                { "simplePage", simplePage }
+            };
+            regionManager.RequestNavigate("Slider", "ImagePreview", param);
         }
     }
 }
