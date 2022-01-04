@@ -2,6 +2,7 @@
     x:Class="WinDynamicDesktop.UI.Controls.Article"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:WinDynamicDesktop.UI.Controls"
@@ -37,11 +38,7 @@
                     </Style>
                 </Image.Style>
             </Image>
-            <Image
-                x:Name="Thumb"
-                Grid.IsSharedSizeScope="True"
-                Source="{Binding ImageSource}"
-                Stretch="UniformToFill" />
+            <cachedImage:Image ImageUrl="{Binding ImageSource}" Stretch="UniformToFill" />
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />

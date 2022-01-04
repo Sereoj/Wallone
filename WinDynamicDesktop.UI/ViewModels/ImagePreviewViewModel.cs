@@ -3,15 +3,12 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
-using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
@@ -24,10 +21,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         public ImageSource ImageSource
         {
             get { return imageSource; }
-            set
-            { 
-                SetProperty(ref imageSource, value);
-            }
+            set { SetProperty(ref imageSource, value);}
         }
 
         private string text;
@@ -57,18 +51,19 @@ namespace WinDynamicDesktop.UI.ViewModels
                 Interval = TimeSpan.FromSeconds(5)
             };
             transitionTimer.Tick += (s, e) => onNext();
+
         }
         private void onNext()
         {
             if (SelectedIndex + 1 >= Items.Count)
             {
                 SelectedIndex = Items.IndexOf(Items.First());
-                ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
+                ImageSource = new BitmapImage(Items[SelectedIndex].Uri) { CacheOption = BitmapCacheOption.OnLoad };
             }
             else
             {
                 SelectedIndex++;
-                ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
+                ImageSource = new BitmapImage(Items[SelectedIndex].Uri) { CacheOption = BitmapCacheOption.OnLoad };
             }
             Text = Items[SelectedIndex].Name;
         }
@@ -93,10 +88,10 @@ namespace WinDynamicDesktop.UI.ViewModels
 
             simplePage = (SimplePage)navigationContext.Parameters["simplePage"];
 
-            SetImageList("Рассвет", simplePage.images.sunrise);
-            SetImageList("День", simplePage.images.day);
-            SetImageList("Закат", simplePage.images.sunset);
-            SetImageList("Ночь", simplePage.images.night);
+            foreach (var item in simplePage.images)
+            {
+                SetImageList(item.type, UriHelper.Get(item.location));
+            }
 
             SelectedIndex = Items.IndexOf(Items.First());
             ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
@@ -112,15 +107,9 @@ namespace WinDynamicDesktop.UI.ViewModels
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
-        public void SetImageList(string type, string[] imageList)
+        public void SetImageList(string type, Uri imagePath)
         {
-            for (int i = 0; i < imageList.Length; i++)
-            {
-                if (imageList[i] != null)
-                {
-                    Items.Add(new ThemePreviewItem(type, new Uri(imageList[i])));
-                }
-            }
+            Items.Add(new ThemePreviewItem(type, imagePath));
         }
     }
 }

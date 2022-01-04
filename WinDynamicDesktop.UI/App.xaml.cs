@@ -23,6 +23,9 @@ namespace WinDynamicDesktop.UI
         {
             containerRegistry.RegisterForNavigation<Main>();
             containerRegistry.RegisterForNavigation<Indicator, ViewModels.IndicatorViewModel>();
+
+            containerRegistry.RegisterForNavigation<NotFound, ViewModels.NotFoundViewModel>();
+
             containerRegistry.RegisterForNavigation<Wallpapers, ViewModels.WallpapersViewModel>();
             containerRegistry.RegisterForNavigation<WallpapersNew, ViewModels.WallpapersNewViewModel>();
             containerRegistry.RegisterForNavigation<WallpapersPopular, ViewModels.WallpapersPopularViewModel>();

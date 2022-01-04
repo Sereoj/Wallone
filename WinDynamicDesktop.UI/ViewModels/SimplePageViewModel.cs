@@ -65,19 +65,32 @@ namespace WinDynamicDesktop.UI.ViewModels
         public async void Loaded(string id)
         {
             var data = await SimplePageService.GetPageAsync(id);
-            var jArray = JArray.Parse(data);
-            simplePage = JsonConvert.DeserializeObject<SimplePage>(jArray[0].ToString());
-            new SimplePageService(simplePage);
 
-            Header = SimplePageService.GetHeader();
-            Username = SimplePageService.GetUsername();
-            Description = SimplePageService.GetDescription();
-
-            var param = new NavigationParameters
+            try
             {
-                { "simplePage", simplePage }
-            };
-            regionManager.RequestNavigate("Slider", "ImagePreview", param);
+                var jArray = JArray.Parse(data);
+                simplePage = JsonConvert.DeserializeObject<SimplePage>(jArray[0].ToString());
+                new SimplePageService(simplePage);
+
+                Header = SimplePageService.GetHeader();
+                Username = SimplePageService.GetUsername();
+                Description = SimplePageService.GetDescription();
+
+                var param = new NavigationParameters
+                {
+                    { "simplePage", simplePage }
+                };
+                regionManager.RequestNavigate("Slider", "ImagePreview", param);
+            }
+            catch(Exception ex)
+            {
+                var param = new NavigationParameters
+                {
+                    { "Text", ex.Message }
+                };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+            }
         }
     }
 }

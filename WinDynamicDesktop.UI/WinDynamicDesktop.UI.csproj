@@ -6,6 +6,7 @@
     <AssemblyName>WinDynamicDesktop.UI</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="CachedImage" Version="0.1.15" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
