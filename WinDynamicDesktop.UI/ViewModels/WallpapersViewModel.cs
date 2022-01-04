@@ -1,11 +1,8 @@
-﻿using ModernWpf.Controls;
-using Prism.Commands;
-using Prism.Events;
+﻿using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -45,7 +42,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private void ScrollLineReceived(ScrollChangedEventArgs e)
         {
-            if(e.VerticalOffset != 0)
+            if (e.VerticalOffset != 0)
             {
                 if (e.VerticalOffset == e.ExtentHeight - e.ViewportHeight)
                 {
@@ -70,21 +67,25 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public async void Loaded()
         {
-            var items = await ThumbService.GetThumbsAsync(null);
-
             try
             {
-                foreach (var item in items)
+                var items = await ThumbService.GetThumbsAsync(null);
+
+                if (ThumbService.CheckItems(items))
                 {
-                    Library.Add(new ArticleViewModel(regionManager)
+                    foreach (var item in items)
                     {
-                        ID = item.ID,
-                        Name = item.Name,
-                        ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
-                    });
+                        Library.Add(new ArticleViewModel(regionManager)
+                        {
+                            ID = item.ID,
+                            Name = item.Name,
+                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
+                        });
+                        await Task.CompletedTask;
+                    }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var param = new NavigationParameters
                 {

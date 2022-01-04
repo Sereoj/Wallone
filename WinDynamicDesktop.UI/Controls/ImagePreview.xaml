@@ -8,8 +8,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
-    MinWidth="859"
-    MinHeight="721"
+    Width="856"
+    Height="482"
     d:DataContext="{d:DesignInstance Type=viewmodels:ImagePreviewViewModel,
                                      IsDesignTimeCreatable=True}"
     prism:ViewModelLocator.AutoWireViewModel="True"

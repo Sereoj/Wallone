@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Core.Helpers
 {
@@ -14,12 +13,14 @@ namespace WinDynamicDesktop.Core.Helpers
         public static Uri Get(string path)
         {
             Uri uri = new Uri(path);
-            return uri.IsAbsoluteUri ? uri : new Uri("http://v3.w2me.ru" + path);
+            return uri.IsAbsoluteUri ? uri : new Uri(Router.domain + uri.OriginalString);
         }
 
         public static Uri Get(Uri path)
         {
-            return path.IsAbsoluteUri ? path : new Uri("http://v3.w2me.ru" + path);
+            if (path != null)
+                return path.IsAbsoluteUri ? path : new Uri(Router.domain + path.OriginalString);
+            return new Uri(Router.domain);
         }
     }
 }

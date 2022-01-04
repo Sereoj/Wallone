@@ -1,7 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
 {

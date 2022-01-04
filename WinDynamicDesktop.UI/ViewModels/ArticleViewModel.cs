@@ -1,7 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -47,7 +46,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                 { "Name", Name },
                 { "ImageSource", ImageSource }
             };
-            regionManager.RequestNavigate("PageRegion", "SimplePage", param);
+            regionManager.RequestNavigate("PageRegion", "SinglePage", param);
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {

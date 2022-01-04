@@ -5,8 +5,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
 using WinDynamicDesktop.Core.Events;
@@ -33,7 +31,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             set { SetProperty(ref categories, value); }
         }
 
-        private int footerHeight = 0;   
+        private int footerHeight = 0;
         public int FooterHeight
         {
             get { return footerHeight; }
@@ -115,31 +113,56 @@ namespace WinDynamicDesktop.UI.ViewModels
         public async void LoadBrands()
         {
             var font = new FontFamily(new Uri(App.Current.Resources["Fonts"].ToString()), "#IcoMoon-Free");
-            var items = await BrandsService.GetBrandAsync(null);
-
-            foreach (var item in items)
+            try
             {
-                Brands.Add(new NavigationViewItem()
+                var items = await BrandsService.GetBrandAsync(null);
+
+                foreach (var item in items)
                 {
-                    Content = item.Name,
-                    Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
-                    Tag = item.Tag
-                });
+                    Brands.Add(new NavigationViewItem()
+                    {
+                        Content = item.Name,
+                        Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
+                        Tag = item.Tag
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var param = new NavigationParameters
+                {
+                    { "Text", ex.Message }
+                };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
         }
         public async void LoadCategory()
         {
             var font = new FontFamily(new Uri(App.Current.Resources["Fonts"].ToString()), "#IcoMoon-Free");
-            var items = await CategoriesService.GetCategoryAsync(null);
 
-            foreach (var item in items)
+            try
             {
-                Categories.Add(new NavigationViewItem()
+                var items = await CategoriesService.GetCategoryAsync(null);
+
+                foreach (var item in items)
                 {
-                    Content = item.Name,
-                    Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
-                    Tag = item.Tag
-                });
+                    Categories.Add(new NavigationViewItem()
+                    {
+                        Content = item.Name,
+                        Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
+                        Tag = item.Tag
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var param = new NavigationParameters
+                {
+                    { "Text", ex.Message }
+                };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
         }
     }

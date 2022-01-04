@@ -3,11 +3,11 @@
 namespace WinDynamicDesktop.UI.Views
 {
     /// <summary>
-    /// Логика взаимодействия для WallpapersPopular.xaml
+    /// Логика взаимодействия для SimplePage.xaml
     /// </summary>
-    public partial class WallpapersPopular : UserControl
+    public partial class SinglePage : UserControl
     {
-        public WallpapersPopular()
+        public SinglePage()
         {
             InitializeComponent();
         }

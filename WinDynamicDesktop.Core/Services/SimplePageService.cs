@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using WinDynamicDesktop.Core.Models;
 
 namespace WinDynamicDesktop.Core.Services
@@ -36,6 +33,26 @@ namespace WinDynamicDesktop.Core.Services
         public static string GetUsername()
         {
             return simplePage?.user?.name ?? "Lorem";
+        }
+
+        public static Brand GetBrand()
+        {
+            return simplePage?.brand;
+        }
+
+        public static Category GetCategory()
+        {
+            return simplePage?.category;
+        }
+
+        public static string GetLikes()
+        {
+            return simplePage?.likes ?? "0";
+        }
+
+        public static string GetViews()
+        {
+            return simplePage?.views ?? "0";
         }
         public static Task<string> GetPageAsync(string fields = null)
         {

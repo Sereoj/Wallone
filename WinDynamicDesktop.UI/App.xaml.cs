@@ -31,7 +31,7 @@ namespace WinDynamicDesktop.UI
             containerRegistry.RegisterForNavigation<WallpapersPopular, ViewModels.WallpapersPopularViewModel>();
             containerRegistry.RegisterForNavigation<WallpapersWait, ViewModels.WallpapersWaitViewModel>();
 
-            containerRegistry.RegisterForNavigation<SimplePage, ViewModels.SimplePageViewModel>();
+            containerRegistry.RegisterForNavigation<SinglePage, ViewModels.SinglePageViewModel>();
             containerRegistry.RegisterForNavigation<ImagePreview, ViewModels.ImagePreviewViewModel>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

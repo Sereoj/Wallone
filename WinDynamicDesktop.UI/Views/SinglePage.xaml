@@ -1,0 +1,178 @@
+﻿<UserControl
+    x:Class="WinDynamicDesktop.UI.Views.SinglePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WinDynamicDesktop.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WinDynamicDesktop.UI.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SinglePageViewModel,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="1000"
+    d:DesignWidth="1240"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="ui:GridViewItem">
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ui:GridViewItem">
+                        <ContentPresenter
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <!--  Border использование для рамок  -->
+    <Border>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="50" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" MaxWidth="50" />
+            </Grid.ColumnDefinitions>
+            <!--  Grid Header  -->
+            <Grid
+                x:Name="Header"
+                Grid.Row="0"
+                Grid.Column="1">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="24"
+                    Text="{Binding Header, TargetNullValue=Content}" />
+            </Grid>
+            <!--  Grid Article  -->
+            <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,20,0,0">
+                <ui:GridView
+                    x:Name="SliderAndUserPanel"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Top">
+                    <ContentControl Height="482" prism:RegionManager.RegionName="Slider" />
+                    <Border
+                        Height="482"
+                        MinWidth="700"
+                        Background="White"
+                        CornerRadius="0,0,15,15">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <WrapPanel
+                                x:Name="author"
+                                Grid.Row="0"
+                                Margin="20">
+                                <ui:PersonPicture
+                                    x:Name="ImageAuthor"
+                                    Width="60"
+                                    Height="60" />
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="15,2,0,0"
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        Text="{Binding Username}" />
+                                    <TextBlock
+                                        Margin="15,2,0,0"
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        Text="Дата публикации: 20/01/2021" />
+                                    <ui:HyperlinkButton Margin="15,2,0,0" Cursor="Hand">
+                                        Перейти в профиль
+                                    </ui:HyperlinkButton>
+                                </StackPanel>
+                            </WrapPanel>
+                            <StackPanel Grid.Row="1" Margin="20">
+                                <TextBlock
+                                    Width="600"
+                                    FontFamily="{StaticResource FontGardensC}"
+                                    Text="{Binding Description}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" Margin="20">
+                                <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Category}" />
+                                <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Brand}" />
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" Margin="20">
+                                <WrapPanel>
+                                    <Button
+                                        Width="300"
+                                        Height="50"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="Установить"
+                                        Style="{StaticResource AccentButtonStyle}" />
+                                    <Button
+                                        Width="48"
+                                        Height="48"
+                                        Margin="10,0,0,0"
+                                        Content="&#xE9D2;"
+                                        FontFamily="{StaticResource FontIconMoonFree}"
+                                        Style="{StaticResource AccentButtonStyle}" />
+                                    <Button
+                                        Width="48"
+                                        Height="48"
+                                        Margin="10,0,0,0"
+                                        Content="&#xE9DA;"
+                                        FontFamily="{StaticResource FontIconMoonFree}"
+                                        Style="{StaticResource AccentButtonStyle}" />
+                                    <TextBlock
+                                        Margin="10,0,0,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        FontSize="20"
+                                        Text="{Binding Likes, FallbackValue=0}" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                    <ui:GridView
+                        Margin="0,10,0,0"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Top">
+                        <Image
+                            Width="400"
+                            Height="200"
+                            Source="{StaticResource Placeholder}" />
+                        <Image
+                            Width="400"
+                            Height="200"
+                            Source="{StaticResource Placeholder}" />
+                        <Image
+                            Width="400"
+                            Height="200"
+                            Source="{StaticResource Placeholder}" />
+                        <Image
+                            Width="400"
+                            Height="200"
+                            Source="{StaticResource Placeholder}" />
+                        <Image
+                            Width="400"
+                            Height="200"
+                            Source="{StaticResource Placeholder}" />
+                        <Image
+                            Width="400"
+                            Height="200"
+                            Source="{StaticResource Placeholder}" />
+                    </ui:GridView>
+                </ui:GridView>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

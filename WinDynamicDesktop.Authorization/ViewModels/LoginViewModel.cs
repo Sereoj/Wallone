@@ -1,11 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Diagnostics;
-using System.Windows;
 using WinDynamicDesktop.Authorization.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
@@ -62,15 +58,15 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             var json = await UserService.GetLoginAsync(Email, Password);
             var objects = JObject.Parse(json);
 
-            if(objects["auth.failed"] != null)
+            if (objects["auth.failed"] != null)
             {
                 msg = objects["auth.failed"].ToString();
             }
-            else if(objects["token"] != null)
+            else if (objects["token"] != null)
             {
                 _regionManager.RequestNavigate("ContentRegion", "Main");
             }
-            else if(objects is JObject)
+            else if (objects is JObject)
             {
                 foreach (var item in objects)
                 {

@@ -21,7 +21,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         public ImageSource ImageSource
         {
             get { return imageSource; }
-            set { SetProperty(ref imageSource, value);}
+            set { SetProperty(ref imageSource, value); }
         }
 
         private string text;
@@ -70,7 +70,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private void onPrevious()
         {
-            if(SelectedIndex - 1 == -1)
+            if (SelectedIndex - 1 == -1)
             {
                 SelectedIndex = Items.IndexOf(Items.Last());
                 ImageSource = new BitmapImage(Items[SelectedIndex].Uri);

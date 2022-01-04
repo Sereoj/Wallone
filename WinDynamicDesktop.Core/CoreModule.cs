@@ -1,8 +1,5 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace WinDynamicDesktop.Core
 {

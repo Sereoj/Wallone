@@ -1,11 +1,9 @@
-﻿using ModernWpf.Controls;
-using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Media.Imaging;
+using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Interfaces;
 
@@ -45,15 +43,27 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public async void Loaded()
         {
-            var items = await ThumbService.GetThumbsAsync("popular");
-            foreach (var item in items)
+            try
             {
-                Library.Add(new ArticleViewModel(regionManager)
+                var items = await ThumbService.GetThumbsAsync("popular");
+                foreach (var item in items)
                 {
-                    ID = item.ID,
-                    Name = item.Name,
-                    ImageSource = new BitmapImage(item.Preview)
-                });
+                    Library.Add(new ArticleViewModel(regionManager)
+                    {
+                        ID = item.ID,
+                        Name = item.Name,
+                        ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                var param = new NavigationParameters
+                {
+                    { "Text", ex.Message }
+                };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
         }
     }

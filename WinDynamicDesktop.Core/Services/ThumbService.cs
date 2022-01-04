@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using WinDynamicDesktop.Core.Models;
 
@@ -16,6 +15,11 @@ namespace WinDynamicDesktop.Core.Services
         {
             var items = RequestRouter<List<Thumb>>.Get("wallpapers", fields);
             return (List<Thumb>)items;
+        }
+
+        public static bool CheckItems(List<Thumb> items)
+        {
+            return items.Count > 0;
         }
     }
 }

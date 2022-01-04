@@ -1,7 +1,5 @@
 ﻿using RestSharp;
-using System;
 using System.Threading.Tasks;
-using WinDynamicDesktop.Core.Models;
 
 namespace WinDynamicDesktop.Core.Services
 {
