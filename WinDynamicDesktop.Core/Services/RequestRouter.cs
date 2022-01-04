@@ -7,7 +7,8 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class Router
     {
-        public static string domain = "https://wall.w2me.ru/api/";
+        //public static string domain = "https://wall.w2me.ru/api/"; 
+        public static string domain = "http://v3.w2me.ru/api/";
     }
 
     public class RequestRouter<T> : Router
