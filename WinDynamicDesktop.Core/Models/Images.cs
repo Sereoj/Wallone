@@ -6,9 +6,10 @@ namespace WinDynamicDesktop.Core.Models
 {
     public class Images
     {
-        public string[] sunrise { get; set; }
-        public string[] day { get; set; }
-        public string[] sunset { get; set; }
-        public string[] night { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public string type { get; set; }
+        public string location { get; set; }
+        public string photo_type { get; set; }
     }
 }
