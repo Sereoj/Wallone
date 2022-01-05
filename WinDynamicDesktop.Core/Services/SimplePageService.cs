@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using WinDynamicDesktop.Core.Models;
 
 namespace WinDynamicDesktop.Core.Services
@@ -48,6 +49,15 @@ namespace WinDynamicDesktop.Core.Services
         public static string GetLikes()
         {
             return simplePage?.likes ?? "0";
+        }
+
+        public static string GetData()
+        {
+            if(simplePage?.created_at != null)
+            {
+                return "Дата публикации: " + DateTime.Parse(simplePage?.created_at).ToShortDateString();
+            }
+            return "Дата публикации: 01/01/2021";
         }
 
         public static string GetViews()

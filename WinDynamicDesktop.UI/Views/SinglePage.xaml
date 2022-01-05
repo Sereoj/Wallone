@@ -95,7 +95,7 @@
                                     <TextBlock
                                         Margin="15,2,0,0"
                                         FontFamily="{StaticResource FontGardensC}"
-                                        Text="Дата публикации: 20/01/2021" />
+                                        Text="{Binding Data}" />
                                     <ui:HyperlinkButton Margin="15,2,0,0" Cursor="Hand">
                                         Перейти в профиль
                                     </ui:HyperlinkButton>

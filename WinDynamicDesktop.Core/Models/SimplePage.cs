@@ -14,5 +14,6 @@ namespace WinDynamicDesktop.Core.Models
         public Brand brand { get; set; }
         public User user { get; set; }
         public string download { get; set; }
+        public string created_at { get; set; }
     }
 }

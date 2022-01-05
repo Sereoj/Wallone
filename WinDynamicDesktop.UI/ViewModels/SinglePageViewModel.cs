@@ -20,6 +20,8 @@ namespace WinDynamicDesktop.UI.ViewModels
         public string Username { get => username; set => SetProperty(ref username, value); }
         private string header;
         public string Header { get => header; set => SetProperty(ref header, value); }
+        private string data1;
+        public string Data { get => data1; set => SetProperty(ref data1, value); }
         private string category;
         public string Category { get => category; set => SetProperty(ref category, value); }
         private string brand;
@@ -76,6 +78,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                     Views = SimplePageService.GetViews();
                     Brand = SimplePageService.GetBrand().Name;
                     Category = SimplePageService.GetCategory().Name;
+                    Data = SimplePageService.GetData();
 
                     var param = new NavigationParameters
                 {
