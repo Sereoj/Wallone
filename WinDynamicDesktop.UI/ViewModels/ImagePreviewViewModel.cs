@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
+using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
@@ -16,6 +17,7 @@ namespace WinDynamicDesktop.UI.ViewModels
     {
         private SimplePage simplePage;
         private DispatcherTimer transitionTimer;
+        private bool isEnable;
 
         private ImageSource imageSource;
         public ImageSource ImageSource
@@ -55,32 +57,38 @@ namespace WinDynamicDesktop.UI.ViewModels
         }
         private void onNext()
         {
-            if (SelectedIndex + 1 >= Items.Count)
+            if (isEnable)
             {
-                SelectedIndex = Items.IndexOf(Items.First());
-                ImageSource = new BitmapImage(Items[SelectedIndex].Uri) { CacheOption = BitmapCacheOption.OnLoad };
+                if (SelectedIndex + 1 >= Items.Count)
+                {
+                    SelectedIndex = Items.IndexOf(Items.First());
+                    ImageSource = new BitmapImage(Items[SelectedIndex].Uri) { CacheOption = BitmapCacheOption.OnLoad };
+                }
+                else
+                {
+                    SelectedIndex++;
+                    ImageSource = new BitmapImage(Items[SelectedIndex].Uri) { CacheOption = BitmapCacheOption.OnLoad };
+                }
+                Text = Items[SelectedIndex].Name;
             }
-            else
-            {
-                SelectedIndex++;
-                ImageSource = new BitmapImage(Items[SelectedIndex].Uri) { CacheOption = BitmapCacheOption.OnLoad };
-            }
-            Text = Items[SelectedIndex].Name;
         }
 
         private void onPrevious()
         {
-            if (SelectedIndex - 1 == -1)
+            if(isEnable)
             {
-                SelectedIndex = Items.IndexOf(Items.Last());
-                ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
+                if (SelectedIndex - 1 == -1)
+                {
+                    SelectedIndex = Items.IndexOf(Items.Last());
+                    ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
+                }
+                else
+                {
+                    SelectedIndex--;
+                    ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
+                }
+                Text = Items[SelectedIndex].Name;
             }
-            else
-            {
-                SelectedIndex--;
-                ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
-            }
-            Text = Items[SelectedIndex].Name;
         }
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -88,15 +96,24 @@ namespace WinDynamicDesktop.UI.ViewModels
 
             simplePage = (SimplePage)navigationContext.Parameters["simplePage"];
 
-            foreach (var item in simplePage.images)
+            if(ThemePreviewService.CheckItems(simplePage.images))
             {
-                SetImageList(item.type, UriHelper.Get(item.location));
-            }
+                foreach (var item in simplePage.images)
+                {
+                    SetImageList(item.type, UriHelper.Get(item.location));
+                }
 
-            SelectedIndex = Items.IndexOf(Items.First());
-            ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
-            Text = Items[SelectedIndex].Name;
-            transitionTimer.Start();
+                isEnable = true;
+                SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
+                ImageSource = new BitmapImage(Items[SelectedIndex].Uri);
+                Text = Items[SelectedIndex].Name;
+                transitionTimer.Start();
+            }
+            else
+            {
+                Text = "Произошла ошибка";
+                isEnable = false;
+            }
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

@@ -12,7 +12,7 @@ namespace WinDynamicDesktop.Core.Helpers
          */
         public static Uri Get(string path)
         {
-            Uri uri = new Uri(path);
+            Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
             return uri.IsAbsoluteUri ? uri : new Uri(Router.domain + uri.OriginalString);
         }
 
