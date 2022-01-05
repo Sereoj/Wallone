@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using WinDynamicDesktop.Core.Events;
@@ -77,7 +78,13 @@ namespace WinDynamicDesktop.UI.ViewModels
                     regionManager.RequestNavigate("PageRegion", "WallpapersWait");
                     break;
                 default:
-                    regionManager.RequestNavigate("PageRegion", "Wallpapers");
+                    var param = new NavigationParameters
+                    {
+                        { "Root", e.InvokedItemContainer.Tag.ToString() },
+                        { "Page", e.InvokedItemContainer.Name.ToString() },
+                        { "ID", e.InvokedItemContainer.Uid.ToString() }
+                    };
+                    regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
                     break;
             }
         }
@@ -106,9 +113,11 @@ namespace WinDynamicDesktop.UI.ViewModels
                 {
                     Brands.Add(new NavigationViewItem()
                     {
+                        Uid = item.ID,
                         Content = item.Name,
+                        Name = item.Tag.ToLower(),
                         Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
-                        Tag = item.Tag
+                        Tag = "brand"
                     });
                 }
             }
@@ -134,9 +143,11 @@ namespace WinDynamicDesktop.UI.ViewModels
                 {
                     Categories.Add(new NavigationViewItem()
                     {
+                        Uid = item.ID,
                         Content = item.Name,
+                        Name = item.Tag.ToLower(),
                         Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
-                        Tag = item.Tag
+                        Tag = "category"
                     });
                 }
             }

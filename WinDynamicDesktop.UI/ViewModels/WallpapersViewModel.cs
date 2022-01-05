@@ -1,13 +1,16 @@
 ﻿using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using RestSharp;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Events;
 using WinDynamicDesktop.Core.Helpers;
+using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Interfaces;
 
@@ -35,7 +38,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
-            Loaded();
 
             this.eventAggregator.GetEvent<ScrollEvent>().Subscribe(ScrollLineReceived);
         }
@@ -62,14 +64,35 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //throw new NotImplementedException();
+            var fields = new List<Core.Models.Parameter>();
+            var root = (string)navigationContext.Parameters["Root"];
+            var page = (string)navigationContext.Parameters["Page"];
+            var page_id = (string)navigationContext.Parameters["ID"];
+
+            if(page != null)
+            {
+                switch (root)
+                {
+                    case "brand":
+                        fields.Add(new Core.Models.Parameter() { Name = "brand_id", Value = page_id });
+                        break;
+                    case "category":
+                        fields.Add(new Core.Models.Parameter() { Name = "category_id", Value = page_id });
+                        break;
+                    default:
+                        fields = null;
+                        break;
+                }
+            }
+            Loaded(null, fields);
         }
 
-        public async void Loaded()
+        public async void Loaded(string page, List<Core.Models.Parameter> parameters)
         {
+            Library.Clear();
             try
             {
-                var items = await ThumbService.GetThumbsAsync(null);
+                var items = await ThumbService.GetThumbsAsync(page, parameters);
 
                 if (ThumbService.CheckItems(items))
                 {
@@ -83,6 +106,15 @@ namespace WinDynamicDesktop.UI.ViewModels
                         });
                         await Task.CompletedTask;
                     }
+                }
+                else
+                {
+                    var param = new NavigationParameters
+                    {
+                        { "Text", "Это не ошибка, просто не найдены изображения!" }
+                    };
+
+                    regionManager.RequestNavigate("PageRegion", "NotFound", param);
                 }
             }
             catch (Exception ex)

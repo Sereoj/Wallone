@@ -45,7 +45,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             try
             {
-                var items = await ThumbService.GetThumbsAsync("wait");
+                var items = await ThumbService.GetThumbsAsync("wait", null);
                 if (ThumbService.CheckItems(items))
                 {
                     foreach (var item in items)

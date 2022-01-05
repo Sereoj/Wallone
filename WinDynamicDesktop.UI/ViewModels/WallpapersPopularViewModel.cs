@@ -45,7 +45,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             try
             {
-                var items = await ThumbService.GetThumbsAsync("popular");
+                var items = await ThumbService.GetThumbsAsync("popular", null);
                 foreach (var item in items)
                 {
                     Library.Add(new ArticleViewModel(regionManager)
