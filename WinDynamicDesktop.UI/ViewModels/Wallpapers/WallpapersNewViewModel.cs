@@ -9,43 +9,40 @@ using WinDynamicDesktop.UI.Interfaces;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
-    public class WallpapersWaitViewModel : BindableBase, INavigationAware, IPage
+    public class WallpapersNewViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
-        private string header = "Ожидаемые";
+        private string header = "Новые";
         public string Header
         {
             get { return header; }
             set { SetProperty(ref header, value); }
         }
         public ObservableCollection<ArticleViewModel> Library { get; set; } = new ObservableCollection<ArticleViewModel>();
-        public WallpapersWaitViewModel(IRegionManager regionManager)
+        public WallpapersNewViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-            Loaded();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
-            //throw new NotImplementedException();
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            //throw new NotImplementedException();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //throw new NotImplementedException();
+            Loaded();
         }
 
         public async void Loaded()
         {
             try
             {
-                var items = await ThumbService.GetThumbsAsync("wait", null);
+                var items = await ThumbService.GetThumbsAsync("new", null);
                 if (ThumbService.CheckItems(items))
                 {
                     foreach (var item in items)
@@ -57,6 +54,15 @@ namespace WinDynamicDesktop.UI.ViewModels
                             ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
                         });
                     }
+                }
+                else
+                {
+                    var param = new NavigationParameters
+                    {
+                        { "Text", "Это не ошибка, просто не найдены изображения!" }
+                    };
+
+                    regionManager.RequestNavigate("PageRegion", "NotFound", param);
                 }
             }
             catch (Exception ex)

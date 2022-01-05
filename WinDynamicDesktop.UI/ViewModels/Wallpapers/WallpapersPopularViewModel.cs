@@ -22,7 +22,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         public WallpapersPopularViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-            Loaded();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -38,7 +37,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //throw new NotImplementedException();
+            Loaded();
         }
 
         public async void Loaded()
@@ -46,14 +45,26 @@ namespace WinDynamicDesktop.UI.ViewModels
             try
             {
                 var items = await ThumbService.GetThumbsAsync("popular", null);
-                foreach (var item in items)
+                if(ThumbService.CheckItems(items))
                 {
-                    Library.Add(new ArticleViewModel(regionManager)
+                    foreach (var item in items)
                     {
-                        ID = item.ID,
-                        Name = item.Name,
-                        ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
-                    });
+                        Library.Add(new ArticleViewModel(regionManager)
+                        {
+                            ID = item.ID,
+                            Name = item.Name,
+                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
+                        });
+                    }
+                }
+                else
+                {
+                    var param = new NavigationParameters
+                    {
+                        { "Text", "Это не ошибка, просто не найдены изображения!" }
+                    };
+
+                    regionManager.RequestNavigate("PageRegion", "NotFound", param);
                 }
             }
             catch (Exception ex)

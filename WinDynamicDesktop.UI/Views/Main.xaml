@@ -76,10 +76,10 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItemSeparator />
                 <ui:NavigationViewItem
-                    x:Uid="Download"
+                    x:Uid="Install"
                     Content="Загрузки"
                     Icon="download"
-                    Tag="Download" />
+                    Tag="Install" />
                 <ui:NavigationViewItem
                     x:Uid="Favorite"
                     Content="Закладки"

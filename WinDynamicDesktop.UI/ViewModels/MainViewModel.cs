@@ -77,6 +77,18 @@ namespace WinDynamicDesktop.UI.ViewModels
                 case "Wait":
                     regionManager.RequestNavigate("PageRegion", "WallpapersWait");
                     break;
+                case "Install":
+                    regionManager.RequestNavigate("PageRegion", "InstalledWallpapers");
+                    break;
+                case "Favorite":
+                    regionManager.RequestNavigate("PageRegion", "FavoriteWallpapers");
+                    break;
+                case "Load":
+                    regionManager.RequestNavigate("PageRegion", "LoadWallpapers");
+                    break;
+                case "Account":
+                    regionManager.RequestNavigate("PageRegion", "Account");
+                    break;
                 default:
                     var param = new NavigationParameters
                     {
@@ -84,7 +96,15 @@ namespace WinDynamicDesktop.UI.ViewModels
                         { "Page", e.InvokedItemContainer.Name.ToString() },
                         { "ID", e.InvokedItemContainer.Uid.ToString() }
                     };
-                    regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
+
+                    if (e.IsSettingsInvoked)
+                    {
+                        regionManager.RequestNavigate("PageRegion", "Settings", param);
+                    }
+                    else
+                    {
+                        regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
+                    }
                     break;
             }
         }

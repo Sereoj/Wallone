@@ -18,7 +18,13 @@
             HorizontalAlignment="Center"
             FontSize="26"
             Text="Страница не найдена!" />
-        <TextBlock FontSize="20" Text="{Binding Text}" />
+        <TextBlock
+            Margin="0,50,0,0"
+            HorizontalAlignment="Center"
+            FontFamily="{StaticResource FontGardensC}"
+            FontSize="20"
+            Text="{Binding Text}"
+            TextWrapping="Wrap" />
         <Button
             Width="162"
             Height="40"
