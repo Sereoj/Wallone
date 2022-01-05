@@ -45,8 +45,6 @@ namespace WinDynamicDesktop.UI.ViewModels
             set { SetProperty(ref text, value); }
         }
         public DelegateCommand<NavigationViewItemInvokedEventArgs> MenuItemInvokedCommand { get; set; }
-        public DelegateCommand<ScrollChangedEventArgs> ScrollViewerScrollChangedCommand { get; set; }
-
         public MainViewModel()
         {
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
@@ -60,19 +58,6 @@ namespace WinDynamicDesktop.UI.ViewModels
             LoadCategory();
 
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
-            ScrollViewerScrollChangedCommand = new DelegateCommand<ScrollChangedEventArgs>(OnScrollChanged);
-        }
-
-        private void OnScrollChanged(ScrollChangedEventArgs e)
-        {
-            eventAggregator.GetEvent<ScrollEvent>().Publish(e);
-            if (e.VerticalOffset != 0)
-            {
-                if (e.VerticalOffset == e.ExtentHeight - e.ViewportHeight)
-                {
-                    FooterHeight = 40;
-                }
-            }
         }
 
         private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)

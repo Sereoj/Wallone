@@ -112,11 +112,6 @@
                         x:Name="ScrollViewer"
                         IsTabStop="False"
                         VirtualizingPanel.ScrollUnit="Pixel">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="ScrollChanged">
-                                <prism:InvokeCommandAction Command="{Binding ScrollViewerScrollChangedCommand}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
                         <ContentControl Grid.Row="0" prism:RegionManager.RegionName="PageRegion" />
                     </ScrollViewer>
                     <!--  ProgressRing для загрузки контента  -->
