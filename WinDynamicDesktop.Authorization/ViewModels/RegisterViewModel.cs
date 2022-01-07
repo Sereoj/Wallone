@@ -58,8 +58,8 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             {
                 case "Login":
                     //TODO:
-                    //_regionManager.RequestNavigate("ContentRegion", "Login");
-                    _regionManager.RequestNavigate("ContentRegion", "Main");
+                    _regionManager.RequestNavigate("ContentRegion", "Login");
+                    //_regionManager.RequestNavigate("ContentRegion", "Main");
                     break;
                 case "Confirm":
                     Register();
