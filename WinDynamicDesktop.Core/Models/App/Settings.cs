@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Prism.Mvvm;
 
 namespace WinDynamicDesktop.Core.Models.App
 {
     [Serializable]
-    public class Settings
+    public class Settings : BindableBase
     {
         public string Token { get; set; } // Для авторизации
         public string Language { get; set; } // Выбор язык
