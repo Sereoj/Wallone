@@ -6,6 +6,7 @@ using Prism.Regions;
 using System.IO;
 using WinDynamicDesktop.Authorization.Services;
 using WinDynamicDesktop.Core.Models.App;
+using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
 {
@@ -57,26 +58,25 @@ namespace WinDynamicDesktop.Authorization.ViewModels
 
         private async void Login()
         {
-            string msg = null;
-            var json = await UserService.GetLoginAsync(Email, Password);
-            var objects = JObject.Parse(json);
+            try
+            {
+                var json = await UserService.GetLoginAsync(Email, Password);
+                var objects = JObject.Parse(json);
 
-            if (objects["auth.failed"] != null)
-            {
-                msg = objects["auth.failed"].ToString();
-            }
-            else if (objects["token"] != null)
-            {
-                _regionManager.RequestNavigate("ContentRegion", "Main");
-            }
-            else if (objects is JObject)
-            {
-                foreach (var item in objects)
+                var msg = UserService.ValidateLogin(objects);
+                if(UserService.GetToken() != null)
                 {
-                    msg += item.Value[0] + " ";
+                    SettingsService.Get().Token = UserService.GetToken();
+                    SettingsService.Save();
+                    _regionManager.RequestNavigate("ContentRegion", "Main");
                 }
+
+                Message = msg;
             }
-            Message = msg;
+            catch (System.Exception ex)
+            {
+                Message = ex.Message;
+            }
         }
     }
 }

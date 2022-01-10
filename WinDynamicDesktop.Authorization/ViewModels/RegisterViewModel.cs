@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using WinDynamicDesktop.Authorization.Services;
+using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
 {
@@ -72,22 +73,25 @@ namespace WinDynamicDesktop.Authorization.ViewModels
 
         private async void Register()
         {
-            string msg = null;
-            var json = await UserService.GetRegisterAsync(Name, Email, Password, Confirm);
-            var objects = JObject.Parse(json);
+            try
+            {
+                var json = await UserService.GetRegisterAsync(Name, Email, Password, Confirm);
+                var objects = JObject.Parse(json);
 
-            if (objects["token"] != null)
-            {
-                _regionManager.RequestNavigate("ContentRegion", "Main");
-            }
-            else if (objects is JObject)
-            {
-                foreach (var item in objects)
+                var msg = UserService.ValidateRegister(objects);
+                if (UserService.GetToken() != null)
                 {
-                    msg += item.Value[0] + " ";
+                    SettingsService.Get().Token = UserService.GetToken();
+                    SettingsService.Save();
+                    _regionManager.RequestNavigate("ContentRegion", "Main");
                 }
+                Message = msg;
             }
-            Message = msg;
+            catch (System.Exception ex)
+            {
+                Message = ex.Message;
+            }
+
         }
     }
 }

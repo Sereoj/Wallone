@@ -3,7 +3,6 @@ using Prism.Mvvm;
 
 namespace WinDynamicDesktop.Core.Models.App
 {
-    [Serializable]
     public class Settings : BindableBase
     {
         public string Token { get; set; } // Для авторизации

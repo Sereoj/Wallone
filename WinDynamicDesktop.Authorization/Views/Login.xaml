@@ -2,6 +2,7 @@
     x:Class="WinDynamicDesktop.Authorization.Views.Login"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:com="clr-namespace:WinDynamicDesktop.Authorization.Helpers"
     xmlns:controls="clr-namespace:WinDynamicDesktop.Authorization.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:WinDynamicDesktop.Authorization.Views"
@@ -14,6 +15,9 @@
     d:DesignWidth="1200"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <com:PasswordBoxHelper x:Key="PasswordBoxHelper" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="65" />
@@ -28,40 +32,66 @@
         <Grid
             Grid.Row="1"
             Grid.Column="1"
-            Height="400"
+            Width="325"
+            Height="500"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <TextBlock
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
+                FontFamily="{StaticResource FontGardensC}"
                 FontSize="22"
                 Text="Авторизация" />
             <TextBlock
-                Margin="0,28,0,0"
+                Margin="0,30,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                FontSize="18"
+                FontFamily="{StaticResource FontGardensC}"
+                FontSize="16"
                 Text="Вход в систему" />
+            <TextBlock
+                Margin="0,80,0,0"
+                VerticalAlignment="Top"
+                FontFamily="{StaticResource FontGardensC}"
+                Text="Email:" />
             <TextBox
                 Width="325"
                 MaxHeight="35"
-                Margin="0,60,0,0"
+                Margin="0,105,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Text="{Binding Email, TargetNullValue=Email}"
                 UndoLimit="100" />
-            <TextBox
+            <TextBlock
+                Margin="0,145,0,0"
+                VerticalAlignment="Top"
+                FontFamily="{StaticResource FontGardensC}"
+                Text="Пароль:" />
+            <PasswordBox
                 Width="325"
                 MaxHeight="35"
-                Margin="0,100,0,0"
+                Margin="0,170,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="{Binding Password, TargetNullValue=Password}"
-                UndoLimit="100" />
+                com:PasswordBoxHelper.Attach="True"
+                com:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Grid
+                Height="50"
+                Margin="0,340,0,0"
+                VerticalAlignment="Top">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="{StaticResource FontGardensC}"
+                    FontSize="14"
+                    Foreground="Red"
+                    Text="{Binding Message}"
+                    TextWrapping="Wrap" />
+            </Grid>
             <Button
                 Width="162"
                 Height="40"
-                Margin="0,145,0,0"
+                Margin="0,400,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding NavigateCommand}"
@@ -69,7 +99,7 @@
                 Content="Продолжить"
                 Style="{StaticResource AccentButtonStyle}" />
             <ui:HyperlinkButton
-                Margin="0,190,0,0"
+                Margin="0,445,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding NavigateCommand}"
@@ -77,17 +107,6 @@
                 Cursor="Hand">
                 Регистрация
             </ui:HyperlinkButton>
-            <Grid
-                Height="50"
-                Margin="0,230,0,0"
-                VerticalAlignment="Top">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="14"
-                    Text="{Binding Message}"
-                    TextWrapping="Wrap" />
-            </Grid>
         </Grid>
     </Grid>
 </UserControl>

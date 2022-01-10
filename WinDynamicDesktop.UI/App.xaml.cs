@@ -4,6 +4,7 @@ using System.Windows;
 using WinDynamicDesktop.Authorization;
 using WinDynamicDesktop.Common;
 using WinDynamicDesktop.Core;
+using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Controls;
 using WinDynamicDesktop.UI.Views;
 
@@ -46,6 +47,8 @@ namespace WinDynamicDesktop.UI
             moduleCatalog.AddModule<CoreModule>();
             moduleCatalog.AddModule<CommonModule>();
             moduleCatalog.AddModule<AuthorizationModule>();
+
+            SettingsService.Load();
         }
     }
 }

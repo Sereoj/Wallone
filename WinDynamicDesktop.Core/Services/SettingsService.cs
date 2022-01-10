@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Timers;
@@ -11,21 +12,26 @@ namespace WinDynamicDesktop.Core.Services
     public class SettingsService
     {
         private static Settings settings = new Settings();
-        public static bool firstRun;
         private static readonly string file = "app.settings";
-        private static readonly Timer autoSaveTimer = new Timer();
+        private static Timer autoSaveTimer;
+        private static bool restartPending = false;
+        private static bool unsavedChanges;
 
-        private static void Save()
+        //Ручное сохранение
+        public static void Save()
         {
-            File.WriteAllText("app.settings", JsonConvert.SerializeObject(settings, Formatting.Indented));
+            File.WriteAllText(file, JsonConvert.SerializeObject(settings, Formatting.Indented));
         }
+        //Проверка на первый запуск
         public static bool CheckFirstLaunch()
         {
-            return firstRun = file.ExistsFile();
+            Trace.WriteLine("Проверка на первый запуск");
+            return file.ExistsFile();
         }
+        //Загрузка конфига, выполняется один раз
         public static void Load()
         {
-            if(autoSaveTimer.Enabled)
+            if(autoSaveTimer != null)
             {
                 autoSaveTimer.Stop();
             }
@@ -35,22 +41,49 @@ namespace WinDynamicDesktop.Core.Services
                 settings = new Settings();
             }
 
+            unsavedChanges = false;
+            autoSaveTimer = new Timer();
             autoSaveTimer.AutoReset = false;
-            autoSaveTimer.Interval = 1000;
+            autoSaveTimer.Interval = 100;
 
             settings.PropertyChanged += OnSettingsPropertyChanged;
             autoSaveTimer.Elapsed += OnAutoSaveTimerElapsed;
         }
+        
         private static void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            Trace.WriteLine("Файл настроек изменен");
+            unsavedChanges = true;
             autoSaveTimer.Start();
         }
         private async static void OnAutoSaveTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            await Task.Run(() =>
+            if (!restartPending && !unsavedChanges)
             {
-                Save();
-            });
+                return;
+            }
+
+            if (unsavedChanges)
+            {
+                unsavedChanges = false;
+                autoSaveTimer.Elapsed -= OnAutoSaveTimerElapsed;
+                
+                await Task.Run(() =>
+                {
+                    Save();
+                    Trace.WriteLine("Автоматическое сохранение");
+                });
+            }
+
+            if (restartPending)
+            {
+                restartPending = false;
+            }
+            else
+            {
+                autoSaveTimer.Elapsed += OnAutoSaveTimerElapsed;
+                autoSaveTimer.Start();
+            }
         }
 
         public static Settings Get()
