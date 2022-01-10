@@ -36,7 +36,7 @@ namespace WinDynamicDesktop.Core.Services
                 autoSaveTimer.Stop();
             }
 
-            if(CheckFirstLaunch())
+            if(!CheckFirstLaunch())
             {
                 settings = new Settings();
             }

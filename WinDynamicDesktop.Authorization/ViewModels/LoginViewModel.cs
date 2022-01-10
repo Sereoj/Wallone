@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
 using System.IO;
 using WinDynamicDesktop.Authorization.Services;
 using WinDynamicDesktop.Core.Models.App;
@@ -67,7 +68,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 if(UserService.GetToken() != null)
                 {
                     SettingsService.Get().Token = UserService.GetToken();
-                    SettingsService.Save();
                     _regionManager.RequestNavigate("ContentRegion", "Main");
                 }
 

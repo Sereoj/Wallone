@@ -82,7 +82,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 if (UserService.GetToken() != null)
                 {
                     SettingsService.Get().Token = UserService.GetToken();
-                    SettingsService.Save();
                     _regionManager.RequestNavigate("ContentRegion", "Main");
                 }
                 Message = msg;
