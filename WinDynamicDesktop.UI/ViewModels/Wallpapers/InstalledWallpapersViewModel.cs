@@ -1,10 +1,17 @@
 ﻿using Prism.Regions;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
+using WinDynamicDesktop.UI.Interfaces;
+using System.Collections.Generic;
+using WinDynamicDesktop.Core.Services;
+using System.Windows.Media.Imaging;
+using WinDynamicDesktop.Core.Helpers;
+using System.Threading.Tasks;
+using System;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
-    public class InstalledWallpapersViewModel : BindableBase, INavigationAware
+    public class InstalledWallpapersViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
 
@@ -24,7 +31,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            
+            Loaded(null, null);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -34,7 +41,47 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+        }
 
+        public async void Loaded(string page, List<Core.Models.Parameter> parameters)
+        {
+            Library.Clear();
+            try
+            {
+                var items = await ThumbService.GetThumbsInstallAsync(page, parameters);
+
+                if (ThumbService.CheckItems(items))
+                {
+                    foreach (var item in items)
+                    {
+                        Library.Add(new ArticleViewModel(regionManager)
+                        {
+                            ID = item.ID,
+                            Name = item.Name,
+                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
+                        });
+                        await Task.CompletedTask;
+                    }
+                }
+                else
+                {
+                    var param = new NavigationParameters
+                    {
+                        { "Text", "Это не ошибка, просто не найдены изображения!" }
+                    };
+
+                    regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                }
+            }
+            catch (Exception ex)
+            {
+                var param = new NavigationParameters
+                {
+                    { "Text", ex.Message }
+                };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+            }
         }
     }
 }
