@@ -12,6 +12,19 @@ namespace WinDynamicDesktop.Core.Services
             var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers", page, parameters);
             return items;
         }
+
+        public static Task<List<Thumb>> GetThumbsFavoriteAsync(string page, List<Models.Parameter> parameters)
+        {
+            var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers/favorite", page, parameters);
+            return items;
+        }
+
+        public static Task<List<Thumb>> GetThumbsInstallAsync(string page, List<Models.Parameter> parameters)
+        {
+            var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers/install", page, parameters);
+            return items;
+        }
+
         public static List<Thumb> GetThumbs(string page = null)
         {
             var items = RequestRouter<List<Thumb>>.Get("wallpapers", page);

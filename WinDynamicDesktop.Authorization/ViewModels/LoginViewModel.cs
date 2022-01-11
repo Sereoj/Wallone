@@ -82,7 +82,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
 
                 Message = msg;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Message = ex.Message;
             }
