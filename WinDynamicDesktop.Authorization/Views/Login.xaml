@@ -60,7 +60,7 @@
                 Margin="0,105,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="{Binding Email, TargetNullValue=Email}"
+                Text="{Binding Email, TargetNullValue='user@w2me.ru'}"
                 UndoLimit="100" />
             <TextBlock
                 Margin="0,145,0,0"

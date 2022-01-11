@@ -39,6 +39,9 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         public LoginViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
+
+            Autocomplete();
+
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
         private void Navigate(string obj)
@@ -55,6 +58,12 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     break;
             }
         }
+        private void Autocomplete()
+        {
+            var email = SettingsService.Get().Email;
+            if (email != null)
+                Email = email;
+        }
         private async void Login()
         {
             try
@@ -68,8 +77,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     var settings = SettingsService.Get();
 
                     settings.Token = UserService.GetToken();
-                    settings.Email = Email;
-
                     _regionManager.RequestNavigate("ContentRegion", "Main");
                 }
 
