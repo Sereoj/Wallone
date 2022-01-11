@@ -51,8 +51,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         {
             _regionManager = regionManager;
             
-            Token();
-
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
@@ -71,34 +69,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     break;
                 default:
                     break;
-            }
-        }
-        private async void Token()
-        {
-            try
-            {
-                Email = SettingsService.Get().Email;
-
-                if (SettingsService.Get().Token != null)
-                {
-                    var json = await UserService.GetLoginWithTokenAsync();
-                    var objects = JObject.Parse(json);
-                    var msg = UserService.ValidateWithToken(objects);
-
-                    if (msg == "success")
-                    {
-                        _regionManager.RequestNavigate("ContentRegion", "Main");
-                    }
-                    else
-                    {
-                        _regionManager.RequestNavigate("ContentRegion", "Login");
-                        Message = msg;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Message = e.Message;
             }
         }
         private async void Register()

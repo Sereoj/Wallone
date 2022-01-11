@@ -44,11 +44,11 @@ namespace WinDynamicDesktop.UI
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
+            SettingsService.Load();
+
             moduleCatalog.AddModule<CoreModule>();
             moduleCatalog.AddModule<CommonModule>();
             moduleCatalog.AddModule<AuthorizationModule>();
-
-            SettingsService.Load();
         }
     }
 }

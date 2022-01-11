@@ -15,6 +15,7 @@ namespace WinDynamicDesktop.Authorization
         }
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<Load, ViewModels.LoadViewModel>();
             containerRegistry.RegisterForNavigation<MessageControl, ViewModels.MessageViewModel>();
             containerRegistry.RegisterForNavigation<Register, ViewModels.RegisterViewModel>();
             containerRegistry.RegisterForNavigation<Login, ViewModels.LoginViewModel>();
@@ -23,7 +24,7 @@ namespace WinDynamicDesktop.Authorization
         }
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate("ContentRegion", "Register");
+            _regionManager.RequestNavigate("ContentRegion", "Load");
         }
     }
 }
