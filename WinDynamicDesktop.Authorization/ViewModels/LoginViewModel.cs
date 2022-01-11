@@ -63,10 +63,13 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 var objects = JObject.Parse(json);
 
                 var msg = UserService.ValidateLogin(objects);
-
-                if(UserService.GetToken() != null)
+                if (UserService.GetToken() != null)
                 {
-                    SettingsService.Get().Token = UserService.GetToken();
+                    var settings = SettingsService.Get();
+
+                    settings.Token = UserService.GetToken();
+                    settings.Email = Email;
+
                     _regionManager.RequestNavigate("ContentRegion", "Main");
                 }
 

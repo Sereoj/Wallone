@@ -12,7 +12,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
     {
         readonly IRegionManager _regionManager;
 
-
         private string name;
         public string Name
         {
@@ -78,11 +77,11 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         {
             try
             {
-                var token = SettingsService.Get().Token;
+                Email = SettingsService.Get().Email;
 
-                if (token != null)
+                if (SettingsService.Get().Token != null)
                 {
-                    var json = await UserService.GetLoginWithTokenAsync(token);
+                    var json = await UserService.GetLoginWithTokenAsync();
                     var objects = JObject.Parse(json);
                     var msg = UserService.ValidateWithToken(objects);
 
@@ -90,7 +89,11 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     {
                         _regionManager.RequestNavigate("ContentRegion", "Main");
                     }
-                    Message = msg;
+                    else
+                    {
+                        _regionManager.RequestNavigate("ContentRegion", "Login");
+                        Message = msg;
+                    }
                 }
             }
             catch (Exception e)
@@ -113,7 +116,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 }
                 Message = msg;
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Message = ex.Message;
             }

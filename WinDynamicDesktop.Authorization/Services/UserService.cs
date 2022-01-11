@@ -16,13 +16,9 @@ namespace WinDynamicDesktop.Authorization.Services
             return items;
         }
 
-        public static Task<string> GetLoginWithTokenAsync(string token)
+        public static Task<string> GetLoginWithTokenAsync()
         {
-            var param = new List<Parameter>
-            {
-                new Parameter() { Name = "token", Value = token }
-            };
-            var items = RequestRouter<string>.GetAsync("user", null, param);
+            var items = RequestRouter<string>.GetAsync("user", null, null);
             return items;
         }
 

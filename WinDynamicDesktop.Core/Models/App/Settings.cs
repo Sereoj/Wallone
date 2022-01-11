@@ -12,6 +12,13 @@ namespace WinDynamicDesktop.Core.Models.App
             set { SetProperty(ref token, value); }
         }
 
+        private string email;
+        public string Email
+        {
+            get { return email; }
+            set { SetProperty(ref email, value); }
+        }
+
         private string language;
         public string Language
         {
