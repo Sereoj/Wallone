@@ -1,5 +1,7 @@
 ﻿using RestSharp;
+using RestSharp.Authenticators;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using WinDynamicDesktop.Core.Models;
 
@@ -15,20 +17,22 @@ namespace WinDynamicDesktop.Core.Services
 
     public class RequestRouter<T> : Router
     {
-        public static async Task<T> GetAsync(string method, string page, List<Models.Parameter> parametrs)
+        public static async Task<T> GetAsync(string method, string page, List<Models.Parameter> parameters)
         {
-            var client = new RestClient(domainApi);
-            var request = new RestRequest($"{method}/{page}", DataFormat.Json);
-            if (parametrs != null)
+            var client = new RestClient($"{domainApi}/{method}");
+            client.Authenticator = new JwtAuthenticator(SettingsService.Get().Token);
+            var request = new RestRequest(page);
+            if (parameters != null)
             {
-                foreach (var parametr in parametrs)
+                foreach (var parameter in parameters)
                 {
-                    request.AddParameter(parametr.Name, parametr.Value);
+                    request.AddParameter(parameter.Name, parameter.Value);
                 }
             }
             var result = await client.GetAsync<T>(request);
             return result;
         }
+
         public static async Task<T> GetAsync(string method, string page = null)
         {
             var client = new RestClient(domainApi);

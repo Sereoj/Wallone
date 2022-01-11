@@ -26,7 +26,7 @@ namespace WinDynamicDesktop.Core.Services
         public static bool CheckFirstLaunch()
         {
             Trace.WriteLine("Проверка на первый запуск");
-            return file.ExistsFile();
+            return !file.ExistsFile();
         }
         //Загрузка конфига, выполняется один раз
         public static void Load()
@@ -38,7 +38,8 @@ namespace WinDynamicDesktop.Core.Services
 
             if(!CheckFirstLaunch())
             {
-                settings = new Settings();
+                string jsonText = File.ReadAllText(file);
+                settings = JsonConvert.DeserializeObject<Settings>(jsonText);
             }
 
             unsavedChanges = false;

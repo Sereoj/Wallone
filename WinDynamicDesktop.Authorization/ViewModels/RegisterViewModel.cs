@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
 using WinDynamicDesktop.Authorization.Services;
 using WinDynamicDesktop.Core.Services;
 
@@ -50,6 +51,9 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         public RegisterViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
+            
+            Token();
+
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 
@@ -70,7 +74,30 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     break;
             }
         }
+        private async void Token()
+        {
+            try
+            {
+                var token = SettingsService.Get().Token;
 
+                if (token != null)
+                {
+                    var json = await UserService.GetLoginWithTokenAsync(token);
+                    var objects = JObject.Parse(json);
+                    var msg = UserService.ValidateWithToken(objects);
+
+                    if (msg == "success")
+                    {
+                        _regionManager.RequestNavigate("ContentRegion", "Main");
+                    }
+                    Message = msg;
+                }
+            }
+            catch (Exception e)
+            {
+                Message = e.Message;
+            }
+        }
         private async void Register()
         {
             try

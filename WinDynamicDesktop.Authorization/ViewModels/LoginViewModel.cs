@@ -41,7 +41,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             _regionManager = regionManager;
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
-
         private void Navigate(string obj)
         {
             switch (obj)
@@ -56,7 +55,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     break;
             }
         }
-
         private async void Login()
         {
             try
@@ -65,6 +63,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 var objects = JObject.Parse(json);
 
                 var msg = UserService.ValidateLogin(objects);
+
                 if(UserService.GetToken() != null)
                 {
                     SettingsService.Get().Token = UserService.GetToken();

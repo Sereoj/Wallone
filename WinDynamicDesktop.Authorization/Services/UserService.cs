@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WinDynamicDesktop.Authorization.Models;
+using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.Services
@@ -11,6 +13,16 @@ namespace WinDynamicDesktop.Authorization.Services
         public static Task<string> GetLoginAsync(string email, string password)
         {
             var items = RequestRouter<string, Login>.PostAsync("login", new Login() { email = email, password = password });
+            return items;
+        }
+
+        public static Task<string> GetLoginWithTokenAsync(string token)
+        {
+            var param = new List<Parameter>
+            {
+                new Parameter() { Name = "token", Value = token }
+            };
+            var items = RequestRouter<string>.GetAsync("user", null, param);
             return items;
         }
 
@@ -25,7 +37,7 @@ namespace WinDynamicDesktop.Authorization.Services
         }
         public static string ValidateRegister(JObject objects)
         {
-            return validate(objects);
+            return Validate(objects);
         }
         public static string ValidateLogin(JObject objects)
         {
@@ -34,10 +46,22 @@ namespace WinDynamicDesktop.Authorization.Services
                 return objects["auth.failed"].ToString();
             }
 
-            return validate(objects);
+            return Validate(objects);
         }
 
-        private static string validate(JObject objects)
+        public static string ValidateWithToken(JObject objects)
+        {
+            if (objects["message"] != null)
+            {
+                return objects["message"].ToString();
+            }
+            if(objects["id"] != null)
+            {
+                return "success";
+            }
+            return null;
+        }
+        private static string Validate(JObject objects)
         {
             if (objects["token"] != null)
             {
