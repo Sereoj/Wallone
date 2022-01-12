@@ -42,6 +42,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public async void Loaded()
         {
+            Library.Clear();
             try
             {
                 var items = await ThumbService.GetThumbsAsync("popular", null);

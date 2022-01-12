@@ -31,133 +31,149 @@
         </Style>
     </UserControl.Resources>
     <!--  Border использование для рамок  -->
-    <Border>
-        <Grid HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MaxWidth="50" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" MaxWidth="50" />
-            </Grid.ColumnDefinitions>
-            <!--  Grid Header  -->
-            <Grid
-                x:Name="Header"
-                Grid.Row="0"
-                Grid.Column="1">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="24"
-                    Text="{Binding Header, TargetNullValue=Content}" />
-            </Grid>
-            <!--  Grid Article  -->
-            <Grid
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="0,20,0,0">
-                <ui:GridView
-                    x:Name="SliderAndUserPanel"
-                    HorizontalContentAlignment="Left"
-                    VerticalContentAlignment="Top">
-                    <ContentControl
-                        x:Name="Slider"
-                        Height="482"
-                        prism:RegionManager.RegionName="Slider" />
-                    <Border
-                        Width="{Binding Path=ActualWidth, ElementName=Slider}"
-                        Height="482"
-                        MinWidth="700"
-                        Background="White"
-                        CornerRadius="0,0,15,15">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <WrapPanel
-                                x:Name="author"
-                                Grid.Row="0"
-                                Margin="20">
-                                <ui:PersonPicture
-                                    x:Name="ImageAuthor"
-                                    Width="60"
-                                    Height="60" />
-                                <StackPanel>
-                                    <TextBlock
-                                        Margin="15,2,0,0"
-                                        FontFamily="{StaticResource FontGardensC}"
-                                        Text="{Binding Username}" />
-                                    <TextBlock
-                                        Margin="15,2,0,0"
-                                        FontFamily="{StaticResource FontGardensC}"
-                                        Text="{Binding Data}" />
-                                    <ui:HyperlinkButton Margin="15,2,0,0" Cursor="Hand">
-                                        Перейти в профиль
-                                    </ui:HyperlinkButton>
-                                </StackPanel>
-                            </WrapPanel>
-                            <StackPanel Grid.Row="1" Margin="20">
-                                <TextBlock
-                                    FontFamily="{StaticResource FontGardensC}"
-                                    Text="{Binding Description}"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                            <StackPanel Grid.Row="2" Margin="20">
-                                <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Category}" />
-                                <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Brand}" />
-                            </StackPanel>
-                            <StackPanel Grid.Row="3" Margin="20">
-                                <WrapPanel>
-                                    <Button
-                                        Width="300"
-                                        Height="50"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Content="Установить"
-                                        Style="{StaticResource AccentButtonStyle}" />
-                                    <Button
-                                        Width="48"
-                                        Height="48"
-                                        Margin="10,0,0,0"
-                                        Content="&#xE9D2;"
-                                        FontFamily="{StaticResource FontIconMoonFree}"
-                                        Style="{StaticResource AccentButtonStyle}" />
-                                    <Button
-                                        Width="48"
-                                        Height="48"
-                                        Margin="10,0,0,0"
-                                        Content="&#xE9DA;"
-                                        FontFamily="{StaticResource FontIconMoonFree}"
-                                        Style="{StaticResource AccentButtonStyle}" />
-                                    <TextBlock
-                                        Margin="10,0,0,0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        FontFamily="{StaticResource FontGardensC}"
-                                        FontSize="20"
-                                        Text="{Binding Likes, FallbackValue=0}" />
-                                </WrapPanel>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                    <ui:GridView
-                        Margin="0,10,0,0"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Top">
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                    </ui:GridView>
-                </ui:GridView>
-            </Grid>
-        </Grid>
-    </Border>
+    <Grid>
+        <ScrollViewer
+            x:Name="ScrollViewer"
+            IsTabStop="False"
+            ScrollChanged="ScrollViewer_ScrollChanged">
+            <StackPanel>
+                <Grid HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MaxWidth="50" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" MaxWidth="50" />
+                    </Grid.ColumnDefinitions>
+                    <!--  Grid Header  -->
+                    <Grid
+                        x:Name="Header"
+                        Grid.Row="0"
+                        Grid.Column="1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="24"
+                            Text="{Binding Header, TargetNullValue=Content}" />
+                    </Grid>
+                    <!--  Grid Article  -->
+                    <Grid
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,20,0,0">
+                        <ui:GridView
+                            x:Name="SliderAndUserPanel"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Top">
+                            <ContentControl
+                                x:Name="Slider"
+                                Height="482"
+                                prism:RegionManager.RegionName="Slider" />
+                            <Border
+                                Width="{Binding Path=ActualWidth, ElementName=Slider}"
+                                Height="482"
+                                MinWidth="700"
+                                Background="White"
+                                CornerRadius="0,0,15,15">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <WrapPanel
+                                        x:Name="author"
+                                        Grid.Row="0"
+                                        Margin="20">
+                                        <ui:PersonPicture
+                                            x:Name="ImageAuthor"
+                                            Width="60"
+                                            Height="60" />
+                                        <StackPanel>
+                                            <TextBlock
+                                                Margin="15,2,0,0"
+                                                FontFamily="{StaticResource FontGardensC}"
+                                                Text="{Binding Username}" />
+                                            <TextBlock
+                                                Margin="15,2,0,0"
+                                                FontFamily="{StaticResource FontGardensC}"
+                                                Text="{Binding Data}" />
+                                            <ui:HyperlinkButton Margin="15,2,0,0" Cursor="Hand">
+                                                Перейти в профиль
+                                            </ui:HyperlinkButton>
+                                        </StackPanel>
+                                    </WrapPanel>
+                                    <StackPanel Grid.Row="1" Margin="20">
+                                        <TextBlock
+                                            FontFamily="{StaticResource FontGardensC}"
+                                            Text="{Binding Description}"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="2" Margin="20">
+                                        <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Category}" />
+                                        <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Brand}" />
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="3" Margin="20">
+                                        <WrapPanel>
+                                            <Button
+                                                Width="300"
+                                                Height="50"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Content="Установить"
+                                                Style="{StaticResource AccentButtonStyle}" />
+                                            <Button
+                                                Width="48"
+                                                Height="48"
+                                                Margin="10,0,0,0"
+                                                Content="&#xE9D2;"
+                                                FontFamily="{StaticResource FontIconMoonFree}"
+                                                Style="{StaticResource AccentButtonStyle}" />
+                                            <Button
+                                                Width="48"
+                                                Height="48"
+                                                Margin="10,0,0,0"
+                                                Content="&#xE9DA;"
+                                                FontFamily="{StaticResource FontIconMoonFree}"
+                                                Style="{StaticResource AccentButtonStyle}" />
+                                            <TextBlock
+                                                Margin="10,0,0,0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                FontFamily="{StaticResource FontGardensC}"
+                                                FontSize="20"
+                                                Text="{Binding Likes, FallbackValue=0}" />
+                                        </WrapPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <ui:GridView
+                                Margin="0,10,0,0"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Top">
+                                <controls:Article />
+                                <controls:Article />
+                                <controls:Article />
+                                <controls:Article />
+                                <controls:Article />
+                                <controls:Article />
+                            </ui:GridView>
+                        </ui:GridView>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <Button
+            x:Name="ScrollUp"
+            Margin="0,0,50,50"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="ScrollUp_Click"
+            Content="&#xEA3A;"
+            FontFamily="{StaticResource FontIconMoon}"
+            Visibility="Hidden" />
+    </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using RestSharp;
@@ -29,6 +30,8 @@ namespace WinDynamicDesktop.UI.ViewModels
             get { return header; }
             set { SetProperty(ref header, value); }
         }
+
+        public DelegateCommand<ScrollChangedEventArgs> ScrollCommand { get; set; }
         public WallpapersViewModel()
         {
             Library.Add(new ArticleViewModel(regionManager));
@@ -39,17 +42,12 @@ namespace WinDynamicDesktop.UI.ViewModels
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
-            this.eventAggregator.GetEvent<ScrollEvent>().Subscribe(ScrollLineReceived);
+            ScrollCommand = new DelegateCommand<ScrollChangedEventArgs>(ScrollChanged);
         }
 
-        private void ScrollLineReceived(ScrollChangedEventArgs e)
+        private void ScrollChanged(ScrollChangedEventArgs obj)
         {
-            if (e.VerticalOffset != 0)
-            {
-                if (e.VerticalOffset == e.ExtentHeight - e.ViewportHeight)
-                {
-                }
-            }
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

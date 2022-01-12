@@ -15,44 +15,60 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <!--  Border использование для рамок  -->
-    <Border>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" MaxWidth="50" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" MaxWidth="50" />
-            </Grid.ColumnDefinitions>
-            <!--  Grid Header  -->
-            <Grid
-                x:Name="Header"
-                Grid.Row="0"
-                Grid.Column="1">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="24"
-                    Text="{Binding Header, FallbackValue=Content}" />
-            </Grid>
-            <!--  Grid Article  -->
-            <Grid
-                x:Name="Article"
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="0,20,0,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top">
-                <ui:GridView x:Name="ItemsRepeater" ItemsSource="{Binding Library}">
-                    <ui:GridView.ItemTemplate>
-                        <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
-                            <controls:Article />
-                        </DataTemplate>
-                    </ui:GridView.ItemTemplate>
-                </ui:GridView>
-            </Grid>
-        </Grid>
-    </Border>
+    <Grid>
+        <ScrollViewer
+            x:Name="ScrollViewer"
+            IsTabStop="False"
+            ScrollChanged="ScrollViewer_ScrollChanged">
+            <StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto" MaxWidth="50" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" MaxWidth="50" />
+                    </Grid.ColumnDefinitions>
+                    <!--  Grid Header  -->
+                    <Grid
+                        x:Name="Header"
+                        Grid.Row="0"
+                        Grid.Column="1">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="24"
+                            Text="{Binding Header, FallbackValue=Content}" />
+                    </Grid>
+                    <!--  Grid Article  -->
+                    <Grid
+                        x:Name="Article"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="0,20,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top">
+                        <ui:GridView x:Name="ItemsRepeater" ItemsSource="{Binding Library}">
+                            <ui:GridView.ItemTemplate>
+                                <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
+                                    <controls:Article />
+                                </DataTemplate>
+                            </ui:GridView.ItemTemplate>
+                        </ui:GridView>
+                    </Grid>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+        <Button
+            x:Name="ScrollUp"
+            Margin="0,0,50,50"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="ScrollUp_Click"
+            Content="&#xEA3A;"
+            FontFamily="{StaticResource FontIconMoon}"
+            Visibility="Hidden" />
+    </Grid>
 </UserControl>

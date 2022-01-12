@@ -12,33 +12,35 @@
     d:DesignWidth="960"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <Border>
-        <Grid HorizontalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MaxWidth="50" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" MaxWidth="50" />
-            </Grid.ColumnDefinitions>
-            <!--  Grid Header  -->
-            <Grid
-                x:Name="Header"
-                Grid.Row="0"
-                Grid.Column="1">
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="24"
-                    Text="{Binding Header, TargetNullValue=Content}" />
+    <ScrollViewer x:Name="ScrollViewer" IsTabStop="False">
+        <Border>
+            <Grid HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MaxWidth="50" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" MaxWidth="50" />
+                </Grid.ColumnDefinitions>
+                <!--  Grid Header  -->
+                <Grid
+                    x:Name="Header"
+                    Grid.Row="0"
+                    Grid.Column="1">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="24"
+                        Text="{Binding Header, TargetNullValue=Content}" />
+                </Grid>
+                <!--  Grid Article  -->
+                <Grid
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,20,0,0" />
             </Grid>
-            <!--  Grid Article  -->
-            <Grid
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="0,20,0,0" />
-        </Grid>
-    </Border>
+        </Border>
+    </ScrollViewer>
 </UserControl>

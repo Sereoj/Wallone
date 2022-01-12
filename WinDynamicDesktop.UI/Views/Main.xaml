@@ -108,12 +108,7 @@
                             MaxHeight="{Binding FooterHeight}" />
                     </Grid.RowDefinitions>
                     <!--  ScrollViewer для контента  -->
-                    <ScrollViewer
-                        x:Name="ScrollViewer"
-                        IsTabStop="False"
-                        VirtualizingPanel.ScrollUnit="Pixel">
-                        <ContentControl Grid.Row="0" prism:RegionManager.RegionName="PageRegion" />
-                    </ScrollViewer>
+                    <ContentControl Grid.Row="0" prism:RegionManager.RegionName="PageRegion" />
                     <!--  ProgressRing для загрузки контента  -->
                     <ui:ProgressRing
                         Grid.Row="1"
