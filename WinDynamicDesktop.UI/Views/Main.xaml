@@ -88,6 +88,10 @@
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
                 <ui:NavigationViewItem
+                    Content="Профиль"
+                    Icon="Contact"
+                    Tag="Profile" />
+                <ui:NavigationViewItem
                     Content="Аккаунт"
                     Icon="Contact"
                     Tag="Account" />

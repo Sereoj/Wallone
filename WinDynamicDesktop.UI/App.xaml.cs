@@ -36,6 +36,7 @@ namespace WinDynamicDesktop.UI
             containerRegistry.RegisterForNavigation<FavoriteWallpapers, ViewModels.WallpapersFavoriteViewModel>();
             containerRegistry.RegisterForNavigation<LoadWallpapers, ViewModels.WallpapersLoadViewModel>();
 
+            containerRegistry.RegisterForNavigation<Profile, ViewModels.ProfileViewModel>();
             containerRegistry.RegisterForNavigation<Account, ViewModels.AccountViewModel>();
             containerRegistry.RegisterForNavigation<Settings, ViewModels.SettingsViewModel>();
 

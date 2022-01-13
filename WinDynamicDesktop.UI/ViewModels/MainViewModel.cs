@@ -86,6 +86,9 @@ namespace WinDynamicDesktop.UI.ViewModels
                 case "Load":
                     regionManager.RequestNavigate("PageRegion", "LoadWallpapers");
                     break;
+                case "Profile":
+                    regionManager.RequestNavigate("PageRegion", "Profile");
+                    break;
                 case "Account":
                     regionManager.RequestNavigate("PageRegion", "Account");
                     break;
