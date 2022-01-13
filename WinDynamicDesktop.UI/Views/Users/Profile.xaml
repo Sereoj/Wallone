@@ -46,7 +46,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="400" />
                         <RowDefinition Height="100" />
-                        <RowDefinition Height="50" />
+                        <RowDefinition Height="60" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
@@ -57,12 +57,21 @@
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <StackPanel
+                            <Grid
                                 Grid.Column="0"
                                 Margin="0,200,0,0"
                                 VerticalAlignment="Center">
                                 <ui:PersonPicture Width="120" />
-                            </StackPanel>
+                                <Button
+                                    Width="35"
+                                    Height="35"
+                                    Margin="70,0,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    ui:ControlHelper.CornerRadius="20"
+                                    Content="&#xED5D;"
+                                    FontFamily="{StaticResource FontIconMoonUltimate}" />
+                            </Grid>
                             <StackPanel
                                 Grid.Column="1"
                                 Margin="0,200,0,0"
@@ -139,6 +148,9 @@
                                 Text="Publish" />
                         </StackPanel>
                     </Grid>
+                    <WrapPanel Grid.Row="2">
+                        <ComboBox Width="250" Margin="45,15,0,0" />
+                    </WrapPanel>
                     <ui:GridView Grid.Row="3" HorizontalAlignment="Center">
                         <controls:Article />
                         <controls:Article />
