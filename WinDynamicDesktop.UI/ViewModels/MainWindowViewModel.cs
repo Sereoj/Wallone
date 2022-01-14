@@ -14,6 +14,10 @@ namespace WinDynamicDesktop.UI.ViewModels
             set { SetProperty(ref _title, value); }
         }
 
+        public MainWindowViewModel()
+        {
+
+        }
         public MainWindowViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
