@@ -1,5 +1,5 @@
-﻿using Prism.Regions;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
+using Prism.Regions;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {

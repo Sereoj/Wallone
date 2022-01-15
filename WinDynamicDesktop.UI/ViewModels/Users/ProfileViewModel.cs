@@ -1,5 +1,4 @@
 ﻿using Prism.Mvvm;
-using WinDynamicDesktop.UI.Interfaces;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {

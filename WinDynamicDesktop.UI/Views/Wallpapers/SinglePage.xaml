@@ -11,8 +11,8 @@
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:SinglePageViewModel,
                                      IsDesignTimeCreatable=True}"
-    d:DesignHeight="1000"
-    d:DesignWidth="1240"
+    d:DesignHeight="2000"
+    d:DesignWidth="960"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -60,23 +60,21 @@
                     </Grid>
                     <!--  Grid Article  -->
                     <Grid
+                        x:Name="ArticleView"
                         Grid.Row="1"
                         Grid.Column="1"
+                        Width="{Binding Width}"
                         Margin="0,20,0,0">
-                        <ui:GridView
-                            x:Name="SliderAndUserPanel"
-                            HorizontalContentAlignment="Left"
-                            VerticalContentAlignment="Top">
+                        <ui:GridView x:Name="SliderAndUserPanel">
                             <ContentControl
                                 x:Name="Slider"
+                                Width="856"
                                 Height="482"
                                 prism:RegionManager.RegionName="Slider" />
                             <Border
                                 Width="{Binding Path=ActualWidth, ElementName=Slider}"
                                 Height="482"
-                                MinWidth="700"
-                                Background="White"
-                                CornerRadius="0,0,15,15">
+                                Background="White">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
@@ -96,6 +94,7 @@
                                             <TextBlock
                                                 Margin="15,2,0,0"
                                                 FontFamily="{StaticResource FontGardensC}"
+                                                FontWeight="Bold"
                                                 Text="{Binding Username}" />
                                             <TextBlock
                                                 Margin="15,2,0,0"
@@ -150,16 +149,13 @@
                                     </StackPanel>
                                 </Grid>
                             </Border>
-                            <ui:GridView
-                                Margin="0,10,0,0"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Top">
-                                <controls:Article />
-                                <controls:Article />
-                                <controls:Article />
-                                <controls:Article />
-                                <controls:Article />
-                                <controls:Article />
+                            <ui:GridView Width="{Binding Path=ActualWidth, ElementName=ArticleView}" Margin="0,10,0,0">
+                                <controls:ArticleMedium />
+                                <controls:ArticleMedium />
+                                <controls:ArticleMedium />
+                                <controls:ArticleMedium />
+                                <controls:ArticleMedium />
+                                <controls:ArticleMedium />
                             </ui:GridView>
                         </ui:GridView>
                     </Grid>

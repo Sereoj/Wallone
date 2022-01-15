@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="WinDynamicDesktop.UI.Controls.Article"
+    x:Class="WinDynamicDesktop.UI.Controls.ArticleMedium"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,16 +8,14 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:ArticleViewModel}"
-    d:DesignHeight="200"
-    d:DesignWidth="426"
+    d:DesignHeight="170"
+    d:DesignWidth="341"
     mc:Ignorable="d">
     <Border>
         <Grid
             x:Name="ArticleGrid"
-            Width="426"
-            Height="200"
-            MinWidth="400"
-            MinHeight="200"
+            Width="341"
+            Height="170"
             Background="LightGray"
             IsHitTestVisible="True"
             ShowGridLines="True">
@@ -40,7 +38,7 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

@@ -16,6 +16,9 @@ namespace WinDynamicDesktop.UI.ViewModels
         private SimplePage simplePage;
         private string id;
 
+        private double width;
+        public double Width { get => width; set => SetProperty(ref width, value); }
+
         private string username;
         public string Username { get => username; set => SetProperty(ref username, value); }
         private string header;

@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
+# Blend for Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDynamicDesktop.UI", "WinDynamicDesktop.UI\WinDynamicDesktop.UI.csproj", "{F4EA24AC-A4BA-461C-B6F8-A453B668A953}"
@@ -10,8 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDynamicDesktop.Common", "WinDynamicDesktop.Common\WinDynamicDesktop.Common.csproj", "{338D61E0-EB9D-4111-832E-2877F47AA2BD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinDynamicDesktop.Authorization", "WinDynamicDesktop.Authorization\WinDynamicDesktop.Authorization.csproj", "{07998C59-ADDF-49BD-80A2-21E421D69731}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CachedImage", "..\floydpink\CachedImage\source\CachedImage.csproj", "{19826434-27DE-4DB8-8053-9F8E6EFD7D59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +33,6 @@ Global
 		{07998C59-ADDF-49BD-80A2-21E421D69731}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07998C59-ADDF-49BD-80A2-21E421D69731}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07998C59-ADDF-49BD-80A2-21E421D69731}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19826434-27DE-4DB8-8053-9F8E6EFD7D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19826434-27DE-4DB8-8053-9F8E6EFD7D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19826434-27DE-4DB8-8053-9F8E6EFD7D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19826434-27DE-4DB8-8053-9F8E6EFD7D59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,7 +22,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public WallpapersWaitViewModel()
         {
-             
+
         }
         public WallpapersWaitViewModel(IRegionManager regionManager)
         {

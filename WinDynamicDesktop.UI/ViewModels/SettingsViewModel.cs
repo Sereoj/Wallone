@@ -6,7 +6,7 @@ namespace WinDynamicDesktop.UI.ViewModels
     public class SettingsViewModel : BindableBase
     {
         private readonly IRegionManager regionManager;
-        
+
         private string header = "Настройки";
         public string Header { get => header; set => SetProperty(ref header, value); }
         public SettingsViewModel()

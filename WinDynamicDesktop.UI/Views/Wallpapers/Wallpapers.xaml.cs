@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.Views
@@ -23,7 +21,7 @@ namespace WinDynamicDesktop.UI.Views
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             ScrollData data = ScrollViewerService.Get(ref e);
-            
+
             if (data.offset < data.offset100)
             {
                 ScrollUp.Visibility = System.Windows.Visibility.Hidden;

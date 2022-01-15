@@ -1,13 +1,13 @@
-﻿using Prism.Regions;
-using Prism.Mvvm;
-using System.Collections.ObjectModel;
-using WinDynamicDesktop.UI.Interfaces;
+﻿using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
-using WinDynamicDesktop.Core.Services;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Helpers;
-using System.Threading.Tasks;
-using System;
+using WinDynamicDesktop.Core.Services;
+using WinDynamicDesktop.UI.Interfaces;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {

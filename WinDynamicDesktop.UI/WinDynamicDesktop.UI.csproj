@@ -13,7 +13,6 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\..\floydpink\CachedImage\source\CachedImage.csproj" />
     <ProjectReference Include="..\WinDynamicDesktop.Authorization\WinDynamicDesktop.Authorization.csproj" />
     <ProjectReference Include="..\WinDynamicDesktop.Common\WinDynamicDesktop.Common.csproj" />
     <ProjectReference Include="..\WinDynamicDesktop.Core\WinDynamicDesktop.Core.csproj" />
