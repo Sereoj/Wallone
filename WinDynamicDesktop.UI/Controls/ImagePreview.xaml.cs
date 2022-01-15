@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace WinDynamicDesktop.UI.Controls
 {
@@ -10,6 +13,7 @@ namespace WinDynamicDesktop.UI.Controls
         public ImagePreview()
         {
             InitializeComponent();
+            FrontThumb.Tag = FrontThumb;
         }
     }
 }

@@ -3,8 +3,12 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
@@ -19,11 +23,25 @@ namespace WinDynamicDesktop.UI.ViewModels
         private readonly BitmapHelper bitmapHelper;
         private bool isEnable;
 
-        private ImageSource imageSource;
-        public ImageSource ImageSource
+
+        private bool startAnimationValue;
+        public bool StartAnimationValue
         {
-            get { return imageSource; }
-            set { SetProperty(ref imageSource, value); }
+            get { return startAnimationValue; }
+            set { SetProperty(ref startAnimationValue, value); }
+        }
+        private ImageSource frontImageSource;
+        public ImageSource FrontImageSource
+        {
+            get { return frontImageSource; }
+            set { SetProperty(ref frontImageSource, value); }
+        }
+
+        private ImageSource backImageSource;
+        public ImageSource BackImageSource
+        {
+            get { return backImageSource; }
+            set { SetProperty(ref backImageSource, value); }
         }
 
         private string text;
@@ -54,23 +72,34 @@ namespace WinDynamicDesktop.UI.ViewModels
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
-            transitionTimer.Tick += (s, e) => onNext();
+            transitionTimer.Tick += (s, e) =>
+            {
+                StartAnimationValue = false;
+                onNext();
+                StartAnimationValue = true;
+            };
 
         }
+
         private void onNext()
         {
             if (isEnable)
             {
+                StartAnimationValue = false;
+                BackImageSource = FrontImageSource;
+
                 if (SelectedIndex + 1 >= Items.Count)
                 {
                     SelectedIndex = Items.IndexOf(Items.First());
-                    ImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
                 }
                 else
                 {
                     SelectedIndex++;
-                    ImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
                 }
+
+                StartAnimationValue = true;
                 Text = Items[SelectedIndex].Name;
             }
         }
@@ -79,16 +108,20 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             if (isEnable)
             {
+                StartAnimationValue = false;
+                BackImageSource = FrontImageSource;
+
                 if (SelectedIndex - 1 == -1)
                 {
                     SelectedIndex = Items.IndexOf(Items.Last());
-                    ImageSource = ImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
                 }
                 else
                 {
                     SelectedIndex--;
-                    ImageSource = ImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
                 }
+                StartAnimationValue = true;
                 Text = Items[SelectedIndex].Name;
             }
         }
@@ -108,7 +141,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                 isEnable = true;
                 SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
-                ImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
                 Text = Items[SelectedIndex].Name;
                 transitionTimer.Start();
             }

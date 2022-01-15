@@ -12,24 +12,9 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:SinglePageViewModel,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="2000"
-    d:DesignWidth="960"
+    d:DesignWidth="2048"
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <Style TargetType="ui:GridViewItem">
-            <Setter Property="VerticalContentAlignment" Value="Top" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ui:GridViewItem">
-                        <ContentPresenter
-                            Margin="{TemplateBinding Padding}"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
     <!--  Border использование для рамок  -->
     <Grid>
         <ScrollViewer
@@ -59,13 +44,12 @@
                             Text="{Binding Header, TargetNullValue=Content}" />
                     </Grid>
                     <!--  Grid Article  -->
-                    <Grid
+                    <StackPanel
                         x:Name="ArticleView"
                         Grid.Row="1"
                         Grid.Column="1"
-                        Width="{Binding Width}"
                         Margin="0,20,0,0">
-                        <ui:GridView x:Name="SliderAndUserPanel">
+                        <ui:GridView x:Name="SliderAndUserPanel" HorizontalAlignment="Center">
                             <ContentControl
                                 x:Name="Slider"
                                 Width="856"
@@ -149,16 +133,22 @@
                                     </StackPanel>
                                 </Grid>
                             </Border>
-                            <ui:GridView Width="{Binding Path=ActualWidth, ElementName=ArticleView}" Margin="0,10,0,0">
-                                <controls:ArticleMedium />
-                                <controls:ArticleMedium />
-                                <controls:ArticleMedium />
-                                <controls:ArticleMedium />
-                                <controls:ArticleMedium />
-                                <controls:ArticleMedium />
-                            </ui:GridView>
                         </ui:GridView>
-                    </Grid>
+                        <StackPanel Height="120" Background="AliceBlue">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontSize="20"
+                                Text="Ads" />
+                        </StackPanel>
+                        <ui:GridView Width="{Binding Path=ActualWidth, ElementName=ArticleView}" Margin="0,10,0,0">
+                            <controls:ArticleMedium />
+                            <controls:ArticleMedium />
+                            <controls:ArticleMedium />
+                            <controls:ArticleMedium />
+                            <controls:ArticleMedium />
+                            <controls:ArticleMedium />
+                        </ui:GridView>
+                    </StackPanel>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
