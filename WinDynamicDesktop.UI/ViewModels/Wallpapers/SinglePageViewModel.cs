@@ -70,8 +70,8 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var jArray = JArray.Parse(data);
-                    simplePage = JsonConvert.DeserializeObject<SimplePage>(jArray[0].ToString());
+                    //var jArray = JArray.Parse(data);
+                    simplePage = JsonConvert.DeserializeObject<SimplePage>(data);
                     new SimplePageService(simplePage);
 
                     Header = SimplePageService.GetHeader();
@@ -79,8 +79,8 @@ namespace WinDynamicDesktop.UI.ViewModels
                     Description = SimplePageService.GetDescription();
                     Likes = SimplePageService.GetLikes();
                     Views = SimplePageService.GetViews();
-                    Brand = SimplePageService.GetBrand().Name;
-                    Category = SimplePageService.GetCategory().Name;
+                    Brand = SimplePageService.GetBrand()?.Name;
+                    Category = SimplePageService.GetCategory()?.Name;
                     Data = SimplePageService.GetData();
 
                     var param = new NavigationParameters

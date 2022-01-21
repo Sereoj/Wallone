@@ -37,25 +37,12 @@ namespace WinDynamicDesktop.Authorization.Services
         }
         public static string ValidateLogin(JObject objects)
         {
-            if (objects["auth.failed"] != null)
-            {
-                return objects["auth.failed"].ToString();
-            }
-
-            return Validate(objects);
+            return objects["auth.failed"] != null ? objects["auth.failed"].ToString() : Validate(objects);
         }
 
         public static string ValidateWithToken(JObject objects)
         {
-            if (objects["message"] != null)
-            {
-                return objects["message"].ToString();
-            }
-            if(objects["id"] != null)
-            {
-                return "success";
-            }
-            return null;
+            return objects["message"] != null ? objects["message"].ToString() : objects["id"] != null ? "success" : null;
         }
         private static string Validate(JObject objects)
         {

@@ -36,7 +36,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
 
         public LoadViewModel()
         {
-
+            // Здесь по хорошему сделать проверку на доступность сервера и т.д
         }
 
         public LoadViewModel(IRegionManager regionManager)

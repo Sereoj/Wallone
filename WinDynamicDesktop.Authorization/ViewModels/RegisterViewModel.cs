@@ -86,6 +86,14 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 }
                 Message = msg;
             }
+            catch (InvalidOperationException ex)
+            {
+                Message = ex.Message;
+            }
+            catch (ArgumentException)
+            {
+                Message = "Ошибка чтения данных! Ждите обновление.";
+            }
             catch (Exception ex)
             {
                 Message = ex.Message;

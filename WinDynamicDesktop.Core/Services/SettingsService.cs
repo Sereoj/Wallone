@@ -43,9 +43,11 @@ namespace WinDynamicDesktop.Core.Services
             }
 
             unsavedChanges = false;
-            autoSaveTimer = new Timer();
-            autoSaveTimer.AutoReset = false;
-            autoSaveTimer.Interval = 100;
+            autoSaveTimer = new Timer
+            {
+                AutoReset = false,
+                Interval = 100
+            };
 
             settings.PropertyChanged += OnSettingsPropertyChanged;
             autoSaveTimer.Elapsed += OnAutoSaveTimerElapsed;
