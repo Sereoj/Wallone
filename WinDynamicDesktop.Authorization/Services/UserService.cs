@@ -9,7 +9,17 @@ namespace WinDynamicDesktop.Authorization.Services
 {
     public class UserService
     {
+        private static User user = new User();
         private static string token;
+
+        public static string GetId()
+        {
+            return user.id;
+        }
+        public static string GetToken()
+        {
+            return token;
+        }
         public static Task<string> GetLoginAsync(string email, string password)
         {
             var items = RequestRouter<string, Login>.PostAsync("login", new Login() { email = email, password = password });
@@ -27,10 +37,6 @@ namespace WinDynamicDesktop.Authorization.Services
             var items = RequestRouter<string, Register>.PostAsync("register", new Register() { name = name, email = email, password = password, password_confirmation = password_confirmation });
             return items;
         }
-        public static string GetToken()
-        {
-            return token;
-        }
         public static string ValidateRegister(JObject objects)
         {
             return Validate(objects);
@@ -42,12 +48,18 @@ namespace WinDynamicDesktop.Authorization.Services
 
         public static string ValidateWithToken(JObject objects)
         {
-            return objects["message"] != null ? objects["message"].ToString() : objects["id"] != null ? "success" : null;
+            if(objects["id"] != null)
+            {
+                user.id = objects["id"].ToString();
+                return "success";
+            }
+            return null;
         }
         private static string Validate(JObject objects)
         {
             if (objects["token"] != null)
             {
+                user.id = objects["id"].ToString();
                 return token = objects["token"].ToString();
             }
 

@@ -58,7 +58,7 @@
                 Margin="0,105,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="{Binding Name, TargetNullValue='User'}"
+                Text="{Binding Name, TargetNullValue='User', Mode=TwoWay}"
                 UndoLimit="100" />
             <TextBlock
                 Margin="0,145,0,0"
@@ -71,7 +71,7 @@
                 Margin="0,170,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="{Binding Email, TargetNullValue='user@w2me.ru'}"
+                Text="{Binding Email, TargetNullValue='user@w2me.ru', Mode=TwoWay}"
                 UndoLimit="100" />
             <TextBlock
                 Margin="0,210,0,0"

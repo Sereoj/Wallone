@@ -50,7 +50,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Image Source="{StaticResource Placeholder1280}" Stretch="UniformToFill" />
+                        <Image Source="{Binding Cover}" Stretch="UniformToFill" />
                         <Image Source="{StaticResource TransparentPlaceholder}" Stretch="UniformToFill" />
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -61,7 +61,7 @@
                                 Grid.Column="0"
                                 Margin="0,200,0,0"
                                 VerticalAlignment="Center">
-                                <ui:PersonPicture Width="120" />
+                                <ui:PersonPicture Width="120" ProfilePicture="{Binding Avatar}" />
                                 <Button
                                     Width="35"
                                     Height="35"
@@ -69,8 +69,11 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
                                     ui:ControlHelper.CornerRadius="20"
+                                    Command="{Binding ActionCommand}"
+                                    CommandParameter="true"
                                     Content="&#xED5D;"
-                                    FontFamily="{StaticResource FontIconMoonUltimate}" />
+                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                    Style="{StaticResource AccentButtonStyle}" />
                             </Grid>
                             <StackPanel
                                 Grid.Column="1"
@@ -82,7 +85,7 @@
                                     FontFamily="{StaticResource FontGardensC}"
                                     FontSize="24"
                                     FontWeight="Medium"
-                                    Text="{Binding Name, FallbackValue=Name}" />
+                                    Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}" />
                                 <TextBlock
                                     Height="76"
                                     Margin="0,15,20,0"
@@ -148,17 +151,18 @@
                                 Text="Publish" />
                         </StackPanel>
                     </Grid>
-                    <WrapPanel Grid.Row="2">
+                    <WrapPanel Grid.Row="2" Visibility="Hidden">
                         <ComboBox Width="250" Margin="45,15,0,0" />
                     </WrapPanel>
-                    <ui:GridView Grid.Row="3" HorizontalAlignment="Center">
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
-                        <controls:Article />
+                    <ui:GridView
+                        Grid.Row="3"
+                        HorizontalAlignment="Center"
+                        ItemsSource="{Binding Posts}">
+                        <ui:GridView.ItemTemplate>
+                            <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
+                                <controls:ArticleMedium />
+                            </DataTemplate>
+                        </ui:GridView.ItemTemplate>
                     </ui:GridView>
                 </Grid>
             </Grid>

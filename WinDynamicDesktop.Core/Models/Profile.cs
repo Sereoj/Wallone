@@ -12,9 +12,10 @@ namespace WinDynamicDesktop.Core.Models
         public string country { get; set; }
         public string avatar { get; set; }
         public string cover { get; set; }
-        public string friends { get; set; }
-        public string publish { get; set; }
-        public string likes { get; set; }
+        public string friends_count { get; set; }
+        public string publish_count { get; set; }
+        public string users_likes { get; set; }
+        public string is_friend { get; set; }
         public List<Thumb> posts { get; set; }
     }
 }

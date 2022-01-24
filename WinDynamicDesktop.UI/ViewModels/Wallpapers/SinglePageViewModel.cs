@@ -235,7 +235,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         private async void posts(List<Thumb> list)
         {
             Posts.Clear();
-            bitmapHelper.Clear();
             try
             {
 

@@ -55,10 +55,13 @@ namespace WinDynamicDesktop.Core.Services
     {
         public static async Task<T> PostAsync(string method, T2 model)
         {
-            var client = new RestClient(domainApi)
+            var client = new RestClient(domainApi);
+            
+            if(SettingsService.Get().Token != null)
             {
-                Authenticator = new JwtAuthenticator(SettingsService.Get().Token)
-            };
+                client.Authenticator = new JwtAuthenticator(SettingsService.Get().Token);
+            }
+                
             var request = new RestRequest($"{method}", DataFormat.Json).AddBody(model);
             var result = await client.PostAsync<T>(request);
             return result;
