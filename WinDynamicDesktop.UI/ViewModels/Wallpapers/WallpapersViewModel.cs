@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Interfaces;
@@ -17,7 +18,6 @@ namespace WinDynamicDesktop.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
         private readonly IEventAggregator eventAggregator;
-        private readonly BitmapHelper bitmapHelper;
         public ObservableCollection<ArticleViewModel> Library { get; set; } = new ObservableCollection<ArticleViewModel>();
 
         private string header = "Библиотека";
@@ -37,8 +37,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
-
-            bitmapHelper = new BitmapHelper();
 
             ScrollCommand = new DelegateCommand<ScrollChangedEventArgs>(ScrollChanged);
         }
@@ -86,7 +84,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         public async void Loaded(string page, List<Core.Models.Parameter> parameters)
         {
             Library.Clear();
-            bitmapHelper.Clear();
             try
             {
                 var items = await ThumbService.GetThumbsAsync(page, parameters);
@@ -99,7 +96,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         {
                             ID = item.ID,
                             Name = item.Name,
-                            ImageSource = bitmapHelper[UriHelper.Get(item.Preview)]
+                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
                         });
                         await Task.CompletedTask;
                     }

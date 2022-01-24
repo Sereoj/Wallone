@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
@@ -246,7 +247,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         {
                             ID = item.ID,
                             Name = item.Name,
-                            ImageSource = bitmapHelper[UriHelper.Get(item.Preview)]
+                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
                         });
                         await Task.CompletedTask;
                     }
