@@ -82,13 +82,13 @@
                                     FontFamily="{StaticResource FontGardensC}"
                                     FontSize="24"
                                     FontWeight="Medium"
-                                    Text="Name" />
+                                    Text="{Binding Name, FallbackValue=Name}" />
                                 <TextBlock
                                     Height="76"
                                     Margin="0,15,20,0"
                                     FontFamily="{StaticResource FontGardensC}"
                                     FontSize="16"
-                                    Text="Hellololololololololololololololololololololoffffffffllolololololo lololololololololololololololo"
+                                    Text="{Binding Description, FallbackValue=Description}"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </Grid>
@@ -107,13 +107,13 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="10" />
+                                Text="{Binding Friends, FallbackValue=10000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="20"
                                 FontWeight="Regular"
-                                Text="Followers" />
+                                Text="Friends" />
                         </StackPanel>
                         <StackPanel Grid.Column="1">
                             <TextBlock
@@ -123,7 +123,7 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="10" />
+                                Text="{Binding Likes, FallbackValue=10000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
@@ -139,7 +139,7 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="10" />
+                                Text="{Binding Publish, FallbackValue=10000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"

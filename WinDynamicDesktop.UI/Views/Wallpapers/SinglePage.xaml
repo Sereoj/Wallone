@@ -13,7 +13,6 @@
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="2000"
     d:DesignWidth="2048"
-    prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <!--  Border использование для рамок  -->
     <Grid>
@@ -95,32 +94,148 @@
                                             Text="{Binding Description}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
-                                    <StackPanel Grid.Row="2" Margin="20">
-                                        <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Category}" />
-                                        <TextBlock FontFamily="{StaticResource FontGardensC}" Text="{Binding Brand}" />
-                                    </StackPanel>
+                                    <Grid Grid.Row="2" Margin="20">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0">
+                                            <StackPanel.Style>
+                                                <Style>
+                                                    <Style.Resources>
+                                                        <Style TargetType="WrapPanel">
+                                                            <Setter Property="Margin" Value="0,5,0,2" />
+                                                        </Style>
+                                                    </Style.Resources>
+                                                </Style>
+                                            </StackPanel.Style>
+                                            <WrapPanel>
+                                                <TextBlock
+                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                    FontSize="20"
+                                                    Text="&#xECAE;" />
+                                                <TextBlock
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="{StaticResource FontGardensC}"
+                                                    Text="{Binding Views, TargetNullValue=1000}" />
+                                            </WrapPanel>
+                                            <WrapPanel>
+                                                <TextBlock
+                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                    FontSize="20"
+                                                    Text="&#xEC76;" />
+                                                <TextBlock
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="{StaticResource FontGardensC}"
+                                                    Text="{Binding Downloads, TargetNullValue=1000}" />
+                                            </WrapPanel>
+                                            <WrapPanel>
+                                                <TextBlock
+                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                    FontSize="20"
+                                                    Text="&#xECEA;" />
+                                                <TextBlock
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="{StaticResource FontGardensC}"
+                                                    Text="{Binding Likes, TargetNullValue=1000}" />
+                                            </WrapPanel>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="1">
+                                            <StackPanel.Style>
+                                                <Style>
+                                                    <Style.Resources>
+                                                        <Style TargetType="WrapPanel">
+                                                            <Setter Property="Margin" Value="0,5,0,2" />
+                                                        </Style>
+                                                    </Style.Resources>
+                                                </Style>
+                                            </StackPanel.Style>
+                                            <WrapPanel>
+                                                <TextBlock
+                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                    FontSize="20"
+                                                    Text="&#xEC5A;" />
+                                                <TextBlock
+                                                    Margin="10,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="{StaticResource FontGardensC}"
+                                                    Text="{Binding Brand, TargetNullValue=Brand}" />
+                                            </WrapPanel>
+                                            <WrapPanel>
+                                                <TextBlock
+                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                    FontSize="20"
+                                                    Text="&#xE93E;" />
+                                                <ui:ItemsRepeater
+                                                    Width="375"
+                                                    Margin="8,0,0,0"
+                                                    ItemsSource="{Binding Categories}">
+                                                    <ui:ItemsRepeater.Layout>
+                                                        <ui:StackLayout Orientation="Horizontal" Spacing="5" />
+                                                    </ui:ItemsRepeater.Layout>
+
+                                                    <ui:ItemsRepeater.ItemTemplate>
+                                                        <DataTemplate DataType="{x:Type viewmodels:ItemTemplateViewModel}">
+                                                            <TextBlock Text="{Binding Text}" />
+                                                        </DataTemplate>
+                                                    </ui:ItemsRepeater.ItemTemplate>
+                                                </ui:ItemsRepeater>
+                                            </WrapPanel>
+                                            <WrapPanel>
+                                                <TextBlock
+                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                    FontSize="20"
+                                                    Text="&#xE9F5;" />
+                                                <ui:ItemsRepeater
+                                                    Width="375"
+                                                    Margin="8,0,0,0"
+                                                    ItemsSource="{Binding Tags}">
+                                                    <ui:ItemsRepeater.Layout>
+                                                        <ui:StackLayout Orientation="Horizontal" Spacing="5" />
+                                                    </ui:ItemsRepeater.Layout>
+
+                                                    <ui:ItemsRepeater.ItemTemplate>
+                                                        <DataTemplate DataType="{x:Type viewmodels:ItemTemplateViewModel}">
+                                                            <TextBlock Text="{Binding Text}" />
+                                                        </DataTemplate>
+                                                    </ui:ItemsRepeater.ItemTemplate>
+                                                </ui:ItemsRepeater>
+                                            </WrapPanel>
+                                        </StackPanel>
+
+                                    </Grid>
                                     <StackPanel Grid.Row="3" Margin="20">
                                         <WrapPanel>
                                             <Button
+                                                x:Name="Install"
                                                 Width="300"
                                                 Height="50"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
-                                                Content="Установить"
+                                                Command="{Binding InstallCommand}"
+                                                CommandParameter="{Binding InstallStatus}"
+                                                Content="{Binding InstallText, FallbackValue=Установить, TargetNullValue=Установить}"
                                                 Style="{StaticResource AccentButtonStyle}" />
                                             <Button
                                                 Width="48"
                                                 Height="48"
                                                 Margin="10,0,0,0"
-                                                Content="&#xE9D2;"
-                                                FontFamily="{StaticResource FontIconMoonFree}"
+                                                Command="{Binding FavoriteCommand}"
+                                                CommandParameter="{Binding FavoriteStatus}"
+                                                Content="{Binding FavoriteText, FallbackValue='&#xECB8;', TargetNullValue='&#xECB8;'}"
+                                                FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource AccentButtonStyle}" />
                                             <Button
                                                 Width="48"
                                                 Height="48"
                                                 Margin="10,0,0,0"
-                                                Content="&#xE9DA;"
-                                                FontFamily="{StaticResource FontIconMoonFree}"
+                                                Command="{Binding ReactionCommand}"
+                                                CommandParameter="{Binding ReactionStatus}"
+                                                Content="{Binding ReactionText, FallbackValue='&#xECEA;', TargetNullValue='&#xECEA;'}"
+                                                FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource AccentButtonStyle}" />
                                             <TextBlock
                                                 Margin="10,0,0,0"
@@ -140,13 +255,15 @@
                                 FontSize="20"
                                 Text="Ads" />
                         </StackPanel>
-                        <ui:GridView Width="{Binding Path=ActualWidth, ElementName=ArticleView}" Margin="0,10,0,0">
-                            <controls:ArticleMedium />
-                            <controls:ArticleMedium />
-                            <controls:ArticleMedium />
-                            <controls:ArticleMedium />
-                            <controls:ArticleMedium />
-                            <controls:ArticleMedium />
+                        <ui:GridView
+                            Width="{Binding Path=ActualWidth, ElementName=ArticleView}"
+                            Margin="0,10,0,0"
+                            ItemsSource="{Binding Posts}">
+                            <ui:GridView.ItemTemplate>
+                                <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
+                                    <controls:ArticleMedium />
+                                </DataTemplate>
+                            </ui:GridView.ItemTemplate>
                         </ui:GridView>
                     </StackPanel>
                 </Grid>

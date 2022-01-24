@@ -1,11 +1,18 @@
-﻿using Newtonsoft.Json;
+﻿using ModernWpf.Controls;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
+using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
@@ -13,20 +20,19 @@ namespace WinDynamicDesktop.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
         private readonly IEventAggregator eventAggregator;
-        private SimplePage simplePage;
+        private SinglePage simplePage;
+        private readonly BitmapHelper bitmapHelper;
         private string id;
 
-        private double width;
-        public double Width { get => width; set => SetProperty(ref width, value); }
-
+        public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();
+        public ObservableCollection<ItemTemplateViewModel> Categories { get; set; } = new ObservableCollection<ItemTemplateViewModel>();
+        public ObservableCollection<ItemTemplateViewModel> Tags { get; set; } = new ObservableCollection<ItemTemplateViewModel>();
         private string username;
         public string Username { get => username; set => SetProperty(ref username, value); }
         private string header;
         public string Header { get => header; set => SetProperty(ref header, value); }
         private string data1;
         public string Data { get => data1; set => SetProperty(ref data1, value); }
-        private string category;
-        public string Category { get => category; set => SetProperty(ref category, value); }
         private string brand;
         public string Brand { get => brand; set => SetProperty(ref brand, value); }
         private string description;
@@ -37,14 +43,72 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private string views;
         public string Views { get => views; set => SetProperty(ref views, value); }
+
+        private string downloads;
+        public string Downloads { get => downloads; set => SetProperty(ref downloads, value); }
+
+
+        private string installStatus;
+        public string InstallStatus { get => installStatus; set => SetProperty(ref installStatus, value); }
+
+        private string installText;
+        public string InstallText { get => installText; set => SetProperty(ref installText, value); }
+
+        private string favoriteStatus;
+        public string FavoriteStatus { get => favoriteStatus; set => SetProperty(ref favoriteStatus, value); }
+
+        private FontIcon favoriteText;
+        public FontIcon FavoriteText { get => favoriteText; set => SetProperty(ref favoriteText, value); }
+
+        private string reactionStatus;
+        public string ReactionStatus { get => reactionStatus; set => SetProperty(ref reactionStatus, value); }
+
+        private FontIcon reactionText;
+        public FontIcon ReactionText { get => reactionText; set => SetProperty(ref reactionText, value); }
+        public DelegateCommand InstallCommand { get; set; }
+        public DelegateCommand FavoriteCommand { get; set; }
+        public DelegateCommand ReactionCommand { get; set; }
+
         public SinglePageViewModel()
         {
-
+            Categories.Add(new ItemTemplateViewModel() { Text = "Test" });
+            Categories.Add(new ItemTemplateViewModel() { Text = "Test1" });
         }
+
         public SinglePageViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
+
+            bitmapHelper = new BitmapHelper();
+
+            InstallCommand = new DelegateCommand(OnThemeInstalled);
+            FavoriteCommand = new DelegateCommand(OnThemeFavorited);
+            ReactionCommand = new DelegateCommand(OnReaction);
+        }
+        private async void OnThemeInstalled()
+        {
+            InstallText = InstallStatus == "true" ? "Установить" : "Удалить";
+            InstallStatus = InstallStatus == "false" ? "true" : "false";
+
+            SinglePage data = await SinglePageService.SetDownloadAsync(InstallStatus);
+            update(data);
+        }
+
+        private async void OnThemeFavorited()
+        {
+            FavoriteText = FavoriteStatus == "true" ? FontIconService.SetIcon("ultimate", "\uECB8") : FontIconService.SetIcon("ultimate", "\uECB7");
+            FavoriteStatus = FavoriteStatus == "false" ? "true" : "false";
+            SinglePage data = await SinglePageService.SetFavoriteAsync(FavoriteStatus);
+            update(data);
+        }
+
+        private async void OnReaction()
+        {
+            ReactionText = ReactionStatus == "true" ? FontIconService.SetIcon("ultimate", "\uECEA") : FontIconService.SetIcon("ultimate", "\uECE9");
+            ReactionStatus = ReactionStatus == "false" ? "true" : "false";
+            SinglePage data = await SinglePageService.SetReactionAsync(ReactionStatus);
+            update(data);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -66,27 +130,32 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             try
             {
-                var data = await SimplePageService.GetPageAsync(id);
+                var data = await SinglePageService.GetPageAsync(id);
 
                 if (!string.IsNullOrEmpty(data))
                 {
                     //var jArray = JArray.Parse(data);
-                    simplePage = JsonConvert.DeserializeObject<SimplePage>(data);
-                    new SimplePageService(simplePage);
+                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
+                    SinglePageService.Load(simplePage);
 
-                    Header = SimplePageService.GetHeader();
-                    Username = SimplePageService.GetUsername();
-                    Description = SimplePageService.GetDescription();
-                    Likes = SimplePageService.GetLikes();
-                    Views = SimplePageService.GetViews();
-                    Brand = SimplePageService.GetBrand()?.Name;
-                    Category = SimplePageService.GetCategory()?.Name;
-                    Data = SimplePageService.GetData();
+                    Header = SinglePageService.GetHeader();
+                    Username = SinglePageService.GetUsername();
+                    Description = SinglePageService.GetDescription();
+                    Likes = SinglePageService.GetLikes();
+                    Views = SinglePageService.GetViews();
+                    Downloads = SinglePageService.GetDownloads();
+                    Brand = SinglePageService.GetBrand()?.Name;
+                    Data = SinglePageService.GetData();
+
+                    categories(SinglePageService.GetCategories());
+                    tags(SinglePageService.GetTags());
+                    posts(SinglePageService.GetPosts());
+                    setButtons();
 
                     var param = new NavigationParameters
-                {
-                    { "simplePage", simplePage }
-                };
+                    {
+                        { "simplePage", simplePage }
+                    };
                     regionManager.RequestNavigate("Slider", "ImagePreview", param);
                 }
             }
@@ -99,6 +168,100 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
+        }
+        private void setButtons()
+        {
+            InstallStatus = SinglePageService.GetInstall();
+            InstallText = SinglePageService.GetInstall() != "true" ? "Установить" : "Удалить";
+
+            FavoriteStatus = SinglePageService.GetFavorite();
+            FavoriteText = SinglePageService.GetFavorite() != "true" ? FontIconService.SetIcon("ultimate", "\uECB8") : FontIconService.SetIcon("ultimate", "\uECB7");
+
+            ReactionStatus = SinglePageService.GetReaction();
+            ReactionText = SinglePageService.GetReaction() != "true" ? FontIconService.SetIcon("ultimate", "\uECEA") : FontIconService.SetIcon("ultimate", "\uECE9");
+        }
+        private async void tags(List<Tag> list)
+        {
+            Tags.Clear();
+
+            if (list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    Tags.Add(new ItemTemplateViewModel { Text = item.name });
+                    await Task.CompletedTask;
+                }
+            }
+            else
+            {
+                Tags.Add(new ItemTemplateViewModel { Text = "Unknown" });
+                await Task.CompletedTask;
+            }
+        }
+        private async void categories(List<Category> list)
+        {
+            Categories.Clear();
+
+            if(list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    Categories.Add(new ItemTemplateViewModel { Text = item.Name });
+                    await Task.CompletedTask;
+                }
+            }
+            else
+            {
+                Categories.Add(new ItemTemplateViewModel { Text = "Unknown" });
+                await Task.CompletedTask;
+            }
+        }
+        private async void posts(List<Thumb> list)
+        {
+            Posts.Clear();
+            bitmapHelper.Clear();
+            try
+            {
+
+                if (ThumbService.CheckItems(list))
+                {
+                    foreach (var item in list)
+                    {
+                        Posts.Add(new ArticleViewModel(regionManager)
+                        {
+                            ID = item.ID,
+                            Name = item.Name,
+                            ImageSource = bitmapHelper[UriHelper.Get(item.Preview)]
+                        });
+                        await Task.CompletedTask;
+                    }
+                }
+                else
+                {
+                    var param = new NavigationParameters
+                    {
+                        { "Text", "Это не ошибка, просто не найдены изображения!" }
+                    };
+
+                    regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                }
+            }
+            catch (Exception ex)
+            {
+                var param = new NavigationParameters
+                {
+                    { "Text", ex.Message }
+                };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+            }
+        }
+
+        private void update(SinglePage data)
+        {
+            Views = data?.views ?? simplePage.views;
+            Likes = data?.likes ?? simplePage.likes;
+            Downloads = data?.downloads ?? simplePage.likes;
         }
     }
 }

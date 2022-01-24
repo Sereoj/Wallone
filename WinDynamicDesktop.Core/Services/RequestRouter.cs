@@ -9,8 +9,8 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class Router
     {
-        public static string domainApi = "https://wall.w2me.ru/public/api";
-        public static string domain = "https://wall.w2me.ru";
+        public static string domainApi { get; set; } = "https://wall.w2me.ru/public/api";
+        public static string domain { get; set; } = "https://wall.w2me.ru";
         //public static string domainApi = "http://v3.w2me.ru/public/api";
         //public static string domain = "http://v3.w2me.ru";
     }
@@ -19,8 +19,10 @@ namespace WinDynamicDesktop.Core.Services
     {
         public static async Task<T> GetAsync(string method, string page, List<Models.Parameter> parameters)
         {
-            var client = new RestClient($"{domainApi}/{method}");
-            client.Authenticator = new JwtAuthenticator(SettingsService.Get().Token);
+            RestClient client = new RestClient($"{domainApi}/{method}")
+            {
+                Authenticator = new JwtAuthenticator(SettingsService.Get().Token)
+            };
             var request = new RestRequest(page);
             if (parameters != null)
             {
@@ -53,7 +55,10 @@ namespace WinDynamicDesktop.Core.Services
     {
         public static async Task<T> PostAsync(string method, T2 model)
         {
-            var client = new RestClient(domainApi);
+            var client = new RestClient(domainApi)
+            {
+                Authenticator = new JwtAuthenticator(SettingsService.Get().Token)
+            };
             var request = new RestRequest($"{method}", DataFormat.Json).AddBody(model);
             var result = await client.PostAsync<T>(request);
             return result;

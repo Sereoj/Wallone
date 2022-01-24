@@ -12,7 +12,7 @@ namespace WinDynamicDesktop.UI.Services
     }
     class ScrollViewerService
     {
-        private static ScrollData data = new ScrollData();
+        private static readonly ScrollData data = new ScrollData();
         internal static ScrollData Get(ref ScrollChangedEventArgs e)
         {
             data.offset = e.ViewportHeight + e.VerticalOffset;

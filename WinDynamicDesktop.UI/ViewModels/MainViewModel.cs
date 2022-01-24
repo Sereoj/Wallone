@@ -153,7 +153,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         }
         public async void LoadCategory()
         {
-            var font = new FontFamily(new Uri(App.Current.Resources["Fonts"].ToString()), "#IcoMoon-Free");
+            var font = (FontFamily)App.Current.Resources["FontIconMoonFree"];
 
             try
             {

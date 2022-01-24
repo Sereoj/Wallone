@@ -18,7 +18,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 {
     public class ImagePreviewViewModel : BindableBase, INavigationAware
     {
-        private SimplePage simplePage;
+        private SinglePage simplePage;
         private DispatcherTimer transitionTimer;
         private readonly BitmapHelper bitmapHelper;
         private bool isEnable;
@@ -130,7 +130,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             Items.Clear();
             bitmapHelper.Clear();
 
-            simplePage = (SimplePage)navigationContext.Parameters["simplePage"];
+            simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
 
             if (ThemePreviewService.CheckItems(simplePage.images))
             {
