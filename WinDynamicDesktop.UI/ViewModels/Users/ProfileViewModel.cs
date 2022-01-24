@@ -5,7 +5,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 {
     public class ProfileViewModel : BindableBase, INavigationAware
     {
-
+        private string id;
         private string header = "Профиль";
         public string Header
         {
@@ -21,7 +21,8 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //throw new System.NotImplementedException();
+            id = (string)navigationContext.Parameters["id"];
+            Name = (string)navigationContext.Parameters["name"];
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

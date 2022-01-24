@@ -65,6 +65,8 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private FontIcon reactionText;
         public FontIcon ReactionText { get => reactionText; set => SetProperty(ref reactionText, value); }
+
+        public DelegateCommand ProfileCommand { get; set; }
         public DelegateCommand InstallCommand { get; set; }
         public DelegateCommand FavoriteCommand { get; set; }
         public DelegateCommand ReactionCommand { get; set; }
@@ -82,10 +84,23 @@ namespace WinDynamicDesktop.UI.ViewModels
 
             bitmapHelper = new BitmapHelper();
 
+            ProfileCommand = new DelegateCommand(OnProfileClicked);
             InstallCommand = new DelegateCommand(OnThemeInstalled);
             FavoriteCommand = new DelegateCommand(OnThemeFavorited);
             ReactionCommand = new DelegateCommand(OnReaction);
         }
+
+        private void OnProfileClicked()
+        {
+            var param = new NavigationParameters
+            {
+                { "id", simplePage.user.id },
+                { "name", simplePage.user.name }
+            };
+
+            regionManager.RequestNavigate("PageRegion", "Profile", param);
+        }
+
         private async void OnThemeInstalled()
         {
             InstallText = InstallStatus == "true" ? "Установить" : "Удалить";

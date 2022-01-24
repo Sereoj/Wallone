@@ -83,7 +83,10 @@
                                                 Margin="15,2,0,0"
                                                 FontFamily="{StaticResource FontGardensC}"
                                                 Text="{Binding Data}" />
-                                            <ui:HyperlinkButton Margin="15,2,0,0" Cursor="Hand">
+                                            <ui:HyperlinkButton
+                                                Margin="15,2,0,0"
+                                                Command="{Binding ProfileCommand}"
+                                                Cursor="Hand">
                                                 Перейти в профиль
                                             </ui:HyperlinkButton>
                                         </StackPanel>
