@@ -70,8 +70,8 @@
                                     VerticalAlignment="Bottom"
                                     ui:ControlHelper.CornerRadius="20"
                                     Command="{Binding ActionCommand}"
-                                    CommandParameter="true"
-                                    Content="&#xED5D;"
+                                    CommandParameter="{Binding ActionStatus}"
+                                    Content="{Binding ActionText}"
                                     FontFamily="{StaticResource FontIconMoonUltimate}"
                                     Style="{StaticResource AccentButtonStyle}" />
                             </Grid>

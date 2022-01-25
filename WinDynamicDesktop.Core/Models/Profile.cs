@@ -15,7 +15,7 @@ namespace WinDynamicDesktop.Core.Models
         public string friends_count { get; set; }
         public string publish_count { get; set; }
         public string users_likes { get; set; }
-        public string is_friend { get; set; }
+        public string friend { get; set; }
         public List<Thumb> posts { get; set; }
     }
 }

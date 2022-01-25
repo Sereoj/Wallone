@@ -37,7 +37,10 @@ namespace WinDynamicDesktop.UI.Services
         {
             return profile.cover;
         }
-
+        public static string GetFriend()
+        {
+            return profile.friend;
+        }
         public static string GetCountry()
         {
             return profile?.country ?? "Unknown";
@@ -67,6 +70,20 @@ namespace WinDynamicDesktop.UI.Services
         public static Task<string> GetPageAsync(string page_id)
         {
             var items = RequestRouter<string>.GetAsync($"user/{page_id}/info", null, null);
+            return items;
+        }
+        public static Task SetAppendFriendAsync()
+        {
+            List<Parameter> parameters = new List<Parameter>();
+            parameters.Add(new Parameter("friend_id", profile.id));
+            var items = RequestRouter<string>.GetAsync($"user/add", null, parameters);
+            return items;
+        }
+        public static Task SetRemoveFriendAsync()
+        {
+            List<Parameter> parameters = new List<Parameter>();
+            parameters.Add(new Parameter("friend_id", profile.id));
+            var items = RequestRouter<string>.GetAsync($"user/remove", null, parameters);
             return items;
         }
     }

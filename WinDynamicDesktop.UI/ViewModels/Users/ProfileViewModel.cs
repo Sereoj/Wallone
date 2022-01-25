@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using ModernWpf.Controls;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -50,8 +51,13 @@ namespace WinDynamicDesktop.UI.ViewModels
         public string Likes { get => likes; set => SetProperty(ref likes, value); }
 
         private string publish;
-
         public string Publish { get => publish; set => SetProperty(ref publish, value); }
+
+        private FontIcon actionText;
+        public FontIcon ActionText { get => actionText; set => SetProperty(ref actionText, value); }
+
+        private string actionStatus;
+        public string ActionStatus { get => actionStatus; set => SetProperty(ref actionStatus, value); }
 
         public DelegateCommand ActionCommand { get; set; }
         public ProfileViewModel()
@@ -62,18 +68,36 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             this.regionManager = regionManager;
 
-            ActionCommand = new DelegateCommand(OnAction);
+            ActionCommand = new DelegateCommand(OnAction,CanAction);
 
         }
 
-        private void OnAction()
+        private bool CanAction()
         {
-            var param = new NavigationParameters
-                {
-                    { "Text", "Данная функция пока не работает" }
-                };
+            //return true;
+            return ActionStatus != null;
+        }
 
-            regionManager.RequestNavigate("PageRegion", "NotFound", param);
+        private async void OnAction()
+        {
+            FontIcon icon;
+            switch (ActionStatus)
+            {
+                case "true":
+                    icon = FontIconService.SetIcon("ultimate", "\uED5E");
+                    icon.FontSize = 16;
+                    ActionText = icon;
+                    await ProfileService.SetAppendFriendAsync();
+                    ActionStatus = "false";
+                    break;
+                case "false":
+                    icon = FontIconService.SetIcon("ultimate", "\uED5D");
+                    icon.FontSize = 16;
+                    ActionText = icon;
+                    await ProfileService.SetRemoveFriendAsync();
+                    ActionStatus = "true";
+                    break;
+            }
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
@@ -125,6 +149,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                     Friends = ProfileService.GetFriends();
                     Likes = ProfileService.GetLikes();
                     Publish = ProfileService.GetPublish();
+
 
                     posts(ProfileService.GetPosts());
                     bitmapHelper.Clear();
