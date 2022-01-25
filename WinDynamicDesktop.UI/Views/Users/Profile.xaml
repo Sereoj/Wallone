@@ -101,6 +101,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0">
                             <TextBlock
@@ -110,15 +111,31 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="{Binding Friends, FallbackValue=10000}" />
+                                Text="{Binding Subscriptions, FallbackValue=10000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="20"
                                 FontWeight="Regular"
-                                Text="Friends" />
+                                Text="Подписки" />
                         </StackPanel>
                         <StackPanel Grid.Column="1">
+                            <TextBlock
+                                Margin="0,15,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource FontGardensC}"
+                                FontSize="24"
+                                FontWeight="Medium"
+                                Text="{Binding Subscribers, FallbackValue=10000}" />
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                FontFamily="{StaticResource FontGardensC}"
+                                FontSize="20"
+                                FontWeight="Regular"
+                                Text="Подписчиков" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
                             <TextBlock
                                 Margin="0,15,0,0"
                                 HorizontalAlignment="Center"
@@ -132,9 +149,9 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="20"
                                 FontWeight="Regular"
-                                Text="Likes" />
+                                Text="Лайков" />
                         </StackPanel>
-                        <StackPanel Grid.Column="2">
+                        <StackPanel Grid.Column="3">
                             <TextBlock
                                 Margin="0,15,0,0"
                                 HorizontalAlignment="Center"
@@ -148,7 +165,7 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="20"
                                 FontWeight="Regular"
-                                Text="Publish" />
+                                Text="Публикаций" />
                         </StackPanel>
                     </Grid>
                     <WrapPanel Grid.Row="2" Visibility="Hidden">

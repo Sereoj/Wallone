@@ -44,9 +44,10 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string description;
         public string Description { get => description; set => SetProperty(ref description, value); }
 
-        private string friends;
-        public string Friends { get => friends; set => SetProperty(ref friends, value); }
-
+        private string subscribers;
+        public string Subscribers { get => subscribers; set => SetProperty(ref subscribers, value); }
+        private string subscriptions;
+        public string Subscriptions { get => subscriptions; set => SetProperty(ref subscriptions, value); }
         private string likes;
         public string Likes { get => likes; set => SetProperty(ref likes, value); }
 
@@ -146,7 +147,8 @@ namespace WinDynamicDesktop.UI.ViewModels
                         ? (ImageSource)App.Current.Resources["Placeholder1280"]
                         : bitmapHelper[UriHelper.Get(ProfileService.GetCover())];
 
-                    Friends = ProfileService.GetFriends();
+                    Subscribers = ProfileService.GetSubscribers();
+                    Subscriptions = ProfileService.GetSubscriptions();
                     Likes = ProfileService.GetLikes();
                     Publish = ProfileService.GetPublish();
 
