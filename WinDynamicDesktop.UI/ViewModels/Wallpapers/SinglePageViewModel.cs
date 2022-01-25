@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
@@ -30,6 +31,9 @@ namespace WinDynamicDesktop.UI.ViewModels
         public ObservableCollection<ItemTemplateViewModel> Tags { get; set; } = new ObservableCollection<ItemTemplateViewModel>();
         private string username;
         public string Username { get => username; set => SetProperty(ref username, value); }
+
+        private System.Windows.Media.ImageSource avatar;
+        public System.Windows.Media.ImageSource Avatar { get => avatar; set => SetProperty(ref avatar, value); }
         private string header;
         public string Header { get => header; set => SetProperty(ref header, value); }
         private string data1;
@@ -163,10 +167,17 @@ namespace WinDynamicDesktop.UI.ViewModels
                     Brand = SinglePageService.GetBrand()?.Name;
                     Data = SinglePageService.GetData();
 
+                    if(SinglePageService.GetAvatar() != null)
+                    {
+                        Avatar = (ImageSource)bitmapHelper[UriHelper.Get(SinglePageService.GetAvatar())];
+                    }
+
                     categories(SinglePageService.GetCategories());
                     tags(SinglePageService.GetTags());
                     posts(SinglePageService.GetPosts());
                     setButtons();
+
+                    bitmapHelper.Clear();
 
                     var param = new NavigationParameters
                     {

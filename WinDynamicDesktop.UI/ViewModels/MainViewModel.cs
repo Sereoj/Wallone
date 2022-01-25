@@ -7,6 +7,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 using WinDynamicDesktop.Core.Services;
+using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
@@ -124,7 +125,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         }
         public async void LoadBrands()
         {
-            var font = new FontFamily(new Uri(App.Current.Resources["Fonts"].ToString()), "#IcoMoon-Free");
             try
             {
                 var items = await BrandsService.GetBrandAsync(null);
@@ -136,7 +136,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         Uid = item.ID,
                         Content = item.Name,
                         Name = item.Tag.ToLower(),
-                        Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
+                        Icon = FontIconService.SetIcon("ultimate", item.Icon),
                         Tag = "brand"
                     });
                 }
@@ -166,7 +166,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         Uid = item.ID,
                         Content = item.Name,
                         Name = item.Tag.ToLower(),
-                        Icon = new FontIcon() { FontFamily = font, Glyph = item.Icon.ToString() },
+                        Icon = FontIconService.SetIcon("ultimate", item.Icon),
                         Tag = "category"
                     });
                 }

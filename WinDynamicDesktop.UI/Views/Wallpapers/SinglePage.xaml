@@ -72,7 +72,8 @@
                                         <ui:PersonPicture
                                             x:Name="ImageAuthor"
                                             Width="60"
-                                            Height="60" />
+                                            Height="60"
+                                            ProfilePicture="{Binding Avatar}" />
                                         <StackPanel>
                                             <TextBlock
                                                 Margin="15,2,0,0"

@@ -37,6 +37,10 @@ namespace WinDynamicDesktop.UI.Services
         {
             return simplePage?.user?.name ?? "Lorem";
         }
+        public static string GetAvatar()
+        {
+            return simplePage?.user?.avatar;
+        }
 
         public static string GetData()
         {
