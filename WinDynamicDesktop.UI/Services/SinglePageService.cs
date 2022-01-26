@@ -97,7 +97,7 @@ namespace WinDynamicDesktop.UI.Services
         }
         public static Task<string> GetPageAsync(string fields = null)
         {
-            var items = RequestRouter<string>.GetAsync("wallpapers/one", fields);
+            var items = RequestRouter<string>.GetAsync("wallpapers/one/" + fields + "/show", null, null);
             return items;
         }
 
