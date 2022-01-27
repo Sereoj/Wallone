@@ -37,9 +37,44 @@ namespace WinDynamicDesktop.UI.Services
             return user.avatar;
         }
 
+        public static DateTime GetDOB()
+        {
+            return DateTime.Parse(user.dob);
+        }
+
+        public static string GetCountry()
+        {
+            return user.country;
+        }
+
+        public static string GetGithub()
+        {
+            return user.github;
+        }
+
+        public static string GetFacebook()
+        {
+            return user.facebook;
+        }
+
+        public static string GetVK()
+        {
+            return user.vk;
+        }
+
+        public static string GetTwitter()
+        {
+            return user.twitter;
+        }
         public static Task<string> GetPageAsync()
         {
             var items = RequestRouter<string>.GetAsync("user/profile", null, null);
+            return items;
+        }
+
+        public static Task<string> GetPageGuidsAsync()
+        {
+            var items = RequestRouter<string>.GetAsync("guids", null);
             return items;
         }
     }

@@ -16,6 +16,11 @@ namespace WinDynamicDesktop.Authorization.Services
         {
             return user.id;
         }
+
+        public static string GetUsername()
+        {
+            return user.name;
+        }
         public static string GetToken()
         {
             return token;
@@ -51,6 +56,7 @@ namespace WinDynamicDesktop.Authorization.Services
             if(objects["id"] != null)
             {
                 user.id = objects["id"].ToString();
+                user.name = objects["name"].ToString();
                 return "success";
             }
             return null;

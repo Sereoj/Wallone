@@ -12,6 +12,8 @@ namespace WinDynamicDesktop.Core.Models
         public string country { get; set; }
         public string avatar { get; set; }
         public string cover { get; set; }
+        public string subscriber { get; set; }
+        public string reported { get; set; }
         public string users_like_count { get; set; }
         public string subscribers_count { get; set; }
         public string subscriptions_count { get; set; }

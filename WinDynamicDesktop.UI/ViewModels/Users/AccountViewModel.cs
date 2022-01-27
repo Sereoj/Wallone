@@ -79,6 +79,13 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                     Name = AccountService.GetUsername();
                     Description = AccountService.GetDescription();
+
+                    DOB = AccountService.GetDOB();
+
+                    Github = AccountService.GetGithub();
+                    Facebook = AccountService.GetFacebook();
+                    VK = AccountService.GetVK();
+                    Twitter = AccountService.GetTwitter();
                 }
             }
             catch (Exception ex)

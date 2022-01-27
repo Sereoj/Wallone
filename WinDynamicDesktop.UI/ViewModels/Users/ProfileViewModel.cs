@@ -6,6 +6,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -60,6 +61,13 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string actionStatus;
         public string ActionStatus { get => actionStatus; set => SetProperty(ref actionStatus, value); }
 
+
+        private bool isEnable;
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set { SetProperty(ref isEnable, value); }
+        }
         public DelegateCommand ActionCommand { get; set; }
         public ProfileViewModel()
         {
@@ -68,34 +76,30 @@ namespace WinDynamicDesktop.UI.ViewModels
         public ProfileViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+            ActionCommand = new DelegateCommand(OnAction);
 
-            ActionCommand = new DelegateCommand(OnAction,CanAction);
-
-        }
-
-        private bool CanAction()
-        {
-            //return true;
-            return ActionStatus != null;
         }
 
         private async void OnAction()
         {
             FontIcon icon;
+            Profile data;
             switch (ActionStatus)
             {
                 case "true":
                     icon = FontIconService.SetIcon("ultimate", "\uED5E");
                     icon.FontSize = 16;
                     ActionText = icon;
-                    await ProfileService.SetAppendFriendAsync();
+                    data = await ProfileService.SetAppendFriendAsync();
+                    update(data);
                     ActionStatus = "false";
                     break;
                 case "false":
                     icon = FontIconService.SetIcon("ultimate", "\uED5D");
                     icon.FontSize = 16;
                     ActionText = icon;
-                    await ProfileService.SetRemoveFriendAsync();
+                    data = await ProfileService.SetRemoveFriendAsync();
+                    update(data);
                     ActionStatus = "true";
                     break;
             }
@@ -108,10 +112,13 @@ namespace WinDynamicDesktop.UI.ViewModels
 
             if(id != null)
             {
+                IsEnable = id != UserService.GetId();
                 Loaded(id);
             }
             else
             {
+                IsEnable = false;
+                Name = UserService.GetUsername();
                 Loaded(UserService.GetId());
             }
 
@@ -152,6 +159,22 @@ namespace WinDynamicDesktop.UI.ViewModels
                     Likes = ProfileService.GetLikes();
                     Publish = ProfileService.GetPublish();
 
+                    FontIcon icon;
+                    switch (ProfileService.GetSubscriber())
+                    {
+                        case "true":
+                            icon = FontIconService.SetIcon("ultimate", "\uED5E");
+                            icon.FontSize = 16;
+                            ActionText = icon;
+                            ActionStatus = "false";
+                            break;
+                        case "false":
+                            icon = FontIconService.SetIcon("ultimate", "\uED5D");
+                            icon.FontSize = 16;
+                            ActionText = icon;
+                            ActionStatus = "true";
+                            break;
+                    }
 
                     posts(ProfileService.GetPosts());
                     bitmapHelper.Clear();
@@ -166,6 +189,14 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
+        }
+
+        private void update(Profile data)
+        {
+            Subscribers = data?.subscribers_count;
+            Subscriptions = data?.subscriptions_count;
+            Likes = data?.users_like_count;
+            Publish = data?.posts_count;
         }
 
         private async void posts(List<Thumb> list)

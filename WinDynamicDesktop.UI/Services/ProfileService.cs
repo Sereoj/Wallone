@@ -24,7 +24,10 @@ namespace WinDynamicDesktop.UI.Services
             if (page != null)
                 profile = page;
         }
-
+        public static string GetId()
+        {
+            return profile.id;
+        }
         public static string GetUsername()
         {
             return profile?.name ?? "Lorem";
@@ -45,7 +48,10 @@ namespace WinDynamicDesktop.UI.Services
         {
             return profile?.description ?? "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
         }
-
+        public static string GetSubscriber()
+        {
+            return profile.subscriber;
+        }
         public static string GetSubscriptions()
         {
             return profile.subscriptions_count ?? "0";
@@ -70,21 +76,17 @@ namespace WinDynamicDesktop.UI.Services
 
         public static Task<string> GetPageAsync(string page_id)
         {
-            var items = RequestRouter<string>.GetAsync($"user/{page_id}", null, null);
+            var items = RequestRouter<string>.GetAsync($"user/{page_id}/info", null, null);
             return items;
         }
-        public static Task SetAppendFriendAsync()
+        public static Task<Profile> SetAppendFriendAsync()
         {
-            List<Parameter> parameters = new List<Parameter>();
-            parameters.Add(new Parameter("friend_id", profile.id));
-            var items = RequestRouter<string>.GetAsync($"user/add", null, parameters);
+            var items = RequestRouter<Profile, Subscription>.PostAsync($"user/add", new Subscription() { friend_id = GetId() });
             return items;
         }
-        public static Task SetRemoveFriendAsync()
+        public static Task<Profile> SetRemoveFriendAsync()
         {
-            List<Parameter> parameters = new List<Parameter>();
-            parameters.Add(new Parameter("friend_id", profile.id));
-            var items = RequestRouter<string>.GetAsync($"user/remove", null, parameters);
+            var items = RequestRouter<Profile, Subscription>.PostAsync($"user/remove", new Subscription() { friend_id = GetId() });
             return items;
         }
     }
