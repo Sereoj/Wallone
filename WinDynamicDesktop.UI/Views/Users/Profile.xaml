@@ -18,7 +18,10 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
     <Grid>
-        <ScrollViewer x:Name="ScrollViewer" IsTabStop="False">
+        <ScrollViewer
+            x:Name="ScrollViewer"
+            IsTabStop="False"
+            ScrollChanged="ScrollViewer_ScrollChanged">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="40" />
@@ -188,5 +191,27 @@
                 </Grid>
             </Grid>
         </ScrollViewer>
+        <Button
+            x:Name="ScrollUp"
+            Width="48"
+            Height="48"
+            Margin="0,0,50,50"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="ScrollUp_Click"
+            Content="&#xEA3A;"
+            FontFamily="{StaticResource FontIconMoon}"
+            Opacity="0.6"
+            Visibility="Visible">
+            <Button.Style>
+                <Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </UserControl>

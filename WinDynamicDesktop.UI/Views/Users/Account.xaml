@@ -2,7 +2,9 @@
     x:Class="WinDynamicDesktop.UI.Views.Account"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:WinDynamicDesktop.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:local="clr-namespace:WinDynamicDesktop.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
@@ -84,7 +86,13 @@
                         <ui:PersonPicture
                             Margin="10"
                             HorizontalAlignment="Left"
-                            ProfilePicture="{Binding Avatar}" />
+                            ProfilePicture="{Binding Avatar}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDown">
+                                    <prism:InvokeCommandAction Command="{Binding PersonPictureCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ui:PersonPicture>
                         <StackPanel Width="480" HorizontalAlignment="Left">
                             <TextBlock
                                 Margin="0,20,0,0"
@@ -92,8 +100,8 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 Text="Рекомендации:" />
                             <TextBlock
+                                Height="80"
                                 Margin="0,10,0,0"
-                                VerticalAlignment="Top"
                                 FontFamily="{StaticResource FontGardensC}"
                                 Text="ИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформация"
                                 TextWrapping="Wrap" />
@@ -104,11 +112,7 @@
                             VerticalAlignment="Top"
                             FontFamily="{StaticResource FontGardensC}"
                             Text="Задний фон:" />
-                        <Image
-                            Height="200"
-                            Margin="0,10,0,0"
-                            Source="{Binding Cover}"
-                            Stretch="UniformToFill" />
+                        <controls:Uploader Height="200" Margin="0,10,0,0" />
                     </StackPanel>
                     <Grid Grid.Row="4" Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -133,6 +137,7 @@
                             <ComboBox
                                 Width="250"
                                 Margin="0,15,0,0"
+                                IsEnabled="False"
                                 ItemsSource="{Binding Countries}"
                                 SelectedItem="{Binding Country}" />
                         </StackPanel>
@@ -208,5 +213,27 @@
                 </Grid>
             </Grid>
         </ScrollViewer>
+        <Button
+            x:Name="ScrollUp"
+            Width="48"
+            Height="48"
+            Margin="0,0,50,50"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Click="ScrollUp_Click"
+            Content="&#xEA3A;"
+            FontFamily="{StaticResource FontIconMoon}"
+            Opacity="0.6"
+            Visibility="Visible">
+            <Button.Style>
+                <Style BasedOn="{StaticResource AccentButtonStyle}" TargetType="Button">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
     </Grid>
 </UserControl>

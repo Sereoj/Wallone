@@ -24,6 +24,7 @@ namespace WinDynamicDesktop.UI
         {
             containerRegistry.RegisterForNavigation<Main>();
             containerRegistry.RegisterForNavigation<Indicator, ViewModels.IndicatorViewModel>();
+            containerRegistry.RegisterForNavigation<Uploader, ViewModels.UploaderViewModel>();
 
             containerRegistry.RegisterForNavigation<Article, ViewModels.ArticleViewModel>();
             containerRegistry.RegisterForNavigation<ArticleMedium, ViewModels.ArticleViewModel>();

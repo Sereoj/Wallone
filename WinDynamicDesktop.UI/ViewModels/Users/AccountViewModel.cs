@@ -4,12 +4,16 @@ using Prism.Regions;
 using System;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.UI.Services;
+using Prism.Commands;
+using Microsoft.Win32;
+using WinDynamicDesktop.Core.Helpers;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
     public class AccountViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
+        private static BitmapHelper bitmapHelper = new BitmapHelper();
         private User account;
 
         private string header = "Аккаунт";
@@ -41,14 +45,25 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private string twitter;
         public string Twitter { get => twitter; set => SetProperty(ref twitter, value); }
+
+        public DelegateCommand PersonPictureCommand { get; set; }
         public AccountViewModel()
         {
-
         }
 
         public AccountViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+            PersonPictureCommand = new DelegateCommand(OnPersonPicture);
+        }
+
+        private void OnPersonPicture()
+        {
+            var fileDialog = new OpenFileDialog();
+            if (fileDialog.ShowDialog() == true)
+            {
+                Avatar = bitmapHelper[UriHelper.Get(fileDialog.FileName)];
+            }
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
