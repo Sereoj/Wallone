@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Interfaces;
+using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {

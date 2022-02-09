@@ -7,6 +7,10 @@ using WinDynamicDesktop.UI.Services;
 using Prism.Commands;
 using Microsoft.Win32;
 using WinDynamicDesktop.Core.Helpers;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using WinDynamicDesktop.Core.Services;
+using System.Windows.Media.Imaging;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
@@ -14,6 +18,7 @@ namespace WinDynamicDesktop.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
         private static BitmapHelper bitmapHelper = new BitmapHelper();
+        private string avatar_path;
         private User account;
 
         private string header = "Аккаунт";
@@ -47,6 +52,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         public string Twitter { get => twitter; set => SetProperty(ref twitter, value); }
 
         public DelegateCommand PersonPictureCommand { get; set; }
+        public DelegateCommand SaveCommand { get; set; }
         public AccountViewModel()
         {
         }
@@ -55,6 +61,21 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             this.regionManager = regionManager;
             PersonPictureCommand = new DelegateCommand(OnPersonPicture);
+            SaveCommand = new DelegateCommand(OnSave);
+        }
+
+        private async void OnSave()
+        {
+            var param = new List<Parameter>();
+            if(avatar_path != null)
+            {
+                param.Add(new Parameter() { Name = "avatar", Type = "file", Value = avatar_path });
+            }
+            if(AccountService.GetCover() != null )
+            {
+                param.Add(new Parameter() { Name = "cover", Type = "file", Value = AccountService.GetCover() });
+            }
+            var data = await EditUserPageAsync(update(), param);
         }
 
         private void OnPersonPicture()
@@ -62,6 +83,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             var fileDialog = new OpenFileDialog();
             if (fileDialog.ShowDialog() == true)
             {
+                avatar_path = fileDialog.FileName;
                 Avatar = bitmapHelper[UriHelper.Get(fileDialog.FileName)];
             }
         }
@@ -112,6 +134,50 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
+        }
+        private User update()
+        {
+            var list = AccountService.getUser();
+
+            if (Name != AccountService.GetUsername())
+            {
+                list.name = Name;
+            }
+
+            if (Description != AccountService.GetDescription())
+            {
+                list.description = Description;
+            }
+
+            if (DOB != AccountService.GetDOB())
+            {
+                list.dob = DOB.Value.ToShortDateString();
+            }
+
+            if (Github != AccountService.GetGithub())
+            {
+                list.github = Github;
+            }
+
+            if (Facebook != AccountService.GetFacebook())
+            {
+                list.facebook = Facebook;
+            }
+            if (VK != AccountService.GetVK())
+            {
+                list.vk = VK;
+            }
+            if (Twitter != AccountService.GetTwitter())
+            {
+                list.twitter = Twitter;
+            }
+
+            return list;
+        }
+        public static Task<User> EditUserPageAsync(User user, List<Parameter> parameters)
+        {
+            var items = RequestRouter<User, User>.PostAsync("user/edit", user, parameters);
+            return items;
         }
     }
 }

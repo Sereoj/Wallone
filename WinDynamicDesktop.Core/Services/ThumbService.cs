@@ -33,7 +33,7 @@ namespace WinDynamicDesktop.Core.Services
 
         public static bool CheckItems(List<Thumb> items)
         {
-            return items.Count > 0;
+            return items != null || items.Count > 0;
         }
     }
 }

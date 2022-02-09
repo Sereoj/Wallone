@@ -3,8 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    x:Name="Style"
-    x:Uid="StyleFonts">
+    x:Name="Style">
 
 
     <!--#region Isons Fonts-->
@@ -13,12 +12,25 @@
     <FontFamily x:Key="FontIconMoon">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/#icomoon</FontFamily>
     <FontFamily x:Key="FontIconMoonUltimate">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/#icomoon-ultimate</FontFamily>
     <!--#endregion-->
+
+    <!--  Fonts  -->
     <FontFamily x:Key="FontComfortaa">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/Comfortaa.ttf</FontFamily>
     <FontFamily x:Key="FontGardensC">pack://application:,,,/WinDynamicDesktop.Common;component/Fonts/gardens.otf</FontFamily>
 
+    <!--  Images  -->
     <ImageSource x:Key="Placeholder">pack://application:,,,/WinDynamicDesktop.Common;component/Images/Placeholder.png</ImageSource>
     <ImageSource x:Key="Placeholder1280">pack://application:,,,/WinDynamicDesktop.Common;component/Images/Placeholder1280x720.png</ImageSource>
     <ImageSource x:Key="TransparentPlaceholder">pack://application:,,,/WinDynamicDesktop.Common;component/Images/TransparentPlaceholder.png</ImageSource>
 
+    <!--  App icons  -->
+
+    <!--  Foreground  -->
+    <SolidColorBrush x:Key="TextBlock" Color="#F1F2F3" />
+
+    <!--  Background  -->
     <SolidColorBrush x:Key="AppBackground" Color="#F1F2F3" />
+    <SolidColorBrush x:Key="MainBlock" Color="#F1F2F3" />
+
+    <!--  Override Controls  -->
+
 </ResourceDictionary>

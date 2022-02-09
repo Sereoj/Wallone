@@ -10,12 +10,16 @@ namespace WinDynamicDesktop.UI.Services
     public class AccountService
     {
         private static User user;
-
+        private static string cover;
         public AccountService(User page)
         {
             Load(page);
         }
 
+        public static User getUser()
+        {
+            return user;
+        }
         public static void Load(User page)
         {
             if (page != null)
@@ -32,9 +36,19 @@ namespace WinDynamicDesktop.UI.Services
             return user.description;
         }
 
-        public static object GetAvatar()
+        public static string GetAvatar()
         {
             return user.avatar;
+        }
+
+        public static void SetCover(string value)
+        {
+            cover = value;
+        }
+
+        public static string GetCover()
+        {
+            return cover;
         }
 
         public static DateTime GetDOB()

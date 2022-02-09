@@ -52,7 +52,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string downloads;
         public string Downloads { get => downloads; set => SetProperty(ref downloads, value); }
 
-
         private string installStatus;
         public string InstallStatus { get => installStatus; set => SetProperty(ref installStatus, value); }
 

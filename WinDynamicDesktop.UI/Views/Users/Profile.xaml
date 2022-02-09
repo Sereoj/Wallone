@@ -47,8 +47,9 @@
                 <Grid
                     Grid.Row="1"
                     Grid.Column="1"
-                    Width="900"
-                    Margin="0,20,0,0">
+                    Margin="50,20,50,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="400" />
                         <RowDefinition Height="100" />
@@ -82,28 +83,40 @@
                                     Style="{StaticResource AccentButtonStyle}"
                                     Visibility="{Binding IsEnable, Converter={StaticResource BoolToVis}}" />
                             </Grid>
-                            <StackPanel
-                                Grid.Column="1"
-                                Margin="0,200,0,0"
-                                VerticalAlignment="Center">
-                                <TextBlock
-                                    Margin="0,40,0,0"
-                                    VerticalAlignment="Top"
-                                    FontFamily="{StaticResource FontGardensC}"
-                                    FontSize="24"
-                                    FontWeight="Medium"
-                                    Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}" />
-                                <TextBlock
-                                    Height="76"
-                                    Margin="0,15,20,0"
-                                    FontFamily="{StaticResource FontGardensC}"
-                                    FontSize="16"
-                                    Text="{Binding Description, FallbackValue=Description}"
-                                    TextWrapping="Wrap" />
+                            <StackPanel Grid.Column="1">
+                                <StackPanel VerticalAlignment="Top">
+                                    <Button
+                                        Width="35"
+                                        Height="30"
+                                        Margin="0,10,20,10"
+                                        HorizontalAlignment="Right"
+                                        Background="#333"
+                                        Content="&#xE927;"
+                                        FontFamily="{StaticResource FontIconMoonUltimate}"
+                                        Opacity="0.8"
+                                        Style="{StaticResource AccentButtonStyle}" />
+                                </StackPanel>
+                                <StackPanel Margin="0,170,0,0" VerticalAlignment="Bottom">
+                                    <TextBlock
+                                        Margin="0,40,0,0"
+                                        VerticalAlignment="Top"
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        FontSize="24"
+                                        FontWeight="Medium"
+                                        Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}" />
+                                    <TextBlock
+                                        Height="76"
+                                        Margin="0,15,20,0"
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        FontSize="16"
+                                        Text="{Binding Description, FallbackValue=Description, TargetNullValue=Описание}"
+                                        TextWrapping="Wrap" />
+                                </StackPanel>
                             </StackPanel>
+
                         </Grid>
                     </Grid>
-                    <Grid Grid.Row="1" Background="LightGray">
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -118,7 +131,7 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="{Binding Subscriptions, FallbackValue=10000}" />
+                                Text="{Binding Subscriptions, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
@@ -134,7 +147,7 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="{Binding Subscribers, FallbackValue=10000}" />
+                                Text="{Binding Subscribers, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
@@ -150,7 +163,7 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="{Binding Likes, FallbackValue=10000}" />
+                                Text="{Binding Likes, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
@@ -166,7 +179,7 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 FontSize="24"
                                 FontWeight="Medium"
-                                Text="{Binding Publish, FallbackValue=10000}" />
+                                Text="{Binding Publish, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
