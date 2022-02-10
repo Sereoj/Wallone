@@ -51,6 +51,8 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string twitter;
         public string Twitter { get => twitter; set => SetProperty(ref twitter, value); }
 
+        private string textInformation;
+        public string TextInformation { get => textInformation; set => SetProperty(ref textInformation, value); }
         public DelegateCommand PersonPictureCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
         public AccountViewModel()
@@ -75,7 +77,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             {
                 param.Add(new Parameter() { Name = "cover", Type = "file", Value = AccountService.GetCover() });
             }
-            var data = await EditUserPageAsync(update(), param);
+            var data = await AccountService.EditUserPageAsync(update(), param);
         }
 
         private void OnPersonPicture()
@@ -100,8 +102,26 @@ namespace WinDynamicDesktop.UI.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             Loaded();
+            LoadText();
         }
+        public async void LoadText()
+        {
+            try
+            {
+                var info = await AccountService.GetPageGuidsAsync();
+                if (!string.IsNullOrEmpty(info))
+                {
+                    var text = JsonConvert.DeserializeObject<Text>(info);
 
+                    TextInformation = text.text ?? "Информация не доступна";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
         public async void Loaded()
         {
             try
@@ -173,11 +193,6 @@ namespace WinDynamicDesktop.UI.ViewModels
             }
 
             return list;
-        }
-        public static Task<User> EditUserPageAsync(User user, List<Parameter> parameters)
-        {
-            var items = RequestRouter<User, User>.PostAsync("user/edit", user, parameters);
-            return items;
         }
     }
 }

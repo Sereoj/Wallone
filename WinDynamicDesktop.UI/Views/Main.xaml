@@ -91,10 +91,6 @@
                     Content="Профиль"
                     Icon="Contact"
                     Tag="Profile" />
-                <ui:NavigationViewItem
-                    Content="Аккаунт"
-                    Icon="Contact"
-                    Tag="Account" />
             </ui:NavigationView.FooterMenuItems>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="ItemInvoked">

@@ -103,7 +103,7 @@
                                 Height="80"
                                 Margin="0,10,0,0"
                                 FontFamily="{StaticResource FontGardensC}"
-                                Text="ИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформацияИнформация"
+                                Text="{Binding TextInformation, TargetNullValue=Information}"
                                 TextWrapping="Wrap" />
                         </StackPanel>
                         <Button

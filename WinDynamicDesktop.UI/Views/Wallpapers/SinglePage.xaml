@@ -48,7 +48,10 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         Margin="0,20,0,0">
-                        <ui:GridView x:Name="SliderAndUserPanel" HorizontalAlignment="Center">
+                        <ui:GridView
+                            x:Name="SliderAndUserPanel"
+                            HorizontalAlignment="Center"
+                            IsSelectionEnabled="False">
                             <ContentControl
                                 x:Name="Slider"
                                 Width="856"
@@ -262,6 +265,7 @@
                         <ui:GridView
                             Width="{Binding Path=ActualWidth, ElementName=ArticleView}"
                             Margin="0,10,0,0"
+                            IsSelectionEnabled="False"
                             ItemsSource="{Binding Posts}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">

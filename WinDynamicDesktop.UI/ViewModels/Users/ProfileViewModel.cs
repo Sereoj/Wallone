@@ -68,7 +68,15 @@ namespace WinDynamicDesktop.UI.ViewModels
             get { return isEnable; }
             set { SetProperty(ref isEnable, value); }
         }
+
+        private bool isEnableEditProfile;
+        public bool IsEnableEditProfile
+        {
+            get { return isEnableEditProfile; }
+            set { SetProperty(ref isEnableEditProfile, value); }
+        }
         public DelegateCommand ActionCommand { get; set; }
+        public DelegateCommand EditProfileCommand { get; set; }
         public ProfileViewModel()
         {
 
@@ -77,7 +85,13 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             this.regionManager = regionManager;
             ActionCommand = new DelegateCommand(OnAction);
+            EditProfileCommand = new DelegateCommand(OnEditProfile);
 
+        }
+
+        private void OnEditProfile()
+        {
+            regionManager.RequestNavigate("PageRegion", "Account");
         }
 
         private async void OnAction()
@@ -112,11 +126,13 @@ namespace WinDynamicDesktop.UI.ViewModels
 
             if(id != null)
             {
+                IsEnableEditProfile = false;
                 IsEnable = id != UserService.GetId();
                 Loaded(id);
             }
             else
             {
+                IsEnableEditProfile = true;
                 IsEnable = false;
                 Name = UserService.GetUsername();
                 Loaded(UserService.GetId());

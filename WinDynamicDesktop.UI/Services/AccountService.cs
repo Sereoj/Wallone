@@ -86,6 +86,12 @@ namespace WinDynamicDesktop.UI.Services
             return items;
         }
 
+        public static Task<User> EditUserPageAsync(User user, List<Parameter> parameters)
+        {
+            var items = RequestRouter<User, User>.PostAsync("user/edit", user, parameters);
+            return items;
+        }
+
         public static Task<string> GetPageGuidsAsync()
         {
             var items = RequestRouter<string>.GetAsync("guids", null);
