@@ -17,7 +17,7 @@ namespace WinDynamicDesktop.UI.ViewModels
     public class AccountViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
-        private static BitmapHelper bitmapHelper = new BitmapHelper();
+        private static readonly BitmapHelper bitmapHelper = new BitmapHelper();
         private string avatar_path;
         private User account;
 
@@ -77,7 +77,8 @@ namespace WinDynamicDesktop.UI.ViewModels
             {
                 param.Add(new Parameter() { Name = "cover", Type = "file", Value = AccountService.GetCover() });
             }
-            var data = await AccountService.EditUserPageAsync(update(), param);
+
+            _ = await AccountService.EditUserPageAsync(update(), param);
         }
 
         private void OnPersonPicture()

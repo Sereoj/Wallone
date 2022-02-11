@@ -44,11 +44,9 @@ namespace WinDynamicDesktop.UI.Services
 
         public static string GetData()
         {
-            if (simplePage?.created_at != null)
-            {
-                return "Дата публикации: " + DateTime.Parse(simplePage?.created_at).ToShortDateString();
-            }
-            return "Дата публикации: 01/01/2021";
+            return simplePage?.created_at != null
+                ? "Дата публикации: " + DateTime.Parse(simplePage?.created_at).ToShortDateString()
+                : "Дата публикации: 01/01/2021";
         }
         public static Brand GetBrand()
         {

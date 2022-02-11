@@ -153,8 +153,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         }
         public async void LoadCategory()
         {
-            var font = (FontFamily)App.Current.Resources["FontIconMoonFree"];
-
             try
             {
                 var items = await CategoriesService.GetCategoryAsync(null);

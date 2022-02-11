@@ -23,7 +23,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private string id;
         private Profile profilePage;
-        private static BitmapHelper bitmapHelper = new BitmapHelper();
+        private static readonly BitmapHelper bitmapHelper = new BitmapHelper();
         private readonly IRegionManager regionManager;
 
         public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();

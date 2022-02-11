@@ -28,6 +28,7 @@
                                     </DataTrigger>
                                 </ControlTemplate.Triggers>
                                 <Grid>
+
                                     <TextBlock x:Name="Background" Background="#3CA6CE" />
                                     <TextBlock
                                         x:Name="Icon"
@@ -37,6 +38,7 @@
                                         FontSize="64"
                                         Foreground="White"
                                         Text="&#xE945;" />
+                                    <Image Source="{Binding Cover}" Stretch="UniformToFill" />
                                 </Grid>
                             </ControlTemplate>
                         </Setter.Value>

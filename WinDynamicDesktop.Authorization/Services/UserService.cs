@@ -9,7 +9,7 @@ namespace WinDynamicDesktop.Authorization.Services
 {
     public class UserService
     {
-        private static User user = new User();
+        private static readonly User user = new User();
         private static string token;
 
         public static string GetId()
