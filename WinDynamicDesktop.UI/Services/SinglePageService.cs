@@ -101,6 +101,12 @@ namespace WinDynamicDesktop.UI.Services
             return items;
         }
 
+        public static Task<string> GetPageAdsAsync()
+        {
+            var items = RequestRouter<string>.GetAsync("app/ads", null);
+            return items;
+        }
+
         public static Task<SinglePage> SetDownloadAsync(string install)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id, new SinglePageUpdate() { download = install});

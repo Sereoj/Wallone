@@ -258,9 +258,10 @@
                         </ui:GridView>
                         <StackPanel Height="120" Background="AliceBlue">
                             <TextBlock
+                                Margin="0,40,0,0"
                                 HorizontalAlignment="Center"
                                 FontSize="20"
-                                Text="Ads" />
+                                Text="{Binding Ads}" />
                         </StackPanel>
                         <ui:GridView
                             Width="{Binding Path=ActualWidth, ElementName=ArticleView}"

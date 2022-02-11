@@ -118,8 +118,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             }
             catch (Exception ex)
             {
-
-                throw;
+                TextInformation = ex.Message;
             }
         }
         public async void Loaded()

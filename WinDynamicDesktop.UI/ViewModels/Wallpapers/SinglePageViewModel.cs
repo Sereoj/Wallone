@@ -70,6 +70,9 @@ namespace WinDynamicDesktop.UI.ViewModels
         private FontIcon reactionText;
         public FontIcon ReactionText { get => reactionText; set => SetProperty(ref reactionText, value); }
 
+        private string ads;
+        public string Ads { get => ads; set => SetProperty(ref ads, value); }
+
         public DelegateCommand ProfileCommand { get; set; }
         public DelegateCommand InstallCommand { get; set; }
         public DelegateCommand FavoriteCommand { get; set; }
@@ -135,6 +138,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             id = (string)navigationContext.Parameters["ID"];
             Header = (string)navigationContext.Parameters["Name"];
             Loaded(id);
+            LoadAds();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -144,6 +148,25 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+        }
+
+        public async void LoadAds()
+        {
+            try
+            {
+                var data = await SinglePageService.GetPageAdsAsync();
+
+                if (!string.IsNullOrEmpty(data))
+                {
+                    var message = JsonConvert.DeserializeObject<Text>(data);
+                    Ads = message.text ?? "Не удалось загрузить =(";
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Ads = ex.Message;
+            }
         }
         public async void Loaded(string id)
         {

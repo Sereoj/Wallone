@@ -94,7 +94,7 @@ namespace WinDynamicDesktop.UI.Services
 
         public static Task<string> GetPageGuidsAsync()
         {
-            var items = RequestRouter<string>.GetAsync("guids", null);
+            var items = RequestRouter<string>.GetAsync("app/guids", null);
             return items;
         }
     }
