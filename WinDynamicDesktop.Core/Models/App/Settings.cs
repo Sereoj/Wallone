@@ -1,9 +1,10 @@
 ﻿using System;
 using Prism.Mvvm;
+using WinDynamicDesktop.Core.Interfaces;
 
 namespace WinDynamicDesktop.Core.Models.App
 {
-    public class Settings : BindableBase
+    public class Settings : BindableBase, ISettings
     {
         private string token; // Для авторизации
         public string Token
