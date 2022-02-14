@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -31,12 +32,12 @@ namespace WinDynamicDesktop.Core.Services
         //Загрузка конфига, выполняется один раз
         public static void Load()
         {
-            if(autoSaveTimer != null)
+            if (autoSaveTimer != null)
             {
                 autoSaveTimer.Stop();
             }
 
-            if(!CheckFirstLaunch())
+            if (!CheckFirstLaunch())
             {
                 string jsonText = File.ReadAllText(file);
                 settings = JsonConvert.DeserializeObject<Settings>(jsonText);
@@ -92,6 +93,11 @@ namespace WinDynamicDesktop.Core.Services
         public static Settings Get()
         {
             return settings;
+        }
+
+        public static void CreateFile(string path)
+        {
+            File.Create(path);
         }
     }
 }
