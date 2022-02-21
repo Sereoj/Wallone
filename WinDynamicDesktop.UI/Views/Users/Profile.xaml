@@ -60,13 +60,31 @@
                         <Image Source="{Binding Cover}" Stretch="UniformToFill" />
                         <Image Source="{StaticResource TransparentPlaceholder}" Stretch="UniformToFill" />
                         <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="180" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="200" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Row="0" Grid.Column="1">
+                                <Button
+                                    Width="35"
+                                    Height="30"
+                                    Margin="10"
+                                    HorizontalAlignment="Right"
+                                    Background="#333"
+                                    Command="{Binding EditProfileCommand}"
+                                    Content="&#xE927;"
+                                    FontFamily="{StaticResource FontIconMoonUltimate}"
+                                    Opacity="0.8"
+                                    Style="{StaticResource AccentButtonStyle}"
+                                    Visibility="{Binding IsEnableEditProfile, Converter={StaticResource BoolToVis}}" />
+                            </StackPanel>
                             <Grid
+                                Grid.Row="1"
                                 Grid.Column="0"
-                                Margin="0,200,0,0"
                                 VerticalAlignment="Center">
                                 <ui:PersonPicture Width="120" ProfilePicture="{Binding Avatar}" />
                                 <Button
@@ -83,39 +101,22 @@
                                     Style="{StaticResource AccentButtonStyle}"
                                     Visibility="{Binding IsEnable, Converter={StaticResource BoolToVis}}" />
                             </Grid>
-                            <StackPanel Grid.Column="1">
-                                <StackPanel VerticalAlignment="Top">
-                                    <Button
-                                        Width="35"
-                                        Height="30"
-                                        Margin="0,10,20,10"
-                                        HorizontalAlignment="Right"
-                                        Background="#333"
-                                        Command="{Binding EditProfileCommand}"
-                                        Content="&#xE927;"
-                                        FontFamily="{StaticResource FontIconMoonUltimate}"
-                                        Opacity="0.8"
-                                        Style="{StaticResource AccentButtonStyle}"
-                                        Visibility="{Binding IsEnableEditProfile, Converter={StaticResource BoolToVis}}" />
-                                </StackPanel>
-                                <StackPanel Margin="0,170,0,0" VerticalAlignment="Bottom">
-                                    <TextBlock
-                                        Margin="0,40,0,0"
-                                        VerticalAlignment="Top"
-                                        FontFamily="{StaticResource FontGardensC}"
-                                        FontSize="24"
-                                        FontWeight="Medium"
-                                        Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}" />
-                                    <TextBlock
-                                        Height="76"
-                                        Margin="0,15,20,0"
-                                        FontFamily="{StaticResource FontGardensC}"
-                                        FontSize="16"
-                                        Text="{Binding Description, FallbackValue=Description, TargetNullValue=Описание}"
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
+                            <StackPanel Grid.Row="1" Grid.Column="1">
+                                <TextBlock
+                                    Margin="0,40,0,0"
+                                    VerticalAlignment="Top"
+                                    FontFamily="{StaticResource FontGardensC}"
+                                    FontSize="24"
+                                    FontWeight="Medium"
+                                    Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}" />
+                                <TextBlock
+                                    Height="76"
+                                    Margin="0,15,20,0"
+                                    FontFamily="{StaticResource FontGardensC}"
+                                    FontSize="16"
+                                    Text="{Binding Description, FallbackValue=Description, TargetNullValue=Описание}"
+                                    TextWrapping="Wrap" />
                             </StackPanel>
-
                         </Grid>
                     </Grid>
                     <Grid Grid.Row="1">
