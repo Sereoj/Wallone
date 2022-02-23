@@ -45,20 +45,42 @@ namespace WinDynamicDesktop.Core.Builders
         }
     }
 
-    public class SettingsBuilder
+    public interface IAppSettings
+    {
+
+    }
+    public class AppSettingsBuilder : IAppSettings
+    {
+        public AppSettingsBuilder Query(IAppSettings TInterface)
+        {
+            return  this;
+        }
+
+        public object Query(object p)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class SettingsBuilder : IAppSettings
     {
         public SettingsBuilder CreateFile(string path)
         {
+            SettingsService.SetFile(path);
             SettingsService.CreateFile(path);
             return this;
         }
         public SettingsBuilder UpdateOrCreateFile(string path)
         {
-            if(!SettingsService.CheckFirstLaunch())
+            SettingsService.SetFile(path); // Установка пути
+            if (!SettingsService.Exist()) // Проверка файла
             {
-                CreateFile(path);
+                CreateFile(path); // Создание файла, без данных
             }
-            SettingsService.Save();
+            else
+            {
+                SettingsService.Load(); // Загрузка данных
+            }
             return this;
         }
 
@@ -66,11 +88,6 @@ namespace WinDynamicDesktop.Core.Builders
         {
             SettingsService.Save();
             return this;
-        }
-
-        public Core.Models.App.Settings Get()
-        {
-            return SettingsService.Get();
         }
     }
 }

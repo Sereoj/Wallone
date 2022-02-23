@@ -1,9 +1,11 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
+using System.IO;
 using System.Windows;
 using WinDynamicDesktop.Authorization;
 using WinDynamicDesktop.Common;
 using WinDynamicDesktop.Core;
+using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Controls;
 using WinDynamicDesktop.UI.Views;
@@ -49,7 +51,19 @@ namespace WinDynamicDesktop.UI
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            SettingsService.Load();
+
+            var app = new AppSettingsBuilder()
+                .Query(new AppPathBulder()
+                    .AppLocation(Directory.GetCurrentDirectory())
+                    .Build())
+                .Query(new ThemePathBuilder()
+                    .ExistOrCreateDirectory("themes")
+                    .UseForFolders("name")
+                    .Build())
+                .Query(new SettingsBuilder()
+                    .UpdateOrCreateFile("app.settings")
+                    .Build()
+                );
 
             moduleCatalog.AddModule<CoreModule>();
             moduleCatalog.AddModule<CommonModule>();

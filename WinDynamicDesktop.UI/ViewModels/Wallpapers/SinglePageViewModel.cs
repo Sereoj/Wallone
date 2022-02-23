@@ -11,6 +11,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using WinDynamicDesktop.Core.Builders;
+using WinDynamicDesktop.Core.Controllers;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
@@ -113,6 +115,18 @@ namespace WinDynamicDesktop.UI.ViewModels
             InstallText = InstallStatus == "true" ? "Установить" : "Удалить";
             InstallStatus = InstallStatus == "false" ? "true" : "false";
 
+            // Выполняем запрос, на манипуляции с темой
+            //var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>().Query(new ThemeCreatedBuilder());
+            
+            //Проверяем на разрешение на манипуляцию
+            //var themeController = new ThemeController(themeBuilder);
+
+            if (InstallStatus == "true")
+            {
+                //themeBuilder.DownloadAndInstall();
+            }
+            
+            
             SinglePage data = await SinglePageService.SetDownloadAsync(InstallStatus);
             update(data);
         }

@@ -13,10 +13,21 @@ namespace WinDynamicDesktop.Core.Services
     public class SettingsService
     {
         private static Settings settings = new Settings();
-        private static readonly string file = "app.settings";
+        private static string file = "app.settings";
         private static Timer autoSaveTimer;
         private static bool restartPending = false;
         private static bool unsavedChanges;
+
+
+        public static void SetFile(string path)
+        {
+            file = path;
+        }
+
+        public static bool Exist()
+        {
+            return file.ExistsFile();
+        }
 
         //Ручное сохранение
         public static void Save()
@@ -37,10 +48,14 @@ namespace WinDynamicDesktop.Core.Services
                 autoSaveTimer.Stop();
             }
 
-            if (!CheckFirstLaunch())
+            try
             {
                 string jsonText = File.ReadAllText(file);
                 settings = JsonConvert.DeserializeObject<Settings>(jsonText);
+            }
+            catch(Exception ex)
+            {
+
             }
 
             unsavedChanges = false;
@@ -53,7 +68,7 @@ namespace WinDynamicDesktop.Core.Services
             settings.PropertyChanged += OnSettingsPropertyChanged;
             autoSaveTimer.Elapsed += OnAutoSaveTimerElapsed;
         }
-        
+
         private static void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             Trace.WriteLine("Файл настроек изменен");
