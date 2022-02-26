@@ -64,7 +64,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         {
             try
             {
-                var token = SettingsService.Get().Token;
+                var token = SettingsService.GetToken();
                 if (token != null)
                 {
                     var json = await UserService.GetLoginWithTokenAsync();

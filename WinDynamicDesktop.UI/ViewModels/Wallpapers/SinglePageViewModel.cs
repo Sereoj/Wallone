@@ -303,7 +303,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
                 .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
                 .SetName(simplePage.name)
-                .HasNotInstalled(SinglePageLogic.IsInstalled); //Если не установлена, прооходим проверку
+                .HasNotInstalled(SinglePageService.GetInstall()); //Если не установлена, прооходим проверку
 
             SinglePageLogic.IsInstalled = SinglePageService.GetInstall();
             SinglePageLogic.IsFavorited = SinglePageService.GetFavorite();

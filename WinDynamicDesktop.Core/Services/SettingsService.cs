@@ -108,6 +108,10 @@ namespace WinDynamicDesktop.Core.Services
             }
         }
 
+        public static string GetToken()
+        {
+            return Settings.Token;
+        }
         public static Settings Get()
         {
             return Settings;
