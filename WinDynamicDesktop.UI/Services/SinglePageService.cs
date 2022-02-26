@@ -76,17 +76,17 @@ namespace WinDynamicDesktop.UI.Services
         {
             return simplePage?.likes ?? "0";
         }
-        public static string GetReaction()
+        public static bool GetReaction()
         {
-            return simplePage?.reaction ?? "false";
+            return simplePage?.reaction == "true" ? true : false;
         }
-        public static string GetFavorite()
+        public static bool GetFavorite()
         {
-            return simplePage?.favorite ?? "false";
+            return simplePage?.favorite == "true" ? true : false;
         }
-        public static string GetInstall()
+        public static bool GetInstall()
         {
-            return simplePage?.install ?? "false";
+            return simplePage?.install == "true" ? true : false;
         }
 
         public static List<Thumb> GetPosts()

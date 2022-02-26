@@ -40,7 +40,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             FontSize="24"
-                            Text="{Binding Header, TargetNullValue=Content}" />
+                            Text="{Binding SinglePageItemsViewModel.Name, TargetNullValue=Content}" />
                     </Grid>
                     <!--  Grid Article  -->
                     <StackPanel
@@ -76,17 +76,17 @@
                                             x:Name="ImageAuthor"
                                             Width="60"
                                             Height="60"
-                                            ProfilePicture="{Binding Avatar}" />
+                                            ProfilePicture="{Binding SinglePageItemsViewModel.Avatar}" />
                                         <StackPanel>
                                             <TextBlock
                                                 Margin="15,2,0,0"
                                                 FontFamily="{StaticResource FontGardensC}"
                                                 FontWeight="Bold"
-                                                Text="{Binding Username}" />
+                                                Text="{Binding SinglePageItemsViewModel.Username}" />
                                             <TextBlock
                                                 Margin="15,2,0,0"
                                                 FontFamily="{StaticResource FontGardensC}"
-                                                Text="{Binding Data}" />
+                                                Text="{Binding SinglePageItemsViewModel.Date}" />
                                             <ui:HyperlinkButton
                                                 Margin="15,2,0,0"
                                                 Command="{Binding ProfileCommand}"
@@ -98,7 +98,7 @@
                                     <StackPanel Grid.Row="1" Margin="20">
                                         <TextBlock
                                             FontFamily="{StaticResource FontGardensC}"
-                                            Text="{Binding Description}"
+                                            Text="{Binding SinglePageItemsViewModel.Description}"
                                             TextWrapping="Wrap" />
                                     </StackPanel>
                                     <Grid Grid.Row="2" Margin="20">
@@ -125,7 +125,7 @@
                                                     Margin="10,0,0,0"
                                                     VerticalAlignment="Center"
                                                     FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding Views, TargetNullValue=1000}" />
+                                                    Text="{Binding SinglePageItemsViewModel.Views, TargetNullValue=1000}" />
                                             </WrapPanel>
                                             <WrapPanel>
                                                 <TextBlock
@@ -136,7 +136,7 @@
                                                     Margin="10,0,0,0"
                                                     VerticalAlignment="Center"
                                                     FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding Downloads, TargetNullValue=1000}" />
+                                                    Text="{Binding SinglePageItemsViewModel.Downloads, TargetNullValue=1000}" />
                                             </WrapPanel>
                                             <WrapPanel>
                                                 <TextBlock
@@ -147,7 +147,7 @@
                                                     Margin="10,0,0,0"
                                                     VerticalAlignment="Center"
                                                     FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding Likes, TargetNullValue=1000}" />
+                                                    Text="{Binding SinglePageItemsViewModel.Likes, TargetNullValue=1000}" />
                                             </WrapPanel>
                                         </StackPanel>
                                         <StackPanel Grid.Column="1">
@@ -169,7 +169,7 @@
                                                     Margin="10,0,0,0"
                                                     VerticalAlignment="Center"
                                                     FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding Brand, TargetNullValue=Brand}" />
+                                                    Text="{Binding SinglePageItemsViewModel.Brand, TargetNullValue=Brand}" />
                                             </WrapPanel>
                                             <WrapPanel>
                                                 <TextBlock
@@ -223,16 +223,14 @@
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Command="{Binding InstallCommand}"
-                                                CommandParameter="{Binding InstallStatus}"
-                                                Content="{Binding InstallText, FallbackValue=Установить, TargetNullValue=Установить}"
+                                                Content="{Binding SinglePageLogic.DisplayTextInstall, FallbackValue=Установить, TargetNullValue=Установить}"
                                                 Style="{StaticResource AccentButtonStyle}" />
                                             <Button
                                                 Width="48"
                                                 Height="48"
                                                 Margin="10,0,0,0"
                                                 Command="{Binding FavoriteCommand}"
-                                                CommandParameter="{Binding FavoriteStatus}"
-                                                Content="{Binding FavoriteText, FallbackValue='&#xECB8;', TargetNullValue='&#xECB8;'}"
+                                                Content="{Binding SinglePageLogic.DisplayTextFavorite, FallbackValue='&#xECB8;', TargetNullValue='&#xECB8;'}"
                                                 FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource AccentButtonStyle}" />
                                             <Button
@@ -240,17 +238,9 @@
                                                 Height="48"
                                                 Margin="10,0,0,0"
                                                 Command="{Binding ReactionCommand}"
-                                                CommandParameter="{Binding ReactionStatus}"
-                                                Content="{Binding ReactionText, FallbackValue='&#xECEA;', TargetNullValue='&#xECEA;'}"
+                                                Content="{Binding SinglePageLogic.DisplayTextReation, FallbackValue='&#xECEA;', TargetNullValue='&#xECEA;'}"
                                                 FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource AccentButtonStyle}" />
-                                            <TextBlock
-                                                Margin="10,0,0,0"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                FontFamily="{StaticResource FontGardensC}"
-                                                FontSize="20"
-                                                Text="{Binding Likes, FallbackValue=0}" />
                                         </WrapPanel>
                                     </StackPanel>
                                 </Grid>

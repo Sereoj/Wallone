@@ -12,13 +12,16 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class SettingsService
     {
-        private static Settings settings = new Settings();
-        private static string file = "app.settings";
+        private static Settings Settings { get; set; } = new Settings();
+        private static string file;
         private static Timer autoSaveTimer;
         private static bool restartPending = false;
         private static bool unsavedChanges;
 
-
+        public static void SetModel(Settings settings)
+        {
+            Settings = settings;
+        }
         public static void SetFile(string path)
         {
             file = path;
@@ -32,7 +35,7 @@ namespace WinDynamicDesktop.Core.Services
         //Ручное сохранение
         public static void Save()
         {
-            File.WriteAllText(file, JsonConvert.SerializeObject(settings, Formatting.Indented));
+            File.WriteAllText(file, JsonConvert.SerializeObject(Settings, Formatting.Indented));
         }
         //Проверка на первый запуск
         public static bool CheckFirstLaunch()
@@ -51,7 +54,7 @@ namespace WinDynamicDesktop.Core.Services
             try
             {
                 string jsonText = File.ReadAllText(file);
-                settings = JsonConvert.DeserializeObject<Settings>(jsonText);
+                Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
             }
             catch(Exception ex)
             {
@@ -65,7 +68,7 @@ namespace WinDynamicDesktop.Core.Services
                 Interval = 100
             };
 
-            settings.PropertyChanged += OnSettingsPropertyChanged;
+            Settings.PropertyChanged += OnSettingsPropertyChanged;
             autoSaveTimer.Elapsed += OnAutoSaveTimerElapsed;
         }
 
@@ -107,12 +110,7 @@ namespace WinDynamicDesktop.Core.Services
 
         public static Settings Get()
         {
-            return settings;
-        }
-
-        public static void CreateFile(string path)
-        {
-            File.Create(path);
+            return Settings;
         }
     }
 }

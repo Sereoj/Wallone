@@ -55,16 +55,17 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             if(!SettingsService.CheckFirstLaunch())
+            {
                 Token();
-            else
-                regionManager.RequestNavigate("ContentRegion", "Register");
+            }
         }
 
         private async void Token()
         {
             try
             {
-                if (SettingsService.Get().Token != null)
+                var token = SettingsService.Get().Token;
+                if (token != null)
                 {
                     var json = await UserService.GetLoginWithTokenAsync();
                     var objects = JObject.Parse(json);
@@ -78,6 +79,10 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                     {
                         regionManager.RequestNavigate("ContentRegion", "Login");
                     }
+                }
+                else
+                {
+                    regionManager.RequestNavigate("ContentRegion", "Register");
                 }
             }
             catch (Exception e)

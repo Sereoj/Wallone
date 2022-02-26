@@ -20,28 +20,27 @@ using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
-    public class SinglePageViewModel : BindableBase, INavigationAware
+    public class SinglePageItemsViewModel : BindableBase
     {
-        private readonly IRegionManager regionManager;
-        private readonly IEventAggregator eventAggregator;
-        private SinglePage simplePage;
-        private readonly BitmapHelper bitmapHelper;
-        private string id;
+        private string name;
+        public string Name { get => name; set => SetProperty(ref name, value); }
 
-        public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();
-        public ObservableCollection<ItemTemplateViewModel> Categories { get; set; } = new ObservableCollection<ItemTemplateViewModel>();
-        public ObservableCollection<ItemTemplateViewModel> Tags { get; set; } = new ObservableCollection<ItemTemplateViewModel>();
+        //Имя пользователя
         private string username;
         public string Username { get => username; set => SetProperty(ref username, value); }
 
-        private System.Windows.Media.ImageSource avatar;
-        public System.Windows.Media.ImageSource Avatar { get => avatar; set => SetProperty(ref avatar, value); }
-        private string header;
-        public string Header { get => header; set => SetProperty(ref header, value); }
-        private string data1;
-        public string Data { get => data1; set => SetProperty(ref data1, value); }
+        //Аватар
+        private ImageSource avatar;
+        public ImageSource Avatar { get => avatar; set => SetProperty(ref avatar, value); }
+
+        //Дата публикации
+        private string date;
+        public string Date { get => date; set => SetProperty(ref date, value); }
+
+        //Бренд
         private string brand;
         public string Brand { get => brand; set => SetProperty(ref brand, value); }
+
         private string description;
         public string Description { get => description; set => SetProperty(ref description, value); }
 
@@ -53,27 +52,78 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private string downloads;
         public string Downloads { get => downloads; set => SetProperty(ref downloads, value); }
+    }
 
-        private string installStatus;
-        public string InstallStatus { get => installStatus; set => SetProperty(ref installStatus, value); }
+    public class SinglePageAdsViewModel : BindableBase
+    {
+        private string text;
+        public string Text { get => text; set => SetProperty(ref text, value); }
 
-        private string installText;
-        public string InstallText { get => installText; set => SetProperty(ref installText, value); }
+        private string link;
+        public string Link { get => link; set => SetProperty(ref link, value); }
 
-        private string favoriteStatus;
-        public string FavoriteStatus { get => favoriteStatus; set => SetProperty(ref favoriteStatus, value); }
+        private string isVisible;
+        public string IsVisible { get => isVisible; set => SetProperty(ref isVisible, value); }
+    }
 
-        private FontIcon favoriteText;
-        public FontIcon FavoriteText { get => favoriteText; set => SetProperty(ref favoriteText, value); }
+    public class SinglePageLogicViewModel : BindableBase
+    {
+        private string displayTextInstall;
+        public string DisplayTextInstall { get => displayTextInstall; set => SetProperty(ref displayTextInstall, value); }
 
-        private string reactionStatus;
-        public string ReactionStatus { get => reactionStatus; set => SetProperty(ref reactionStatus, value); }
+        private FontIcon displayTextFavorite;
+        public FontIcon DisplayTextFavorite { get => displayTextFavorite; set => SetProperty(ref displayTextFavorite, value); }
 
-        private FontIcon reactionText;
-        public FontIcon ReactionText { get => reactionText; set => SetProperty(ref reactionText, value); }
+        private FontIcon displayTextReation;
+        public FontIcon DisplayTextReation { get => displayTextReation; set => SetProperty(ref displayTextReation, value); }
 
-        private string ads;
-        public string Ads { get => ads; set => SetProperty(ref ads, value); }
+     
+        private bool isInstalled;
+        public bool IsInstalled
+        { 
+            get => isInstalled;
+            set
+            {
+                DisplayTextInstall = value == true ? "Удалить" : "Установить";
+                SetProperty(ref isInstalled, value);
+            }
+        }
+
+        private bool isFavorited;
+        public bool IsFavorited
+        { 
+            get => isFavorited;
+            set
+            {
+                DisplayTextFavorite = value == true ? FontIconService.SetIcon("ultimate", "\uECB7") : FontIconService.SetIcon("ultimate", "\uECB8");
+                SetProperty(ref isFavorited, value);
+            }
+        }
+
+        private bool isLiked;
+        public bool IsLiked
+        {
+            get => isLiked;
+            set
+            {
+                DisplayTextReation = value == true ? FontIconService.SetIcon("ultimate", "\uECE9") : FontIconService.SetIcon("ultimate", "\uECEA");
+                SetProperty(ref isLiked, value);
+            }
+        }
+    }
+    public class SinglePageViewModel : BindableBase, INavigationAware
+    {
+        private readonly IRegionManager regionManager;
+        private SinglePage simplePage;
+        private readonly BitmapHelper bitmapHelper;
+        private string id;
+
+        public SinglePageItemsViewModel SinglePageItemsViewModel { get; set; } = new SinglePageItemsViewModel();
+        public SinglePageAdsViewModel SinglePageAds { get; set; } = new SinglePageAdsViewModel();
+        public SinglePageLogicViewModel SinglePageLogic { get; set; } = new SinglePageLogicViewModel();
+        public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();
+        public ObservableCollection<ItemTemplateViewModel> Categories { get; set; } = new ObservableCollection<ItemTemplateViewModel>();
+        public ObservableCollection<ItemTemplateViewModel> Tags { get; set; } = new ObservableCollection<ItemTemplateViewModel>();
 
         public DelegateCommand ProfileCommand { get; set; }
         public DelegateCommand InstallCommand { get; set; }
@@ -86,10 +136,9 @@ namespace WinDynamicDesktop.UI.ViewModels
             Categories.Add(new ItemTemplateViewModel() { Text = "Test1" });
         }
 
-        public SinglePageViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public SinglePageViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-            this.eventAggregator = eventAggregator;
 
             bitmapHelper = new BitmapHelper();
 
@@ -112,45 +161,59 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private async void OnThemeInstalled()
         {
-            InstallText = InstallStatus == "true" ? "Установить" : "Удалить";
-            InstallStatus = InstallStatus == "false" ? "true" : "false";
+            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
+                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                .SetName(simplePage.name)
+                .CreateModel() //Создаем модель данных
+                .HasNotInstalled(SinglePageLogic.IsInstalled) //Если не установлена, прооходим проверку
+                .ExistOrCreateDirectory() // Если папка существует или не создана
+                .Remove() //Если существует и статус false, то удалить
+                .Download() //Разрешение на скачивание
+                .Build(); //Создаем конфиг
 
-            // Выполняем запрос, на манипуляции с темой
-            //var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>().Query(new ThemeCreatedBuilder());
+            var themeController = new ThemeController(themeBuilder);
             
-            //Проверяем на разрешение на манипуляцию
-            //var themeController = new ThemeController(themeBuilder);
-
-            if (InstallStatus == "true")
-            {
-                //themeBuilder.DownloadAndInstall();
-            }
-            
-            
-            SinglePage data = await SinglePageService.SetDownloadAsync(InstallStatus);
+            SinglePage data = await SinglePageService.SetDownloadAsync(AppConvert.BoolToString(themeController.GetValueInstall()));
             update(data);
+
+            SinglePageLogic.IsInstalled = themeController.GetValueInstall();
+
         }
 
         private async void OnThemeFavorited()
         {
-            FavoriteText = FavoriteStatus == "true" ? FontIconService.SetIcon("ultimate", "\uECB8") : FontIconService.SetIcon("ultimate", "\uECB7");
-            FavoriteStatus = FavoriteStatus == "false" ? "true" : "false";
-            SinglePage data = await SinglePageService.SetFavoriteAsync(FavoriteStatus);
+            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
+                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                .HasNotFavorited(SinglePageLogic.IsFavorited); //Если не установлена, проходим проверку
+
+            //Закидываем выполненные настройки в контроллер для отображения данных
+            var themeController = new ThemeController(themeBuilder);
+
+            SinglePage data = await SinglePageService.SetFavoriteAsync(AppConvert.BoolToString(themeController.GetValueFavorite()));
             update(data);
+
+            SinglePageLogic.IsFavorited = themeController.GetValueFavorite();
         }
 
         private async void OnReaction()
         {
-            ReactionText = ReactionStatus == "true" ? FontIconService.SetIcon("ultimate", "\uECEA") : FontIconService.SetIcon("ultimate", "\uECE9");
-            ReactionStatus = ReactionStatus == "false" ? "true" : "false";
-            SinglePage data = await SinglePageService.SetReactionAsync(ReactionStatus);
+            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
+                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                .HasNotLiked(SinglePageLogic.IsLiked); //Если не установлена, проходим проверку
+
+            //Закидываем выполненные настройки в контроллер для отображения данных
+            var themeController = new ThemeController(themeBuilder);
+
+            SinglePage data = await SinglePageService.SetReactionAsync(AppConvert.BoolToString(themeController.GetValueReaction()));
             update(data);
+
+            SinglePageLogic.IsLiked = themeController.GetValueReaction();
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             id = (string)navigationContext.Parameters["ID"];
-            Header = (string)navigationContext.Parameters["Name"];
+            SinglePageItemsViewModel.Name = (string)navigationContext.Parameters["Name"];
             Loaded(id);
             LoadAds();
         }
@@ -173,13 +236,13 @@ namespace WinDynamicDesktop.UI.ViewModels
                 if (!string.IsNullOrEmpty(data))
                 {
                     var message = JsonConvert.DeserializeObject<Text>(data);
-                    Ads = message.text ?? "Не удалось загрузить =(";
+                    SinglePageAds.Text = message.text ?? "Не удалось загрузить =(";
                 }
             }
             catch (Exception ex)
             {
 
-                Ads = ex.Message;
+                SinglePageAds.Text = ex.Message;
             }
         }
         public async void Loaded(string id)
@@ -192,26 +255,29 @@ namespace WinDynamicDesktop.UI.ViewModels
                 {
                     //var jArray = JArray.Parse(data);
                     simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
+                        
                     SinglePageService.Load(simplePage);
 
-                    Header = SinglePageService.GetHeader();
-                    Username = SinglePageService.GetUsername();
-                    Description = SinglePageService.GetDescription();
-                    Likes = SinglePageService.GetLikes();
-                    Views = SinglePageService.GetViews();
-                    Downloads = SinglePageService.GetDownloads();
-                    Brand = SinglePageService.GetBrand()?.Name;
-                    Data = SinglePageService.GetData();
+                    //SinglePageItems
+
+                    SinglePageItemsViewModel.Name = SinglePageService.GetHeader();
+                    SinglePageItemsViewModel.Username = SinglePageService.GetUsername();
+                    SinglePageItemsViewModel.Description = SinglePageService.GetDescription();
+                    SinglePageItemsViewModel.Likes = SinglePageService.GetLikes();
+                    SinglePageItemsViewModel.Views = SinglePageService.GetViews();
+                    SinglePageItemsViewModel.Downloads = SinglePageService.GetDownloads();
+                    SinglePageItemsViewModel.Brand = SinglePageService.GetBrand()?.Name;
+                    SinglePageItemsViewModel.Date = SinglePageService.GetData();
 
                     if(SinglePageService.GetAvatar() != null)
                     {
-                        Avatar = (ImageSource)bitmapHelper[UriHelper.Get(SinglePageService.GetAvatar())];
+                        SinglePageItemsViewModel.Avatar = (ImageSource)bitmapHelper[UriHelper.Get(SinglePageService.GetAvatar())];
                     }
 
                     categories(SinglePageService.GetCategories());
                     tags(SinglePageService.GetTags());
                     posts(SinglePageService.GetPosts());
-                    setButtons();
+                    setStatusForButtons();
 
                     bitmapHelper.Clear();
 
@@ -232,16 +298,21 @@ namespace WinDynamicDesktop.UI.ViewModels
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
         }
-        private void setButtons()
+        private void setStatusForButtons()
         {
-            InstallStatus = SinglePageService.GetInstall();
-            InstallText = SinglePageService.GetInstall() != "true" ? "Установить" : "Удалить";
+            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
+                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                .SetName(simplePage.name)
+                .HasNotInstalled(SinglePageLogic.IsInstalled); //Если не установлена, прооходим проверку
 
-            FavoriteStatus = SinglePageService.GetFavorite();
-            FavoriteText = SinglePageService.GetFavorite() != "true" ? FontIconService.SetIcon("ultimate", "\uECB8") : FontIconService.SetIcon("ultimate", "\uECB7");
+            SinglePageLogic.IsInstalled = SinglePageService.GetInstall();
+            SinglePageLogic.IsFavorited = SinglePageService.GetFavorite();
+            SinglePageLogic.IsLiked = SinglePageService.GetReaction();
 
-            ReactionStatus = SinglePageService.GetReaction();
-            ReactionText = SinglePageService.GetReaction() != "true" ? FontIconService.SetIcon("ultimate", "\uECEA") : FontIconService.SetIcon("ultimate", "\uECE9");
+            if (themeBuilder.GetHasNotInstalled() == false)
+            {
+                SinglePageLogic.IsInstalled = AppConvert.Revert(themeBuilder.GetHasNotInstalled());
+            }
         }
         private async void tags(List<Tag> list)
         {
@@ -321,9 +392,9 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private void update(SinglePage data)
         {
-            Views = data?.views ?? simplePage.views;
-            Likes = data?.likes ?? simplePage.likes;
-            Downloads = data?.downloads ?? simplePage.likes;
+            SinglePageItemsViewModel.Views = data?.views ?? simplePage.views;
+            SinglePageItemsViewModel.Likes = data?.likes ?? simplePage.likes;
+            SinglePageItemsViewModel.Downloads = data?.downloads ?? simplePage.likes;
         }
     }
 }

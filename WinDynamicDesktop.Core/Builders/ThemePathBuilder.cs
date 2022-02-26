@@ -19,11 +19,12 @@ namespace WinDynamicDesktop.Core.Builders
             string appLocation = AppSettingsService.GetAppLocation();
             string pathThemeDirectory = Path.Combine(appLocation, path);
 
-
             if (!AppSettingsService.ExistDirectory(pathThemeDirectory))
             {
                 CreateDirectory(pathThemeDirectory);
             }
+
+            AppSettingsService.SetThemesLocation(pathThemeDirectory);
             return this;
         }
 

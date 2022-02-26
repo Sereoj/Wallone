@@ -9,6 +9,5 @@ namespace WinDynamicDesktop.Core.Interfaces
         public ThemeCreatedBuilder DownloadAndInstall();
         public ThemeCreatedBuilder SetAttibuteDirectory();
         public ThemeCreatedBuilder SetAttibuteFiles();
-        public bool Exist();
     }
 }
