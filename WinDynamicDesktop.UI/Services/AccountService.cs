@@ -53,7 +53,7 @@ namespace WinDynamicDesktop.UI.Services
 
         public static DateTime GetDOB()
         {
-            return DateTime.Parse(user.dob);
+            return user.dob != null ? DateTime.Parse(user.dob) : DateTime.Now;
         }
 
         public static string GetCountry()
