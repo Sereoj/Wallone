@@ -62,8 +62,8 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string link;
         public string Link { get => link; set => SetProperty(ref link, value); }
 
-        private string isVisible;
-        public string IsVisible { get => isVisible; set => SetProperty(ref isVisible, value); }
+        private bool isVisible;
+        public bool IsVisible { get => isVisible; set => SetProperty(ref isVisible, value); }
     }
 
     public class SinglePageLogicViewModel : BindableBase
@@ -236,6 +236,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                 if (!string.IsNullOrEmpty(data))
                 {
                     var message = JsonConvert.DeserializeObject<Text>(data);
+                    SinglePageAds.IsVisible = true;
                     SinglePageAds.Text = message.text ?? "Не удалось загрузить =(";
                 }
             }

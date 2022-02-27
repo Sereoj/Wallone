@@ -9,13 +9,14 @@
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
     Title="{Binding Title}"
     Width="1200"
+    WindowState="Normal"
     Height="900"
     MinWidth="1200"
     MinHeight="900"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     WindowStartupLocation="CenterScreen"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Topmost="True">
     <Grid Background="{StaticResource AppBackground}">
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
     </Grid>

@@ -15,6 +15,9 @@
     d:DesignWidth="2048"
     mc:Ignorable="d">
     <!--  Border использование для рамок  -->
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer
             x:Name="ScrollViewer"
@@ -251,7 +254,8 @@
                                 Margin="0,40,0,0"
                                 HorizontalAlignment="Center"
                                 FontSize="20"
-                                Text="{Binding Ads}" />
+                                Visibility="{Binding SinglePageAds.IsVisible, Converter={StaticResource BoolToVis}, FallbackValue=Visible}"
+                                Text="{Binding SinglePageAds.Text}" />
                         </StackPanel>
                         <ui:GridView
                             Width="{Binding Path=ActualWidth, ElementName=ArticleView}"

@@ -14,7 +14,6 @@ namespace WinDynamicDesktop.UI.ViewModels
     public class MainViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
-        private readonly IEventAggregator eventAggregator;
 
         private ObservableCollection<NavigationViewItem> brands = new ObservableCollection<NavigationViewItem>();
         public ObservableCollection<NavigationViewItem> Brands
@@ -46,12 +45,10 @@ namespace WinDynamicDesktop.UI.ViewModels
         public DelegateCommand<NavigationViewItemInvokedEventArgs> MenuItemInvokedCommand { get; set; }
         public MainViewModel()
         {
-            MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
         }
         public MainViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             this.regionManager = regionManager;
-            this.eventAggregator = eventAggregator;
 
             LoadBrands();
             LoadCategory();
