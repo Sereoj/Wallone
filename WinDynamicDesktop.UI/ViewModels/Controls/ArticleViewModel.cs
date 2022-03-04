@@ -10,6 +10,12 @@ namespace WinDynamicDesktop.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
 
+        private double width = 270;
+        public double Width { get => width; set => SetProperty(ref width, value); }
+
+        private double height = 210;
+        public double Height { get => height; set => SetProperty(ref height, value); }
+
         private BitmapImage imageSource;
         public BitmapImage ImageSource
         {
@@ -59,6 +65,12 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+        }
+
+        public void SetSize(double w, double h)
+        {
+            Width = w;
+            Height = h;
         }
     }
 }

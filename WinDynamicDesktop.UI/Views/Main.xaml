@@ -14,6 +14,8 @@
     d:DesignHeight="900"
     d:DesignWidth="1200"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    Loaded="UserControl_Loaded"
+    SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
     <Grid>
         <!--  DialogRegion  -->
@@ -22,6 +24,7 @@
         <ui:NavigationView
             x:Name="NavigationView"
             IsBackButtonVisible="Collapsed"
+            IsPaneOpen="False"
             IsPaneToggleButtonVisible="True"
             IsSettingsVisible="True"
             IsTabStop="False"
@@ -33,27 +36,26 @@
                     x:Uid="Main"
                     Content="Библиотека"
                     Icon="Library"
-                    Tag="Library" />
+                    Tag="Gallery" />
                 <!--  Brands  -->
                 <ui:NavigationViewItem
                     x:Uid="Brands"
                     Content="Бренды"
                     Icon="AllApps"
-                    IsHitTestVisible="True"
                     MenuItemsSource="{Binding Brands}"
-                    Tag="Brands" />
+                    Tag="Gallery" />
                 <!--  Categories  -->
                 <ui:NavigationViewItem
                     x:Uid="Categories"
                     Content="Категории"
                     Icon="GlobalNavigationButton"
                     MenuItemsSource="{Binding Categories}"
-                    Tag="Categories" />
+                    Tag="Gallery" />
                 <ui:NavigationViewItemSeparator />
                 <ui:NavigationViewItem
                     x:Uid="New"
                     Content="Новые"
-                    Tag="New">
+                    Tag="Gallery">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xE953;" />
                     </ui:NavigationViewItem.Icon>
@@ -61,7 +63,7 @@
                 <ui:NavigationViewItem
                     x:Uid="Popular"
                     Content="Популярные"
-                    Tag="Popular">
+                    Tag="Gallery">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xE9A9;" />
                     </ui:NavigationViewItem.Icon>
@@ -69,22 +71,22 @@
                 <ui:NavigationViewItem
                     x:Uid="Wait"
                     Content="Ожидаемые"
-                    Tag="Wait">
+                    Tag="Gallery">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xE950;" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItemSeparator />
                 <ui:NavigationViewItem
-                    x:Uid="Install"
+                    x:Uid="Downloads"
                     Content="Загрузки"
                     Icon="download"
-                    Tag="Install" />
+                    Tag="Gallery" />
                 <ui:NavigationViewItem
-                    x:Uid="Favorite"
+                    x:Uid="Favourite"
                     Content="Закладки"
                     Icon="favorite"
-                    Tag="Favorite" />
+                    Tag="Gallery" />
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
                 <ui:NavigationViewItem

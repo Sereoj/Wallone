@@ -46,7 +46,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         public MainViewModel()
         {
         }
-        public MainViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public MainViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
 
@@ -60,27 +60,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             switch (e.InvokedItemContainer.Tag.ToString())
             {
-                case "Library":
-                    regionManager.RequestNavigate("PageRegion", "Wallpapers");
-                    break;
-                case "New":
-                    regionManager.RequestNavigate("PageRegion", "WallpapersNew");
-                    break;
-                case "Popular":
-                    regionManager.RequestNavigate("PageRegion", "WallpapersPopular");
-                    break;
-                case "Wait":
-                    regionManager.RequestNavigate("PageRegion", "WallpapersWait");
-                    break;
-                case "Install":
-                    regionManager.RequestNavigate("PageRegion", "InstalledWallpapers");
-                    break;
-                case "Favorite":
-                    regionManager.RequestNavigate("PageRegion", "FavoriteWallpapers");
-                    break;
-                case "Load":
-                    regionManager.RequestNavigate("PageRegion", "LoadWallpapers");
-                    break;
                 case "Profile":
                     regionManager.RequestNavigate("PageRegion", "Profile");
                     break;
@@ -134,7 +113,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         Content = item.Name,
                         Name = item.Tag.ToLower(),
                         Icon = FontIconService.SetIcon("ultimate", item.Icon),
-                        Tag = "brand"
+                        Tag = "Brands"
                     });
                 }
             }
@@ -162,7 +141,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         Content = item.Name,
                         Name = item.Tag.ToLower(),
                         Icon = FontIconService.SetIcon("ultimate", item.Icon),
-                        Tag = "category"
+                        Tag = "Categories"
                     });
                 }
             }

@@ -34,13 +34,6 @@ namespace WinDynamicDesktop.UI
             containerRegistry.RegisterForNavigation<NotFound, ViewModels.NotFoundViewModel>();
 
             containerRegistry.RegisterForNavigation<Wallpapers, ViewModels.WallpapersViewModel>();
-            containerRegistry.RegisterForNavigation<WallpapersNew, ViewModels.WallpapersNewViewModel>();
-            containerRegistry.RegisterForNavigation<WallpapersPopular, ViewModels.WallpapersPopularViewModel>();
-            containerRegistry.RegisterForNavigation<WallpapersWait, ViewModels.WallpapersWaitViewModel>();
-
-            containerRegistry.RegisterForNavigation<InstalledWallpapers, ViewModels.InstalledWallpapersViewModel>();
-            containerRegistry.RegisterForNavigation<FavoriteWallpapers, ViewModels.WallpapersFavoriteViewModel>();
-            containerRegistry.RegisterForNavigation<LoadWallpapers, ViewModels.WallpapersLoadViewModel>();
 
             containerRegistry.RegisterForNavigation<Profile, ViewModels.ProfileViewModel>();
             containerRegistry.RegisterForNavigation<Account, ViewModels.AccountViewModel>();
@@ -52,7 +45,7 @@ namespace WinDynamicDesktop.UI
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
 
-            var app = new AppSettingsBuilder()
+            new AppSettingsBuilder()
                 .Query(new AppPathBulder()
                     .AppLocation(Directory.GetCurrentDirectory())
                     .Build())

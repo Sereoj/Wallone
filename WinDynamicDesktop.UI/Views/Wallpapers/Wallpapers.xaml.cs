@@ -43,5 +43,10 @@ namespace WinDynamicDesktop.UI.Views
                 //TODO
             }
         }
+
+        private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+
+        }
     }
 }

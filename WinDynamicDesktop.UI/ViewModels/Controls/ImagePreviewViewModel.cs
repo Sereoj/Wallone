@@ -57,6 +57,12 @@ namespace WinDynamicDesktop.UI.ViewModels
             set { SetProperty(ref selectedIndex, value); }
         }
 
+        private double width = 856;
+        public double Width { get => width; set => SetProperty(ref width, value); }
+
+        private double height = 482;
+        public double Height { get => height; set => SetProperty(ref height, value); }
+
         public ObservableCollection<ThemePreviewItem> Items { get; } = new ObservableCollection<ThemePreviewItem>();
 
         public DelegateCommand PreviousCommand { get; set; }
