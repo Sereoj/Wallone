@@ -41,7 +41,7 @@
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="24"
+                        Style="{StaticResource H3}"
                         Text="{Binding Header, TargetNullValue=Content}" />
                 </Grid>
                 <!--  Grid Article  -->
@@ -58,8 +58,24 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                        <Image Source="{Binding Cover}" Stretch="UniformToFill" />
-                        <Image Source="{StaticResource TransparentPlaceholder}" Stretch="UniformToFill" />
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <ImageBrush
+                                    ImageSource="{Binding Cover}"
+                                    Stretch="UniformToFill"
+                                    TileMode="FlipXY" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Border
+                            Height="160"
+                            Margin="5,0,5,0"
+                            VerticalAlignment="Bottom"
+                            Background="Black"
+                            Opacity="0.6">
+                            <Border.Effect>
+                                <BlurEffect Radius="50" RenderingBias="Quality" />
+                            </Border.Effect>
+                        </Border>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -107,16 +123,37 @@
                                     Margin="0,40,0,0"
                                     VerticalAlignment="Top"
                                     FontFamily="{StaticResource FontGardensC}"
-                                    FontSize="24"
-                                    FontWeight="Medium"
-                                    Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}" />
+                                    Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                                    Style="{StaticResource H4}"
+                                    Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect
+                                            BlurRadius="3"
+                                            Direction="167"
+                                            Opacity="1"
+                                            RenderingBias="Performance"
+                                            ShadowDepth="0"
+                                            Color="Black" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
                                 <TextBlock
                                     Height="76"
                                     Margin="0,15,20,0"
                                     FontFamily="{StaticResource FontGardensC}"
-                                    FontSize="16"
+                                    Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                                    Style="{StaticResource P}"
                                     Text="{Binding Description, FallbackValue=Description, TargetNullValue=Описание}"
-                                    TextWrapping="Wrap" />
+                                    TextWrapping="Wrap">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect
+                                            BlurRadius="3"
+                                            Direction="167"
+                                            Opacity="1"
+                                            RenderingBias="Performance"
+                                            ShadowDepth="0"
+                                            Color="Black" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -133,8 +170,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
                                 FontFamily="{StaticResource FontGardensC}"
-                                FontSize="24"
-                                FontWeight="Medium"
+                                Style="{StaticResource H4}"
                                 Text="{Binding Subscriptions, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
@@ -149,8 +185,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
                                 FontFamily="{StaticResource FontGardensC}"
-                                FontSize="24"
-                                FontWeight="Medium"
+                                Style="{StaticResource H4}"
                                 Text="{Binding Subscribers, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
@@ -165,8 +200,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
                                 FontFamily="{StaticResource FontGardensC}"
-                                FontSize="24"
-                                FontWeight="Medium"
+                                Style="{StaticResource H4}"
                                 Text="{Binding Likes, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"
@@ -181,8 +215,7 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Top"
                                 FontFamily="{StaticResource FontGardensC}"
-                                FontSize="24"
-                                FontWeight="Medium"
+                                Style="{StaticResource H4}"
                                 Text="{Binding Publish, FallbackValue=10000, TargetNullValue=1000}" />
                             <TextBlock
                                 HorizontalAlignment="Center"

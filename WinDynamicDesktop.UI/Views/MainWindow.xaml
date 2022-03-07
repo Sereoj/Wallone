@@ -14,7 +14,7 @@
     MinHeight="400"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    Topmost="True"
+    Topmost="False"
     WindowStartupLocation="CenterScreen"
     WindowState="Normal"
     mc:Ignorable="d">

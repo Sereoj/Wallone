@@ -16,16 +16,5 @@ namespace WinDynamicDesktop.UI.Controls
         {
             InitializeComponent();
         }
-
-        private void BorderAction_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            Header.Opacity = 1;
-        }
-
-        private void BorderAction_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            Header.Opacity = 0;
-        }
-
     }
 }

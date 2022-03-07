@@ -33,4 +33,34 @@
 
     <!--  Override Controls  -->
 
+    <Style x:Key="P" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="LineHeight" Value="15" />
+        <Setter Property="TextAlignment" Value="Justify" />
+    </Style>
+
+    <Style x:Key="H3" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="LineHeight" Value="12" />
+        <Setter Property="Foreground" Value="#212529" />
+        <Setter Property="TextAlignment" Value="Justify" />
+    </Style>
+
+    <Style x:Key="H4" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="LineHeight" Value="12" />
+        <Setter Property="TextAlignment" Value="Justify" />
+    </Style>
+
+    <Style x:Key="H5" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="LineHeight" Value="12" />
+        <Setter Property="Foreground" Value="#212529" />
+        <Setter Property="TextAlignment" Value="Justify" />
+    </Style>
+
 </ResourceDictionary>

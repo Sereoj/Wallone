@@ -6,45 +6,17 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
+    Width="270"
+    Height="210"
     d:DataContext="{d:DesignInstance Type=viewmodels:ArticleViewModel}"
     SnapsToDevicePixels="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Storyboard x:Key="MouseOverTrue">
-            <DoubleAnimation
-                Storyboard.TargetProperty="Opacity"
-                From="0.0"
-                To="0.4"
-                Duration="0:0:1" />
-        </Storyboard>
-        <Storyboard x:Key="MouseOverFalse">
-            <DoubleAnimation
-                Storyboard.TargetProperty="Opacity"
-                From="0.4"
-                To="0.0"
-                Duration="0:0:1" />
-        </Storyboard>
-    </UserControl.Resources>
-    <Border
-        Width="{Binding Width}"
-        Height="{Binding Height}"
-        CornerRadius="20">
-        <Grid>
-            <TextBlock
-                x:Name="Header"
-                Margin="40,0,40,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                FontFamily="{StaticResource FontGardensC}"
-                FontSize="24"
-                FontWeight="Medium"
-                LineHeight="20"
-                Opacity="1"
-                Text="{Binding Name, TargetNullValue=Value, FallbackValue=Value}"
-                TextAlignment="Justify"
-                TextWrapping="Wrap">
-                <TextBlock.Effect>
+        <Style TargetType="TextBlock">
+            <Setter Property="Effect">
+                <Setter.Value>
                     <DropShadowEffect
                         BlurRadius="3"
                         Direction="167"
@@ -52,29 +24,190 @@
                         RenderingBias="Performance"
                         ShadowDepth="0"
                         Color="Black" />
-                </TextBlock.Effect>
-            </TextBlock>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Border CornerRadius="20">
+        <Grid>
             <Border
                 x:Name="BorderAction"
                 Background="Black"
                 CornerRadius="20"
-                Opacity="0.0">
-                <Border.Style>
-                    <Style TargetType="Border">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Trigger.EnterActions>
-                                    <BeginStoryboard Storyboard="{StaticResource MouseOverTrue}" />
-                                </Trigger.EnterActions>
-                            </Trigger>
-                            <Trigger Property="IsMouseOver" Value="False">
-                                <Trigger.ExitActions>
-                                    <BeginStoryboard Storyboard="{StaticResource MouseOverFalse}" />
-                                </Trigger.ExitActions>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Border.Style>
+                Opacity="0" />
+            <TextBlock
+                x:Name="Header"
+                Margin="40,0,40,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                ui:PressHelper.IsEnabled="True"
+                FontFamily="{StaticResource FontGardensC}"
+                FontSize="24"
+                FontWeight="Medium"
+                Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                LineHeight="20"
+                Opacity="0"
+                Text="{Binding Name, TargetNullValue=Value, FallbackValue=Value}"
+                TextAlignment="Justify"
+                TextWrapping="Wrap" />
+            <WrapPanel
+                x:Name="Fields"
+                Margin="0,0,0,50"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Opacity="0">
+                <WrapPanel x:Name="Column1" Margin="0,0,0,0">
+                    <TextBlock
+                        x:Name="IconDownloads"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ui:PressHelper.IsEnabled="True"
+                        FontFamily="{StaticResource FontIconMoonUltimate}"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                        LineHeight="20"
+                        Text="&#xEC76;"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap">
+                        <TextBlock.Triggers>
+                            <EventTrigger RoutedEvent="Control.MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1.0"
+                                            Duration="0:0:0.2" />
+                                        <DoubleAnimation
+                                            Storyboard.Target="{Binding ElementName=BorderAction}"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.4"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0.0"
+                                            Duration="0:0:0.2" />
+                                        <DoubleAnimation
+                                            Storyboard.Target="{Binding ElementName=BorderAction}"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </TextBlock.Triggers>
+                        <TextBlock.Effect>
+                            <DropShadowEffect
+                                BlurRadius="3"
+                                Direction="167"
+                                Opacity="1"
+                                RenderingBias="Performance"
+                                ShadowDepth="0"
+                                Color="Black" />
+                        </TextBlock.Effect>
+                    </TextBlock>
+                    <TextBlock
+                        x:Name="Downloads"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ui:PressHelper.IsEnabled="True"
+                        FontFamily="{StaticResource FontGardensC}"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                        LineHeight="20"
+                        Text="{Binding Downloads, TargetNullValue=100000, FallbackValue=100000}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                </WrapPanel>
+                <WrapPanel x:Name="Column2" Margin="15,0,0,0">
+                    <TextBlock
+                        x:Name="IconViews"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ui:PressHelper.IsEnabled="True"
+                        FontFamily="{StaticResource FontIconMoonUltimate}"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                        LineHeight="20"
+                        Opacity="1"
+                        Text="&#xECAE;"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        x:Name="Views"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ui:PressHelper.IsEnabled="True"
+                        FontFamily="{StaticResource FontGardensC}"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                        LineHeight="20"
+                        Opacity="1"
+                        Text="{Binding Views, TargetNullValue=10000, FallbackValue=10000}"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                </WrapPanel>
+            </WrapPanel>
+            <Border
+                x:Name="BorderTransparent"
+                Background="Transparent"
+                CornerRadius="20"
+                Opacity="0">
+                <Border.Triggers>
+                    <EventTrigger RoutedEvent="Control.MouseEnter">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.Target="{Binding ElementName=BorderAction}"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="0.4"
+                                    Duration="0:0:0.2" />
+                                <DoubleAnimation
+                                    Storyboard.Target="{Binding ElementName=Header}"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="1"
+                                    Duration="0:0:0.2" />
+                                <DoubleAnimation
+                                    Storyboard.Target="{Binding ElementName=Fields}"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="1"
+                                    Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                    <EventTrigger RoutedEvent="Control.MouseLeave">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.Target="{Binding ElementName=BorderAction}"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="0"
+                                    Duration="0:0:0.2" />
+                                <DoubleAnimation
+                                    Storyboard.Target="{Binding ElementName=Header}"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="0"
+                                    Duration="0:0:0.2" />
+                                <DoubleAnimation
+                                    Storyboard.Target="{Binding ElementName=Fields}"
+                                    Storyboard.TargetProperty="Opacity"
+                                    To="0"
+                                    Duration="0:0:0.2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Border.Triggers>
             </Border>
         </Grid>
         <i:Interaction.Triggers>

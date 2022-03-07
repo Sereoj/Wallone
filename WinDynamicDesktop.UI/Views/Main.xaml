@@ -30,7 +30,7 @@
             IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="False"
             OpenPaneLength="240"
-            PaneDisplayMode="Left">
+            PaneDisplayMode="Auto">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
                     x:Uid="Main"

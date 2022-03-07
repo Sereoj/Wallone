@@ -16,7 +16,19 @@
     mc:Ignorable="d">
     <!--  Border использование для рамок  -->
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Style TargetType="ui:GridViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ui:GridViewItem">
+                        <ContentPresenter HorizontalAlignment="Stretch" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <ScrollViewer
@@ -24,16 +36,11 @@
             IsTabStop="False"
             ScrollChanged="ScrollViewer_ScrollChanged">
             <StackPanel>
-                <Grid HorizontalAlignment="Center">
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="40" />
+                        <RowDefinition Height="60" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MaxWidth="50" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" MaxWidth="50" />
-                    </Grid.ColumnDefinitions>
                     <!--  Grid Header  -->
                     <Grid
                         x:Name="Header"
@@ -43,231 +50,60 @@
                             Margin="0,10,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            FontSize="24"
-                            Text="{Binding SinglePageItemsViewModel.Name, TargetNullValue=Content}" />
+                            Style="{StaticResource H3}"
+                            Text="{Binding Name, TargetNullValue=Content}" />
                     </Grid>
                     <!--  Grid Article  -->
-                    <StackPanel
+                    <Grid
                         x:Name="ArticleView"
                         Grid.Row="1"
                         Grid.Column="1"
-                        Margin="0,20,0,0">
-                        <ui:GridView
-                            x:Name="SliderAndUserPanel"
-                            HorizontalAlignment="Center"
-                            IsSelectionEnabled="False">
-                            <ContentControl
-                                x:Name="Slider"
-                                prism:RegionManager.RegionName="Slider" />
-                            <Border
-                                Width="{Binding Path=ActualWidth, ElementName=Slider}"
-                                Height="482"
-                                Background="White">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <WrapPanel
-                                        x:Name="author"
-                                        Grid.Row="0"
-                                        Margin="20">
-                                        <ui:PersonPicture
-                                            x:Name="ImageAuthor"
-                                            Width="60"
-                                            Height="60"
-                                            ProfilePicture="{Binding SinglePageItemsViewModel.Avatar}" />
-                                        <StackPanel>
-                                            <TextBlock
-                                                Margin="15,2,0,0"
-                                                FontFamily="{StaticResource FontGardensC}"
-                                                FontWeight="Bold"
-                                                Text="{Binding SinglePageItemsViewModel.Username}" />
-                                            <TextBlock
-                                                Margin="15,2,0,0"
-                                                FontFamily="{StaticResource FontGardensC}"
-                                                Text="{Binding SinglePageItemsViewModel.Date}" />
-                                            <ui:HyperlinkButton
-                                                Margin="15,2,0,0"
-                                                Command="{Binding ProfileCommand}"
-                                                Cursor="Hand">
-                                                Перейти в профиль
-                                            </ui:HyperlinkButton>
-                                        </StackPanel>
-                                    </WrapPanel>
-                                    <StackPanel Grid.Row="1" Margin="20">
-                                        <TextBlock
-                                            FontFamily="{StaticResource FontGardensC}"
-                                            Text="{Binding SinglePageItemsViewModel.Description}"
-                                            TextWrapping="Wrap" />
-                                    </StackPanel>
-                                    <Grid Grid.Row="2" Margin="20">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackPanel Grid.Column="0">
-                                            <StackPanel.Style>
-                                                <Style>
-                                                    <Style.Resources>
-                                                        <Style TargetType="WrapPanel">
-                                                            <Setter Property="Margin" Value="0,5,0,2" />
-                                                        </Style>
-                                                    </Style.Resources>
-                                                </Style>
-                                            </StackPanel.Style>
-                                            <WrapPanel>
-                                                <TextBlock
-                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                    FontSize="20"
-                                                    Text="&#xECAE;" />
-                                                <TextBlock
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding SinglePageItemsViewModel.Views, TargetNullValue=1000}" />
-                                            </WrapPanel>
-                                            <WrapPanel>
-                                                <TextBlock
-                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                    FontSize="20"
-                                                    Text="&#xEC76;" />
-                                                <TextBlock
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding SinglePageItemsViewModel.Downloads, TargetNullValue=1000}" />
-                                            </WrapPanel>
-                                            <WrapPanel>
-                                                <TextBlock
-                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                    FontSize="20"
-                                                    Text="&#xECEA;" />
-                                                <TextBlock
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding SinglePageItemsViewModel.Likes, TargetNullValue=1000}" />
-                                            </WrapPanel>
-                                        </StackPanel>
-                                        <StackPanel Grid.Column="1">
-                                            <StackPanel.Style>
-                                                <Style>
-                                                    <Style.Resources>
-                                                        <Style TargetType="WrapPanel">
-                                                            <Setter Property="Margin" Value="0,5,0,2" />
-                                                        </Style>
-                                                    </Style.Resources>
-                                                </Style>
-                                            </StackPanel.Style>
-                                            <WrapPanel>
-                                                <TextBlock
-                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                    FontSize="20"
-                                                    Text="&#xEC5A;" />
-                                                <TextBlock
-                                                    Margin="10,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    FontFamily="{StaticResource FontGardensC}"
-                                                    Text="{Binding SinglePageItemsViewModel.Brand, TargetNullValue=Brand}" />
-                                            </WrapPanel>
-                                            <WrapPanel>
-                                                <TextBlock
-                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                    FontSize="20"
-                                                    Text="&#xE93E;" />
-                                                <ui:ItemsRepeater
-                                                    Width="375"
-                                                    Margin="8,0,0,0"
-                                                    ItemsSource="{Binding Categories}">
-                                                    <ui:ItemsRepeater.Layout>
-                                                        <ui:StackLayout Orientation="Horizontal" Spacing="5" />
-                                                    </ui:ItemsRepeater.Layout>
-
-                                                    <ui:ItemsRepeater.ItemTemplate>
-                                                        <DataTemplate DataType="{x:Type viewmodels:ItemTemplateViewModel}">
-                                                            <TextBlock Text="{Binding Text}" />
-                                                        </DataTemplate>
-                                                    </ui:ItemsRepeater.ItemTemplate>
-                                                </ui:ItemsRepeater>
-                                            </WrapPanel>
-                                            <WrapPanel>
-                                                <TextBlock
-                                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                    FontSize="20"
-                                                    Text="&#xE9F5;" />
-                                                <ui:ItemsRepeater
-                                                    Width="375"
-                                                    Margin="8,0,0,0"
-                                                    ItemsSource="{Binding Tags}">
-                                                    <ui:ItemsRepeater.Layout>
-                                                        <ui:StackLayout Orientation="Horizontal" Spacing="5" />
-                                                    </ui:ItemsRepeater.Layout>
-
-                                                    <ui:ItemsRepeater.ItemTemplate>
-                                                        <DataTemplate DataType="{x:Type viewmodels:ItemTemplateViewModel}">
-                                                            <TextBlock Text="{Binding Text}" />
-                                                        </DataTemplate>
-                                                    </ui:ItemsRepeater.ItemTemplate>
-                                                </ui:ItemsRepeater>
-                                            </WrapPanel>
-                                        </StackPanel>
-
-                                    </Grid>
-                                    <StackPanel Grid.Row="3" Margin="20">
-                                        <WrapPanel>
-                                            <Button
-                                                x:Name="Install"
-                                                Width="300"
-                                                Height="50"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Command="{Binding InstallCommand}"
-                                                Content="{Binding SinglePageLogic.DisplayTextInstall, FallbackValue=Установить, TargetNullValue=Установить}"
-                                                Style="{StaticResource AccentButtonStyle}" />
-                                            <Button
-                                                Width="48"
-                                                Height="48"
-                                                Margin="10,0,0,0"
-                                                Command="{Binding FavoriteCommand}"
-                                                Content="{Binding SinglePageLogic.DisplayTextFavorite, FallbackValue='&#xECB8;', TargetNullValue='&#xECB8;'}"
-                                                FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                Style="{StaticResource AccentButtonStyle}" />
-                                            <Button
-                                                Width="48"
-                                                Height="48"
-                                                Margin="10,0,0,0"
-                                                Command="{Binding ReactionCommand}"
-                                                Content="{Binding SinglePageLogic.DisplayTextReation, FallbackValue='&#xECEA;', TargetNullValue='&#xECEA;'}"
-                                                FontFamily="{StaticResource FontIconMoonUltimate}"
-                                                Style="{StaticResource AccentButtonStyle}" />
-                                        </WrapPanel>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </ui:GridView>
-                        <StackPanel Height="120" Background="AliceBlue">
-                            <TextBlock
-                                Margin="0,40,0,0"
-                                HorizontalAlignment="Center"
-                                FontSize="20"
-                                Visibility="{Binding SinglePageAds.IsVisible, Converter={StaticResource BoolToVis}, FallbackValue=Visible}"
-                                Text="{Binding SinglePageAds.Text}" />
+                        Margin="20,20,20,0">
+                        <StackPanel HorizontalAlignment="Center">
+                            <ui:GridView x:Name="CarouselInformationBlock">
+                                <ContentControl
+                                    x:Name="Carousel"
+                                    MinWidth="400"
+                                    MinHeight="200"
+                                    MaxWidth="880"
+                                    MaxHeight="400"
+                                    prism:RegionManager.RegionName="Slider" />
+                                <ContentControl
+                                    x:Name="Information"
+                                    MinWidth="400"
+                                    MinHeight="200"
+                                    MaxWidth="880"
+                                    MaxHeight="400"
+                                    prism:RegionManager.RegionName="Information" />
+                            </ui:GridView>
+                            <StackPanel
+                                x:Name="AdBlock"
+                                Height="120"
+                                Background="AliceBlue">
+                                <TextBlock
+                                    Margin="0,40,0,0"
+                                    HorizontalAlignment="Center"
+                                    Style="{StaticResource P}"
+                                    Text="{Binding SinglePageAds.Text}"
+                                    Visibility="{Binding SinglePageAds.IsVisible, Converter={StaticResource BoolToVis}, FallbackValue=Visible}" />
+                            </StackPanel>
+                            <StackPanel x:Name="RandomEntriesBlock" Margin="0,20,0,0">
+                                <StackPanel HorizontalAlignment="Center">
+                                    <TextBlock
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        Style="{StaticResource H4}"
+                                        Text="Похожие посты" />
+                                    <ui:GridView Margin="0,10,0,0" ItemsSource="{Binding Posts}">
+                                        <ui:GridView.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
+                                                <controls:ArticleMedium />
+                                            </DataTemplate>
+                                        </ui:GridView.ItemTemplate>
+                                    </ui:GridView>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                        <ui:GridView
-                            Width="{Binding Path=ActualWidth, ElementName=ArticleView}"
-                            Margin="0,10,0,0"
-                            IsSelectionEnabled="False"
-                            ItemsSource="{Binding Posts}">
-                            <ui:GridView.ItemTemplate>
-                                <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
-                                    <controls:ArticleMedium />
-                                </DataTemplate>
-                            </ui:GridView.ItemTemplate>
-                        </ui:GridView>
-                    </StackPanel>
+                    </Grid>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

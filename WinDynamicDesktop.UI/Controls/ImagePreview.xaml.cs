@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
@@ -13,7 +14,12 @@ namespace WinDynamicDesktop.UI.Controls
         public ImagePreview()
         {
             InitializeComponent();
-            FrontThumb.Tag = FrontThumb;
+            //FrontThumb.Tag = FrontThumb;
+        }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Trace.WriteLine("C: " + ActualWidth);
         }
     }
 }

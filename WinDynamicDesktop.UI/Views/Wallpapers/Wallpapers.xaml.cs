@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Diagnostics;
+using System.Windows.Controls;
 using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.Views
@@ -46,7 +47,7 @@ namespace WinDynamicDesktop.UI.Views
 
         private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
-
+            Trace.WriteLine(ActualWidth);
         }
     }
 }
