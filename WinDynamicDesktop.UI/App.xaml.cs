@@ -41,6 +41,7 @@ namespace WinDynamicDesktop.UI
 
             containerRegistry.RegisterForNavigation<SinglePage, ViewModels.SinglePageViewModel>();
             containerRegistry.RegisterForNavigation<ImagePreview, ViewModels.ImagePreviewViewModel>();
+            containerRegistry.RegisterForNavigation<InformationArticle, ViewModels.InformationArticleViewModel>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
@@ -55,6 +56,11 @@ namespace WinDynamicDesktop.UI
                     .Build())
                 .Query(new SettingsBuilder()
                     .UpdateOrCreateFile("app.settings")
+                    .Build())
+                .Query(new HostBuilder()
+                    .SetHost()
+                    .SetPrefix()
+                    .Validate()
                     .Build()
                 );
 

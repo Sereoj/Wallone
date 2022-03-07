@@ -24,7 +24,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             if (fileDialog.ShowDialog() == true)
             {
                 AccountService.SetCover(fileDialog.FileName);
-                Cover = bitmapHelper[UriHelper.Get(ProfileService.GetCover())];
+                Cover = bitmapHelper[UriHelper.Get(fileDialog.FileName)];
             }
         }
     }

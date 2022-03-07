@@ -6,5 +6,6 @@
         string Token { get; set; }
         string Language { get; set; }
         string Theme { get; set; }
+        string Host { get; set; }
     }
 }

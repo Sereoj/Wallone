@@ -7,5 +7,8 @@ namespace WinDynamicDesktop.Core.Models
         public string ID { get; set; }
         public string Name { get; set; }
         public Uri Preview { get; set; }
+
+        public string Views { get; set; }
+        public string Downloads { get; set; }
     }
 }

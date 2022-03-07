@@ -13,6 +13,16 @@ namespace WinDynamicDesktop.Core.Services
         public static string domain { get; set; } = "https://wall.w2me.ru";
         //public static string domainApi = "http://v3.w2me.ru/public/api";
         //public static string domain = "http://v3.w2me.ru";
+
+        public static void SetDomainApi(string value)
+        {
+            domainApi = value;
+        }
+
+        public static void SetDomain(string value)
+        {
+            domain = value;
+        }
     }
 
     public class RequestRouter<T> : Router

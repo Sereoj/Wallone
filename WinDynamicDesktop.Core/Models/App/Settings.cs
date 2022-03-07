@@ -33,5 +33,20 @@ namespace WinDynamicDesktop.Core.Models.App
             get { return theme; }
             set { SetProperty(ref theme, value); }
         }
+        [NonSerialized]
+        private string host;
+        public string Host
+        {
+            get { return host; }
+            set { SetProperty(ref host, value); }
+        }
+
+        [NonSerialized]
+        private string prefix;
+        public string Prefix
+        {
+            get { return prefix; }
+            set { SetProperty(ref prefix, value); }
+        }
     }
 }

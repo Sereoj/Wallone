@@ -84,7 +84,9 @@ namespace WinDynamicDesktop.UI.ViewModels
                         {
                             ID = item.ID,
                             Name = item.Name,
-                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
+                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
+                            Views = item.Views,
+                            Downloads = item.Downloads
                         });
                         await Task.CompletedTask;
                     }

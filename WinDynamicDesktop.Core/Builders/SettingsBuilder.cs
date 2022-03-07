@@ -96,4 +96,50 @@ namespace WinDynamicDesktop.Core.Builders
             return this;
         }
     }
+
+
+    public class HostBuilder : IAppSettings
+    {
+        public HostBuilder SetHost()
+        {
+            var host = SettingsService.Get().Host;
+            switch (host)
+            {
+                case null:
+                    SettingsService.Get().Host = "https://wall.w2me.ru";
+                    break;
+                default:
+                    Router.SetDomain(host);
+                    break;
+            }
+            return this;
+        }
+
+        public HostBuilder SetPrefix()
+        {
+            var host = SettingsService.Get().Host;
+            var prefix = SettingsService.Get().Prefix;
+            switch (prefix)
+            {
+                case null:
+                    SettingsService.Get().Prefix = "/public/api";
+                    break;
+                default:
+                    Router.SetDomainApi(host + prefix);
+                    break;
+            }
+            return this;
+        }
+
+        public HostBuilder Validate()
+        {
+            return this;
+        }
+
+        public HostBuilder Build()
+        {
+            SettingsService.Save();
+            return this;
+        }
+    }
 }
