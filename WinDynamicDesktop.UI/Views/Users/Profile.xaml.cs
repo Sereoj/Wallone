@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Diagnostics;
+using System.Windows.Controls;
 using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.Views
@@ -42,6 +43,13 @@ namespace WinDynamicDesktop.UI.Views
             {
                 //TODO
             }
+        }
+
+        private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            //TODO: ПРОЗРАЧНОСТЬ
+            //Trace.WriteLine(ActualWidth);
+            Description.Visibility = ActualWidth > 625 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
         }
     }
 }

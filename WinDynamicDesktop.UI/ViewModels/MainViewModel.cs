@@ -58,21 +58,25 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)
         {
-            switch (e.InvokedItemContainer.Tag.ToString())
-            {
-                case "Profile":
-                    regionManager.RequestNavigate("PageRegion", "Profile");
-                    break;
-                case "Account":
-                    regionManager.RequestNavigate("PageRegion", "Account");
-                    break;
-                default:
-                    var param = new NavigationParameters
+            var text = e.InvokedItemContainer.Content;
+
+            var param = new NavigationParameters
                     {
                         { "Root", e.InvokedItemContainer.Tag.ToString() },
                         { "Page", e.InvokedItemContainer.Name.ToString() },
-                        { "ID", e.InvokedItemContainer.Uid.ToString() }
+                        { "ID", e.InvokedItemContainer.Uid.ToString() },
+                        {"Text", text }
                     };
+
+            switch (e.InvokedItemContainer.Tag.ToString())
+            {
+                case "Profile":
+                    regionManager.RequestNavigate("PageRegion", "Profile", param);
+                    break;
+                case "Account":
+                    regionManager.RequestNavigate("PageRegion", "Account", param);
+                    break;
+                default:
 
                     if (e.IsSettingsInvoked)
                     {

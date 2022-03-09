@@ -35,19 +35,19 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
-                FontSize="22"
+                Style="{StaticResource H3}"
                 Text="{Binding Header, TargetNullValue='WinDynamicDesktop'}" />
             <TextBlock
                 Margin="0,30,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
-                FontSize="16"
+                Style="{StaticResource P}"
                 Text="{Binding Description}" />
             <ui:ProgressRing
                 Width="60"
                 Height="60"
-                Foreground="Black"
+                Foreground="{StaticResource SystemControlBackgroundBaseHighBrush}"
                 IsActive="True" />
         </Grid>
     </Grid>

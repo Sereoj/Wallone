@@ -18,6 +18,10 @@ namespace WinDynamicDesktop.Core.Models
         public string subscribers_count { get; set; }
         public string subscriptions_count { get; set; }
         public string posts_count { get; set; }
+        public string facebook { get; set; }
+        public string twitter { get; set; }
+        public string github { get; set; }
+        public string vk { get; set; }
         public List<Thumb> posts { get; set; }
     }
 }

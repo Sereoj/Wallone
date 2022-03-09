@@ -63,7 +63,7 @@
                 FontFamily="{StaticResource FontGardensC}"
                 FontSize="24"
                 FontWeight="Medium"
-                Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
+                Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
                 LineHeight="20"
                 Opacity="0"
                 Text="{Binding Name, TargetNullValue=Value, FallbackValue=Value}"

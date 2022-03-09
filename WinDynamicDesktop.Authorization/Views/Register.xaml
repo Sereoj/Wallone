@@ -38,19 +38,20 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
-                FontSize="22"
+                Style="{StaticResource H4}"
                 Text="Регистрация" />
             <TextBlock
                 Margin="0,30,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
-                FontSize="16"
+                Style="{StaticResource H5}"
                 Text="Создание профиля" />
             <TextBlock
                 Margin="0,80,0,0"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
+                Style="{StaticResource P}"
                 Text="Имя:" />
             <TextBox
                 Width="325"
@@ -64,6 +65,7 @@
                 Margin="0,145,0,0"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
+                Style="{StaticResource P}"
                 Text="Email:" />
             <TextBox
                 Width="325"
@@ -77,6 +79,7 @@
                 Margin="0,210,0,0"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
+                Style="{StaticResource P}"
                 Text="Пароль:" />
             <PasswordBox
                 Width="325"
@@ -90,6 +93,7 @@
                 Margin="0,275,0,0"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
+                Style="{StaticResource P}"
                 Text="Подверждение пароля:" />
             <PasswordBox
                 Width="325"

@@ -17,7 +17,7 @@
 
     <UserControl.Resources>
         <Style TargetType="Button">
-            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundChromeWhiteBrush}" />
             <Setter Property="Background" Value="{x:Null}" />
             <Setter Property="FontSize" Value="26" />
             <Setter Property="FontFamily" Value="{StaticResource FontIconMoonUltimate}" />
@@ -84,7 +84,7 @@
             VerticalAlignment="Bottom"
             FontSize="26"
             FontWeight="Bold"
-            Foreground="White"
+            Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
             LineHeight="1.2"
             Text="{Binding Text, FallbackValue='Hello'}"
             TextAlignment="Center">
@@ -154,7 +154,7 @@
                                         Width="30"
                                         Height="3"
                                         Margin="3,0"
-                                        Fill="White"
+                                        Fill="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
                                         Opacity="0.5" />
                                 </Grid>
                                 <ControlTemplate.Triggers>

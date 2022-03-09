@@ -18,21 +18,8 @@ using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
-    public class ProfileViewModel : BindableBase, INavigationAware
+    public class ProfileViewModelItems : BindableBase
     {
-
-        private string id;
-        private Profile profilePage;
-        private static readonly BitmapHelper bitmapHelper = new BitmapHelper();
-        private readonly IRegionManager regionManager;
-
-        public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();
-        private string header = "Профиль";
-        public string Header
-        {
-            get { return header; }
-            set { SetProperty(ref header, value); }
-        }
         private string name;
         public string Name { get => name; set => SetProperty(ref name, value); }
 
@@ -55,18 +42,32 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string publish;
         public string Publish { get => publish; set => SetProperty(ref publish, value); }
 
-        private FontIcon actionText;
-        public FontIcon ActionText { get => actionText; set => SetProperty(ref actionText, value); }
-
-        private string actionStatus;
-        public string ActionStatus { get => actionStatus; set => SetProperty(ref actionStatus, value); }
-
-
-        private bool isEnable;
-        public bool IsEnable
+        public ProfileViewModelItems()
         {
-            get { return isEnable; }
-            set { SetProperty(ref isEnable, value); }
+
+        }
+    }
+
+    public class ProfileViewModelActions : BindableBase
+    {
+        private string actionText;
+        public string ActionText { get => actionText; set => SetProperty(ref actionText, value); }
+        private string actionStatus;
+        public string ActionStatus
+        {
+            get => actionStatus;
+            set
+            {
+                SetProperty(ref actionStatus, value);
+                ActionText = value != "true" ? "Отписка" : "Подписка";
+            }
+        }
+
+        private bool isEnableSub;
+        public bool IsEnableSub
+        {
+            get { return isEnableSub; }
+            set { SetProperty(ref isEnableSub, value); }
         }
 
         private bool isEnableEditProfile;
@@ -75,6 +76,77 @@ namespace WinDynamicDesktop.UI.ViewModels
             get { return isEnableEditProfile; }
             set { SetProperty(ref isEnableEditProfile, value); }
         }
+
+        private bool isEnableFacebook;
+        public bool IsEnableFacebook
+        {
+            get { return isEnableFacebook; }
+            set { SetProperty(ref isEnableFacebook, value); }
+        }
+
+        private bool isEnableGithub;
+        public bool IsEnableGithub
+        {
+            get { return isEnableGithub; }
+            set { SetProperty(ref isEnableGithub, value); }
+        }
+
+        private bool isEnableTwitter;
+        public bool IsEnableTwitter
+        {
+            get { return isEnableTwitter; }
+            set { SetProperty(ref isEnableTwitter, value); }
+        }
+
+        private bool isEnableVK;
+        public bool IsEnableVK
+        {
+            get { return isEnableVK; }
+            set { SetProperty(ref isEnableVK, value); }
+        }
+
+
+        public ProfileViewModelActions()
+        {
+
+        }
+    }
+    public class ProfileViewModel : BindableBase, INavigationAware
+    {
+
+        private string id;
+        private Profile profilePage;
+        private static readonly BitmapHelper bitmapHelper = new BitmapHelper();
+        private readonly IRegionManager regionManager;
+
+        public ProfileViewModelItems ProfileItemsVM { get; set; } = new ProfileViewModelItems();
+        public ProfileViewModelActions ProfileActionsVM { get; set; } = new ProfileViewModelActions();
+        public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();
+        private string header = "Профиль";
+        public string Header
+        {
+            get { return header; }
+            set { SetProperty(ref header, value); }
+        }
+
+        private string titlePosts = "Опубликованные посты";
+        public string TitlePosts
+        {
+            get { return titlePosts; }
+            set { SetProperty(ref titlePosts, value); }
+        }
+
+        private bool isPosts;
+        public bool IsPosts
+        {
+            get { return isPosts; }
+            set
+            { 
+                SetProperty(ref isPosts, value); 
+                TitlePosts = value == true ? "Опубликованные посты" : "Постов не существует";
+            }
+        }
+
         public DelegateCommand ActionCommand { get; set; }
         public DelegateCommand EditProfileCommand { get; set; }
         public ProfileViewModel()
@@ -96,25 +168,18 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private async void OnAction()
         {
-            FontIcon icon;
             Profile data;
-            switch (ActionStatus)
+            switch (ProfileActionsVM.ActionStatus)
             {
                 case "true":
-                    icon = FontIconService.SetIcon("ultimate", "\uED5E");
-                    icon.FontSize = 16;
-                    ActionText = icon;
                     data = await ProfileService.SetAppendFriendAsync();
                     update(data);
-                    ActionStatus = "false";
+                    ProfileActionsVM.ActionStatus = "false";
                     break;
                 case "false":
-                    icon = FontIconService.SetIcon("ultimate", "\uED5D");
-                    icon.FontSize = 16;
-                    ActionText = icon;
                     data = await ProfileService.SetRemoveFriendAsync();
                     update(data);
-                    ActionStatus = "true";
+                    ProfileActionsVM.ActionStatus = "true";
                     break;
             }
         }
@@ -122,19 +187,19 @@ namespace WinDynamicDesktop.UI.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             id = (string)navigationContext.Parameters["id"];
-            Name = (string)navigationContext.Parameters["name"];
+            ProfileItemsVM.Name = (string)navigationContext.Parameters["name"];
 
             if(id != null)
             {
-                IsEnableEditProfile = false;
-                IsEnable = id != UserService.GetId();
+                ProfileActionsVM.IsEnableEditProfile = false;
+                ProfileActionsVM.IsEnableSub = id != UserService.GetId();
                 Loaded(id);
             }
             else
             {
-                IsEnableEditProfile = true;
-                IsEnable = false;
-                Name = UserService.GetUsername();
+                ProfileActionsVM.IsEnableEditProfile = true;
+                ProfileActionsVM.IsEnableSub = false;
+                ProfileItemsVM.Name = UserService.GetUsername();
                 Loaded(UserService.GetId());
             }
 
@@ -162,33 +227,32 @@ namespace WinDynamicDesktop.UI.ViewModels
                     profilePage = JsonConvert.DeserializeObject<Profile>(data);
                     ProfileService.Load(profilePage);
 
-                    Name = ProfileService.GetUsername();
-                    Description = ProfileService.GetDescription();
+                    ProfileItemsVM.Name = ProfileService.GetUsername();
+                    ProfileItemsVM.Description = ProfileService.GetDescription();
 
-                    Avatar = ProfileService.GetAvatar() == null ? null : (ImageSource)bitmapHelper[UriHelper.Get(ProfileService.GetAvatar())];
-                    Cover = ProfileService.GetCover() == null
+                    ProfileItemsVM.Avatar = ProfileService.GetAvatar() == null ? null : (ImageSource)bitmapHelper[UriHelper.Get(ProfileService.GetAvatar())];
+                    ProfileItemsVM.Cover = ProfileService.GetCover() == null
                         ? (ImageSource)App.Current.Resources["Placeholder1280"]
                         : bitmapHelper[UriHelper.Get(ProfileService.GetCover())];
 
-                    Subscribers = ProfileService.GetSubscribers();
-                    Subscriptions = ProfileService.GetSubscriptions();
-                    Likes = ProfileService.GetLikes();
-                    Publish = ProfileService.GetPublish();
+                    ProfileItemsVM.Subscribers = ProfileService.GetSubscribers();
+                    ProfileItemsVM.Subscriptions = ProfileService.GetSubscriptions();
+                    ProfileItemsVM.Likes = ProfileService.GetLikes();
+                    ProfileItemsVM.Publish = ProfileService.GetPublish();
 
-                    FontIcon icon;
+
+                    ProfileActionsVM.IsEnableFacebook = ProfileService.GetFacebook() != null;
+                    ProfileActionsVM.IsEnableTwitter = ProfileService.GetTwitter() != null;
+                    ProfileActionsVM.IsEnableGithub = ProfileService.GetGithub() != null;
+                    ProfileActionsVM.IsEnableVK = ProfileService.GetVK() != null;
+
                     switch (ProfileService.GetSubscriber())
                     {
                         case "true":
-                            icon = FontIconService.SetIcon("ultimate", "\uED5E");
-                            icon.FontSize = 16;
-                            ActionText = icon;
-                            ActionStatus = "false";
+                            ProfileActionsVM.ActionStatus = "false";
                             break;
                         case "false":
-                            icon = FontIconService.SetIcon("ultimate", "\uED5D");
-                            icon.FontSize = 16;
-                            ActionText = icon;
-                            ActionStatus = "true";
+                            ProfileActionsVM.ActionStatus = "true";
                             break;
                     }
 
@@ -209,10 +273,10 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private void update(Profile data)
         {
-            Subscribers = data?.subscribers_count;
-            Subscriptions = data?.subscriptions_count;
-            Likes = data?.users_like_count;
-            Publish = data?.posts_count;
+            ProfileItemsVM.Subscribers = data?.subscribers_count;
+            ProfileItemsVM.Subscriptions = data?.subscriptions_count;
+            ProfileItemsVM.Likes = data?.users_like_count;
+            ProfileItemsVM.Publish = data?.posts_count;
         }
 
         private async void posts(List<Thumb> list)
@@ -233,6 +297,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         });
                         await Task.CompletedTask;
                     }
+                    IsPosts = list.Count > 0;
                 }
             }
             catch (Exception ex)

@@ -89,5 +89,25 @@ namespace WinDynamicDesktop.UI.Services
             var items = RequestRouter<Profile, Subscription>.PostAsync($"user/remove", new Subscription() { friend_id = GetId() });
             return items;
         }
+
+        public static string GetFacebook()
+        {
+            return profile?.facebook;
+        }
+
+        public static string GetTwitter()
+        {
+            return profile?.twitter;
+        }
+
+        public static string GetGithub()
+        {
+            return profile?.github;
+        }
+
+        public static string GetVK()
+        {
+            return profile?.vk;
+        }
     }
 }

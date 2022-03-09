@@ -11,11 +11,24 @@
     d:DataContext="{d:DesignInstance Type=viewmodels:ProfileViewModel,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="900"
-    d:DesignWidth="960"
+    d:DesignWidth="1920"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Style TargetType="ui:GridViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ui:GridViewItem">
+                        <ContentPresenter HorizontalAlignment="Stretch" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <ScrollViewer
@@ -24,19 +37,11 @@
             ScrollChanged="ScrollViewer_ScrollChanged">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="60" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
                 <!--  Grid Header  -->
-                <Grid
-                    x:Name="Header"
-                    Grid.Row="0"
-                    Grid.Column="1">
+                <Grid x:Name="Header" Grid.Row="0">
                     <TextBlock
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
@@ -46,198 +51,372 @@
                 </Grid>
                 <!--  Grid Article  -->
                 <Grid
+                    x:Name="ArticleView"
                     Grid.Row="1"
-                    Grid.Column="1"
-                    Margin="50,20,50,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="400" />
-                        <RowDefinition Height="100" />
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0">
-                        <Rectangle>
-                            <Rectangle.Fill>
-                                <ImageBrush
-                                    ImageSource="{Binding Cover}"
-                                    Stretch="UniformToFill"
-                                    TileMode="FlipXY" />
-                            </Rectangle.Fill>
-                        </Rectangle>
-                        <Border
-                            Height="160"
-                            Margin="5,0,5,0"
-                            VerticalAlignment="Bottom"
-                            Background="Black"
-                            Opacity="0.6">
-                            <Border.Effect>
-                                <BlurEffect Radius="50" RenderingBias="Quality" />
-                            </Border.Effect>
-                        </Border>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*" />
-                                <RowDefinition Height="180" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Row="0" Grid.Column="1">
-                                <Button
-                                    Width="35"
-                                    Height="30"
-                                    Margin="10"
-                                    HorizontalAlignment="Right"
-                                    Background="#333"
-                                    Command="{Binding EditProfileCommand}"
-                                    Content="&#xE927;"
-                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                    Opacity="0.8"
-                                    Style="{StaticResource AccentButtonStyle}"
-                                    Visibility="{Binding IsEnableEditProfile, Converter={StaticResource BoolToVis}}" />
-                            </StackPanel>
-                            <Grid
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                VerticalAlignment="Center">
-                                <ui:PersonPicture Width="120" ProfilePicture="{Binding Avatar}" />
-                                <Button
-                                    Width="35"
-                                    Height="35"
-                                    Margin="70,0,0,0"
-                                    HorizontalAlignment="Center"
+                    Margin="20,20,20,0">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <!--  Image  -->
+                            <RowDefinition
+                                Height="400"
+                                MinHeight="200"
+                                MaxHeight="400" />
+                            <RowDefinition
+                                Height="auto"
+                                MinHeight="80"
+                                MaxHeight="180" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid
+                            x:Name="ImageCover"
+                            Grid.Row="0"
+                            ClipToBounds="True">
+                            <Rectangle>
+                                <Rectangle.Fill>
+                                    <ImageBrush
+                                        ImageSource="{Binding ProfileItemsVM.Cover}"
+                                        Stretch="UniformToFill"
+                                        TileMode="Tile" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <Border
+                                Height="160"
+                                Margin="5,0,5,0"
+                                VerticalAlignment="Bottom"
+                                Background="Black"
+                                Opacity="0.6">
+                                <Border.Effect>
+                                    <BlurEffect Radius="50" RenderingBias="Quality" />
+                                </Border.Effect>
+                            </Border>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <!--  Строчки  -->
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="180" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <!--  Колонки  -->
+                                    <ColumnDefinition Width="200" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <!--  Ава  -->
+                                <Grid
+                                    x:Name="AvatarBlock"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Opacity="1"
+                                    RenderTransformOrigin="0.5,0.5">
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform x:Name="AvatarAnimatedTranslateTransform" Y="0" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                    <ui:PersonPicture Width="120" ProfilePicture="{Binding ProfileItemsVM.Avatar}" />
+                                </Grid>
+                                <!--  Название и описание хз, сломается наверн  -->
+                                <StackPanel
+                                    x:Name="NameNDescBlock"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Opacity="1"
+                                    RenderTransformOrigin="0.5,0.5">
+                                    <StackPanel.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform x:Name="NameAnimatedTranslateTransform" Y="0" />
+                                        </TransformGroup>
+                                    </StackPanel.RenderTransform>
+                                    <TextBlock
+                                        Margin="0,40,0,0"
+                                        VerticalAlignment="Top"
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
+                                        Style="{StaticResource H4}"
+                                        Text="{Binding ProfileItemsVM.Name, FallbackValue=Name, TargetNullValue=Name}">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect
+                                                BlurRadius="3"
+                                                Direction="167"
+                                                Opacity="1"
+                                                RenderingBias="Performance"
+                                                ShadowDepth="0"
+                                                Color="Black" />
+                                        </TextBlock.Effect>
+                                    </TextBlock>
+                                    <TextBlock
+                                        x:Name="Description"
+                                        Height="76"
+                                        Margin="0,15,20,0"
+                                        FontFamily="{StaticResource FontGardensC}"
+                                        Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
+                                        Style="{StaticResource P}"
+                                        Text="{Binding ProfileItemsVM.Description, FallbackValue=Description, TargetNullValue=Описание}"
+                                        TextWrapping="Wrap">
+                                        <TextBlock.Effect>
+                                            <DropShadowEffect
+                                                BlurRadius="3"
+                                                Direction="167"
+                                                Opacity="1"
+                                                RenderingBias="Performance"
+                                                ShadowDepth="0"
+                                                Color="Black" />
+                                        </TextBlock.Effect>
+                                    </TextBlock>
+                                </StackPanel>
+                                <Grid
+                                    x:Name="Fields"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Height="100"
                                     VerticalAlignment="Bottom"
-                                    ui:ControlHelper.CornerRadius="20"
-                                    Command="{Binding ActionCommand}"
-                                    CommandParameter="{Binding ActionStatus}"
-                                    Content="{Binding ActionText}"
-                                    FontFamily="{StaticResource FontIconMoonUltimate}"
-                                    Style="{StaticResource AccentButtonStyle}"
-                                    Visibility="{Binding IsEnable, Converter={StaticResource BoolToVis}}" />
+                                    ClipToBounds="True"
+                                    Opacity="0"
+                                    RenderTransformOrigin="0.5,0.5">
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform />
+                                            <SkewTransform />
+                                            <RotateTransform />
+                                            <TranslateTransform x:Name="AnimatedTranslateTransform" Y="100" />
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <StackPanel
+                                            x:Name="subscriptions"
+                                            Margin="16"
+                                            Background="{x:Null}">
+                                            <TextBlock
+                                                x:Name="count_subscriptions"
+                                                Style="{StaticResource PProfile}"
+                                                Text="{Binding ProfileItemsVM.Subscriptions}" />
+                                            <TextBlock
+                                                x:Name="name_subscriptions"
+                                                Style="{StaticResource PProfile}"
+                                                Text="Подписки" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Column="1">
+                                        <StackPanel x:Name="subscribers" Margin="16">
+                                            <TextBlock
+                                                x:Name="count_subscribers"
+                                                Style="{StaticResource PProfile}"
+                                                Text="{Binding ProfileItemsVM.Subscribers}" />
+                                            <TextBlock
+                                                x:Name="name_subscribers"
+                                                Style="{StaticResource PProfile}"
+                                                Text="Подписчики" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Column="2">
+                                        <StackPanel x:Name="likes" Margin="16">
+                                            <TextBlock
+                                                x:Name="count_likes"
+                                                Style="{StaticResource PProfile}"
+                                                Text="{Binding ProfileItemsVM.Likes}" />
+                                            <TextBlock
+                                                x:Name="name_likes"
+                                                Style="{StaticResource PProfile}"
+                                                Text="Лайки" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Column="3">
+                                        <StackPanel x:Name="publish" Margin="16">
+                                            <TextBlock
+                                                x:Name="count_publish"
+                                                Style="{StaticResource PProfile}"
+                                                Text="{Binding ProfileItemsVM.Publish}" />
+                                            <TextBlock
+                                                x:Name="name_publish"
+                                                Style="{StaticResource PProfile}"
+                                                Text="Постов" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
                             </Grid>
-                            <StackPanel Grid.Row="1" Grid.Column="1">
-                                <TextBlock
-                                    Margin="0,40,0,0"
-                                    VerticalAlignment="Top"
-                                    FontFamily="{StaticResource FontGardensC}"
-                                    Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
-                                    Style="{StaticResource H4}"
-                                    Text="{Binding Name, FallbackValue=Name, TargetNullValue=Name}">
-                                    <TextBlock.Effect>
-                                        <DropShadowEffect
-                                            BlurRadius="3"
-                                            Direction="167"
-                                            Opacity="1"
-                                            RenderingBias="Performance"
-                                            ShadowDepth="0"
-                                            Color="Black" />
-                                    </TextBlock.Effect>
-                                </TextBlock>
-                                <TextBlock
-                                    Height="76"
-                                    Margin="0,15,20,0"
-                                    FontFamily="{StaticResource FontGardensC}"
-                                    Foreground="{StaticResource SystemControlBackgroundAltMediumBrush}"
-                                    Style="{StaticResource P}"
-                                    Text="{Binding Description, FallbackValue=Description, TargetNullValue=Описание}"
-                                    TextWrapping="Wrap">
-                                    <TextBlock.Effect>
-                                        <DropShadowEffect
-                                            BlurRadius="3"
-                                            Direction="167"
-                                            Opacity="1"
-                                            RenderingBias="Performance"
-                                            ShadowDepth="0"
-                                            Color="Black" />
-                                    </TextBlock.Effect>
-                                </TextBlock>
-                            </StackPanel>
+                            <Border x:Name="Action" Background="Transparent">
+                                <Border.Triggers>
+                                    <EventTrigger RoutedEvent="Control.MouseEnter">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <!--  Это fields Y 0  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="AnimatedTranslateTransform"
+                                                    Storyboard.TargetProperty="Y"
+                                                    To="0"
+                                                    Duration="0:0:0.6">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <CircleEase EasingMode="EaseOut" />
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                                <!--  Это Ava Y -100  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="AvatarAnimatedTranslateTransform"
+                                                    Storyboard.TargetProperty="Y"
+                                                    To="-100"
+                                                    Duration="0:0:0.4" />
+                                                <!--  Это Desc Y -100  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="NameAnimatedTranslateTransform"
+                                                    Storyboard.TargetProperty="Y"
+                                                    To="-100"
+                                                    Duration="0:0:0.4" />
+                                                <!--  Это fields 1  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="Fields"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    Duration="0:0:0.6" />
+                                                <!--  Это Ava 0  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="AvatarBlock"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0"
+                                                    Duration="0:0:0.4" />
+                                                <!--  Это Desc 0  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="NameNDescBlock"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0"
+                                                    Duration="0:0:0.4" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                    <EventTrigger RoutedEvent="Control.MouseLeave">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <!--  Это fields Y 100  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="AnimatedTranslateTransform"
+                                                    Storyboard.TargetProperty="Y"
+                                                    To="100"
+                                                    Duration="0:0:0.6">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <CircleEase EasingMode="EaseOut" />
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+
+                                                <!--  Это Ava Y 0  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="AvatarAnimatedTranslateTransform"
+                                                    Storyboard.TargetProperty="Y"
+                                                    To="0"
+                                                    Duration="0:0:0.4" />
+                                                <!--  Это Desc Y 0  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="NameAnimatedTranslateTransform"
+                                                    Storyboard.TargetProperty="Y"
+                                                    To="0"
+                                                    Duration="0:0:0.4" />
+                                                <!--  Это fields 0  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="Fields"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="0"
+                                                    Duration="0:0:0.6" />
+                                                <!--  Это Ava 1  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="AvatarBlock"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    Duration="0:0:0.4" />
+                                                <!--  Это Desc 1  -->
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="NameNDescBlock"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="1"
+                                                    Duration="0:0:0.4" />
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Border.Triggers>
+                            </Border>
+                            <Button
+                                Width="35"
+                                Height="30"
+                                Margin="10"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="#333"
+                                Command="{Binding EditProfileCommand}"
+                                Content="&#xE927;"
+                                FontFamily="{StaticResource FontIconMoonUltimate}"
+                                Opacity="0.8"
+                                Style="{StaticResource AccentButtonStyle}"
+                                Visibility="{Binding ProfileActionsVM.IsEnableEditProfile, Converter={StaticResource BoolToVis}}" />
                         </Grid>
-                    </Grid>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0">
+                        <WrapPanel
+                            x:Name="ToolbarBlock"
+                            Grid.Row="1"
+                            Margin="0,20"
+                            HorizontalAlignment="Center">
+                            <Button
+                                Width="160"
+                                Height="50"
+                                Margin="5"
+                                Command="{Binding ActionCommand}"
+                                CommandParameter="{Binding ProfileActionsVM.ActionStatus}"
+                                Content="{Binding ProfileActionsVM.ActionText}"
+                                Visibility="{Binding ProfileActionsVM.IsEnableSub, Converter={StaticResource BoolToVis}}" />
+                            <Button
+                                Width="160"
+                                Height="50"
+                                Margin="5"
+                                Content="Facebook"
+                                Visibility="{Binding ProfileActionsVM.IsEnableFacebook, Converter={StaticResource BoolToVis}}" />
+                            <Button
+                                Width="160"
+                                Height="50"
+                                Margin="5"
+                                Content="Twitter"
+                                Visibility="{Binding ProfileActionsVM.IsEnableTwitter, Converter={StaticResource BoolToVis}}" />
+                            <Button
+                                Width="160"
+                                Height="50"
+                                Margin="5"
+                                Content="Github"
+                                Visibility="{Binding ProfileActionsVM.IsEnableGithub, Converter={StaticResource BoolToVis}}" />
+                            <Button
+                                Width="160"
+                                Height="50"
+                                Margin="5"
+                                Content="VK"
+                                Visibility="{Binding ProfileActionsVM.IsEnableVK, Converter={StaticResource BoolToVis}}" />
+                        </WrapPanel>
+                        <StackPanel
+                            x:Name="PostsBlock"
+                            Grid.Row="2"
+                            Margin="0,20">
                             <TextBlock
-                                Margin="0,15,0,0"
+                                Margin="0,10,0,20"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
+                                VerticalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
-                                Style="{StaticResource H4}"
-                                Text="{Binding Subscriptions, FallbackValue=10000, TargetNullValue=1000}" />
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontFamily="{StaticResource FontGardensC}"
-                                FontSize="20"
-                                FontWeight="Regular"
-                                Text="Подписки" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1">
-                            <TextBlock
-                                Margin="0,15,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                FontFamily="{StaticResource FontGardensC}"
-                                Style="{StaticResource H4}"
-                                Text="{Binding Subscribers, FallbackValue=10000, TargetNullValue=1000}" />
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontFamily="{StaticResource FontGardensC}"
-                                FontSize="20"
-                                FontWeight="Regular"
-                                Text="Подписчиков" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="2">
-                            <TextBlock
-                                Margin="0,15,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                FontFamily="{StaticResource FontGardensC}"
-                                Style="{StaticResource H4}"
-                                Text="{Binding Likes, FallbackValue=10000, TargetNullValue=1000}" />
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontFamily="{StaticResource FontGardensC}"
-                                FontSize="20"
-                                FontWeight="Regular"
-                                Text="Лайков" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="3">
-                            <TextBlock
-                                Margin="0,15,0,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                FontFamily="{StaticResource FontGardensC}"
-                                Style="{StaticResource H4}"
-                                Text="{Binding Publish, FallbackValue=10000, TargetNullValue=1000}" />
-                            <TextBlock
-                                HorizontalAlignment="Center"
-                                FontFamily="{StaticResource FontGardensC}"
-                                FontSize="20"
-                                FontWeight="Regular"
-                                Text="Публикаций" />
+                                Style="{StaticResource H3}"
+                                Text="{Binding TitlePosts, FallbackValue=Title}" />
+                            <StackPanel x:Name="Container" HorizontalAlignment="Center">
+                                <ui:GridView x:Name="PostsView" ItemsSource="{Binding Posts}">
+                                    <ui:GridView.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
+                                            <controls:ArticleMedium />
+                                        </DataTemplate>
+                                    </ui:GridView.ItemTemplate>
+                                </ui:GridView>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
-                    <WrapPanel Grid.Row="2" Visibility="Hidden">
-                        <ComboBox Width="250" Margin="45,15,0,0" />
-                    </WrapPanel>
-                    <ui:GridView
-                        Grid.Row="3"
-                        HorizontalAlignment="Center"
-                        ItemsSource="{Binding Posts}">
-                        <ui:GridView.ItemTemplate>
-                            <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">
-                                <controls:ArticleMedium />
-                            </DataTemplate>
-                        </ui:GridView.ItemTemplate>
-                    </ui:GridView>
                 </Grid>
             </Grid>
         </ScrollViewer>

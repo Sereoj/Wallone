@@ -27,24 +27,31 @@
     <!--  Foreground  -->
     <SolidColorBrush x:Key="TextBlock" Color="#F1F2F3" />
 
-    <!--  Background  -->
-    <SolidColorBrush x:Key="AppBackground" Color="#F1F2F3" />
-    <SolidColorBrush x:Key="MainBlock" Color="#F1F2F3" />
-
     <!--  Override Controls  -->
 
     <Style x:Key="P" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="LineHeight" Value="15" />
+        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundBaseHighBrush}" />
         <Setter Property="TextAlignment" Value="Justify" />
+    </Style>
+
+
+    <Style x:Key="PProfile" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="LineHeight" Value="15" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundChromeWhiteBrush}" />
     </Style>
 
     <Style x:Key="H3" TargetType="TextBlock">
         <Setter Property="FontSize" Value="28" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="LineHeight" Value="12" />
-        <Setter Property="Foreground" Value="#212529" />
+        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundBaseHighBrush}" />
         <Setter Property="TextAlignment" Value="Justify" />
     </Style>
 
@@ -52,6 +59,7 @@
         <Setter Property="FontSize" Value="24" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="LineHeight" Value="12" />
+        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundBaseHighBrush}" />
         <Setter Property="TextAlignment" Value="Justify" />
     </Style>
 
@@ -59,7 +67,7 @@
         <Setter Property="FontSize" Value="14" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="LineHeight" Value="12" />
-        <Setter Property="Foreground" Value="#212529" />
+        <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundBaseHighBrush}" />
         <Setter Property="TextAlignment" Value="Justify" />
     </Style>
 
