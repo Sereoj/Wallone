@@ -100,13 +100,25 @@ namespace WinDynamicDesktop.Core.Builders
 
     public class HostBuilder : IAppSettings
     {
+        private static string host;
+        private static string prefix;
+        public bool ValidatePrefix()
+        {
+            return prefix.StartsWith("/") && !prefix.EndsWith("/") && prefix.Contains("api");
+        }
+
+        public bool ValidateHost()
+        {
+            return Uri.TryCreate(host, UriKind.Absolute, out Uri uriResult)
+                && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
         public HostBuilder SetHost()
         {
-            var host = SettingsService.Get().Host;
+            host = SettingsService.Get().Host;
             switch (host)
             {
                 case null:
-                    SettingsService.Get().Host = "https://wall.w2me.ru";
+                    host = "https://wall.w2me.ru";
                     break;
                 default:
                     Router.SetDomain(host);
@@ -117,12 +129,11 @@ namespace WinDynamicDesktop.Core.Builders
 
         public HostBuilder SetPrefix()
         {
-            var host = SettingsService.Get().Host;
-            var prefix = SettingsService.Get().Prefix;
+            prefix = SettingsService.Get().Prefix;
             switch (prefix)
             {
                 case null:
-                    SettingsService.Get().Prefix = "/public/api";
+                    prefix = "/public/api";
                     break;
                 default:
                     Router.SetDomainApi(host + prefix);
@@ -133,11 +144,19 @@ namespace WinDynamicDesktop.Core.Builders
 
         public HostBuilder Validate()
         {
+            if (!ValidatePrefix())
+                prefix = "/public/api";
+            if (!ValidateHost())
+                host = "https://wall.w2me.ru";
             return this;
         }
 
         public HostBuilder Build()
         {
+            
+            SettingsService.Get().Host = host;
+            SettingsService.Get().Prefix = prefix;
+
             SettingsService.Save();
             return this;
         }
