@@ -50,8 +50,14 @@
 
     <Grid x:Name="Slider" Background="Gray">
         <!--  Изображение прорисовка  -->
-        <Image x:Name="BackThumb" Source="{Binding BackImageSource, Mode=OneWay}" />
-        <Image x:Name="FrontThumb" Source="{Binding FrontImageSource, Mode=OneWay}">
+        <Image
+            x:Name="BackThumb"
+            Source="{Binding BackImageSource, Mode=OneWay}"
+            Stretch="UniformToFill" />
+        <Image
+            x:Name="FrontThumb"
+            Source="{Binding FrontImageSource, Mode=OneWay}"
+            Stretch="UniformToFill">
             <Image.Style>
                 <Style>
                     <Style.Triggers>
@@ -78,7 +84,7 @@
             </Image.Style>
         </Image>
         <TextBlock
-            x:Name="Desctiption"
+            x:Name="Description"
             Margin="0,0,0,60"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"

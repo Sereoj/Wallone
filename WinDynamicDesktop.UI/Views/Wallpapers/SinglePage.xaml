@@ -65,7 +65,7 @@
                                     x:Name="Carousel"
                                     MinWidth="400"
                                     MinHeight="200"
-                                    MaxWidth="880"
+                                    MaxWidth="900"
                                     MaxHeight="400"
                                     prism:RegionManager.RegionName="Slider" />
                                 <ContentControl
