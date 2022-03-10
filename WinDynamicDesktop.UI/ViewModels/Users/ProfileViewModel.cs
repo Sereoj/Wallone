@@ -77,28 +77,28 @@ namespace WinDynamicDesktop.UI.ViewModels
             set { SetProperty(ref isEnableEditProfile, value); }
         }
 
-        private bool isEnableFacebook;
+        private bool isEnableFacebook = false;
         public bool IsEnableFacebook
         {
             get { return isEnableFacebook; }
             set { SetProperty(ref isEnableFacebook, value); }
         }
 
-        private bool isEnableGithub;
+        private bool isEnableGithub = false;
         public bool IsEnableGithub
         {
             get { return isEnableGithub; }
             set { SetProperty(ref isEnableGithub, value); }
         }
 
-        private bool isEnableTwitter;
+        private bool isEnableTwitter = false;
         public bool IsEnableTwitter
         {
             get { return isEnableTwitter; }
             set { SetProperty(ref isEnableTwitter, value); }
         }
 
-        private bool isEnableVK;
+        private bool isEnableVK = false;
         public bool IsEnableVK
         {
             get { return isEnableVK; }
@@ -144,6 +144,31 @@ namespace WinDynamicDesktop.UI.ViewModels
             { 
                 SetProperty(ref isPosts, value); 
                 TitlePosts = value == true ? "Опубликованные посты" : "Постов не существует";
+            }
+        }
+
+
+        private bool isMyProfile;
+        public bool IsMyProfile
+        {
+            get { return isMyProfile; }
+            set
+            {
+                SetProperty(ref isMyProfile, value);
+                if (value == true)
+                {
+                    ProfileActionsVM.IsEnableFacebook = false;
+                    ProfileActionsVM.IsEnableTwitter = false;
+                    ProfileActionsVM.IsEnableGithub = false;
+                    ProfileActionsVM.IsEnableVK = false;
+                }
+                else
+                {
+                    ProfileActionsVM.IsEnableFacebook = ProfileService.GetFacebook() != null;
+                    ProfileActionsVM.IsEnableTwitter = ProfileService.GetTwitter() != null;
+                    ProfileActionsVM.IsEnableGithub = ProfileService.GetGithub() != null;
+                    ProfileActionsVM.IsEnableVK = ProfileService.GetVK() != null;
+                }
             }
         }
 
@@ -193,14 +218,15 @@ namespace WinDynamicDesktop.UI.ViewModels
             {
                 ProfileActionsVM.IsEnableEditProfile = false;
                 ProfileActionsVM.IsEnableSub = id != UserService.GetId();
-                Loaded(id);
+                Loaded(id, false);
             }
             else
             {
                 ProfileActionsVM.IsEnableEditProfile = true;
                 ProfileActionsVM.IsEnableSub = false;
                 ProfileItemsVM.Name = UserService.GetUsername();
-                Loaded(UserService.GetId());
+                Loaded(UserService.GetId(), true);
+
             }
 
         }
@@ -215,7 +241,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             //throw new System.NotImplementedException();
         }
 
-        public async void Loaded(string id)
+        public async void Loaded(string id, bool isMyProfile)
         {
             try
             {
@@ -240,11 +266,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                     ProfileItemsVM.Likes = ProfileService.GetLikes();
                     ProfileItemsVM.Publish = ProfileService.GetPublish();
 
-
-                    ProfileActionsVM.IsEnableFacebook = ProfileService.GetFacebook() != null;
-                    ProfileActionsVM.IsEnableTwitter = ProfileService.GetTwitter() != null;
-                    ProfileActionsVM.IsEnableGithub = ProfileService.GetGithub() != null;
-                    ProfileActionsVM.IsEnableVK = ProfileService.GetVK() != null;
+                    IsMyProfile = isMyProfile;
 
                     switch (ProfileService.GetSubscriber())
                     {
