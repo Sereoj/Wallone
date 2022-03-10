@@ -79,11 +79,12 @@
                             <Grid
                                 x:Name="AdBlock"
                                 Height="120"
-                                Background="{StaticResource SystemControlBackgroundListLowBrush}">
+                                Background="{StaticResource SystemControlBackgroundListLowBrush}"
+                                Visibility="{Binding SinglePageAds.IsVisible, Converter={StaticResource BoolToVis}, FallbackValue=Visible}">
                                 <Image
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
-                                    Source="https://images-ext-1.discordapp.net/external/FYaYpmDD9uZWXBslKlENP5imQzggJ3AySxzuDguzduE/%3Fif%3DANIME-PICTURES.NET_-_724635-2320x1305-new%2Bhorizon-ellen%2Bbaker-karutamo-single-long%2Bhair-looking%2Bat%2Bviewer.png/https/ip1.anime-pictures.net/direct-images/1c3/1c3460ae6f9301bcd4d06ee2e183b4ae.png"
+                                    Source="{Binding SinglePageAds.ImageSource}"
                                     Stretch="UniformToFill" />
                                 <Border Background="Black" Opacity="0.4" />
                                 <!--  Тут центр  -->
@@ -93,8 +94,7 @@
                                     FontFamily="{StaticResource FontGardensC}"
                                     Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
                                     Style="{StaticResource P}"
-                                    Text="{Binding SinglePageAds.Text, TargetNullValue=Ads, FallbackValue=Ads}"
-                                    Visibility="{Binding SinglePageAds.IsVisible, Converter={StaticResource BoolToVis}, FallbackValue=Visible}">
+                                    Text="{Binding SinglePageAds.Text, TargetNullValue=Ads, FallbackValue=Ads}">
                                     <TextBlock.Effect>
                                         <DropShadowEffect
                                             BlurRadius="3"
