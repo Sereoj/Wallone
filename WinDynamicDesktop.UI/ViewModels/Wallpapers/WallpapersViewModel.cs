@@ -65,7 +65,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
             Trace.WriteLine(pageBuilder.GetRouter());
 
-            Header = pageBuilder.GetCatalog() + " " + pageBuilder.GetPage();
+            Header = (string)navigationContext.Parameters["Text"] ?? "Библиотека";
             Loaded(null, pageBuilder.GetRouter(), pageBuilder.GetFields());
 
         }

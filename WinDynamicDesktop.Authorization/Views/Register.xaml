@@ -16,7 +16,7 @@
     <UserControl.Resources>
         <com:PasswordBoxHelper x:Key="PasswordBoxHelper" />
     </UserControl.Resources>
-    <Grid>
+    <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="65" />
             <RowDefinition Height="*" />

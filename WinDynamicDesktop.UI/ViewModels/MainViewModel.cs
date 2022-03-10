@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Media;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Services;
