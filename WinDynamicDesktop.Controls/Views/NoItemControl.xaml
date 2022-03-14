@@ -1,0 +1,18 @@
+﻿<UserControl
+    x:Class="WinDynamicDesktop.Controls.Views.NoItemControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:WinDynamicDesktop.Controls.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid>
+        <TextBlock
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            FontFamily="{StaticResource FontGardensC}"
+            Foreground="White"
+            Style="{StaticResource H3}"
+            Text="Нет контента" />
+    </Grid>
+</UserControl>

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Prism.Mvvm;
 using Prism.Regions;
 using WinDynamicDesktop.Authorization.Interfaces;
 using WinDynamicDesktop.Authorization.Services;
+using WinDynamicDesktop.Controls.ViewModels;
+using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
@@ -18,6 +21,13 @@ namespace WinDynamicDesktop.Authorization.ViewModels
     public class LoadViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
+
+        public UpdateViewModel UpdateViewModel { get; set; } = new UpdateViewModel();
+        public NoConnectServerViewModel NoConnectServerViewModel { get; set; } = new NoConnectServerViewModel();
+
+        public NoNetworkViewModel NoNetworkViewModel { get; set; } = new NoNetworkViewModel();
+
+        public LoadingViewModel LoadingViewModel { get; set; } = new LoadingViewModel();
 
         private string header;
         public string Header
@@ -34,14 +44,45 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             set { SetProperty(ref description, value); }
         }
 
+        private bool isLoading = true;
+        public bool IsLoading
+        {
+            get { return isLoading; }
+            set { SetProperty(ref isLoading, value); }
+        }
+
+        private bool isInternet = false;
+        public bool IsInternet
+        {
+            get { return isInternet; }
+            set { SetProperty(ref isInternet, value); }
+        }
+
+        private bool isConnect = false;
+        public bool IsConnect
+        {
+            get { return isConnect; }
+            set { SetProperty(ref isConnect, value); }
+        }
+
+        private bool isUpdate = false;
+        public bool IsUpdate
+        {
+            get { return isUpdate; }
+            set { SetProperty(ref isUpdate, value); }
+        }
+
         public LoadViewModel()
         {
-            // Здесь по хорошему сделать проверку на доступность сервера и т.д
         }
 
         public LoadViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+
+            Header = "Wallone";
+
+            LoadData();
         }
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
@@ -54,40 +95,60 @@ namespace WinDynamicDesktop.Authorization.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            if(!SettingsService.CheckFirstLaunch())
+        }
+        private async void LoadData()
+        {
+            var status = AppEthernetService.IsConnect();
+            NoNetworkViewModel.SetStatus(status);
+            IsInternet = NoNetworkViewModel.IsShow();
+
+            var version = await AppVersionService.GetVersionAsync();
+            AppVersionService.SetVersion(version);
+
+            if (status)
             {
-                Token();
+
+                string verionCurrent = AppVersionService.GetCurrentVersion();
+                var verionActual = AppVersionService.GetActualVersion();
+
+                var index = new AppUpdaterBuilder()
+                            .Compare(verionCurrent, verionActual);
+                
+                UpdateViewModel.SetStatus(index);
+                UpdateViewModel.SetCurrentVersion(verionCurrent);
+                UpdateViewModel.SetActualVersion(verionActual);
+
+                IsUpdate = UpdateViewModel.IsShow();
+
             }
         }
+        private async void ValidateAuth()
+        {
+            JObject objects = await Auth();
+            string msg = UserService.ValidateWithToken(objects);
+            //isAuth = msg == "success";
+        }
 
-        private async void Token()
+        private static async Task<JObject> Auth()
+        {
+            var json = await UserService.GetLoginWithTokenAsync();
+            var objects = JObject.Parse(json);
+            return objects;
+        }
+
+        private void GetToken()
         {
             try
             {
-                var token = SettingsService.GetToken();
-                if (token != null)
-                {
-                    var json = await UserService.GetLoginWithTokenAsync();
-                    var objects = JObject.Parse(json);
-                    var msg = UserService.ValidateWithToken(objects);
+                string token = SettingsService.GetToken();
 
-                    if (msg == "success")
-                    {
-                        regionManager.RequestNavigate("ContentRegion", "Main");
-                    }
-                    else
-                    {
-                        regionManager.RequestNavigate("ContentRegion", "Login");
-                    }
-                }
-                else
+                if(!string.IsNullOrEmpty(token))
                 {
-                    regionManager.RequestNavigate("ContentRegion", "Register");
+                    ValidateAuth();
                 }
-            }
-            catch (Exception e)
+            }catch(Exception ex)
             {
-                Trace.WriteLine(e.Message);
+
             }
         }
     }

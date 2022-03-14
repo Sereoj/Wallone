@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WinDynamicDesktop.Authorization\WinDynamicDesktop.Authorization.csproj" />
     <ProjectReference Include="..\WinDynamicDesktop.Common\WinDynamicDesktop.Common.csproj" />
+    <ProjectReference Include="..\WinDynamicDesktop.Controls\WinDynamicDesktop.Controls.csproj" />
     <ProjectReference Include="..\WinDynamicDesktop.Core\WinDynamicDesktop.Core.csproj" />
   </ItemGroup>
 

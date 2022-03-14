@@ -106,6 +106,62 @@ namespace WinDynamicDesktop.UI.ViewModels
         }
 
 
+        private string titlePosts = "Опубликованные посты";
+        public string TitlePosts
+        {
+            get { return titlePosts; }
+            set { SetProperty(ref titlePosts, value); }
+        }
+
+        private bool isPosts;
+        public bool IsPosts
+        {
+            get { return isPosts; }
+            set
+            {
+                SetProperty(ref isPosts, value);
+                TitlePosts = value == true ? "Опубликованные посты" : "Постов не существует";
+            }
+        }
+
+
+        private bool isMyProfile;
+        public bool IsMyProfile
+        {
+            get { return isMyProfile; }
+            set
+            {
+                SetProperty(ref isMyProfile, value);
+                if (value == true)
+                {
+                    IsEnableFacebook = false;
+                    IsEnableTwitter = false;
+                    IsEnableGithub = false;
+                    IsEnableVK = false;
+                }
+                else
+                {
+                    IsEnableFacebook = ProfileService.GetFacebook() != null;
+                    IsEnableTwitter = ProfileService.GetTwitter() != null;
+                    IsEnableGithub = ProfileService.GetGithub() != null;
+                    IsEnableVK = ProfileService.GetVK() != null;
+                }
+            }
+        }
+
+        private bool isEnableIcons;
+        public bool IsEnableIcons
+        {
+            get
+            {
+                return isEnableIcons;
+            }
+            set
+            {
+                isEnableIcons = value;
+            }
+        }
+
         public ProfileViewModelActions()
         {
 
@@ -129,45 +185,20 @@ namespace WinDynamicDesktop.UI.ViewModels
             set { SetProperty(ref header, value); }
         }
 
-        private string titlePosts = "Опубликованные посты";
-        public string TitlePosts
+        private double width;
+        public double Width
         {
-            get { return titlePosts; }
-            set { SetProperty(ref titlePosts, value); }
-        }
-
-        private bool isPosts;
-        public bool IsPosts
-        {
-            get { return isPosts; }
-            set
-            { 
-                SetProperty(ref isPosts, value); 
-                TitlePosts = value == true ? "Опубликованные посты" : "Постов не существует";
-            }
-        }
-
-
-        private bool isMyProfile;
-        public bool IsMyProfile
-        {
-            get { return isMyProfile; }
+            get => width;
             set
             {
-                SetProperty(ref isMyProfile, value);
-                if (value == true)
+                SetProperty(ref width, value);
+                if( value > 625)
                 {
-                    ProfileActionsVM.IsEnableFacebook = false;
-                    ProfileActionsVM.IsEnableTwitter = false;
-                    ProfileActionsVM.IsEnableGithub = false;
-                    ProfileActionsVM.IsEnableVK = false;
+                    ProfileActionsVM.IsEnableIcons = false;
                 }
                 else
                 {
-                    ProfileActionsVM.IsEnableFacebook = ProfileService.GetFacebook() != null;
-                    ProfileActionsVM.IsEnableTwitter = ProfileService.GetTwitter() != null;
-                    ProfileActionsVM.IsEnableGithub = ProfileService.GetGithub() != null;
-                    ProfileActionsVM.IsEnableVK = ProfileService.GetVK() != null;
+                    ProfileActionsVM.IsEnableIcons = true;
                 }
             }
         }
@@ -266,7 +297,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                     ProfileItemsVM.Likes = ProfileService.GetLikes();
                     ProfileItemsVM.Publish = ProfileService.GetPublish();
 
-                    IsMyProfile = isMyProfile;
+                    ProfileActionsVM.IsMyProfile = isMyProfile;
 
                     switch (ProfileService.GetSubscriber())
                     {
@@ -319,7 +350,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                         });
                         await Task.CompletedTask;
                     }
-                    IsPosts = list.Count > 0;
+                    ProfileActionsVM.IsPosts = list.Count > 0;
                 }
             }
             catch (Exception ex)

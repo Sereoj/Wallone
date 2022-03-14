@@ -43,6 +43,7 @@
                 <!--  Grid Header  -->
                 <Grid x:Name="Header" Grid.Row="0">
                     <TextBlock
+                        x:Name="Title"
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -203,6 +204,12 @@
                                                 Style="{StaticResource PProfile}"
                                                 Text="{Binding ProfileItemsVM.Subscriptions}" />
                                             <TextBlock
+                                                x:Name="icon_subscriptions"
+                                                FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                Style="{StaticResource PProfile}"
+                                                Text="&#xEB01;"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
+                                            <TextBlock
                                                 x:Name="name_subscriptions"
                                                 Style="{StaticResource PProfile}"
                                                 Text="Подписки" />
@@ -214,6 +221,12 @@
                                                 x:Name="count_subscribers"
                                                 Style="{StaticResource PProfile}"
                                                 Text="{Binding ProfileItemsVM.Subscribers}" />
+                                            <TextBlock
+                                                x:Name="icon_subscribers"
+                                                FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                Style="{StaticResource PProfile}"
+                                                Text="&#xEAF8;"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
                                             <TextBlock
                                                 x:Name="name_subscribers"
                                                 Style="{StaticResource PProfile}"
@@ -227,6 +240,12 @@
                                                 Style="{StaticResource PProfile}"
                                                 Text="{Binding ProfileItemsVM.Likes}" />
                                             <TextBlock
+                                                x:Name="icon_likes"
+                                                FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                Style="{StaticResource PProfile}"
+                                                Text="&#xECE9;"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
+                                            <TextBlock
                                                 x:Name="name_likes"
                                                 Style="{StaticResource PProfile}"
                                                 Text="Лайки" />
@@ -238,6 +257,12 @@
                                                 x:Name="count_publish"
                                                 Style="{StaticResource PProfile}"
                                                 Text="{Binding ProfileItemsVM.Publish}" />
+                                            <TextBlock
+                                                x:Name="icon_publish"
+                                                FontFamily="{StaticResource FontIconMoonUltimate}"
+                                                Style="{StaticResource PProfile}"
+                                                Text="&#xE940;"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
                                             <TextBlock
                                                 x:Name="name_publish"
                                                 Style="{StaticResource PProfile}"
@@ -405,7 +430,7 @@
                                 VerticalAlignment="Center"
                                 FontFamily="{StaticResource FontGardensC}"
                                 Style="{StaticResource H3}"
-                                Text="{Binding TitlePosts, FallbackValue=Title}" />
+                                Text="{Binding ProfileActionsVM.TitlePosts, FallbackValue=Title}" />
                             <StackPanel x:Name="Container" HorizontalAlignment="Center">
                                 <ui:GridView x:Name="PostsView" ItemsSource="{Binding Posts}">
                                     <ui:GridView.ItemTemplate>
