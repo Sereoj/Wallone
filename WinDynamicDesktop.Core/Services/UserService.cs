@@ -1,15 +1,16 @@
 ﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
-using WinDynamicDesktop.Authorization.Models;
+using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Models;
-using WinDynamicDesktop.Core.Services;
 
-namespace WinDynamicDesktop.Authorization.Services
+namespace WinDynamicDesktop.Core.Services
 {
     public class UserService
     {
-        private static readonly User user = new User();
+        private static User user = new User();
         private static string token;
 
         public static string GetId()
@@ -25,15 +26,25 @@ namespace WinDynamicDesktop.Authorization.Services
         {
             return token;
         }
-        public static Task<string> GetLoginAsync(string email, string password)
+        internal static Task<string> GetLoginWithTokenAsync()
         {
-            var items = RequestRouter<string, Login>.PostAsync("login", new Login() { email = email, password = password });
+            var items = RequestRouter<string>.GetAsync("user", null, null);
             return items;
         }
 
-        public static Task<string> GetLoginWithTokenAsync()
+        internal static bool ValidateWithToken(JObject data)
         {
-            var items = RequestRouter<string>.GetAsync("user", null, null);
+            if (data["id"] != null && data["name"] != null)
+            {
+                user.id = data["id"].ToString();
+                user.name = data["name"].ToString();
+                return true;
+            }
+            return false;
+        }
+        public static Task<string> GetLoginAsync(string email, string password)
+        {
+            var items = RequestRouter<string, Login>.PostAsync("login", new Login() { email = email, password = password });
             return items;
         }
 
@@ -42,25 +53,7 @@ namespace WinDynamicDesktop.Authorization.Services
             var items = RequestRouter<string, Register>.PostAsync("register", new Register() { name = name, email = email, password = password, password_confirmation = password_confirmation });
             return items;
         }
-        public static string ValidateRegister(JObject objects)
-        {
-            return Validate(objects);
-        }
-        public static string ValidateLogin(JObject objects)
-        {
-            return objects["auth.failed"] != null ? objects["auth.failed"].ToString() : Validate(objects);
-        }
 
-        public static string ValidateWithToken(JObject objects)
-        {
-            if(objects["id"] != null)
-            {
-                user.id = objects["id"].ToString();
-                user.name = objects["name"].ToString();
-                return "success";
-            }
-            return null;
-        }
         private static string Validate(JObject objects)
         {
             if (objects["token"] != null)
@@ -79,6 +72,15 @@ namespace WinDynamicDesktop.Authorization.Services
                 }
             }
             return msg;
+        }
+
+        public static string ValidateRegister(JObject objects)
+        {
+            return Validate(objects);
+        }
+        public static string ValidateLogin(JObject objects)
+        {
+            return objects["auth.failed"] != null ? objects["auth.failed"].ToString() : Validate(objects);
         }
     }
 }

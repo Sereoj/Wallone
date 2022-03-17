@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using WinDynamicDesktop.Authorization.Interfaces;
-using WinDynamicDesktop.Authorization.Services;
 using WinDynamicDesktop.Controls.ViewModels;
 using WinDynamicDesktop.Core.Builders;
+using WinDynamicDesktop.Core.Models.App;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
@@ -18,9 +16,9 @@ namespace WinDynamicDesktop.Authorization.ViewModels
      * Некая подушка загрузки форм.
      * 
      */
-    public class LoadViewModel : BindableBase, INavigationAware, IPage
+    public class LoadViewModel : BindableBase, INavigationAware
     {
-        private readonly IRegionManager regionManager;
+        private IRegionManager regionManager;
 
         public UpdateViewModel UpdateViewModel { get; set; } = new UpdateViewModel();
         public NoConnectServerViewModel NoConnectServerViewModel { get; set; } = new NoConnectServerViewModel();
@@ -37,11 +35,11 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         }
 
 
-        private string description;
-        public string Description
+        private string message;
+        public string Message
         {
-            get { return description; }
-            set { SetProperty(ref description, value); }
+            get { return message; }
+            set { SetProperty(ref message, value); }
         }
 
         private bool isLoading = true;
@@ -96,59 +94,65 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
         }
+        private void SetMessage(string message)
+        {
+            Message = message;
+        }
         private async void LoadData()
         {
-            var status = AppEthernetService.IsConnect();
+            bool status = AppEthernetService.IsConnect(); // true
+            SetMessage("Проверка интернета..");
+            await Task.Delay(2000);
+
             NoNetworkViewModel.SetStatus(status);
-            IsInternet = NoNetworkViewModel.IsShow();
+            IsInternet = !NoNetworkViewModel.IsShow(); // false
 
-            var version = await AppVersionService.GetVersionAsync();
-            AppVersionService.SetVersion(version);
-
-            if (status)
+            if (IsInternet)
             {
+                IsLoading = false;
+            }
+            else
+            {
+                string data = await AppVersionService.GetVersionAsync();
+                var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
+                
+                AppVersionService.SetVersion(appVersion.Version);
+                SetMessage("Поиск обновления...");
+                await Task.Delay(2000);
 
                 string verionCurrent = AppVersionService.GetCurrentVersion();
-                var verionActual = AppVersionService.GetActualVersion();
+                string verionActual = AppVersionService.GetActualVersion();
 
-                var index = new AppUpdaterBuilder()
+                int index = new AppUpdaterBuilder()
                             .Compare(verionCurrent, verionActual);
-                
+
                 UpdateViewModel.SetStatus(index);
                 UpdateViewModel.SetCurrentVersion(verionCurrent);
                 UpdateViewModel.SetActualVersion(verionActual);
-
+                
+                IsLoading = false;
                 IsUpdate = UpdateViewModel.IsShow();
 
-            }
-        }
-        private async void ValidateAuth()
-        {
-            JObject objects = await Auth();
-            string msg = UserService.ValidateWithToken(objects);
-            //isAuth = msg == "success";
-        }
-
-        private static async Task<JObject> Auth()
-        {
-            var json = await UserService.GetLoginWithTokenAsync();
-            var objects = JObject.Parse(json);
-            return objects;
-        }
-
-        private void GetToken()
-        {
-            try
-            {
-                string token = SettingsService.GetToken();
-
-                if(!string.IsNullOrEmpty(token))
+                if (!IsUpdate)
                 {
-                    ValidateAuth();
-                }
-            }catch(Exception ex)
-            {
+                    SetMessage("Обновлений не найдено");
+                    await Task.Delay(1000);
 
+                    SetMessage("Подождите пару секунд..");
+                    var builder = await new UserSyncBuilder()
+                        .GetToken()
+                        .ValidateAsync();
+                    await Task.Delay(1000);
+
+                    if (builder.IsUserAuth())
+                    {
+                        regionManager.RequestNavigate("ContentRegion", "Main");
+                    }
+                    else
+                    {
+                        regionManager.RequestNavigate("ContentRegion", "Login");
+                    }
+                }
             }
         }
     }

@@ -1,16 +1,13 @@
-﻿using ModernWpf.Controls;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using WinDynamicDesktop.Authorization.Services;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;

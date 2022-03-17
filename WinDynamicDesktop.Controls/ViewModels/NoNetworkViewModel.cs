@@ -21,7 +21,7 @@ namespace WinDynamicDesktop.Controls.ViewModels
 
         public bool IsShow()
         {
-            return !Status;
+            return Status;
         }
     }
 }

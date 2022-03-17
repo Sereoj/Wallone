@@ -97,7 +97,7 @@ namespace WinDynamicDesktop.Core.Builders
             if(AppSettingsService.GetUseForFolders() == "name")
             {
                 ThemePath = Path.Combine(themes, ThemeName);
-                if (value == true || AppSettingsService.ExistDirectory(ThemePath))
+                if (value || AppSettingsService.ExistDirectory(ThemePath))
                 {
                     // т.е тема уже установлена
                     ThemeHasNotInstalled = false;

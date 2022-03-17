@@ -20,7 +20,7 @@ namespace WinDynamicDesktop.Core.Services
         }
         public static Task<string> GetVersionAsync()
         {
-            var items = RequestRouter<string>.GetAsync("version");
+            var items = RequestRouter<string>.GetAsync("app/version");
             return items;
         }
 

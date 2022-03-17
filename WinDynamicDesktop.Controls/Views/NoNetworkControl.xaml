@@ -10,9 +10,10 @@
         <TextBlock
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            FontFamily="{StaticResource FontGardensC}"
+            FontFamily="{StaticResource FontIconMoonUltimate}"
+            FontSize="48"
             Foreground="White"
             Style="{StaticResource H3}"
-            Text="Нет подключения к интернету" />
+            Text="&#xED23;" />
     </Grid>
 </UserControl>

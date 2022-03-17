@@ -6,13 +6,5 @@
     xmlns:local="clr-namespace:WinDynamicDesktop.Controls.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource FontGardensC}"
-            Foreground="White"
-            Style="{StaticResource H3}"
-            Text="Нет подключение к серверу" />
-    </Grid>
+    <Grid />
 </UserControl>

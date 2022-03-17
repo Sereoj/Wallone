@@ -1,12 +1,8 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.IO;
-using WinDynamicDesktop.Authorization.Services;
-using WinDynamicDesktop.Core.Models.App;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels

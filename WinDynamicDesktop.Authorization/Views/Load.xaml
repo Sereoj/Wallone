@@ -21,62 +21,37 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="65" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="25" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="75" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="75" />
         </Grid.ColumnDefinitions>
-        <Grid
-            x:Name="Loading"
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="325"
-            Height="500"
-            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}">
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="70" />
+            </Grid.RowDefinitions>
             <TextBlock
+                Margin="0,5"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 FontFamily="{StaticResource FontGardensC}"
-                Foreground="White"
                 Style="{StaticResource H3}"
                 Text="{Binding Header, FallbackValue=WinDynamicDesktop}" />
+            <Grid Grid.Row="1">
+                <controls:LoadingControl x:Name="Loading" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+                <controls:NoNetworkControl x:Name="NoNetwork" Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
+                <controls:NoConnectServer x:Name="NoConnectServer" Visibility="{Binding IsConnect, Converter={StaticResource BoolToVis}}" />
+                <controls:UpdateControl x:Name="Update" Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}" />
+            </Grid>
             <TextBlock
-                Margin="0,30,0,0"
+                Grid.Row="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                FontFamily="{StaticResource FontGardensC}"
-                Style="{StaticResource P}"
-                Text="{Binding Description}" />
-            <controls:LoadingControl DataContext="{Binding LoadingViewModel}" />
-        </Grid>
-        <Grid
-            x:Name="NoNetwork"
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="325"
-            Height="500"
-            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}">
-            <controls:NoNetworkControl DataContext="{Binding NoNetworkViewModel}" />
-        </Grid>
-        <Grid
-            x:Name="NoConnectServer"
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="325"
-            Height="500"
-            Visibility="{Binding IsConnect, Converter={StaticResource BoolToVis}}">
-            <controls:NoConnectServer DataContext="{Binding NoConnectServerViewModel}" />
-        </Grid>
-        <Grid
-            x:Name="Update"
-            Grid.Row="1"
-            Grid.Column="1"
-            Width="325"
-            Height="500"
-            Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}">
-            <controls:UpdateControl DataContext="{Binding UpdateViewModel}" />
+                Style="{StaticResource PProfile}"
+                Text="{Binding Message}" />
         </Grid>
     </Grid>
 </UserControl>
