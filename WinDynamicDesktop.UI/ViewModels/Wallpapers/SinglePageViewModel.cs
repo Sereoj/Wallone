@@ -1,8 +1,4 @@
-﻿using ModernWpf.Controls;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Prism.Commands;
-using Prism.Events;
+﻿using Newtonsoft.Json;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -11,8 +7,6 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using WinDynamicDesktop.Core.Builders;
-using WinDynamicDesktop.Core.Controllers;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
@@ -63,7 +57,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             id = (string)navigationContext.Parameters["ID"];
 
-            if(id != null)
+            if (id != null)
             {
                 Loaded(id);
                 LoadAds();

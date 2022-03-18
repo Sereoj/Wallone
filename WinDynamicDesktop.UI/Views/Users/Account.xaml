@@ -44,8 +44,7 @@
                 <Grid
                     Grid.Row="1"
                     Grid.Column="1"
-                    Width="900"
-                    Margin="0,20,0,0">
+                    Margin="20,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="auto" />
@@ -85,6 +84,7 @@
                             TextWrapping="Wrap"
                             VerticalScrollBarVisibility="Visible" />
                     </StackPanel>
+
                     <WrapPanel Grid.Row="2" Margin="0,10,0,0">
                         <ui:PersonPicture
                             Margin="10"
@@ -96,37 +96,52 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </ui:PersonPicture>
-                        <StackPanel Width="480" HorizontalAlignment="Left">
-                            <TextBlock
-                                Margin="0,20,0,0"
-                                VerticalAlignment="Top"
-                                FontFamily="{StaticResource FontGardensC}"
-                                Style="{StaticResource H5}"
-                                Text="Рекомендации:" />
-                            <TextBlock
-                                Height="80"
-                                Margin="0,10,0,0"
-                                FontFamily="{StaticResource FontGardensC}"
-                                Style="{StaticResource P}"
-                                Text="{Binding TextInformation, TargetNullValue=Information}"
-                                TextWrapping="Wrap" />
-                        </StackPanel>
-                        <Button
-                            Width="200"
-                            Height="50"
-                            Margin="50,50,50,0"
-                            VerticalAlignment="Top"
-                            Command="{Binding SaveCommand}"
-                            Content="Сохранить"
-                            Style="{StaticResource AccentButtonStyle}" />
+                        <WrapPanel Margin="5,0,0,0" HorizontalAlignment="Left">
+                            <StackPanel>
+                                <TextBlock
+                                    Width="380"
+                                    Margin="0,20,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    FontFamily="{StaticResource FontGardensC}"
+                                    Style="{StaticResource H5}"
+                                    Text="Рекомендации:" />
+                                <TextBlock
+                                    Width="380"
+                                    Height="80"
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    FontFamily="{StaticResource FontGardensC}"
+                                    Style="{StaticResource P}"
+                                    Text="{Binding TextInformation, TargetNullValue=Information}"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </WrapPanel>
+                        <WrapPanel
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                            <Button
+                                Width="200"
+                                Height="50"
+                                Command="{Binding SaveCommand}"
+                                Content="Сохранить"
+                                Style="{StaticResource AccentButtonStyle}" />
+                        </WrapPanel>
                     </WrapPanel>
                     <StackPanel Grid.Row="3" Margin="0,10,0,0">
                         <TextBlock
+                            Margin="5,0,0,0"
                             VerticalAlignment="Top"
                             FontFamily="{StaticResource FontGardensC}"
                             Style="{StaticResource P}"
                             Text="Задний фон:" />
-                        <controls:Uploader Height="200" Margin="0,10,0,0" />
+                        <controls:Uploader
+                            Height="auto"
+                            MinHeight="200"
+                            MaxHeight="400"
+                            Margin="0,10,0,0" />
                     </StackPanel>
                     <Grid Grid.Row="4" Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
@@ -158,7 +173,7 @@
                                 SelectedItem="{Binding Country}" />
                         </StackPanel>
                     </Grid>
-                    <Grid Grid.Row="5" Margin="0,10,0,0">
+                    <Grid Grid.Row="5" Margin="0,10,0,10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
@@ -209,7 +224,6 @@
                                 Text="VK" />
                             <TextBox
                                 MaxHeight="35"
-                                Margin="0,15,0,0"
                                 ui:ControlHelper.PlaceholderText="https://vk.com/nickname"
                                 Text="{Binding VK}" />
                         </StackPanel>
