@@ -46,12 +46,15 @@ namespace WinDynamicDesktop.Core.Controllers
             {
                 if (themeBuilder.GetHasNotInstalled())
                 {
+                    var files = Directory.GetFiles(themeBuilder.GetThemePath());
+
+                    SetWallpaper(files[0], 2, 0);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw new Exception();
             }
         }
     }

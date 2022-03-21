@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:template="clr-namespace:WinDynamicDesktop.Controls.Views;assembly=WinDynamicDesktop.Controls"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:ProfileViewModel,
@@ -31,11 +32,21 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <template:LoadingControl
+            x:Name="Loading"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+        <template:NoNetworkControl
+            x:Name="NoNetwork"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
         <ScrollViewer
             x:Name="ScrollViewer"
             IsTabStop="False"
             ScrollChanged="ScrollViewer_ScrollChanged">
-            <Grid>
+            <Grid Visibility="{Binding IsContent, Converter={StaticResource BoolToVis}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60" />
                     <RowDefinition Height="*" />

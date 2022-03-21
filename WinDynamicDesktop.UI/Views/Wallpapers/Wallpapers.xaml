@@ -7,6 +7,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:template="clr-namespace:WinDynamicDesktop.Controls.Views;assembly=WinDynamicDesktop.Controls"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:WallpapersViewModel,
@@ -17,6 +18,7 @@
     SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Style TargetType="ui:GridViewItem">
             <Setter Property="Margin" Value="5" />
             <Setter Property="Template">
@@ -29,12 +31,22 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <template:LoadingControl
+            x:Name="Loading"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+        <template:NoNetworkControl
+            x:Name="NoNetwork"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
         <ScrollViewer
             x:Name="ScrollViewer"
             IsTabStop="False"
             ScrollChanged="ScrollViewer_ScrollChanged">
-            <StackPanel>
-                <Grid>
+            <Grid>
+                <Grid Visibility="{Binding IsContent, Converter={StaticResource BoolToVis}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60" />
                         <RowDefinition Height="*" />
@@ -73,7 +85,7 @@
                         </ui:GridView>
                     </Grid>
                 </Grid>
-            </StackPanel>
+            </Grid>
         </ScrollViewer>
         <Button
             x:Name="ScrollUp"

@@ -38,8 +38,30 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string name;
         public string Name { get => name; set => SetProperty(ref name, value); }
 
-        private bool isloading;
-        public bool Isloading { get => isloading; set => SetProperty(ref isloading, value); }
+        private bool isLoading = true;
+        public bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                SetProperty(ref isLoading, value);
+                IsContent = value == false;
+            }
+        }
+
+        private bool isInternet = false;
+        public bool IsInternet
+        { 
+            get => isInternet;
+            set
+            {
+                SetProperty(ref isInternet, value);
+                IsContent = value == false;
+            }
+        }
+
+        private bool isContent = false;
+        public bool IsContent { get => isContent; set => SetProperty(ref isContent, value); }
 
         public SinglePageAdsViewModel SinglePageAds { get; set; } = new SinglePageAdsViewModel();
         public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();
@@ -110,6 +132,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             try
             {
+                IsLoading = true;
                 var data = await SinglePageService.GetPageAsync(id);
 
                 if (!string.IsNullOrEmpty(data))
@@ -130,6 +153,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                     posts(SinglePageService.GetPosts());
                 }
+                IsLoading = false;
             }
             catch (Exception ex)
             {

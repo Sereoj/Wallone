@@ -200,6 +200,31 @@ namespace WinDynamicDesktop.UI.ViewModels
             }
         }
 
+        private bool isLoading = true;
+        public bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                SetProperty(ref isLoading, value);
+                IsContent = value == false;
+            }
+        }
+
+        private bool isInternet = false;
+        public bool IsInternet
+        {
+            get => isInternet;
+            set
+            {
+                SetProperty(ref isInternet, value);
+                IsContent = value == false;
+            }
+        }
+
+        private bool isContent = false;
+        public bool IsContent { get => isContent; set => SetProperty(ref isContent, value); }
+
         public DelegateCommand ActionCommand { get; set; }
         public DelegateCommand EditProfileCommand { get; set; }
         public ProfileViewModel()
@@ -273,6 +298,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             try
             {
+                IsLoading = true;
                 var data = await ProfileService.GetPageAsync(id);
 
                 if (!string.IsNullOrEmpty(data))
@@ -309,6 +335,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                     posts(ProfileService.GetPosts());
                     bitmapHelper.Clear();
                 }
+                IsLoading = false;
             }
             catch (Exception ex)
             {

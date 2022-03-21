@@ -26,6 +26,31 @@ namespace WinDynamicDesktop.UI.ViewModels
             set { SetProperty(ref header, value); }
         }
 
+        private bool isLoading = true;
+        public bool IsLoading
+        {
+            get => isLoading;
+            set
+            {
+                SetProperty(ref isLoading, value);
+                IsContent = value == false;
+            }
+        }
+
+        private bool isInternet = false;
+        public bool IsInternet
+        {
+            get => isInternet;
+            set
+            {
+                SetProperty(ref isInternet, value);
+                IsContent = value == false;
+            }
+        }
+
+        private bool isContent = false;
+        public bool IsContent { get => isContent; set => SetProperty(ref isContent, value); }
+
         public WallpapersViewModel()
         {
             Library.Add(new ArticleViewModel(regionManager));
@@ -50,8 +75,6 @@ namespace WinDynamicDesktop.UI.ViewModels
             var root = (string)navigationContext.Parameters["Root"] ?? "Gallery";
             var page_id = (string)navigationContext.Parameters["ID"] ?? "Main";
 
-            Trace.WriteLine(root + "//" + page_id);
-
             var pageBuilder = new PageBuilder() // Создаем билдер
                 .Query(new PageGallaryBuilder()) //Говорим, что gallery
                 .Catalog(root) //Устанввливам каталог
@@ -72,6 +95,8 @@ namespace WinDynamicDesktop.UI.ViewModels
             Library.Clear();
             try
             {
+                IsLoading = true;
+                
                 var items = await ThumbService.GetThumbsAsync(router, page, parameters);
                 if (ThumbService.CheckItems(items))
                 {
@@ -97,6 +122,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
                     regionManager.RequestNavigate("PageRegion", "NotFound", param);
                 }
+                IsLoading = false;
             }
             catch (Exception ex)
             {
