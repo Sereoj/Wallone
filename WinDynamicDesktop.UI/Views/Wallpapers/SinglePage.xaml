@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:WinDynamicDesktop.UI.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:template="clr-namespace:WinDynamicDesktop.Controls.Views;assembly=WinDynamicDesktop.Controls"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
     d:DataContext="{d:DesignInstance Type=viewmodels:SinglePageViewModel,
@@ -31,12 +32,16 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <template:LoadingControl
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="Visible" />
         <ScrollViewer
             x:Name="ScrollViewer"
             IsTabStop="False"
             ScrollChanged="ScrollViewer_ScrollChanged">
-            <StackPanel>
-                <Grid>
+            <Grid>
+                <Grid Visibility="Hidden">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60" />
                         <RowDefinition Height="*" />
@@ -125,7 +130,7 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
-            </StackPanel>
+            </Grid>
         </ScrollViewer>
         <Button
             x:Name="ScrollUp"

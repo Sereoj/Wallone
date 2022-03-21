@@ -51,7 +51,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Style="{StaticResource PProfile}"
-                Text="{Binding Message}" />
+                Text="{Binding Message}" Cursor="Hand" />
         </Grid>
     </Grid>
 </UserControl>

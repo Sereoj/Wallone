@@ -38,6 +38,9 @@ namespace WinDynamicDesktop.UI.ViewModels
         private string name;
         public string Name { get => name; set => SetProperty(ref name, value); }
 
+        private bool isloading;
+        public bool Isloading { get => isloading; set => SetProperty(ref isloading, value); }
+
         public SinglePageAdsViewModel SinglePageAds { get; set; } = new SinglePageAdsViewModel();
         public ObservableCollection<ArticleViewModel> Posts { get; set; } = new ObservableCollection<ArticleViewModel>();
 
@@ -45,14 +48,15 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
         }
 
+        //Вызывется раньше чем OnNavigatedTo, IsNavigationTarget, OnNavigatedFrom, инициализация
         public SinglePageViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
             bitmapHelper = new BitmapHelper();
         }
 
-   
 
+        //Вызывается после SinglePageViewModel, получает данные с другой страницы и отображает
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             id = (string)navigationContext.Parameters["ID"];
@@ -73,11 +77,12 @@ namespace WinDynamicDesktop.UI.ViewModels
             }
         }
 
+        //Если данные получены отображение
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
         }
-
+        // Отправка данных с этой страницы на другую страницу
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }

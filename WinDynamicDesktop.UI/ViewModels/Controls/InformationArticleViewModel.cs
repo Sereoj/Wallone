@@ -11,6 +11,7 @@ using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Controllers;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
+using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
@@ -67,10 +68,13 @@ namespace WinDynamicDesktop.UI.ViewModels
             get => isInstalled;
             set
             {
-                DisplayTextInstall = value == true ? "Удалить" : "Установить";
                 SetProperty(ref isInstalled, value);
+                DisplayTextInstall = value == true ? "Удалить" : "Установить";
             }
         }
+
+        private bool isEnableInstalled = true;
+        public bool IsEnableInstalled { get => isEnableInstalled; set => SetProperty(ref isEnableInstalled, value); }
 
         private bool isFavorited;
         public bool IsFavorited
@@ -78,10 +82,13 @@ namespace WinDynamicDesktop.UI.ViewModels
             get => isFavorited;
             set
             {
-                DisplayTextFavorite = value == true ? FontIconService.SetIcon("ultimate", "\uECB7") : FontIconService.SetIcon("ultimate", "\uECB8");
                 SetProperty(ref isFavorited, value);
+                DisplayTextFavorite = value == true ? FontIconService.SetIcon("ultimate", "\uECB7") : FontIconService.SetIcon("ultimate", "\uECB8");
             }
         }
+
+        private bool isEnableFavorited = true;
+        public bool IsEnableFavorited { get => isEnableFavorited; set => SetProperty(ref isEnableFavorited, value); }
 
         private bool isLiked;
         public bool IsLiked
@@ -89,10 +96,13 @@ namespace WinDynamicDesktop.UI.ViewModels
             get => isLiked;
             set
             {
-                DisplayTextReation = value == true ? FontIconService.SetIcon("ultimate", "\uECE9") : FontIconService.SetIcon("ultimate", "\uECEA");
                 SetProperty(ref isLiked, value);
+                DisplayTextReation = value == true ? FontIconService.SetIcon("ultimate", "\uECE9") : FontIconService.SetIcon("ultimate", "\uECEA");
             }
         }
+
+        private bool isEnableLiked = true;
+        public bool IsEnableLiked { get => isEnableLiked; set => SetProperty(ref isEnableLiked, value); }
     }
 
     public class InformationArticleViewModel : BindableBase, INavigationAware
@@ -138,71 +148,104 @@ namespace WinDynamicDesktop.UI.ViewModels
         }
         private async void OnThemeInstalled()
         {
-            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
-                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .SetName(simplePage.name)
-                .CreateModel() //Создаем модель данных
-                .HasNotInstalled(SinglePageLogic.IsInstalled) //Если не установлена, прооходим проверку
-                .ExistOrCreateDirectory() // Если папка существует или не создана
-                .Remove() //Если существует и статус false, то удалить
-                .Download() //Разрешение на скачивание
-                .Build(); //Создаем конфиг
+            try
+            {
+                SinglePageLogic.IsEnableInstalled = false;
+                var themeBuilder = await new ThemeBuilder<ThemeCreatedBuilder>()
+                    .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                    .SetName(simplePage.name)
+                    .CreateModel(simplePage.images) //Создаем модель данных
+                    .HasNotInstalled(SinglePageLogic.IsInstalled) //Если не установлена, прооходим проверку
+                    .ExistOrCreateDirectory() // Если папка существует или не создана
+                    .Remove() //Если существует и статус false, то удалить
+                    .Download(); //Разрешение на скачивание
 
-            var themeController = new ThemeController(themeBuilder);
+                themeBuilder.Build();
+                var themeController = new ThemeController(themeBuilder);
+                themeController.SetWallpaper();
 
-            SinglePage data = await SinglePageService.SetDownloadAsync(AppConvert.BoolToString(themeController.GetValueInstall()));
-            update(data);
+                SinglePage data = await SinglePageService.SetDownloadAsync(AppConvert.BoolToString(themeController.GetValueInstall()));
+                
+                update(data);
+                SinglePageLogic.IsInstalled = themeController.GetValueInstall();
+                SinglePageLogic.IsEnableInstalled = true;
 
-            SinglePageLogic.IsInstalled = themeController.GetValueInstall();
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
         }
 
         private async void OnThemeFavorited()
         {
-            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
-                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .HasNotFavorited(SinglePageLogic.IsFavorited); //Если не установлена, проходим проверку
+            try
+            {
+                SinglePageLogic.IsEnableFavorited = false;
 
-            //Закидываем выполненные настройки в контроллер для отображения данных
-            var themeController = new ThemeController(themeBuilder);
+                var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
+                    .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                    .HasNotFavorited(SinglePageLogic.IsFavorited); //Если не установлена, проходим проверку
 
-            SinglePage data = await SinglePageService.SetFavoriteAsync(AppConvert.BoolToString(themeController.GetValueFavorite()));
-            update(data);
+                //Закидываем выполненные настройки в контроллер для отображения данных
+                var themeController = new ThemeController(themeBuilder);
 
-            SinglePageLogic.IsFavorited = themeController.GetValueFavorite();
+                SinglePage data = await SinglePageService.SetFavoriteAsync(AppConvert.BoolToString(themeController.GetValueFavorite()));
+                update(data);
+
+                SinglePageLogic.IsFavorited = themeController.GetValueFavorite();
+                SinglePageLogic.IsEnableFavorited = true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         private async void OnReaction()
         {
-            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
-                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .HasNotLiked(SinglePageLogic.IsLiked); //Если не установлена, проходим проверку
+            try
+            {
+                SinglePageLogic.IsEnableLiked = false;
 
-            //Закидываем выполненные настройки в контроллер для отображения данных
-            var themeController = new ThemeController(themeBuilder);
+                var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
+                    .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                    .HasNotLiked(SinglePageLogic.IsLiked); //Если не установлена, проходим проверку
 
-            SinglePage data = await SinglePageService.SetReactionAsync(AppConvert.BoolToString(themeController.GetValueReaction()));
-            update(data);
+                //Закидываем выполненные настройки в контроллер для отображения данных
+                var themeController = new ThemeController(themeBuilder);
 
-            SinglePageLogic.IsLiked = themeController.GetValueReaction();
+                SinglePage data = await SinglePageService.SetReactionAsync(AppConvert.BoolToString(themeController.GetValueReaction()));
+                update(data);
+
+                SinglePageLogic.IsLiked = themeController.GetValueReaction();
+                SinglePageLogic.IsEnableLiked = true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
 
-        private void setStatusForButtons()
+        private async void setStatusForButtons()
         {
             var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
                 .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
                 .SetName(simplePage.name)
                 .HasNotInstalled(SinglePageService.GetInstall()); //Если не установлена, прооходим проверку
 
-            SinglePageLogic.IsInstalled = SinglePageService.GetInstall();
             SinglePageLogic.IsFavorited = SinglePageService.GetFavorite();
             SinglePageLogic.IsLiked = SinglePageService.GetReaction();
 
-            if (themeBuilder.GetHasNotInstalled() == false)
-            {
-                SinglePageLogic.IsInstalled = AppConvert.Revert(themeBuilder.GetHasNotInstalled());
-            }
+            var theme = themeBuilder.GetThemePath();
+            SinglePageLogic.IsInstalled = AppSettingsService.ExistDirectory(theme);
+
+            SinglePage data = await SinglePageService.SetDownloadAsync(AppConvert.BoolToString(SinglePageLogic.IsInstalled)); // true
+            update(data); // update ui
         }
 
         private async void tags(List<Tag> list)

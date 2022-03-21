@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Threading.Tasks;
+using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Interfaces;
+using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Core.Builders
@@ -35,29 +40,58 @@ namespace WinDynamicDesktop.Core.Builders
         private static bool ThemeHasNotLiked { get; set; } = false;
         private static string ThemeName { get; set; }
         private static string ThemePath { get; set; }
-        public ThemeCreatedBuilder CreateModel()
+
+        private List<Images> Images;
+        public ThemeCreatedBuilder CreateModel(List<Images> images)
         {
+            if(Images == null)
+            {
+                Images = images;
+            }
             return this;
         }
         // Скачать тему
-        public ThemeCreatedBuilder Download()
+        public async Task<ThemeCreatedBuilder> Download()
         {
+            if(ThemeHasNotInstalled == true)
+            {
+                foreach (var item in Images)
+                {
+                    var wb = new WebClient();
+
+                    var replaced_link = item.location.Replace("images/carousel_", "uploads/");
+                    var filename = item.location.Replace("/public/storage/images/carousel_", "");
+
+                    var currentWallpaper = Path.Combine(ThemePath, filename);
+                    await wb.DownloadFileTaskAsync(UriHelper.Get(replaced_link), currentWallpaper);
+                }
+                await Task.CompletedTask;
+            }
             return this;
         }
 
         //Удалить тему
         public ThemeCreatedBuilder Remove()
         {
-            if (ThemeHasNotInstalled == false)
+            try
             {
-                if (AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
+                if (ThemeHasNotInstalled == false)
                 {
-                    if (AppSettingsService.ExistDirectory(ThemePath))
+                    if (AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
                     {
-                        AppSettingsService.RemoveDirectory(ThemePath);
+                        if (AppSettingsService.ExistDirectory(ThemePath))
+                        {
+                            AppSettingsService.RemoveDirectory(ThemePath);
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             return this;
         }
 
@@ -97,7 +131,7 @@ namespace WinDynamicDesktop.Core.Builders
             if(AppSettingsService.GetUseForFolders() == "name")
             {
                 ThemePath = Path.Combine(themes, ThemeName);
-                if (value || AppSettingsService.ExistDirectory(ThemePath))
+                if (value && AppSettingsService.ExistDirectory(ThemePath))
                 {
                     // т.е тема уже установлена
                     ThemeHasNotInstalled = false;
@@ -139,6 +173,11 @@ namespace WinDynamicDesktop.Core.Builders
             return this;
         }
 
+        public string GetThemePath()
+        {
+            return ThemePath;
+        }
+
         public bool GetHasNotInstalled()
         {
             return ThemeHasNotInstalled;
@@ -150,6 +189,11 @@ namespace WinDynamicDesktop.Core.Builders
         public bool GetHasNotLiked()
         {
             return ThemeHasNotLiked;
+        }
+
+        ThemeCreatedBuilder IThemeCreatedBuilder.Download()
+        {
+            return this;
         }
     }
 }

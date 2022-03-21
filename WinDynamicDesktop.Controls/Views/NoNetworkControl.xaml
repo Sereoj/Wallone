@@ -6,8 +6,17 @@
     xmlns:local="clr-namespace:WinDynamicDesktop.Controls.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <local:Logo />
+        </Grid>
         <TextBlock
+            Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             FontFamily="{StaticResource FontIconMoonUltimate}"

@@ -213,6 +213,7 @@
                         VerticalAlignment="Center"
                         Command="{Binding InstallCommand}"
                         Content="{Binding SinglePageLogic.DisplayTextInstall, FallbackValue=Установить, TargetNullValue=Установить}"
+                        IsEnabled="{Binding SinglePageLogic.IsEnableInstalled}"
                         Style="{StaticResource AccentButtonStyle}" />
                     <Button
                         Width="50"
@@ -221,6 +222,7 @@
                         Command="{Binding FavoriteCommand}"
                         Content="{Binding SinglePageLogic.DisplayTextFavorite, FallbackValue='&#xECB8;', TargetNullValue='&#xECB8;'}"
                         FontFamily="{StaticResource FontIconMoonUltimate}"
+                        IsEnabled="{Binding SinglePageLogic.IsEnableFavorited}"
                         Style="{StaticResource AccentButtonStyle}" />
                     <Button
                         Width="50"
@@ -229,6 +231,7 @@
                         Command="{Binding ReactionCommand}"
                         Content="{Binding SinglePageLogic.DisplayTextReation, FallbackValue='&#xECEA;', TargetNullValue='&#xECEA;'}"
                         FontFamily="{StaticResource FontIconMoonUltimate}"
+                        IsEnabled="{Binding SinglePageLogic.IsEnableLiked}"
                         Style="{StaticResource AccentButtonStyle}" />
                 </ui:GridView>
             </StackPanel>

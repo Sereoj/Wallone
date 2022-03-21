@@ -3,12 +3,8 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
@@ -54,7 +50,15 @@ namespace WinDynamicDesktop.UI.ViewModels
         public int SelectedIndex
         {
             get { return selectedIndex; }
-            set { SetProperty(ref selectedIndex, value); }
+            set
+            { 
+                SetProperty(ref selectedIndex, value);
+                if(value !=  -1)
+                {
+                    FrontImageSource = bitmapHelper[Items[value].Uri];
+                    Text = Items[value].Name;
+                }
+            }
         }
 
         public ObservableCollection<ThemePreviewItem> Items { get; } = new ObservableCollection<ThemePreviewItem>();
@@ -136,7 +140,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             {
                 foreach (var item in simplePage.images)
                 {
-                    SetImageList(item.type, UriHelper.Get(item.location));
+                    SetImageList(item.times, UriHelper.Get(item.location));
                 }
 
                 isEnable = true;
