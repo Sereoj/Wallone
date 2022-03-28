@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.Net;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
@@ -18,11 +19,11 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             set { SetProperty(ref email, value); }
         }
 
-        private string paswword;
+        private string password;
         public string Password
         {
-            get { return paswword; }
-            set { SetProperty(ref paswword, value); }
+            get { return password; }
+            set { SetProperty(ref password, value); }
         }
 
         private string message;
@@ -35,9 +36,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         public LoginViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-
             Autocomplete();
-
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
         private void Navigate(string obj)
@@ -57,26 +56,24 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         private void Autocomplete()
         {
             var email = SettingsService.Get().Email;
-            if (email != null)
-                Email = email;
+            Email = email ?? "user@w2me.ru";
         }
         private async void Login()
         {
             try
             {
                 var json = await UserService.GetLoginAsync(Email, Password);
-                var objects = JObject.Parse(json);
+                var s = AppEthernetService.GetStatus();
 
-                var msg = UserService.ValidateLogin(objects);
-                if (UserService.GetToken() != null)
+                switch (s)
                 {
-                    var settings = SettingsService.Get();
-
-                    settings.Token = UserService.GetToken();
-                    _regionManager.RequestNavigate("ContentRegion", "Main");
+                    case HttpStatusCode.OK:
+                        LoadLogin(json);
+                        break;
+                    case HttpStatusCode.NotFound:
+                        Message = "Страница не существует";
+                        break;
                 }
-
-                Message = msg;
             }
             catch (InvalidOperationException ex)
             {
@@ -89,6 +86,26 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             catch (Exception ex)
             {
                 Message = ex.Message;
+            }
+        }
+
+        private void LoadLogin(string json)
+        {
+            var objects = JObject.Parse(json);
+
+            var msg = UserService.ValidateLogin(objects);
+
+            if (UserService.GetToken() != null)
+            {
+                var settings = SettingsService.Get();
+                settings.Email = Email;
+                settings.Token = UserService.GetToken();
+                SettingsService.Save();
+                _regionManager.RequestNavigate("ContentRegion", "Main");
+            }
+            else
+            {
+                Message = msg;
             }
         }
     }

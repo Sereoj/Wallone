@@ -100,8 +100,8 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         }
         private async void LoadData()
         {
-            bool status = AppEthernetService.IsConnect(); // true
-            SetMessage("Проверка интернета..");
+            bool status = AppEthernetService.IsConnect(Router.domainExample); // true
+            SetMessage("Проверка соединения с интернетом");
             await Task.Delay(2000);
 
             NoNetworkViewModel.SetStatus(status);
@@ -109,50 +109,65 @@ namespace WinDynamicDesktop.Authorization.ViewModels
 
             if (IsInternet)
             {
+                SetMessage("Нет интернет соединения");
                 IsLoading = false;
             }
             else
             {
-                string data = await AppVersionService.GetVersionAsync();
-                var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
-                
-                AppVersionService.SetVersion(appVersion.Version);
-                SetMessage("Поиск обновления...");
+                bool statusServer = AppEthernetService.IsConnect(Router.domainApi); // true
+                SetMessage("Проверка соединения c " + Router.OnlyNameDomain());
                 await Task.Delay(2000);
 
-                string verionCurrent = AppVersionService.GetCurrentVersion();
-                string verionActual = AppVersionService.GetActualVersion();
+                NoConnectServerViewModel.SetStatus(statusServer);
+                IsConnect = !NoConnectServerViewModel.IsShow();
 
-                int index = new AppUpdaterBuilder()
-                            .Compare(verionCurrent, verionActual);
-
-                UpdateViewModel.SetStatus(index);
-                UpdateViewModel.SetCurrentVersion(verionCurrent);
-                UpdateViewModel.SetActualVersion(verionActual);
-                
-                IsLoading = false;
-                IsUpdate = UpdateViewModel.IsShow();
-
-                if (!IsUpdate)
+                if(statusServer)
                 {
-                    SetMessage("Обновлений не найдено");
-                    await Task.Delay(1000);
+                    string data = await AppVersionService.GetVersionAsync();
+                    var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
 
-                    SetMessage("Подождите пару секунд..");
-                    var builder = await new UserSyncBuilder()
-                        .GetToken()
-                        .ValidateAsync();
-                    await Task.Delay(1000);
+                    AppVersionService.SetVersion(appVersion.Version);
+                    SetMessage("Поиск обновления...");
+                    await Task.Delay(2000);
 
-                    if (builder.IsUserAuth())
+                    string verionCurrent = AppVersionService.GetCurrentVersion();
+                    string verionActual = AppVersionService.GetActualVersion();
+
+                    int index = new AppUpdaterBuilder()
+                                .Compare(verionCurrent, verionActual);
+
+                    UpdateViewModel.SetStatus(index);
+                    UpdateViewModel.SetCurrentVersion(verionCurrent);
+                    UpdateViewModel.SetActualVersion(verionActual);
+
+                    IsUpdate = UpdateViewModel.IsShow();
+
+                    if (!IsUpdate)
                     {
-                        regionManager.RequestNavigate("ContentRegion", "Main");
-                    }
-                    else
-                    {
-                        regionManager.RequestNavigate("ContentRegion", "Login");
+                        SetMessage("Обновлений не найдено");
+                        await Task.Delay(1000);
+
+                        SetMessage("Подождите пару секунд..");
+                        var builder = await new UserSyncBuilder()
+                            .GetToken()
+                            .ValidateAsync();
+                        await Task.Delay(1000);
+
+                        if (builder.IsUserAuth())
+                        {
+                            regionManager.RequestNavigate("ContentRegion", "Main");
+                        }
+                        else
+                        {
+                            regionManager.RequestNavigate("ContentRegion", "Login");
+                        }
                     }
                 }
+                else
+                {
+                    SetMessage("Нет соединения c " + Router.OnlyNameDomainApi());
+                }
+
             }
         }
     }

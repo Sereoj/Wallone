@@ -55,6 +55,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         public string TextInformation { get => textInformation; set => SetProperty(ref textInformation, value); }
         public DelegateCommand PersonPictureCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
+        public DelegateCommand ExitCommand { get; set; }
         public AccountViewModel()
         {
         }
@@ -64,6 +65,24 @@ namespace WinDynamicDesktop.UI.ViewModels
             this.regionManager = regionManager;
             PersonPictureCommand = new DelegateCommand(OnPersonPicture);
             SaveCommand = new DelegateCommand(OnSave);
+            ExitCommand = new DelegateCommand(OnExit);
+        }
+
+        private void OnExit()
+        {
+            try
+            {
+                UserService.Close();
+                SettingsService.Get().Token = null;
+                SettingsService.Save();
+
+                regionManager.RequestNavigate("ContentRegion", "Login");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         private async void OnSave()

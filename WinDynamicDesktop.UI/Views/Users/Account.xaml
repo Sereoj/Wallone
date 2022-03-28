@@ -128,6 +128,13 @@
                                 Command="{Binding SaveCommand}"
                                 Content="Сохранить"
                                 Style="{StaticResource AccentButtonStyle}" />
+                            <Button
+                                Width="200"
+                                Height="50"
+                                Margin="10,0,0,0"
+                                Command="{Binding ExitCommand}"
+                                Content="Выйти с аккаунта"
+                                Style="{StaticResource AccentButtonStyle}" />
                         </WrapPanel>
                     </WrapPanel>
                     <StackPanel Grid.Row="3" Margin="0,10,0,0">

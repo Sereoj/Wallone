@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using WinDynamicDesktop.Core.Models;
 
@@ -7,6 +8,10 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class ThumbService
     {
+        public static HttpStatusCode GetStatusCode()
+        {
+            return AppEthernetService.GetStatus();
+        }
         public static Task<List<Thumb>> GetThumbsAsync(string router, string page, List<Models.Parameter> parameters)
         {
             var items = RequestRouter<List<Thumb>>.GetAsync(router, page, parameters);

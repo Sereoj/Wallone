@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:WinDynamicDesktop.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:template="clr-namespace:WinDynamicDesktop.Controls.Views;assembly=WinDynamicDesktop.Controls"
@@ -66,7 +67,12 @@
                     x:Name="ArticleView"
                     Grid.Row="1"
                     Margin="20,20,20,0">
-                    <Grid HorizontalAlignment="Center">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SizeChanged">
+                            <prism:InvokeCommandAction Command="{Binding SizeChangedCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid>
                         <Grid.RowDefinitions>
                             <!--  Image  -->
                             <RowDefinition
@@ -206,79 +212,116 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0">
-                                        <StackPanel
+                                        <Grid
                                             x:Name="subscriptions"
                                             Margin="16"
                                             Background="{x:Null}">
                                             <TextBlock
                                                 x:Name="count_subscriptions"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Top"
                                                 Style="{StaticResource PProfile}"
                                                 Text="{Binding ProfileItemsVM.Subscriptions}" />
                                             <TextBlock
                                                 x:Name="icon_subscriptions"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
                                                 FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource PProfile}"
                                                 Text="&#xEB01;"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
                                             <TextBlock
                                                 x:Name="name_subscriptions"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
                                                 Style="{StaticResource PProfile}"
-                                                Text="Подписки" />
-                                        </StackPanel>
+                                                Text="Подписки"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
+                                        </Grid>
                                     </Grid>
                                     <Grid Grid.Column="1">
-                                        <StackPanel x:Name="subscribers" Margin="16">
+                                        <Grid x:Name="subscribers" Margin="16">
                                             <TextBlock
                                                 x:Name="count_subscribers"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Top"
                                                 Style="{StaticResource PProfile}"
                                                 Text="{Binding ProfileItemsVM.Subscribers}" />
                                             <TextBlock
                                                 x:Name="icon_subscribers"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
                                                 FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource PProfile}"
                                                 Text="&#xEAF8;"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
                                             <TextBlock
                                                 x:Name="name_subscribers"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
                                                 Style="{StaticResource PProfile}"
-                                                Text="Подписчики" />
-                                        </StackPanel>
+                                                Text="Подписчики"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
+                                        </Grid>
                                     </Grid>
                                     <Grid Grid.Column="2">
-                                        <StackPanel x:Name="likes" Margin="16">
+                                        <Grid x:Name="likes" Margin="16">
                                             <TextBlock
                                                 x:Name="count_likes"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Top"
                                                 Style="{StaticResource PProfile}"
                                                 Text="{Binding ProfileItemsVM.Likes}" />
                                             <TextBlock
                                                 x:Name="icon_likes"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
                                                 FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource PProfile}"
                                                 Text="&#xECE9;"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
                                             <TextBlock
                                                 x:Name="name_likes"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
                                                 Style="{StaticResource PProfile}"
-                                                Text="Лайки" />
-                                        </StackPanel>
+                                                Text="Лайки"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
+                                        </Grid>
                                     </Grid>
                                     <Grid Grid.Column="3">
-                                        <StackPanel x:Name="publish" Margin="16">
+                                        <Grid x:Name="publish" Margin="16">
                                             <TextBlock
                                                 x:Name="count_publish"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Top"
                                                 Style="{StaticResource PProfile}"
-                                                Text="{Binding ProfileItemsVM.Publish}" />
+                                                Text="{Binding ProfileItemsVM.Publish, FallbackValue=1000, TargetNullValue=100}" />
                                             <TextBlock
                                                 x:Name="icon_publish"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
                                                 FontFamily="{StaticResource FontIconMoonUltimate}"
                                                 Style="{StaticResource PProfile}"
                                                 Text="&#xE940;"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableIcons, Converter={StaticResource BoolToVis}}" />
                                             <TextBlock
                                                 x:Name="name_publish"
+                                                Margin="0,0,0,10"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Bottom"
+                                                Cursor="Hand"
                                                 Style="{StaticResource PProfile}"
-                                                Text="Постов" />
-                                        </StackPanel>
+                                                Text="Постов"
+                                                Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -443,6 +486,23 @@
                                 Style="{StaticResource H3}"
                                 Text="{Binding ProfileActionsVM.TitlePosts, FallbackValue=Title}" />
                             <StackPanel x:Name="Container" HorizontalAlignment="Center">
+                                <Grid Visibility="{Binding ProfileActionsVM.IsEmptyPosts, Converter={StaticResource BoolToVis}}">
+                                    <WrapPanel>
+                                        <Image
+                                            Width="120"
+                                            Margin="10,10,0,10"
+                                            Source="{StaticResource Placeholder}" />
+                                        <StackPanel Margin="10,10,10,10">
+                                            <TextBlock Style="{StaticResource H45}" Text="Создавай и выкладывай изображения" />
+                                            <TextBlock
+                                                Margin="0,10,0,0"
+                                                HorizontalAlignment="Center"
+                                                Style="{StaticResource P}"
+                                                Text="Разнообразьте чужие рабочие столы" />
+                                            <ui:HyperlinkButton HorizontalAlignment="Center">Перейти</ui:HyperlinkButton>
+                                        </StackPanel>
+                                    </WrapPanel>
+                                </Grid>
                                 <ui:GridView x:Name="PostsView" ItemsSource="{Binding Posts}">
                                     <ui:GridView.ItemTemplate>
                                         <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">

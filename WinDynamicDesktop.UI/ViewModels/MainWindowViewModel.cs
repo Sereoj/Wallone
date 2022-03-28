@@ -6,7 +6,7 @@ namespace WinDynamicDesktop.UI.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private readonly IRegionManager regionManager;
-        private string _title = "WinDynamicDesktop";
+        private string _title = "Wallone";
 
         public string Title
         {

@@ -29,8 +29,7 @@
             IsSettingsVisible="True"
             IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="240"
-            PaneDisplayMode="Auto">
+            OpenPaneLength="240">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
                     x:Uid="Main"
@@ -110,7 +109,10 @@
                             MaxHeight="{Binding FooterHeight}" />
                     </Grid.RowDefinitions>
                     <!--  ScrollViewer для контента  -->
-                    <ContentControl Grid.Row="0" prism:RegionManager.RegionName="PageRegion" />
+                    <ContentControl
+                        Grid.Row="0"
+                        MinWidth="600"
+                        prism:RegionManager.RegionName="PageRegion" />
                     <!--  ProgressRing для загрузки контента  -->
                     <ui:ProgressRing
                         Grid.Row="1"

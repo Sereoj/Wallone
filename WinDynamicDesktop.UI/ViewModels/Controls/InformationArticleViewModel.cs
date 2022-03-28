@@ -173,8 +173,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             }
             catch (Exception)
             {
-
-                throw;
+                throw new Exception();
             }
         }
 
@@ -225,7 +224,6 @@ namespace WinDynamicDesktop.UI.ViewModels
             }
             catch (Exception)
             {
-
                 throw;
             }
         }

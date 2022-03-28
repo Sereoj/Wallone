@@ -2,6 +2,7 @@
 using RestSharp.Authenticators;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 using WinDynamicDesktop.Core.Models;
 
@@ -9,8 +10,9 @@ namespace WinDynamicDesktop.Core.Services
 {
     public class Router
     {
-        public static string domainApi { get; set; } = "https://wall.w2me.ru/public/api";
-        public static string domain { get; set; } = "https://wall.w2me.ru";
+        public static string domainExample { get; set; } = "https://example.com";
+        public static string domainApi { get; set; }
+        public static string domain { get; set; }
         //public static string domainApi = "http://v3.w2me.ru/public/api";
         //public static string domain = "http://v3.w2me.ru";
 
@@ -22,6 +24,15 @@ namespace WinDynamicDesktop.Core.Services
         public static void SetDomain(string value)
         {
             domain = value;
+        }
+        public static string OnlyNameDomainApi()
+        {
+            return domainApi.Replace("https://", null).Replace("http://", null);
+        }
+
+        public static string OnlyNameDomain()
+        {
+            return domain.Replace("https://", null).Replace("http://", null);
         }
     }
 
@@ -41,23 +52,18 @@ namespace WinDynamicDesktop.Core.Services
                     request.AddParameter(parameter.Name, parameter.Value);
                 }
             }
-            var result = await client.GetAsync<T>(request);
-            return result;
+            var result = await client.ExecuteGetAsync<T>(request);
+            AppEthernetService.SetStatus(result.StatusCode);
+            return result.Data;
         }
 
         public static async Task<T> GetAsync(string method, string page = null)
         {
             var client = new RestClient(domainApi);
             var request = new RestRequest($"{method}/{page}", DataFormat.Json);
-            var result = await client.GetAsync<T>(request);
-            return result;
-        }
-        public static IRestResponse Get(string method, string page = null)
-        {
-            var client = new RestClient(domainApi);
-            var request = new RestRequest($"{method}/{page}", DataFormat.Json);
-            var result = client.Get(request);
-            return result;
+            var result = await client.ExecuteGetAsync<T>(request);
+            AppEthernetService.SetStatus(result.StatusCode);
+            return result.Data;
         }
     }
 
@@ -89,15 +95,9 @@ namespace WinDynamicDesktop.Core.Services
                 }
             }
 
-            var result = await client.PostAsync<T>(request);
-            return result;
-        }
-        public static IRestResponse Get(string method, string page, T2 fields)
-        {
-            var client = new RestClient(domainApi);
-            var request = new RestRequest($"{method}/{page}", DataFormat.Json).AddJsonBody(fields);
-            var result = client.Get(request);
-            return result;
+            var result = await client.ExecutePostAsync<T>(request);
+            AppEthernetService.SetStatus(result.StatusCode);
+            return result.Data;
         }
     }
 

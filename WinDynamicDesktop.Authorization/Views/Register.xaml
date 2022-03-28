@@ -127,13 +127,22 @@
                 Content="Продолжить"
                 Style="{StaticResource AccentButtonStyle}" />
             <ui:HyperlinkButton
-                Margin="0,445,0,0"
+                Margin="-100,445,0,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Command="{Binding NavigateCommand}"
                 CommandParameter="Login"
                 Cursor="Hand">
                 Авторизация
+            </ui:HyperlinkButton>
+            <ui:HyperlinkButton
+                Margin="100,445,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Command="{Binding NavigateCommand}"
+                CommandParameter="Guest"
+                Cursor="Hand">
+                Войти как гость
             </ui:HyperlinkButton>
         </Grid>
     </Grid>

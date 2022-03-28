@@ -16,6 +16,7 @@ namespace WinDynamicDesktop.UI.Views
         public Main()
         {
             InitializeComponent();
+            NavigationView.IsPaneOpen = false;
         }
 
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)

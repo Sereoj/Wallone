@@ -26,6 +26,11 @@ namespace WinDynamicDesktop.Core.Services
         {
             return token;
         }
+
+        public static void Close()
+        {
+            token = null;
+        }
         internal static Task<string> GetLoginWithTokenAsync()
         {
             var items = RequestRouter<string>.GetAsync("user", null, null);

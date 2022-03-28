@@ -1,12 +1,7 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Net;
 using System.Runtime.InteropServices;
 using WinDynamicDesktop.Core.Builders;
-using WinDynamicDesktop.Core.Helpers;
-using WinDynamicDesktop.Core.Models;
 
 namespace WinDynamicDesktop.Core.Controllers
 {
@@ -40,14 +35,14 @@ namespace WinDynamicDesktop.Core.Controllers
         {
             SystemParametersInfo(20, 0, WallpaperLocation, 0x01 | 0x02);
         }
-        public void SetWallpaper()
+        public async void SetWallpaper()
         {
             try
             {
                 if (themeBuilder.GetHasNotInstalled())
                 {
                     var files = Directory.GetFiles(themeBuilder.GetThemePath());
-
+                    //WallpaperSetter.Set(files[0], WallpaperSetter.WallpaperStyle.Fill);
                     SetWallpaper(files[0], 2, 0);
                 }
             }

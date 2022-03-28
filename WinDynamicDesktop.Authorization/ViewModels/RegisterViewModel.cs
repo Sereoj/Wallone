@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.Net;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Authorization.ViewModels
@@ -60,30 +61,54 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 case "Login":
                     //TODO:
                     _regionManager.RequestNavigate("ContentRegion", "Login");
-                    //_regionManager.RequestNavigate("ContentRegion", "Main");
                     break;
                 case "Confirm":
-                    Register();
-                    //_regionManager.RequestNavigate("ContentRegion", "Confirm");
+                    Register(Name, Email, Password, Confirm);
+                    break;
+                case "Guest":
+                    var number = new Random().Next();
+                    var name = "Guest";
+                    var email = "guest_" + number + "@w2me.ru";
+                    var password = temppass();
+                    Register(name, email, password, password);
                     break;
                 default:
                     break;
             }
         }
-        private async void Register()
+
+        private string temppass()
+        {
+            string abc = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*()"; //набор символов
+            int kol = 8; // кол-во символов
+            string result = "";
+
+            Random rnd = new Random();
+            int lng = abc.Length;
+            for (int i = 0; i < kol; i++)
+            {
+                result += abc[rnd.Next(lng)];
+            }
+            return "guest_" + result;
+        }
+
+        private async void Register(string name, string email, string password, string confirm)
         {
             try
             {
-                var json = await UserService.GetRegisterAsync(Name, Email, Password, Confirm);
-                var objects = JObject.Parse(json);
+                var json = await UserService.GetRegisterAsync(name, email, password, confirm);
+                var s = AppEthernetService.GetStatus();
 
-                var msg = UserService.ValidateRegister(objects);
-                if (UserService.GetToken() != null)
+                switch (s)
                 {
-                    SettingsService.Get().Token = UserService.GetToken();
-                    _regionManager.RequestNavigate("ContentRegion", "Main");
+                    case HttpStatusCode.OK:
+                        LoadRegister(json);
+                        break;
+                    case HttpStatusCode.NotFound:
+                        Message = "Страница не существует";
+                        break;
                 }
-                Message = msg;
+
             }
             catch (InvalidOperationException ex)
             {
@@ -98,6 +123,27 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 Message = ex.Message;
             }
 
+        }
+
+        private void LoadRegister(string json)
+        {
+            var objects = JObject.Parse(json);
+
+            var msg = UserService.ValidateRegister(objects);
+            if (UserService.GetToken() != null)
+            {
+                var settings = SettingsService.Get();
+
+                settings.Email = Email;
+                settings.Token = UserService.GetToken();
+                SettingsService.Save();
+
+                _regionManager.RequestNavigate("ContentRegion", "Main");
+            }
+            else
+            {
+                Message = msg;
+            }
         }
     }
 }

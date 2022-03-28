@@ -117,6 +117,9 @@ namespace WinDynamicDesktop.Core.Builders
 
     public class HostBuilder : IAppSettings
     {
+        const string default_prefix = "/api/v1";
+        const string default_host = "https://wall.w2me.ru";
+
         private static string host;
         private static string prefix;
         public bool ValidatePrefix()
@@ -135,7 +138,8 @@ namespace WinDynamicDesktop.Core.Builders
             switch (host)
             {
                 case null:
-                    host = "https://wall.w2me.ru";
+                    host = default_host;
+                    Router.SetDomain(host);
                     break;
                 default:
                     Router.SetDomain(host);
@@ -150,7 +154,8 @@ namespace WinDynamicDesktop.Core.Builders
             switch (prefix)
             {
                 case null:
-                    prefix = "/public/api";
+                    prefix = default_prefix;
+                    Router.SetDomainApi(host + prefix);
                     break;
                 default:
                     Router.SetDomainApi(host + prefix);
@@ -162,9 +167,9 @@ namespace WinDynamicDesktop.Core.Builders
         public HostBuilder Validate()
         {
             if (!ValidatePrefix())
-                prefix = "/public/api";
+                prefix = default_prefix;
             if (!ValidateHost())
-                host = "https://wall.w2me.ru";
+                host = default_host;
             return this;
         }
 

@@ -1,19 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace WinDynamicDesktop.Core.Services
 {
     public class AppEthernetService
     {
-
-        public static bool IsConnect()
+        private static HttpStatusCode codeStatus;
+        public static bool IsConnect(string domain)
         {
-            return true;
+            try
+            {
+                WebRequest request = WebRequest.Create(domain);
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                codeStatus = response.StatusCode;
+                response.Close();
+                
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
-        public static string GetStatus()
+
+        public static void SetStatus(HttpStatusCode code)
         {
-            return "200";
+            codeStatus = code;
+        }
+
+        public static HttpStatusCode GetStatus()
+        {
+            return codeStatus;
         }
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Helpers;
@@ -117,10 +118,17 @@ namespace WinDynamicDesktop.UI.ViewModels
             set
             {
                 SetProperty(ref isPosts, value);
+                IsEmptyPosts = value == false;
                 TitlePosts = value == true ? "Опубликованные посты" : "Постов не существует";
             }
         }
 
+        private bool isEmptyPosts;
+        public bool IsEmptyPosts
+        {
+            get { return isEmptyPosts; }
+            set => SetProperty(ref isEmptyPosts, value);
+        }
 
         private bool isMyProfile;
         public bool IsMyProfile
@@ -149,13 +157,20 @@ namespace WinDynamicDesktop.UI.ViewModels
         private bool isEnableIcons;
         public bool IsEnableIcons
         {
-            get
-            {
-                return isEnableIcons;
-            }
+            get => isEnableIcons;
             set
             {
-                isEnableIcons = value;
+                SetProperty(ref isEnableIcons, value);
+            }
+        }
+
+        private bool isEnableText = true;
+        public bool IsEnableText
+        {
+            get => isEnableText;
+            set
+            {
+                SetProperty(ref isEnableText, value);
             }
         }
 
@@ -180,24 +195,6 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             get { return header; }
             set { SetProperty(ref header, value); }
-        }
-
-        private double width;
-        public double Width
-        {
-            get => width;
-            set
-            {
-                SetProperty(ref width, value);
-                if( value > 625)
-                {
-                    ProfileActionsVM.IsEnableIcons = false;
-                }
-                else
-                {
-                    ProfileActionsVM.IsEnableIcons = true;
-                }
-            }
         }
 
         private bool isLoading = true;
@@ -227,6 +224,8 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public DelegateCommand ActionCommand { get; set; }
         public DelegateCommand EditProfileCommand { get; set; }
+
+        public DelegateCommand<SizeChangedEventArgs> SizeChangedCommand { get; set; }
         public ProfileViewModel()
         {
 
@@ -236,7 +235,24 @@ namespace WinDynamicDesktop.UI.ViewModels
             this.regionManager = regionManager;
             ActionCommand = new DelegateCommand(OnAction);
             EditProfileCommand = new DelegateCommand(OnEditProfile);
+            SizeChangedCommand = new DelegateCommand<SizeChangedEventArgs>(OnSizeChanged);
+        }
 
+        private void OnSizeChanged(SizeChangedEventArgs e)
+        {
+            if(e.WidthChanged)
+            {
+                if(e.NewSize.Width > 625)
+                {
+                    ProfileActionsVM.IsEnableText = true;
+                    ProfileActionsVM.IsEnableIcons = false;
+                }
+                else
+                {
+                    ProfileActionsVM.IsEnableText = false;
+                    ProfileActionsVM.IsEnableIcons = true;
+                }
+            }
         }
 
         private void OnEditProfile()

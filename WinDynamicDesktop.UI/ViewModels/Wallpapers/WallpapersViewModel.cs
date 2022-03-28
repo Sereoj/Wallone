@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Builders;
@@ -96,32 +97,10 @@ namespace WinDynamicDesktop.UI.ViewModels
             try
             {
                 IsLoading = true;
-                
-                var items = await ThumbService.GetThumbsAsync(router, page, parameters);
-                if (ThumbService.CheckItems(items))
-                {
-                    foreach (var item in items)
-                    {
-                        Library.Add(new ArticleViewModel(regionManager)
-                        {
-                            ID = item.ID,
-                            Name = item.Name,
-                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
-                            Views = item.Views,
-                            Downloads = item.Downloads
-                        });
-                        await Task.CompletedTask;
-                    }
-                }
-                else
-                {
-                    var param = new NavigationParameters
-                    {
-                        { "Text", "Это не ошибка, просто не найдены изображения!" }
-                    };
 
-                    regionManager.RequestNavigate("PageRegion", "NotFound", param);
-                }
+                var items = await ThumbService.GetThumbsAsync(router, page, parameters);
+                await LoadImages(items);
+
                 IsLoading = false;
             }
             catch (Exception ex)
@@ -130,6 +109,34 @@ namespace WinDynamicDesktop.UI.ViewModels
                 {
                     { "Text", ex.Message }
                 };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+            }
+        }
+
+        private async Task LoadImages(List<Core.Models.Thumb> items)
+        {
+            if (ThumbService.CheckItems(items))
+            {
+                foreach (var item in items)
+                {
+                    Library.Add(new ArticleViewModel(regionManager)
+                    {
+                        ID = item.ID,
+                        Name = item.Name,
+                        ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
+                        Views = item.Views,
+                        Downloads = item.Downloads
+                    });
+                    await Task.CompletedTask;
+                }
+            }
+            else
+            {
+                var param = new NavigationParameters
+                    {
+                        { "Text", "Это не ошибка, просто не найдены изображения!" }
+                    };
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
