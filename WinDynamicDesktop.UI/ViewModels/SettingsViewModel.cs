@@ -39,7 +39,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            if(SettingsService.Exist())
+            if (SettingsService.Exist())
             {
                 SettingsService.Get().Host = Host;
                 SettingsService.Get().Prefix = Prefix;

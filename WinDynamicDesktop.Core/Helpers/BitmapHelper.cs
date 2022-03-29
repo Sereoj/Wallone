@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Cache;
-using System.Text;
 using System.Windows.Media.Imaging;
 
 namespace WinDynamicDesktop.Core.Helpers
@@ -33,11 +31,22 @@ namespace WinDynamicDesktop.Core.Helpers
         {
             var bitmap = new BitmapImage();
 
+
+            /* Необъединенное слияние из проекта "WinDynamicDesktop.Core (net5.0-windows10.0.18362)"
+            До:
+                        bitmap.BeginInit();
+
+                        var stream = new MemoryStream(new WebClient().DownloadData(uri));
+            После:
+                        bitmap.BeginInit();
+
+                        var stream = new MemoryStream(new WebClient().DownloadData(uri));
+            */
             bitmap.BeginInit();
-            
+
             var stream = new MemoryStream(new WebClient().DownloadData(uri));
             bitmap.StreamSource = stream;
-            
+
             bitmap.EndInit();
             bitmap.Freeze();
 

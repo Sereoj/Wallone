@@ -44,7 +44,7 @@ namespace WinDynamicDesktop.Core.Builders
         private List<Images> Images;
         public ThemeCreatedBuilder CreateModel(List<Images> images)
         {
-            if(Images == null)
+            if (Images == null)
             {
                 Images = images;
             }
@@ -53,7 +53,7 @@ namespace WinDynamicDesktop.Core.Builders
         // Скачать тему
         public async Task<ThemeCreatedBuilder> Download()
         {
-            if(ThemeHasNotInstalled == true)
+            if (ThemeHasNotInstalled == true)
             {
                 foreach (var item in Images)
                 {
@@ -128,7 +128,7 @@ namespace WinDynamicDesktop.Core.Builders
         public ThemeCreatedBuilder HasNotInstalled(bool value)
         {
             var themes = AppSettingsService.GetThemesLocation();
-            if(AppSettingsService.GetUseForFolders() == "name")
+            if (AppSettingsService.GetUseForFolders() == "name")
             {
                 ThemePath = Path.Combine(themes, ThemeName);
                 if (value && AppSettingsService.ExistDirectory(ThemePath))
@@ -155,7 +155,7 @@ namespace WinDynamicDesktop.Core.Builders
             {
                 if (AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
                 {
-                    if(!AppSettingsService.ExistDirectory(ThemePath))
+                    if (!AppSettingsService.ExistDirectory(ThemePath))
                     {
                         AppSettingsService.CreateDirectory(ThemePath);
                     }
@@ -166,7 +166,7 @@ namespace WinDynamicDesktop.Core.Builders
 
         public ThemeCreatedBuilder SetName(string name)
         {
-            if(!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 ThemeName = name;
             }

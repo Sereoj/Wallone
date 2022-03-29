@@ -165,7 +165,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                 themeController.SetWallpaper();
 
                 SinglePage data = await SinglePageService.SetDownloadAsync(AppConvert.BoolToString(themeController.GetValueInstall()));
-                
+
                 update(data);
                 SinglePageLogic.IsInstalled = themeController.GetValueInstall();
                 SinglePageLogic.IsEnableInstalled = true;

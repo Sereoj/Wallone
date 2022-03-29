@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
+﻿using System.Collections.Generic;
 using WinDynamicDesktop.Core.Models;
-using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Core.Builders
 {
@@ -12,7 +8,7 @@ namespace WinDynamicDesktop.Core.Builders
         private string catalog;
         private string page;
         private string field;
-        private List<Parameter> Fileds { get;set; } = new List<Parameter>();
+        private List<Parameter> Fileds { get; set; } = new List<Parameter>();
         public PageGallaryBuilder()
         {
 
@@ -67,7 +63,7 @@ namespace WinDynamicDesktop.Core.Builders
         }
         public IPageBulder Build()
         {
-            if(field != null)
+            if (field != null)
             {
                 Fileds.Add(new Parameter(field, page));
             }

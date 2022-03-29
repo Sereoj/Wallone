@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using WinDynamicDesktop.Core.Services;
+﻿using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Core.Builders
 {

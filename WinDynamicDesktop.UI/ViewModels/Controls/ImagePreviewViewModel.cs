@@ -51,9 +51,9 @@ namespace WinDynamicDesktop.UI.ViewModels
         {
             get { return selectedIndex; }
             set
-            { 
+            {
                 SetProperty(ref selectedIndex, value);
-                if(value !=  -1)
+                if (value != -1)
                 {
                     FrontImageSource = bitmapHelper[Items[value].Uri];
                     Text = Items[value].Name;

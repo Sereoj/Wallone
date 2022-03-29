@@ -240,9 +240,9 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private void OnSizeChanged(SizeChangedEventArgs e)
         {
-            if(e.WidthChanged)
+            if (e.WidthChanged)
             {
-                if(e.NewSize.Width > 625)
+                if (e.NewSize.Width > 625)
                 {
                     ProfileActionsVM.IsEnableText = true;
                     ProfileActionsVM.IsEnableIcons = false;
@@ -283,7 +283,7 @@ namespace WinDynamicDesktop.UI.ViewModels
             id = (string)navigationContext.Parameters["id"];
             ProfileItemsVM.Name = (string)navigationContext.Parameters["name"];
 
-            if(id != null)
+            if (id != null)
             {
                 ProfileActionsVM.IsEnableEditProfile = false;
                 ProfileActionsVM.IsEnableSub = id != UserService.GetId();

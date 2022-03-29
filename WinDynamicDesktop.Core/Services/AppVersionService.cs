@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using WinDynamicDesktop.Core.Models.App;
+﻿using System.Threading.Tasks;
 
 namespace WinDynamicDesktop.Core.Services
 {

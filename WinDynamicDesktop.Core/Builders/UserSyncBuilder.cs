@@ -24,7 +24,7 @@ namespace WinDynamicDesktop.Core.Builders
 
         public async Task<UserSyncBuilder> ValidateAsync()
         {
-            if(token != null)
+            if (token != null)
             {
                 var data = await GetUserData();
                 if (UserService.ValidateWithToken(data))

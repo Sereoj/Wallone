@@ -1,9 +1,5 @@
 ﻿using ModernWpf.Controls;
-using Prism.Regions;
-using System;
-using System.Diagnostics;
 using System.Windows.Controls;
-using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.UI.Views
@@ -28,7 +24,7 @@ namespace WinDynamicDesktop.UI.Views
 
         private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
-            if(ActualWidth > 1024)
+            if (ActualWidth > 1024)
             {
                 NavigationView.IsPaneOpen = true;
             }

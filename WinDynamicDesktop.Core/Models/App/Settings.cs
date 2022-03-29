@@ -1,23 +1,32 @@
-﻿using System;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
+using System;
 using WinDynamicDesktop.Core.Interfaces;
 
 namespace WinDynamicDesktop.Core.Models.App
 {
     public class Settings : BindableBase, ISettings
     {
-        private string token; // Для авторизации
-        public string Token
+        //Город
+        private string location;
+        public string Location
         {
-            get { return token; }
-            set { SetProperty(ref token, value); }
+            get { return location; }
+            set { SetProperty(ref location, value); }
         }
 
-        private string email;
-        public string Email
+        //Режим
+        private int locationMode;
+        public int LocationMode
         {
-            get { return email; }
-            set { SetProperty(ref email, value); }
+            get { return locationMode; }
+            set { SetProperty(ref locationMode, value); }
+        }
+
+        private string theme;
+        public string Theme
+        {
+            get { return theme; }
+            set { SetProperty(ref theme, value); }
         }
 
         private string language;
@@ -27,12 +36,6 @@ namespace WinDynamicDesktop.Core.Models.App
             set { SetProperty(ref language, value); }
         }
 
-        private string theme;
-        public string Theme
-        {
-            get { return theme; }
-            set { SetProperty(ref theme, value); }
-        }
         [NonSerialized]
         private string host;
         public string Host
@@ -47,6 +50,20 @@ namespace WinDynamicDesktop.Core.Models.App
         {
             get { return prefix; }
             set { SetProperty(ref prefix, value); }
+        }
+
+        private string email;
+        public string Email
+        {
+            get { return email; }
+            set { SetProperty(ref email, value); }
+        }
+
+        private string token; // Для авторизации
+        public string Token
+        {
+            get { return token; }
+            set { SetProperty(ref token, value); }
         }
     }
 }

@@ -51,7 +51,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         private bool isInternet = false;
         public bool IsInternet
-        { 
+        {
             get => isInternet;
             set
             {
@@ -139,7 +139,7 @@ namespace WinDynamicDesktop.UI.ViewModels
                 {
                     //var jArray = JArray.Parse(data);
                     simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
-                        
+
                     SinglePageService.Load(simplePage);
 
                     Name = SinglePageService.GetHeader();

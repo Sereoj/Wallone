@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace WinDynamicDesktop.Core.Services
 {
@@ -16,7 +14,7 @@ namespace WinDynamicDesktop.Core.Services
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 codeStatus = response.StatusCode;
                 response.Close();
-                
+
                 return true;
             }
             catch (Exception)

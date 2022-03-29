@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WinDynamicDesktop.Authorization.Interfaces
+﻿namespace WinDynamicDesktop.Authorization.Interfaces
 {
     public interface IPage
     {

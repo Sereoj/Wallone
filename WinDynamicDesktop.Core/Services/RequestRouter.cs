@@ -1,10 +1,7 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
 using System.Threading.Tasks;
-using WinDynamicDesktop.Core.Models;
 
 namespace WinDynamicDesktop.Core.Services
 {
@@ -71,16 +68,27 @@ namespace WinDynamicDesktop.Core.Services
     {
         public static async Task<T> PostAsync(string method, T2 model, List<Models.Parameter> parameters = null)
         {
+
+            /* Необъединенное слияние из проекта "WinDynamicDesktop.Core (net5.0-windows10.0.18362)"
+            До:
+                        var client = new RestClient(domainApi);
+
+                        if(SettingsService.Get().Token != null)
+            После:
+                        var client = new RestClient(domainApi);
+
+                        if(SettingsService.Get().Token != null)
+            */
             var client = new RestClient(domainApi);
-            
-            if(SettingsService.Get().Token != null)
+
+            if (SettingsService.Get().Token != null)
             {
                 client.Authenticator = new JwtAuthenticator(SettingsService.Get().Token);
             }
 
             var request = new RestRequest($"{method}", DataFormat.Json);
             request.AddBody(model);
-            
+
             if (parameters != null)
             {
                 foreach (var item in parameters)

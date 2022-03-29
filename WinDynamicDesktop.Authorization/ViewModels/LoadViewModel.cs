@@ -1,10 +1,24 @@
-﻿using System;
+﻿
+/* Необъединенное слияние из проекта "WinDynamicDesktop.Authorization (net5.0-windows10.0.18362)"
+До:
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
+После:
+using Newtonsoft.Json;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Json;
+using System;
+using Prism.Diagnostics;
+*/
+using Newtonsoft.Json;
+using Prism.Mvvm;
 using Prism.Regions;
+using System.Threading.Tasks;
 using WinDynamicDesktop.Controls.ViewModels;
 using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Models.App;
@@ -33,7 +47,6 @@ namespace WinDynamicDesktop.Authorization.ViewModels
             get { return header; }
             set { SetProperty(ref header, value); }
         }
-
 
         private string message;
         public string Message
@@ -121,7 +134,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 NoConnectServerViewModel.SetStatus(statusServer);
                 IsConnect = !NoConnectServerViewModel.IsShow();
 
-                if(statusServer)
+                if (statusServer)
                 {
                     string data = await AppVersionService.GetVersionAsync();
                     var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);

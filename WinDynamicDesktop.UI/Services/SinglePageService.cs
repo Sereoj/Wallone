@@ -78,15 +78,15 @@ namespace WinDynamicDesktop.UI.Services
         }
         public static bool GetReaction()
         {
-            return simplePage?.reaction == "true" ? true : false;
+            return simplePage?.reaction == "true";
         }
         public static bool GetFavorite()
         {
-            return simplePage?.favorite == "true" ? true : false;
+            return simplePage?.favorite == "true";
         }
         public static bool GetInstall()
         {
-            return simplePage?.install == "true" ? true : false;
+            return simplePage?.install == "true";
         }
 
         public static List<Thumb> GetPosts()
@@ -107,7 +107,7 @@ namespace WinDynamicDesktop.UI.Services
 
         public static Task<SinglePage> SetDownloadAsync(string install)
         {
-            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id, new SinglePageUpdate() { download = install});
+            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id, new SinglePageUpdate() { download = install });
             return items;
         }
 

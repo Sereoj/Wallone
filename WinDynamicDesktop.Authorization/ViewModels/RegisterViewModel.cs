@@ -50,7 +50,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
         public RegisterViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-            
+
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
 

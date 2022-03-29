@@ -1,16 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using WinDynamicDesktop.Core.Models;
-using WinDynamicDesktop.UI.Services;
-using Prism.Commands;
-using Microsoft.Win32;
-using WinDynamicDesktop.Core.Helpers;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using WinDynamicDesktop.Core.Helpers;
+using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
-using System.Windows.Media.Imaging;
+using WinDynamicDesktop.UI.Services;
 
 namespace WinDynamicDesktop.UI.ViewModels
 {
@@ -88,11 +86,11 @@ namespace WinDynamicDesktop.UI.ViewModels
         private async void OnSave()
         {
             var param = new List<Parameter>();
-            if(avatar_path != null)
+            if (avatar_path != null)
             {
                 param.Add(new Parameter() { Name = "avatar", Type = "file", Value = avatar_path });
             }
-            if(AccountService.GetCover() != null )
+            if (AccountService.GetCover() != null)
             {
                 param.Add(new Parameter() { Name = "cover", Type = "file", Value = AccountService.GetCover() });
             }

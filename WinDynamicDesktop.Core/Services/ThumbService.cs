@@ -1,5 +1,4 @@
-﻿using RestSharp;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using WinDynamicDesktop.Core.Models;

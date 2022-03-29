@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using WinDynamicDesktop.Core.Models;
 
 namespace WinDynamicDesktop.Core.Builders

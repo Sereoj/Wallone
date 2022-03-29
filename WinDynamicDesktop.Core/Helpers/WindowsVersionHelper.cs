@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WinDynamicDesktop.Core.Helpers
+﻿namespace WinDynamicDesktop.Core.Helpers
 {
     class WindowsVersionHelper
     {

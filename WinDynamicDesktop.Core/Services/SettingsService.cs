@@ -56,7 +56,7 @@ namespace WinDynamicDesktop.Core.Services
                 string jsonText = File.ReadAllText(file);
                 Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -89,7 +89,7 @@ namespace WinDynamicDesktop.Core.Services
             {
                 unsavedChanges = false;
                 autoSaveTimer.Elapsed -= OnAutoSaveTimerElapsed;
-                
+
                 await Task.Run(() =>
                 {
                     Save();

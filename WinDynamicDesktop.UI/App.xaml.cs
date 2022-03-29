@@ -7,7 +7,6 @@ using WinDynamicDesktop.Common;
 using WinDynamicDesktop.Controls;
 using WinDynamicDesktop.Core;
 using WinDynamicDesktop.Core.Builders;
-using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Controls;
 using WinDynamicDesktop.UI.Views;
 

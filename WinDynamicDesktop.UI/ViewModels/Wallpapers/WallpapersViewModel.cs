@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using WinDynamicDesktop.Core.Builders;
@@ -91,7 +90,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         }
 
-        public async void Loaded(string page, string router,List<Core.Models.Parameter> parameters)
+        public async void Loaded(string page, string router, List<Core.Models.Parameter> parameters)
         {
             Library.Clear();
             try

@@ -1,12 +1,9 @@
 ﻿using ModernWpf.Controls;
 using Prism.Commands;
-using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Windows.Media;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Services;
 

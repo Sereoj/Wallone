@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using WinDynamicDesktop.Core.Interfaces;
-using WinDynamicDesktop.Core.Models.App;
 using WinDynamicDesktop.Core.Services;
 
 namespace WinDynamicDesktop.Core.Builders
@@ -54,7 +51,7 @@ namespace WinDynamicDesktop.Core.Builders
     {
         public AppSettingsBuilder Query(IAppSettings TInterface)
         {
-            return  this;
+            return this;
         }
 
         public object Query(object p)
@@ -67,7 +64,7 @@ namespace WinDynamicDesktop.Core.Builders
     {
         public int Compare(string verionCurrent, string verionActual)
         {
-            if(string.IsNullOrEmpty(verionCurrent))
+            if (string.IsNullOrEmpty(verionCurrent))
             {
                 //TODO
             }
@@ -122,16 +119,10 @@ namespace WinDynamicDesktop.Core.Builders
 
         private static string host;
         private static string prefix;
-        public bool ValidatePrefix()
-        {
-            return prefix.StartsWith("/") && !prefix.EndsWith("/") && prefix.Contains("api");
-        }
+        public bool ValidatePrefix() => prefix.StartsWith("/") && !prefix.EndsWith("/") && prefix.Contains("api");
 
-        public bool ValidateHost()
-        {
-            return Uri.TryCreate(host, UriKind.Absolute, out Uri uriResult)
+        public bool ValidateHost() => Uri.TryCreate(host, UriKind.Absolute, out Uri uriResult)
                 && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
-        }
         public HostBuilder SetHost()
         {
             host = SettingsService.Get().Host;
@@ -175,7 +166,7 @@ namespace WinDynamicDesktop.Core.Builders
 
         public HostBuilder Build()
         {
-            
+
             SettingsService.Get().Host = host;
             SettingsService.Get().Prefix = prefix;
 

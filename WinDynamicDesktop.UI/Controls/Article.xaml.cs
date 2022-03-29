@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Animation;
-using WinDynamicDesktop.Core.Helpers;
+﻿using System.Windows.Controls;
 
 namespace WinDynamicDesktop.UI.Controls
 {

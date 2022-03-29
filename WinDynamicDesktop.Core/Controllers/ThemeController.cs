@@ -8,7 +8,6 @@ namespace WinDynamicDesktop.Core.Controllers
     public class ThemeController
     {
         private readonly ThemeCreatedBuilder themeBuilder;
-        private string currentWallpaper;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
@@ -42,7 +41,6 @@ namespace WinDynamicDesktop.Core.Controllers
                 if (themeBuilder.GetHasNotInstalled())
                 {
                     var files = Directory.GetFiles(themeBuilder.GetThemePath());
-                    //WallpaperSetter.Set(files[0], WallpaperSetter.WallpaperStyle.Fill);
                     SetWallpaper(files[0], 2, 0);
                 }
             }
