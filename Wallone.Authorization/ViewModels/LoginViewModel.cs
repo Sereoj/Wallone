@@ -76,6 +76,12 @@ namespace Wallone.Authorization.ViewModels
                     case HttpStatusCode.OK:
                         LoadLogin(json);
                         break;
+                    case HttpStatusCode.MethodNotAllowed:
+                        Message = "Неверная отправка данных";
+                        break;
+                    case HttpStatusCode.InternalServerError:
+                        Message = "Ошибка сервера";
+                        break;
                     case HttpStatusCode.NotFound:
                         Message = "Страница не существует";
                         break;

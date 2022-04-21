@@ -73,11 +73,11 @@ namespace Wallone.Authorization.ViewModels
                     Register(Name, Email, Password, Confirm);
                     break;
                 case "Guest":
-                    var number = new Random().Next();
-                    var name = "Guest";
-                    var email = "guest_" + number + "@w2me.ru";
-                    var password = temppass();
-                    Register(name, email, password, password);
+                    //var number = new Random().Next();
+                    //var name = "Guest";
+                    //var email = "guest_" + number + "@w2me.ru";
+                    //var password = temppass();
+                    //Register(name, email, password, password);
                     break;
             }
         }
@@ -105,6 +105,12 @@ namespace Wallone.Authorization.ViewModels
                 {
                     case HttpStatusCode.OK:
                         LoadRegister(json);
+                        break;
+                    case HttpStatusCode.MethodNotAllowed:
+                        Message = "Неверная отправка данных";
+                        break;
+                    case HttpStatusCode.InternalServerError:
+                        Message = "Ошибка сервера";
                         break;
                     case HttpStatusCode.NotFound:
                         Message = "Страница не существует";
