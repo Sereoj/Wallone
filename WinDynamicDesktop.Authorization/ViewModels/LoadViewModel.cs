@@ -178,6 +178,7 @@ namespace WinDynamicDesktop.Authorization.ViewModels
                 }
                 else
                 {
+                    IsLoading = false;
                     SetMessage("Нет соединения c " + Router.OnlyNameDomainApi());
                 }
 
