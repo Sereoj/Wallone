@@ -72,8 +72,8 @@ namespace Wallone.Core.Services
 
             string msg = null;
 
-            if (objects is JObject)
-                foreach (var item in objects)
+            foreach (var item in objects)
+                if (item.Value != null)
                     msg += item.Value[0] + " ";
             return msg;
         }

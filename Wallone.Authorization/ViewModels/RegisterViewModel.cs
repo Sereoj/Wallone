@@ -150,6 +150,7 @@ namespace Wallone.Authorization.ViewModels
             {
                 Message = msg;
             }
+            GC.Collect(2);
         }
     }
 }

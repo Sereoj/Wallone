@@ -142,18 +142,30 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     //var jArray = JArray.Parse(data);
                     simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
 
-                    SinglePageService.Load(simplePage);
-
-                    Name = SinglePageService.GetHeader();
-
-                    var param = new NavigationParameters
+                    if (simplePage?.message != null)
                     {
-                        {"simplePage", simplePage}
-                    };
-                    regionManager.RequestNavigate("Slider", "ImagePreview", param);
-                    regionManager.RequestNavigate("Information", "InformationArticle", param);
+                        var navigationParameters = new NavigationParameters
+                        {
+                            {"Text", simplePage.message}
+                        };
 
-                    posts(SinglePageService.GetPosts());
+                        regionManager.RequestNavigate("PageRegion", "NotFound", navigationParameters);
+                    }
+                    else
+                    {
+                        SinglePageService.Load(simplePage);
+
+                        Name = SinglePageService.GetHeader();
+
+                        var param = new NavigationParameters
+                        {
+                            {"simplePage", simplePage}
+                        };
+                        regionManager.RequestNavigate("Slider", "ImagePreview", param);
+                        regionManager.RequestNavigate("Information", "InformationArticle", param);
+
+                        posts(SinglePageService.GetPosts());
+                    }
                 }
 
                 IsLoading = false;
@@ -167,6 +179,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
+            GC.Collect(1, GCCollectionMode.Forced);
         }
 
         private async void posts(List<Thumb> list)

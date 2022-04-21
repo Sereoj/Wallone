@@ -28,17 +28,6 @@ namespace Wallone.Core.Helpers
         {
             var bitmap = new BitmapImage();
 
-
-            /* Необъединенное слияние из проекта "WinDynamicDesktop.Core (net5.0-windows10.0.18362)"
-            До:
-                        bitmap.BeginInit();
-
-                        var stream = new MemoryStream(new WebClient().DownloadData(uri));
-            После:
-                        bitmap.BeginInit();
-
-                        var stream = new MemoryStream(new WebClient().DownloadData(uri));
-            */
             bitmap.BeginInit();
 
             var stream = new MemoryStream(new WebClient().DownloadData(uri));

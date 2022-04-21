@@ -15,6 +15,7 @@ using System;
 using Prism.Diagnostics;
 */
 
+using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Prism.Mvvm;
@@ -186,6 +187,7 @@ namespace Wallone.Authorization.ViewModels
                     SetMessage("Нет соединения c " + Router.OnlyNameDomainApi());
                 }
             }
+            GC.Collect(2);
         }
     }
 }

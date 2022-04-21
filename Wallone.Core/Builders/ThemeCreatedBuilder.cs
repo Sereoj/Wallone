@@ -125,7 +125,7 @@ namespace Wallone.Core.Builders
 
         public ThemeCreatedBuilder SetName(string name)
         {
-            if (!string.IsNullOrEmpty(name)) ThemeName = name;
+            ThemeName = !string.IsNullOrEmpty(name) ? name : "default";
             return this;
         }
 

@@ -22,5 +22,7 @@ namespace Wallone.Core.Models
         public string download { get; set; }
         public List<Thumb> posts { get; set; }
         public string created_at { get; set; }
+
+        public string message { get; set; }
     }
 }
