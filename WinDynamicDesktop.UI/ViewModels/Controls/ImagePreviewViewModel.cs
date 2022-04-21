@@ -136,7 +136,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
             simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
 
-            if (ThemePreviewService.CheckItems(simplePage.images))
+            if (ThemePreviewService.IsNotNull(simplePage.images))
             {
                 foreach (var item in simplePage.images)
                 {

@@ -100,6 +100,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            GC.Collect(2);
         }
         public async void LoadBrands()
         {
@@ -113,8 +114,8 @@ namespace WinDynamicDesktop.UI.ViewModels
                     {
                         Uid = item.ID,
                         Content = item.Name,
-                        Name = item.Tag.ToLower(),
-                        Icon = FontIconService.SetIcon("ultimate", item.Icon),
+                        Name = item.Tag != null ? item.Tag.ToLower() : "walllpapers",
+                        Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Brands"
                     });
                 }
@@ -141,8 +142,8 @@ namespace WinDynamicDesktop.UI.ViewModels
                     {
                         Uid = item.ID,
                         Content = item.Name,
-                        Name = item.Tag.ToLower(),
-                        Icon = FontIconService.SetIcon("ultimate", item.Icon),
+                        Name = item.Tag != null ? item.Tag.ToLower() : "walllpapers",
+                        Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Categories"
                     });
                 }

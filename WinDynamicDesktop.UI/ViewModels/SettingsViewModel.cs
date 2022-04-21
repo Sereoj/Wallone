@@ -1,5 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
+using System;
 using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Services;
 
@@ -51,6 +52,8 @@ namespace WinDynamicDesktop.UI.ViewModels
                     .Validate()
                     .Build();
             }
+
+            GC.Collect(2);
         }
     }
 }

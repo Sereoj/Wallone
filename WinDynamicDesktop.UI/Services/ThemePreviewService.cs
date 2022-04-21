@@ -5,9 +5,10 @@ namespace WinDynamicDesktop.UI.Services
 {
     public class ThemePreviewService
     {
-        public static bool CheckItems(List<Images> images)
+
+        public static bool IsNotNull(List<Images> images)
         {
-            return images.Count > 0;
+            return images != null && images.Count > 0;
         }
     }
 }

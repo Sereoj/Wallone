@@ -50,8 +50,10 @@
                 Grid.Row="2"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
+                Cursor="Hand"
+                Foreground="{StaticResource SystemControlBackgroundBaseHighBrush}"
                 Style="{StaticResource PProfile}"
-                Text="{Binding Message}" Cursor="Hand" />
+                Text="{Binding Message}" />
         </Grid>
     </Grid>
 </UserControl>

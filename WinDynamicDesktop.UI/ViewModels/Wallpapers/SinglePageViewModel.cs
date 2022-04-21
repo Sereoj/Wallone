@@ -107,6 +107,7 @@ namespace WinDynamicDesktop.UI.ViewModels
         // Отправка данных с этой страницы на другую страницу
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            GC.Collect(2);
         }
 
         public async void LoadAds()

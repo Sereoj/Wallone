@@ -41,6 +41,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            GC.Collect(2);
         }
 
         public async void Loaded(string page, List<Core.Models.Parameter> parameters)

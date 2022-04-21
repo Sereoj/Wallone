@@ -68,6 +68,7 @@ namespace WinDynamicDesktop.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            GC.Collect(2);
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
