@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows10.0.18362</TargetFrameworks>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Wallone.UI</AssemblyName>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <UserSecretsId>f6609849-f6e3-4f7d-8f70-4ca7b33351ec</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.13" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
+    <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <ProjectReference Include="..\WinDynamicDesktop.Authorization\Wallone.Authorization.csproj" />
+    <ProjectReference Include="..\WinDynamicDesktop.Common\Wallone.Common.csproj" />
+    <ProjectReference Include="..\WinDynamicDesktop.Controls\Wallone.Controls.csproj" />
+    <ProjectReference Include="..\WinDynamicDesktop.Core\Wallone.Core.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Resource Include="favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
