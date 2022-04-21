@@ -8,14 +8,20 @@ namespace Wallone.UI.ViewModels.Exceptions
         private readonly IRegionManager regionManager;
 
         private string text;
-        public string Text { get => text; set => SetProperty(ref text, value); }
+
         public NotFoundViewModel()
         {
-
         }
+
         public NotFoundViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+        }
+
+        public string Text
+        {
+            get => text;
+            set => SetProperty(ref text, value);
         }
 
         bool INavigationAware.IsNavigationTarget(NavigationContext navigationContext)
@@ -29,7 +35,7 @@ namespace Wallone.UI.ViewModels.Exceptions
 
         void INavigationAware.OnNavigatedTo(NavigationContext navigationContext)
         {
-            Text = (string)navigationContext.Parameters["Text"];
+            Text = (string) navigationContext.Parameters["Text"];
         }
     }
 }

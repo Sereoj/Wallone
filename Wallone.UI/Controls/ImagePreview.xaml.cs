@@ -5,7 +5,7 @@ using System.Windows.Controls;
 namespace Wallone.UI.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для ImagePreview.xaml
+    ///     Логика взаимодействия для ImagePreview.xaml
     /// </summary>
     public partial class ImagePreview : UserControl
     {

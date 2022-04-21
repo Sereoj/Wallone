@@ -6,12 +6,13 @@ namespace Wallone.Core.Services
     public class AppEthernetService
     {
         private static HttpStatusCode codeStatus;
+
         public static bool IsConnect(string domain)
         {
             try
             {
-                WebRequest request = WebRequest.Create(domain);
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                var request = WebRequest.Create(domain);
+                var response = (HttpWebResponse) request.GetResponse();
                 codeStatus = response.StatusCode;
                 response.Close();
 

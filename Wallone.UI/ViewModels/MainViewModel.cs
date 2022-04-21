@@ -4,6 +4,7 @@ using ModernWpf.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Services;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels
@@ -13,36 +14,17 @@ namespace Wallone.UI.ViewModels
         private readonly IRegionManager regionManager;
 
         private ObservableCollection<NavigationViewItem> brands = new ObservableCollection<NavigationViewItem>();
-        public ObservableCollection<NavigationViewItem> Brands
-        {
-            get { return brands; }
-            set { SetProperty(ref brands, value); }
-        }
 
         private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
-        public ObservableCollection<NavigationViewItem> Categories
-        {
-            get { return categories; }
-            set { SetProperty(ref categories, value); }
-        }
 
-        private int footerHeight = 0;
-        public int FooterHeight
-        {
-            get { return footerHeight; }
-            set { SetProperty(ref footerHeight, value); }
-        }
+        private int footerHeight;
 
         private string text;
-        public string Text
-        {
-            get { return text; }
-            set { SetProperty(ref text, value); }
-        }
-        public DelegateCommand<NavigationViewItemInvokedEventArgs> MenuItemInvokedCommand { get; set; }
+
         public MainViewModel()
         {
         }
+
         public MainViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
@@ -53,39 +35,31 @@ namespace Wallone.UI.ViewModels
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
         }
 
-        private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)
+        public ObservableCollection<NavigationViewItem> Brands
         {
-            var text = e.InvokedItemContainer.Content;
-
-            var param = new NavigationParameters
-                    {
-                        { "Root", e.InvokedItemContainer.Tag.ToString() },
-                        { "Page", e.InvokedItemContainer.Name.ToString() },
-                        { "ID", e.InvokedItemContainer.Uid.ToString() },
-                        {"Text", text }
-                    };
-
-            switch (e.InvokedItemContainer.Tag.ToString())
-            {
-                case "Profile":
-                    regionManager.RequestNavigate("PageRegion", "Profile", param);
-                    break;
-                case "Account":
-                    regionManager.RequestNavigate("PageRegion", "Account", param);
-                    break;
-                default:
-
-                    if (e.IsSettingsInvoked)
-                    {
-                        regionManager.RequestNavigate("PageRegion", "Settings", param);
-                    }
-                    else
-                    {
-                        regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
-                    }
-                    break;
-            }
+            get => brands;
+            set => SetProperty(ref brands, value);
         }
+
+        public ObservableCollection<NavigationViewItem> Categories
+        {
+            get => categories;
+            set => SetProperty(ref categories, value);
+        }
+
+        public int FooterHeight
+        {
+            get => footerHeight;
+            set => SetProperty(ref footerHeight, value);
+        }
+
+        public string Text
+        {
+            get => text;
+            set => SetProperty(ref text, value);
+        }
+
+        public DelegateCommand<NavigationViewItemInvokedEventArgs> MenuItemInvokedCommand { get; set; }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -101,6 +75,37 @@ namespace Wallone.UI.ViewModels
         {
             GC.Collect(2);
         }
+
+        private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)
+        {
+            var text = e.InvokedItemContainer.Content;
+
+            var param = new NavigationParameters
+            {
+                {"Root", e.InvokedItemContainer.Tag.ToString()},
+                {"Page", e.InvokedItemContainer.Name},
+                {"ID", e.InvokedItemContainer.Uid},
+                {"Text", text}
+            };
+
+            switch (e.InvokedItemContainer.Tag.ToString())
+            {
+                case "Profile":
+                    regionManager.RequestNavigate("PageRegion", "Profile", param);
+                    break;
+                case "Account":
+                    regionManager.RequestNavigate("PageRegion", "Account", param);
+                    break;
+                default:
+
+                    if (e.IsSettingsInvoked)
+                        regionManager.RequestNavigate("PageRegion", "Settings", param);
+                    else
+                        regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
+                    break;
+            }
+        }
+
         public async void LoadBrands()
         {
             try
@@ -108,8 +113,7 @@ namespace Wallone.UI.ViewModels
                 var items = await BrandsService.GetBrandAsync(null);
 
                 foreach (var item in items)
-                {
-                    Brands.Add(new NavigationViewItem()
+                    Brands.Add(new NavigationViewItem
                     {
                         Uid = item.ID,
                         Content = item.Name,
@@ -117,18 +121,18 @@ namespace Wallone.UI.ViewModels
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Brands"
                     });
-                }
             }
             catch (Exception ex)
             {
                 var param = new NavigationParameters
                 {
-                    { "Text", ex.Message }
+                    {"Text", ex.Message}
                 };
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
         }
+
         public async void LoadCategory()
         {
             try
@@ -136,8 +140,7 @@ namespace Wallone.UI.ViewModels
                 var items = await CategoriesService.GetCategoryAsync(null);
 
                 foreach (var item in items)
-                {
-                    Categories.Add(new NavigationViewItem()
+                    Categories.Add(new NavigationViewItem
                     {
                         Uid = item.ID,
                         Content = item.Name,
@@ -145,13 +148,12 @@ namespace Wallone.UI.ViewModels
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Categories"
                     });
-                }
             }
             catch (Exception ex)
             {
                 var param = new NavigationParameters
                 {
-                    { "Text", ex.Message }
+                    {"Text", ex.Message}
                 };
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);

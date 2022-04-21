@@ -11,19 +11,20 @@ namespace Wallone.Core.Services
         {
             return AppEthernetService.GetStatus();
         }
-        public static Task<List<Thumb>> GetThumbsAsync(string router, string page, List<Models.Parameter> parameters)
+
+        public static Task<List<Thumb>> GetThumbsAsync(string router, string page, List<Parameter> parameters)
         {
             var items = RequestRouter<List<Thumb>>.GetAsync(router, page, parameters);
             return items;
         }
 
-        public static Task<List<Thumb>> GetThumbsFavoriteAsync(string page, List<Models.Parameter> parameters)
+        public static Task<List<Thumb>> GetThumbsFavoriteAsync(string page, List<Parameter> parameters)
         {
             var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers/favorite", page, parameters);
             return items;
         }
 
-        public static Task<List<Thumb>> GetThumbsInstallAsync(string page, List<Models.Parameter> parameters)
+        public static Task<List<Thumb>> GetThumbsInstallAsync(string page, List<Parameter> parameters)
         {
             var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers/install", page, parameters);
             return items;

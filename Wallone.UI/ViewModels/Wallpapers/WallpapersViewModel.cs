@@ -7,6 +7,10 @@ using System.Windows.Media.Imaging;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Builders;
+using Wallone.Core.Helpers;
+using Wallone.Core.Models;
+using Wallone.Core.Services;
 using Wallone.UI.Interfaces;
 using Wallone.UI.ViewModels.Controls;
 
@@ -15,16 +19,26 @@ namespace Wallone.UI.ViewModels.Wallpapers
     public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
-        public ObservableCollection<ArticleViewModel> Library { get; set; } = new ObservableCollection<ArticleViewModel>();
 
         private string header = "Библиотека";
-        public string Header
-        {
-            get { return header; }
-            set { SetProperty(ref header, value); }
-        }
+
+        private bool isContent;
+
+        private bool isInternet;
 
         private bool isLoading = true;
+
+        public WallpapersViewModel()
+        {
+            Library.Add(new ArticleViewModel(regionManager));
+            Library.Add(new ArticleViewModel(regionManager));
+        }
+
+        public WallpapersViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        {
+            this.regionManager = regionManager;
+        }
+
         public bool IsLoading
         {
             get => isLoading;
@@ -35,7 +49,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
-        private bool isInternet = false;
         public bool IsInternet
         {
             get => isInternet;
@@ -46,17 +59,10 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
-        private bool isContent = false;
-        public bool IsContent { get => isContent; set => SetProperty(ref isContent, value); }
-
-        public WallpapersViewModel()
+        public bool IsContent
         {
-            Library.Add(new ArticleViewModel(regionManager));
-            Library.Add(new ArticleViewModel(regionManager));
-        }
-        public WallpapersViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
-        {
-            this.regionManager = regionManager;
+            get => isContent;
+            set => SetProperty(ref isContent, value);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -71,8 +77,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var root = (string)navigationContext.Parameters["Root"] ?? "Gallery";
-            var page_id = (string)navigationContext.Parameters["ID"] ?? "Main";
+            var root = (string) navigationContext.Parameters["Root"] ?? "Gallery";
+            var page_id = (string) navigationContext.Parameters["ID"] ?? "Main";
 
             var pageBuilder = new PageBuilder() // Создаем билдер
                 .Query(new PageGallaryBuilder()) //Говорим, что gallery
@@ -84,9 +90,17 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
             Trace.WriteLine(pageBuilder.GetRouter());
 
-            Header = (string)navigationContext.Parameters["Text"] ?? "Библиотека";
+            Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
             Loaded(null, pageBuilder.GetRouter(), pageBuilder.GetFields());
+        }
 
+        public ObservableCollection<ArticleViewModel> Library { get; set; } =
+            new ObservableCollection<ArticleViewModel>();
+
+        public string Header
+        {
+            get => header;
+            set => SetProperty(ref header, value);
         }
 
         public async void Loaded(string page, string router, List<Parameter> parameters)
@@ -105,7 +119,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             {
                 var param = new NavigationParameters
                 {
-                    { "Text", ex.Message }
+                    {"Text", ex.Message}
                 };
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
@@ -132,9 +146,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
             else
             {
                 var param = new NavigationParameters
-                    {
-                        { "Text", "Это не ошибка, просто не найдены изображения!" }
-                    };
+                {
+                    {"Text", "Это не ошибка, просто не найдены изображения!"}
+                };
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }

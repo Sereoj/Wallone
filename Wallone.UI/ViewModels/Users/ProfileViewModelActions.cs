@@ -5,9 +5,40 @@ namespace Wallone.UI.ViewModels.Users
 {
     public class ProfileViewModelActions : BindableBase
     {
-        private string actionText;
-        public string ActionText { get => actionText; set => SetProperty(ref actionText, value); }
         private string actionStatus;
+        private string actionText;
+
+        private bool isEmptyPosts;
+
+        private bool isEnableEditProfile;
+
+        private bool isEnableFacebook;
+
+        private bool isEnableGithub;
+
+        private bool isEnableIcons;
+
+        private bool isEnableSub;
+
+        private bool isEnableText = true;
+
+        private bool isEnableTwitter;
+
+        private bool isEnableVK;
+
+        private bool isMyProfile;
+
+        private bool isPosts;
+
+
+        private string titlePosts = "Опубликованные посты";
+
+        public string ActionText
+        {
+            get => actionText;
+            set => SetProperty(ref actionText, value);
+        }
+
         public string ActionStatus
         {
             get => actionStatus;
@@ -18,83 +49,72 @@ namespace Wallone.UI.ViewModels.Users
             }
         }
 
-        private bool isEnableSub;
         public bool IsEnableSub
         {
-            get { return isEnableSub; }
-            set { SetProperty(ref isEnableSub, value); }
+            get => isEnableSub;
+            set => SetProperty(ref isEnableSub, value);
         }
 
-        private bool isEnableEditProfile;
         public bool IsEnableEditProfile
         {
-            get { return isEnableEditProfile; }
-            set { SetProperty(ref isEnableEditProfile, value); }
+            get => isEnableEditProfile;
+            set => SetProperty(ref isEnableEditProfile, value);
         }
 
-        private bool isEnableFacebook = false;
         public bool IsEnableFacebook
         {
-            get { return isEnableFacebook; }
-            set { SetProperty(ref isEnableFacebook, value); }
+            get => isEnableFacebook;
+            set => SetProperty(ref isEnableFacebook, value);
         }
 
-        private bool isEnableGithub = false;
         public bool IsEnableGithub
         {
-            get { return isEnableGithub; }
-            set { SetProperty(ref isEnableGithub, value); }
+            get => isEnableGithub;
+            set => SetProperty(ref isEnableGithub, value);
         }
 
-        private bool isEnableTwitter = false;
         public bool IsEnableTwitter
         {
-            get { return isEnableTwitter; }
-            set { SetProperty(ref isEnableTwitter, value); }
+            get => isEnableTwitter;
+            set => SetProperty(ref isEnableTwitter, value);
         }
 
-        private bool isEnableVK = false;
         public bool IsEnableVK
         {
-            get { return isEnableVK; }
-            set { SetProperty(ref isEnableVK, value); }
+            get => isEnableVK;
+            set => SetProperty(ref isEnableVK, value);
         }
 
-
-        private string titlePosts = "Опубликованные посты";
         public string TitlePosts
         {
-            get { return titlePosts; }
-            set { SetProperty(ref titlePosts, value); }
+            get => titlePosts;
+            set => SetProperty(ref titlePosts, value);
         }
 
-        private bool isPosts;
         public bool IsPosts
         {
-            get { return isPosts; }
+            get => isPosts;
             set
             {
                 SetProperty(ref isPosts, value);
                 IsEmptyPosts = value == false;
-                TitlePosts = value == true ? "Опубликованные посты" : "Постов не существует";
+                TitlePosts = value ? "Опубликованные посты" : "Постов не существует";
             }
         }
 
-        private bool isEmptyPosts;
         public bool IsEmptyPosts
         {
-            get { return isEmptyPosts; }
+            get => isEmptyPosts;
             set => SetProperty(ref isEmptyPosts, value);
         }
 
-        private bool isMyProfile;
         public bool IsMyProfile
         {
-            get { return isMyProfile; }
+            get => isMyProfile;
             set
             {
                 SetProperty(ref isMyProfile, value);
-                if (value == true)
+                if (value)
                 {
                     IsEnableFacebook = false;
                     IsEnableTwitter = false;
@@ -111,29 +131,16 @@ namespace Wallone.UI.ViewModels.Users
             }
         }
 
-        private bool isEnableIcons;
         public bool IsEnableIcons
         {
             get => isEnableIcons;
-            set
-            {
-                SetProperty(ref isEnableIcons, value);
-            }
+            set => SetProperty(ref isEnableIcons, value);
         }
 
-        private bool isEnableText = true;
         public bool IsEnableText
         {
             get => isEnableText;
-            set
-            {
-                SetProperty(ref isEnableText, value);
-            }
-        }
-
-        public ProfileViewModelActions()
-        {
-
+            set => SetProperty(ref isEnableText, value);
         }
     }
 }

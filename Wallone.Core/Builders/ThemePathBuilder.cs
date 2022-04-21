@@ -5,21 +5,18 @@ namespace Wallone.Core.Builders
 {
     public class ThemePathBuilder : IAppSettings
     {
-
         public ThemePathBuilder CreateDirectory(string path)
         {
             AppSettingsService.CreateDirectory(path);
             return this;
         }
+
         public ThemePathBuilder ExistOrCreateDirectory(string path)
         {
-            string appLocation = AppSettingsService.GetAppLocation();
-            string pathThemeDirectory = Path.Combine(appLocation, path);
+            var appLocation = AppSettingsService.GetAppLocation();
+            var pathThemeDirectory = Path.Combine(appLocation, path);
 
-            if (!AppSettingsService.ExistDirectory(pathThemeDirectory))
-            {
-                CreateDirectory(pathThemeDirectory);
-            }
+            if (!AppSettingsService.ExistDirectory(pathThemeDirectory)) CreateDirectory(pathThemeDirectory);
 
             AppSettingsService.SetThemesLocation(pathThemeDirectory);
             return this;

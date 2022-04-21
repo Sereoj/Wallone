@@ -6,16 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="RestSharp" Version="106.15.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WinDynamicDesktop.Common\Wallone.Common.csproj" />
-    <ProjectReference Include="..\WinDynamicDesktop.Controls\Wallone.Controls.csproj" />
-    <ProjectReference Include="..\WinDynamicDesktop.Core\Wallone.Core.csproj" />
+    <ProjectReference Include="..\Wallone.Controls\Wallone.Controls.csproj" />
+    <ProjectReference Include="..\Wallone.Core\Wallone.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

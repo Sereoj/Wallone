@@ -3,7 +3,7 @@
 namespace Wallone.UI.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Settings.xaml
+    ///     Логика взаимодействия для Settings.xaml
     /// </summary>
     public partial class Settings : UserControl
     {

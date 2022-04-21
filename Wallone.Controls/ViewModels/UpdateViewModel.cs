@@ -4,28 +4,30 @@ namespace Wallone.Controls.ViewModels
 {
     public class UpdateViewModel : BindableBase
     {
-
         private int status;
-        public int Status
-        {
-            get { return status; }
-            set { SetProperty(ref status, value); }
-        }
-
-
-        private string versionCurrent;
-        public string VersionCurrect
-        {
-            get { return versionCurrent; }
-            set { SetProperty(ref versionCurrent, value); }
-        }
 
 
         private string versionActual;
+
+
+        private string versionCurrent;
+
+        public int Status
+        {
+            get => status;
+            set => SetProperty(ref status, value);
+        }
+
+        public string VersionCurrect
+        {
+            get => versionCurrent;
+            set => SetProperty(ref versionCurrent, value);
+        }
+
         public string VersionActual
         {
-            get { return versionActual; }
-            set { SetProperty(ref versionActual, value); }
+            get => versionActual;
+            set => SetProperty(ref versionActual, value);
         }
 
         public void SetStatus(int index)

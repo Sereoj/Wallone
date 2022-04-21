@@ -2,7 +2,13 @@
 using System.Windows;
 using Prism.Ioc;
 using Prism.Modularity;
+using Wallone.Authorization;
+using Wallone.Common;
+using Wallone.Controls;
+using Wallone.Core;
+using Wallone.Core.Builders;
 using Wallone.UI.Controls;
+using Wallone.UI.ViewModels;
 using Wallone.UI.ViewModels.Controls;
 using Wallone.UI.ViewModels.Exceptions;
 using Wallone.UI.ViewModels.Users;
@@ -15,7 +21,7 @@ using Wallone.UI.Views.Wallpapers;
 namespace Wallone.UI
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App
     {
@@ -39,15 +45,15 @@ namespace Wallone.UI
 
             containerRegistry.RegisterForNavigation<Profile, ProfileViewModel>();
             containerRegistry.RegisterForNavigation<Account, AccountViewModel>();
-            containerRegistry.RegisterForNavigation<Settings, ViewModels.SettingsViewModel>();
+            containerRegistry.RegisterForNavigation<Settings, SettingsViewModel>();
 
             containerRegistry.RegisterForNavigation<SinglePage, SinglePageViewModel>();
             containerRegistry.RegisterForNavigation<ImagePreview, ImagePreviewViewModel>();
             containerRegistry.RegisterForNavigation<InformationArticle, InformationArticleViewModel>();
         }
+
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-
             new AppSettingsBuilder()
                 .Query(new AppPathBulder()
                     .AppLocation(Directory.GetCurrentDirectory())

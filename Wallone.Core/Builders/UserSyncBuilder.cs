@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Wallone.Core.Models.App;
 using Wallone.Core.Services;
@@ -7,8 +8,9 @@ namespace Wallone.Core.Builders
 {
     public class UserSyncBuilder
     {
-        private string token;
         private bool isAuth;
+        private string token;
+
         public UserSyncBuilder GetToken()
         {
             token = SettingsService.GetToken();
@@ -33,6 +35,7 @@ namespace Wallone.Core.Builders
                     return this;
                 }
             }
+
             isAuth = false;
             return this;
         }
@@ -59,12 +62,12 @@ namespace Wallone.Core.Builders
 
         public Settings GetConfig()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public void GetCollection()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

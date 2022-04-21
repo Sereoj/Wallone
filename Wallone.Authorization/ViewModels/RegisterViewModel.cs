@@ -10,49 +10,56 @@ namespace Wallone.Authorization.ViewModels
 {
     public class RegisterViewModel : BindableBase
     {
-        readonly IRegionManager _regionManager;
-
-        private string name;
-        public string Name
-        {
-            get { return name; }
-            set { SetProperty(ref name, value); }
-        }
-
-        private string email;
-        public string Email
-        {
-            get { return email; }
-            set { SetProperty(ref email, value); }
-        }
-
-        private string password;
-        public string Password
-        {
-            get { return password; }
-            set { SetProperty(ref password, value); }
-        }
+        private readonly IRegionManager _regionManager;
 
         private string confirm;
-        public string Confirm
-        {
-            get { return confirm; }
-            set { SetProperty(ref confirm, value); }
-        }
+
+        private string email;
 
         private string message;
-        public string Message
-        {
-            get { return message; }
-            set { SetProperty(ref message, value); }
-        }
-        public DelegateCommand<string> NavigateCommand { get; set; }
+
+        private string name;
+
+        private string password;
+
         public RegisterViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
+
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
+
+        public string Email
+        {
+            get => email;
+            set => SetProperty(ref email, value);
+        }
+
+        public string Password
+        {
+            get => password;
+            set => SetProperty(ref password, value);
+        }
+
+        public string Confirm
+        {
+            get => confirm;
+            set => SetProperty(ref confirm, value);
+        }
+
+        public string Message
+        {
+            get => message;
+            set => SetProperty(ref message, value);
+        }
+
+        public DelegateCommand<string> NavigateCommand { get; set; }
 
         private void Navigate(string obj)
         {
@@ -72,23 +79,18 @@ namespace Wallone.Authorization.ViewModels
                     var password = temppass();
                     Register(name, email, password, password);
                     break;
-                default:
-                    break;
             }
         }
 
         private string temppass()
         {
-            string abc = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*()"; //набор символов
-            int kol = 8; // кол-во символов
-            string result = "";
+            var abc = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*()"; //набор символов
+            var kol = 8; // кол-во символов
+            var result = "";
 
-            Random rnd = new Random();
-            int lng = abc.Length;
-            for (int i = 0; i < kol; i++)
-            {
-                result += abc[rnd.Next(lng)];
-            }
+            var rnd = new Random();
+            var lng = abc.Length;
+            for (var i = 0; i < kol; i++) result += abc[rnd.Next(lng)];
             return "guest_" + result;
         }
 
@@ -108,7 +110,6 @@ namespace Wallone.Authorization.ViewModels
                         Message = "Страница не существует";
                         break;
                 }
-
             }
             catch (InvalidOperationException ex)
             {
@@ -122,7 +123,6 @@ namespace Wallone.Authorization.ViewModels
             {
                 Message = ex.Message;
             }
-
         }
 
         private void LoadRegister(string json)

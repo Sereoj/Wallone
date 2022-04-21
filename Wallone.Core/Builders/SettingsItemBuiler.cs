@@ -5,11 +5,13 @@ namespace Wallone.Core.Builders
     public class SettingsItemBuiler
     {
         private ISettings settings;
+
         public SettingsItemBuiler LoadModel(ISettings settings)
         {
             this.settings = settings;
             return this;
         }
+
         public SettingsItemBuiler SetEmail(string email)
         {
             settings.Email = email;

@@ -1,10 +1,11 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.Views.Users
 {
     /// <summary>
-    /// Логика взаимодействия для Profile.xaml
+    ///     Логика взаимодействия для Profile.xaml
     /// </summary>
     public partial class Profile : UserControl
     {
@@ -13,24 +14,18 @@ namespace Wallone.UI.Views.Users
             InitializeComponent();
         }
 
-        private void ScrollUp_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void ScrollUp_Click(object sender, RoutedEventArgs e)
         {
             ScrollViewer.ScrollToTop();
         }
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            ScrollData data = ScrollViewerService.Get(ref e);
+            var data = ScrollViewerService.Get(ref e);
 
-            if (data.offset < data.offset100)
-            {
-                ScrollUp.Visibility = System.Windows.Visibility.Hidden;
-            }
+            if (data.offset < data.offset100) ScrollUp.Visibility = Visibility.Hidden;
 
-            if (data.percent80 < data.offset && data.percent90 > data.offset)
-            {
-                ScrollUp.Visibility = System.Windows.Visibility.Visible;
-            }
+            if (data.percent80 < data.offset && data.percent90 > data.offset) ScrollUp.Visibility = Visibility.Visible;
 
             if (data.percent90 < data.offset && data.percent95 > data.offset)
             {
@@ -44,11 +39,11 @@ namespace Wallone.UI.Views.Users
             }
         }
 
-        private void UserControl_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             //TODO: ПРОЗРАЧНОСТЬ
             //Trace.WriteLine(ActualWidth);
-            Description.Visibility = ActualWidth > 625 ? System.Windows.Visibility.Visible : System.Windows.Visibility.Hidden;
+            Description.Visibility = ActualWidth > 625 ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

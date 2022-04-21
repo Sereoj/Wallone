@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Wallone.Core.Models;
+using Wallone.Core.Services;
 
 namespace Wallone.UI.Services
 {
@@ -8,6 +10,7 @@ namespace Wallone.UI.Services
     {
         private static User user;
         private static string cover;
+
         public AccountService(User page)
         {
             Load(page);
@@ -17,6 +20,7 @@ namespace Wallone.UI.Services
         {
             return user;
         }
+
         public static void Load(User page)
         {
             if (page != null)
@@ -77,6 +81,7 @@ namespace Wallone.UI.Services
         {
             return user.twitter;
         }
+
         public static Task<string> GetPageAsync()
         {
             var items = RequestRouter<string>.GetAsync("user/profile", null, null);

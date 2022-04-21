@@ -6,13 +6,15 @@ namespace Wallone.Authorization.ViewModels
 {
     public class ConfirmViewModel : BindableBase
     {
-        readonly IRegionManager _regionManager;
-        public DelegateCommand<string> NavigateCommand { get; set; }
+        private readonly IRegionManager _regionManager;
+
         public ConfirmViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
+
+        public DelegateCommand<string> NavigateCommand { get; set; }
 
         private void Navigate(string obj)
         {
@@ -23,8 +25,6 @@ namespace Wallone.Authorization.ViewModels
                     break;
                 case "Back":
                     _regionManager.RequestNavigate("ContentRegion", "Register");
-                    break;
-                default:
                     break;
             }
         }

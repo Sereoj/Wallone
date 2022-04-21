@@ -10,35 +10,41 @@ namespace Wallone.Authorization.ViewModels
 {
     public class LoginViewModel : BindableBase
     {
-        readonly IRegionManager _regionManager;
+        private readonly IRegionManager _regionManager;
 
         private string email;
-        public string Email
-        {
-            get { return email; }
-            set { SetProperty(ref email, value); }
-        }
-
-        private string password;
-        public string Password
-        {
-            get { return password; }
-            set { SetProperty(ref password, value); }
-        }
 
         private string message;
-        public string Message
-        {
-            get { return message; }
-            set { SetProperty(ref message, value); }
-        }
-        public DelegateCommand<string> NavigateCommand { get; set; }
+
+        private string password;
+
         public LoginViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
             Autocomplete();
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
+
+        public string Email
+        {
+            get => email;
+            set => SetProperty(ref email, value);
+        }
+
+        public string Password
+        {
+            get => password;
+            set => SetProperty(ref password, value);
+        }
+
+        public string Message
+        {
+            get => message;
+            set => SetProperty(ref message, value);
+        }
+
+        public DelegateCommand<string> NavigateCommand { get; set; }
+
         private void Navigate(string obj)
         {
             switch (obj)
@@ -49,15 +55,15 @@ namespace Wallone.Authorization.ViewModels
                 case "Confirm":
                     Login();
                     break;
-                default:
-                    break;
             }
         }
+
         private void Autocomplete()
         {
             var email = SettingsService.Get().Email;
             Email = email ?? "user@w2me.ru";
         }
+
         private async void Login()
         {
             try

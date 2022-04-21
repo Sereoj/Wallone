@@ -11,13 +11,12 @@ namespace Wallone.Core.Builders
             SettingsService.Save();
             return this;
         }
+
         public SettingsBuilder UpdateOrCreateFile(string path)
         {
             SettingsService.SetFile(path); // Установка пути
             if (!SettingsService.Exist()) // Проверка файла
-            {
                 CreateFile(path); // Создание файла
-            }
             SettingsService.Load(); // Загрузка данных
 
             var settingsPath = Path.Combine(AppSettingsService.GetAppLocation(), path);

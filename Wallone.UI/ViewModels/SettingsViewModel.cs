@@ -1,6 +1,8 @@
 ﻿using System;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Builders;
+using Wallone.Core.Services;
 
 namespace Wallone.UI.ViewModels
 {
@@ -8,25 +10,38 @@ namespace Wallone.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
 
+        private string host;
+
         private string name = "Настройки";
-        public string Name { get => name; set => SetProperty(ref name, value); }
+
+        private string prefix;
 
         public SettingsViewModel()
         {
-
         }
+
         public SettingsViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
         }
 
-        private string host;
+        public string Name
+        {
+            get => name;
+            set => SetProperty(ref name, value);
+        }
 
-        public string Host { get => host; set => SetProperty(ref host, value); }
+        public string Host
+        {
+            get => host;
+            set => SetProperty(ref host, value);
+        }
 
-        private string prefix;
-
-        public string Prefix { get => prefix; set => SetProperty(ref prefix, value); }
+        public string Prefix
+        {
+            get => prefix;
+            set => SetProperty(ref prefix, value);
+        }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
@@ -34,7 +49,10 @@ namespace Wallone.UI.ViewModels
             Prefix = SettingsService.Get().Prefix;
         }
 
-        public bool IsNavigationTarget(NavigationContext navigationContext) => true;
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {

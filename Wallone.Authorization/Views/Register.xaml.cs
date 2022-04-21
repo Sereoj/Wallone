@@ -3,7 +3,7 @@
 namespace Wallone.Authorization.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Register.xaml
+    ///     Логика взаимодействия для Register.xaml
     /// </summary>
     public partial class Register : UserControl
     {

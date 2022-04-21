@@ -6,63 +6,28 @@ using System.Windows.Threading;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Helpers;
+using Wallone.Core.Models;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Controls
 {
     public class ImagePreviewViewModel : BindableBase, INavigationAware
     {
-        private SinglePage simplePage;
-        private DispatcherTimer transitionTimer;
         private readonly BitmapHelper bitmapHelper;
+
+        private ImageSource backImageSource;
+        private ImageSource frontImageSource;
         private bool isEnable;
+        private int selectedIndex;
+        private SinglePage simplePage;
 
 
         private bool startAnimationValue;
-        public bool StartAnimationValue
-        {
-            get { return startAnimationValue; }
-            set { SetProperty(ref startAnimationValue, value); }
-        }
-        private ImageSource frontImageSource;
-        public ImageSource FrontImageSource
-        {
-            get { return frontImageSource; }
-            set { SetProperty(ref frontImageSource, value); }
-        }
-
-        private ImageSource backImageSource;
-        public ImageSource BackImageSource
-        {
-            get { return backImageSource; }
-            set { SetProperty(ref backImageSource, value); }
-        }
 
         private string text;
-        public string Text
-        {
-            get { return text; }
-            set { SetProperty(ref text, value); }
-        }
-        private int selectedIndex = 0;
-        public int SelectedIndex
-        {
-            get { return selectedIndex; }
-            set
-            {
-                SetProperty(ref selectedIndex, value);
-                if (value != -1)
-                {
-                    FrontImageSource = bitmapHelper[Items[value].Uri];
-                    Text = Items[value].Name;
-                }
-            }
-        }
+        private readonly DispatcherTimer transitionTimer;
 
-        public ObservableCollection<ThemePreviewItem> Items { get; } = new ObservableCollection<ThemePreviewItem>();
-
-        public DelegateCommand PreviousCommand { get; set; }
-        public DelegateCommand NextCommand { get; set; }
         public ImagePreviewViewModel()
         {
             bitmapHelper = new BitmapHelper();
@@ -80,7 +45,82 @@ namespace Wallone.UI.ViewModels.Controls
                 onNext();
                 StartAnimationValue = true;
             };
+        }
 
+        public bool StartAnimationValue
+        {
+            get => startAnimationValue;
+            set => SetProperty(ref startAnimationValue, value);
+        }
+
+        public ImageSource FrontImageSource
+        {
+            get => frontImageSource;
+            set => SetProperty(ref frontImageSource, value);
+        }
+
+        public ImageSource BackImageSource
+        {
+            get => backImageSource;
+            set => SetProperty(ref backImageSource, value);
+        }
+
+        public string Text
+        {
+            get => text;
+            set => SetProperty(ref text, value);
+        }
+
+        public int SelectedIndex
+        {
+            get => selectedIndex;
+            set
+            {
+                SetProperty(ref selectedIndex, value);
+                if (value != -1)
+                {
+                    FrontImageSource = bitmapHelper[Items[value].Uri];
+                    Text = Items[value].Name;
+                }
+            }
+        }
+
+        public ObservableCollection<ThemePreviewItem> Items { get; } = new ObservableCollection<ThemePreviewItem>();
+
+        public DelegateCommand PreviousCommand { get; set; }
+        public DelegateCommand NextCommand { get; set; }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            Items.Clear();
+            bitmapHelper.Clear();
+
+            simplePage = (SinglePage) navigationContext.Parameters["simplePage"];
+
+            if (ThemePreviewService.IsNotNull(simplePage.images))
+            {
+                foreach (var item in simplePage.images) SetImageList(item.times, UriHelper.Get(item.location));
+
+                isEnable = true;
+                SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
+                FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                Text = Items[SelectedIndex].Name;
+                transitionTimer.Start();
+            }
+            else
+            {
+                Text = "Произошла ошибка";
+                isEnable = false;
+            }
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
         }
 
         private void onNext()
@@ -123,45 +163,12 @@ namespace Wallone.UI.ViewModels.Controls
                     SelectedIndex--;
                     FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
                 }
+
                 StartAnimationValue = true;
                 Text = Items[SelectedIndex].Name;
             }
         }
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            Items.Clear();
-            bitmapHelper.Clear();
 
-            simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
-
-            if (ThemePreviewService.IsNotNull(simplePage.images))
-            {
-                foreach (var item in simplePage.images)
-                {
-                    SetImageList(item.times, UriHelper.Get(item.location));
-                }
-
-                isEnable = true;
-                SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
-                FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
-                Text = Items[SelectedIndex].Name;
-                transitionTimer.Start();
-            }
-            else
-            {
-                Text = "Произошла ошибка";
-                isEnable = false;
-            }
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-        }
         public void SetImageList(string type, Uri imagePath)
         {
             Items.Add(new ThemePreviewItem(type, imagePath));

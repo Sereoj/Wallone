@@ -1,6 +1,5 @@
 ﻿namespace Wallone.Core.Builders
 {
-
     //Создание темы.
 
     public class ThemeBuilder<TInterface>

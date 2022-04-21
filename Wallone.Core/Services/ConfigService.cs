@@ -7,16 +7,15 @@ namespace Wallone.Core.Services
     public class ConfigService
     {
         private static Config config;
+
         public ConfigService(string path)
         {
             Open(path);
         }
+
         public static void Open(string path)
         {
-            if (path.ExistsFile())
-            {
-                config = JsonConvert.DeserializeObject<Config>(path.ReadFile());
-            }
+            if (path.ExistsFile()) config = JsonConvert.DeserializeObject<Config>(path.ReadFile());
         }
 
         public static Config GetConfig()

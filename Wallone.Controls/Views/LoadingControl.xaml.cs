@@ -3,7 +3,7 @@
 namespace Wallone.Controls.Views
 {
     /// <summary>
-    /// Логика взаимодействия для LoadingControl.xaml
+    ///     Логика взаимодействия для LoadingControl.xaml
     /// </summary>
     public partial class LoadingControl : UserControl
     {

@@ -3,7 +3,7 @@
 namespace Wallone.Authorization.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Load.xaml
+    ///     Логика взаимодействия для Load.xaml
     /// </summary>
     public partial class Load : UserControl
     {

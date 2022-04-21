@@ -2,13 +2,12 @@
     x:Class="Wallone.Authorization.Views.Load"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="clr-namespace:WinDynamicDesktop.Controls.Views;assembly=WinDynamicDesktop.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:WinDynamicDesktop.Authorization.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:ui="http://schemas.modernwpf.com/2019"
-    d:DataContext="{d:DesignInstance Type=viewmodels:LoadViewModel}"
+    xmlns:viewModels="clr-namespace:Wallone.Authorization.ViewModels"
+    xmlns:views="clr-namespace:Wallone.Controls.Views;assembly=Wallone.Controls"
+    d:DataContext="{d:DesignInstance Type=viewModels:LoadViewModel}"
     d:DesignHeight="900"
     d:DesignWidth="1200"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -40,10 +39,14 @@
                 Style="{StaticResource H3}"
                 Text="{Binding Header, FallbackValue=WinDynamicDesktop}" />
             <Grid Grid.Row="1">
-                <controls:LoadingControl x:Name="Loading" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
-                <controls:NoNetworkControl x:Name="NoNetwork" Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
-                <controls:NoConnectServer x:Name="NoConnectServer" Visibility="{Binding IsConnect, Converter={StaticResource BoolToVis}}" />
-                <controls:UpdateControl x:Name="Update" Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}" />
+                <views:LoadingControl x:Name="Loading"
+                                      Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+                <views:NoNetworkControl x:Name="NoNetwork"
+                                        Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
+                <views:NoConnectServer x:Name="NoConnectServer"
+                                       Visibility="{Binding IsConnect, Converter={StaticResource BoolToVis}}" />
+                <views:UpdateControl x:Name="Update"
+                                     Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}" />
             </Grid>
             <TextBlock
                 Grid.Row="2"

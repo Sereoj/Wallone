@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using Wallone.Core.Helpers;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Controls
@@ -10,12 +11,19 @@ namespace Wallone.UI.ViewModels.Controls
     {
         private static readonly BitmapHelper bitmapHelper = new BitmapHelper();
         private ImageSource cover;
-        public ImageSource Cover { get => cover; set => SetProperty(ref cover, value); }
-        public DelegateCommand ActionCommand { get; set; }
+
         public UploaderViewModel()
         {
             ActionCommand = new DelegateCommand(OnAction);
         }
+
+        public ImageSource Cover
+        {
+            get => cover;
+            set => SetProperty(ref cover, value);
+        }
+
+        public DelegateCommand ActionCommand { get; set; }
 
         private void OnAction()
         {

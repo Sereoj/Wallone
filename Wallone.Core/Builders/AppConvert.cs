@@ -9,7 +9,7 @@
 
         public static string BoolToString(bool value)
         {
-            return value == true ? "true" : "false";
+            return value ? "true" : "false";
         }
 
         public static bool Revert(bool value)

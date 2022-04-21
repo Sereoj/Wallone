@@ -6,13 +6,10 @@ namespace Wallone.Core.Builders
     public class PageGallaryBuilder : IPageBulder
     {
         private string catalog;
-        private string page;
         private string field;
-        private List<Parameter> Fileds { get; set; } = new List<Parameter>();
-        public PageGallaryBuilder()
-        {
+        private string page;
 
-        }
+        private List<Parameter> Fileds { get; } = new List<Parameter>();
 
         public bool IsAds => false;
 
@@ -55,18 +52,18 @@ namespace Wallone.Core.Builders
                     catalog = "Gallery";
                     break;
             }
+
             return this;
         }
+
         public IPageBulder ShowAds(bool value)
         {
             return this;
         }
+
         public IPageBulder Build()
         {
-            if (field != null)
-            {
-                Fileds.Add(new Parameter(field, page));
-            }
+            if (field != null) Fileds.Add(new Parameter(field, page));
             return this;
         }
 
@@ -74,6 +71,7 @@ namespace Wallone.Core.Builders
         {
             return Fileds;
         }
+
         public string GetCatalog()
         {
             return catalog;
@@ -93,7 +91,7 @@ namespace Wallone.Core.Builders
                 "wait" => "wallpapers/wait",
                 "favourite" => "wallpapers/favorite",
                 "downloads" => "wallpapers/downloads",
-                _ => "wallpapers",
+                _ => "wallpapers"
             };
         }
     }

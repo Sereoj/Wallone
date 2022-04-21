@@ -13,7 +13,6 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <helpers:PasswordBoxHelper x:Key="PasswordBoxHelper" />
     </UserControl.Resources>
     <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
         <Grid.RowDefinitions>

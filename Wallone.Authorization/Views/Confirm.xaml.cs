@@ -3,7 +3,7 @@
 namespace Wallone.Authorization.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Confirm.xaml
+    ///     Логика взаимодействия для Confirm.xaml
     /// </summary>
     public partial class Confirm : UserControl
     {

@@ -5,15 +5,23 @@ namespace Wallone.Core.Builders
 {
     public class HostBuilder : IAppSettings
     {
-        const string default_prefix = "/api/v1";
-        const string default_host = "https://wall.w2me.ru";
+        private const string default_prefix = "/api/v1";
+        private const string default_host = "https://wall.w2me.ru";
 
         private static string host;
         private static string prefix;
-        public bool ValidatePrefix() => prefix.StartsWith("/") && !prefix.EndsWith("/") && prefix.Contains("api");
 
-        public bool ValidateHost() => Uri.TryCreate(host, UriKind.Absolute, out Uri uriResult)
-                                      && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        public bool ValidatePrefix()
+        {
+            return prefix.StartsWith("/") && !prefix.EndsWith("/") && prefix.Contains("api");
+        }
+
+        public bool ValidateHost()
+        {
+            return Uri.TryCreate(host, UriKind.Absolute, out var uriResult)
+                   && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+        }
+
         public HostBuilder SetHost()
         {
             host = SettingsService.Get().Host;
@@ -27,6 +35,7 @@ namespace Wallone.Core.Builders
                     Router.SetDomain(host);
                     break;
             }
+
             return this;
         }
 
@@ -43,6 +52,7 @@ namespace Wallone.Core.Builders
                     Router.SetDomainApi(host + prefix);
                     break;
             }
+
             return this;
         }
 
@@ -57,7 +67,6 @@ namespace Wallone.Core.Builders
 
         public HostBuilder Build()
         {
-
             SettingsService.Get().Host = host;
             SettingsService.Get().Prefix = prefix;
 

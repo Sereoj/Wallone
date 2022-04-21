@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:tb="http://www.hardcodet.net/taskbar"
-    xmlns:ui="http://schemas.modernwpf.com/2019"
     Title="{Binding Title}"
     Width="900"
     Height="700"

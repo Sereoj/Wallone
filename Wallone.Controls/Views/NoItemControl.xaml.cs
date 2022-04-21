@@ -3,7 +3,7 @@
 namespace Wallone.Controls.Views
 {
     /// <summary>
-    /// Логика взаимодействия для NoItemControl.xaml
+    ///     Логика взаимодействия для NoItemControl.xaml
     /// </summary>
     public partial class NoItemControl : UserControl
     {

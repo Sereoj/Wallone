@@ -6,7 +6,7 @@ namespace Wallone.Core.Services
 {
     public class UserService
     {
-        private static User user = new User();
+        private static readonly User user = new User();
         private static string token;
 
         public static string GetId()
@@ -18,6 +18,7 @@ namespace Wallone.Core.Services
         {
             return user.name;
         }
+
         public static string GetToken()
         {
             return token;
@@ -27,6 +28,7 @@ namespace Wallone.Core.Services
         {
             token = null;
         }
+
         internal static Task<string> GetLoginWithTokenAsync()
         {
             var items = RequestRouter<string>.GetAsync("user", null, null);
@@ -41,17 +43,22 @@ namespace Wallone.Core.Services
                 user.name = data["name"].ToString();
                 return true;
             }
+
             return false;
         }
+
         public static Task<string> GetLoginAsync(string email, string password)
         {
-            var items = RequestRouter<string, Login>.PostAsync("login", new Login() { email = email, password = password });
+            var items = RequestRouter<string, Login>.PostAsync("login", new Login {email = email, password = password});
             return items;
         }
 
-        public static Task<string> GetRegisterAsync(string name, string email, string password, string password_confirmation)
+        public static Task<string> GetRegisterAsync(string name, string email, string password,
+            string password_confirmation)
         {
-            var items = RequestRouter<string, Register>.PostAsync("register", new Register() { name = name, email = email, password = password, password_confirmation = password_confirmation });
+            var items = RequestRouter<string, Register>.PostAsync("register",
+                new Register
+                    {name = name, email = email, password = password, password_confirmation = password_confirmation});
             return items;
         }
 
@@ -66,12 +73,8 @@ namespace Wallone.Core.Services
             string msg = null;
 
             if (objects is JObject)
-            {
                 foreach (var item in objects)
-                {
                     msg += item.Value[0] + " ";
-                }
-            }
             return msg;
         }
 
@@ -79,6 +82,7 @@ namespace Wallone.Core.Services
         {
             return Validate(objects);
         }
+
         public static string ValidateLogin(JObject objects)
         {
             return objects["auth.failed"] != null ? objects["auth.failed"].ToString() : Validate(objects);

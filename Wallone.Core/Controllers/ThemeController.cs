@@ -9,13 +9,14 @@ namespace Wallone.Core.Controllers
     {
         private readonly ThemeCreatedBuilder themeBuilder;
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-
         public ThemeController(ThemeCreatedBuilder themeBuilder)
         {
             this.themeBuilder = themeBuilder;
         }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+
         public bool GetValueInstall()
         {
             return themeBuilder.GetHasNotInstalled();
@@ -30,10 +31,12 @@ namespace Wallone.Core.Controllers
         {
             return themeBuilder.GetHasNotLiked();
         }
+
         private void SetWallpaper(string WallpaperLocation, int WallpaperStyle, int TileWallpaper)
         {
             SystemParametersInfo(20, 0, WallpaperLocation, 0x01 | 0x02);
         }
+
         public async void SetWallpaper()
         {
             try
@@ -46,7 +49,6 @@ namespace Wallone.Core.Controllers
             }
             catch (Exception ex)
             {
-
                 throw new Exception();
             }
         }

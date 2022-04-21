@@ -3,7 +3,7 @@
 namespace Wallone.UI.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для Article.xaml
+    ///     Логика взаимодействия для Article.xaml
     /// </summary>
     public partial class Article : UserControl
     {

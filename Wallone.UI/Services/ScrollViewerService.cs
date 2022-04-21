@@ -2,9 +2,10 @@
 
 namespace Wallone.UI.Services
 {
-    class ScrollViewerService
+    internal class ScrollViewerService
     {
         private static readonly ScrollData data = new ScrollData();
+
         internal static ScrollData Get(ref ScrollChangedEventArgs e)
         {
             data.offset = e.ViewportHeight + e.VerticalOffset;

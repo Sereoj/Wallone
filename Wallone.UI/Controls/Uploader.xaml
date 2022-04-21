@@ -18,10 +18,12 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=Background, Path=IsMouseOver}" Value="true">
+                                    <DataTrigger Binding="{Binding ElementName=Background, Path=IsMouseOver}"
+                                                 Value="true">
                                         <Setter Property="Opacity" Value="0.8" />
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding ElementName=Background, Path=IsMouseOver}" Value="false">
+                                    <DataTrigger Binding="{Binding ElementName=Background, Path=IsMouseOver}"
+                                                 Value="false">
                                         <Setter Property="Opacity" Value="1" />
                                     </DataTrigger>
                                 </ControlTemplate.Triggers>

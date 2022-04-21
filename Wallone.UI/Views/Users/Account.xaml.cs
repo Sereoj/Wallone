@@ -4,7 +4,7 @@ using System.Windows.Controls;
 namespace Wallone.UI.Views.Users
 {
     /// <summary>
-    /// Логика взаимодействия для Account.xaml
+    ///     Логика взаимодействия для Account.xaml
     /// </summary>
     public partial class Account : UserControl
     {
@@ -15,7 +15,6 @@ namespace Wallone.UI.Views.Users
 
         private void ScrollUp_Click(object sender, RoutedEventArgs e)
         {
-
         }
     }
 }

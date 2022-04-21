@@ -4,13 +4,14 @@ namespace Wallone.Controls.ViewModels
 {
     public class NoNetworkViewModel : BindableBase
     {
-
         private bool status;
+
         public bool Status
         {
-            get { return status; }
-            set { SetProperty(ref status, value); }
+            get => status;
+            set => SetProperty(ref status, value);
         }
+
         public void SetStatus(bool status)
         {
             Status = status;

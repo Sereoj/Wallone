@@ -14,10 +14,7 @@ namespace Wallone.Core.Helpers
         {
             get
             {
-                if (images.TryGetValue(imageUrl, out BitmapImage bitmap))
-                {
-                    return bitmap;
-                }
+                if (images.TryGetValue(imageUrl, out var bitmap)) return bitmap;
 
                 bitmap = CreateBitmapImage(imageUrl);
 

@@ -3,7 +3,7 @@
 namespace Wallone.UI.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для Uploader.xaml
+    ///     Логика взаимодействия для Uploader.xaml
     /// </summary>
     public partial class Uploader : UserControl
     {

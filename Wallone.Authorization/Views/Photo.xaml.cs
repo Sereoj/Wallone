@@ -3,7 +3,7 @@
 namespace Wallone.Authorization.Views
 {
     /// <summary>
-    /// Логика взаимодействия для Photo.xaml
+    ///     Логика взаимодействия для Photo.xaml
     /// </summary>
     public partial class Photo : UserControl
     {

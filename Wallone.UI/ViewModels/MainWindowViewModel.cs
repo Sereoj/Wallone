@@ -8,19 +8,19 @@ namespace Wallone.UI.ViewModels
         private readonly IRegionManager regionManager;
         private string _title = "Wallone";
 
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
-
         public MainWindowViewModel()
         {
-
         }
+
         public MainWindowViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+        }
+
+        public string Title
+        {
+            get => _title;
+            set => SetProperty(ref _title, value);
         }
     }
 }

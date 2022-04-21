@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Helpers;
+using Wallone.Core.Models;
+using Wallone.Core.Services;
 using Wallone.UI.Interfaces;
 using Wallone.UI.ViewModels.Controls;
 
@@ -15,14 +18,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
         private readonly IRegionManager regionManager;
 
         private string header = "Установленные";
-        public string Header { get => header; set => SetProperty(ref header, value); }
-
-        public ObservableCollection<ArticleViewModel> Library { get; set; } = new ObservableCollection<ArticleViewModel>();
 
         public InstalledWallpapersViewModel()
         {
-
         }
+
         public InstalledWallpapersViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
@@ -42,6 +42,15 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             GC.Collect(2);
         }
+
+        public string Header
+        {
+            get => header;
+            set => SetProperty(ref header, value);
+        }
+
+        public ObservableCollection<ArticleViewModel> Library { get; set; } =
+            new ObservableCollection<ArticleViewModel>();
 
         public async void Loaded(string page, List<Parameter> parameters)
         {
@@ -67,7 +76,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 {
                     var param = new NavigationParameters
                     {
-                        { "Text", "Это не ошибка, просто не найдены изображения!" }
+                        {"Text", "Это не ошибка, просто не найдены изображения!"}
                     };
 
                     regionManager.RequestNavigate("PageRegion", "NotFound", param);
@@ -77,7 +86,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             {
                 var param = new NavigationParameters
                 {
-                    { "Text", ex.Message }
+                    {"Text", ex.Message}
                 };
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);

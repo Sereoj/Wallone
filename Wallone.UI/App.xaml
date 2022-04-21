@@ -9,7 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemeResources />
                 <ui:XamlControlsResources />
-                <ResourceDictionary Source="pack://application:,,,/WinDynamicDesktop.Common;component/Styles/Style.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Wallone.Common;component/Styles/Style.xaml" />
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->

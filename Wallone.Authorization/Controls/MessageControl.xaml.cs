@@ -3,7 +3,7 @@
 namespace Wallone.Authorization.Controls
 {
     /// <summary>
-    /// Логика взаимодействия для MessageControl.xaml
+    ///     Логика взаимодействия для MessageControl.xaml
     /// </summary>
     public partial class MessageControl : UserControl
     {

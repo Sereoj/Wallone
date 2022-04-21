@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -13,62 +12,20 @@ namespace Wallone.Core.Builders
     //Созданная тема, где пользователь может скачать, установить, удалить.
     public class ThemeCreatedBuilder : IThemeCreatedBuilder
     {
-        private static bool ThemeHasNotInstalled { get; set; } = false;
-        private static bool ThemeHasNotFavorited { get; set; } = false;
-        private static bool ThemeHasNotLiked { get; set; } = false;
+        private List<Images> Images;
+        private static bool ThemeHasNotInstalled { get; set; }
+        private static bool ThemeHasNotFavorited { get; set; }
+        private static bool ThemeHasNotLiked { get; set; }
         private static string ThemeName { get; set; }
         private static string ThemePath { get; set; }
-
-        private List<Images> Images;
-        public ThemeCreatedBuilder CreateModel(List<Images> images)
-        {
-            if (Images == null)
-            {
-                Images = images;
-            }
-            return this;
-        }
-        // Скачать тему
-        public async Task<ThemeCreatedBuilder> Download()
-        {
-            if (ThemeHasNotInstalled == true)
-            {
-                foreach (var item in Images)
-                {
-                    var wb = new WebClient();
-
-                    var replaced_link = item.location.Replace("images/carousel_", "uploads/");
-                    var filename = item.location.Replace("/public/storage/images/carousel_", "");
-
-                    var currentWallpaper = Path.Combine(ThemePath, filename);
-                    await wb.DownloadFileTaskAsync(UriHelper.Get(replaced_link), currentWallpaper);
-                }
-                await Task.CompletedTask;
-            }
-            return this;
-        }
 
         //Удалить тему
         public ThemeCreatedBuilder Remove()
         {
-            try
-            {
-                if (ThemeHasNotInstalled == false)
-                {
-                    if (AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
-                    {
-                        if (AppSettingsService.ExistDirectory(ThemePath))
-                        {
-                            AppSettingsService.RemoveDirectory(ThemePath);
-                        }
-                    }
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            if (ThemeHasNotInstalled == false)
+                if (AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
+                    if (AppSettingsService.ExistDirectory(ThemePath))
+                        AppSettingsService.RemoveDirectory(ThemePath);
 
             return this;
         }
@@ -91,6 +48,39 @@ namespace Wallone.Core.Builders
             return this;
         }
 
+        ThemeCreatedBuilder IThemeCreatedBuilder.Download()
+        {
+            return this;
+        }
+
+        public ThemeCreatedBuilder CreateModel(List<Images> images)
+        {
+            if (Images == null) Images = images;
+            return this;
+        }
+
+        // Скачать тему
+        public async Task<ThemeCreatedBuilder> Download()
+        {
+            if (ThemeHasNotInstalled)
+            {
+                foreach (var item in Images)
+                {
+                    var wb = new WebClient();
+
+                    var replaced_link = item.location.Replace("images/carousel_", "uploads/");
+                    var filename = item.location.Replace("/public/storage/images/carousel_", "");
+
+                    var currentWallpaper = Path.Combine(ThemePath, filename);
+                    await wb.DownloadFileTaskAsync(UriHelper.Get(replaced_link), currentWallpaper);
+                }
+
+                await Task.CompletedTask;
+            }
+
+            return this;
+        }
+
         public ThemeCreatedBuilder HasNotLiked(bool value)
         {
             ThemeHasNotLiked = value != true;
@@ -110,15 +100,12 @@ namespace Wallone.Core.Builders
             {
                 ThemePath = Path.Combine(themes, ThemeName);
                 if (value && AppSettingsService.ExistDirectory(ThemePath))
-                {
                     // т.е тема уже установлена
                     ThemeHasNotInstalled = false;
-                }
                 else
-                {
                     ThemeHasNotInstalled = true;
-                }
             }
+
             return this;
         }
 
@@ -129,25 +116,16 @@ namespace Wallone.Core.Builders
 
         public ThemeCreatedBuilder ExistOrCreateDirectory()
         {
-            if (ThemeHasNotInstalled == true)
-            {
+            if (ThemeHasNotInstalled)
                 if (AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
-                {
                     if (!AppSettingsService.ExistDirectory(ThemePath))
-                    {
                         AppSettingsService.CreateDirectory(ThemePath);
-                    }
-                }
-            }
             return this;
         }
 
         public ThemeCreatedBuilder SetName(string name)
         {
-            if (!string.IsNullOrEmpty(name))
-            {
-                ThemeName = name;
-            }
+            if (!string.IsNullOrEmpty(name)) ThemeName = name;
             return this;
         }
 
@@ -160,18 +138,15 @@ namespace Wallone.Core.Builders
         {
             return ThemeHasNotInstalled;
         }
+
         public bool GetHasNotFavorited()
         {
             return ThemeHasNotFavorited;
         }
+
         public bool GetHasNotLiked()
         {
             return ThemeHasNotLiked;
-        }
-
-        ThemeCreatedBuilder IThemeCreatedBuilder.Download()
-        {
-            return this;
         }
     }
 }

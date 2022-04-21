@@ -5,11 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    xmlns:template="clr-namespace:WinDynamicDesktop.Controls.Views;assembly=WinDynamicDesktop.Controls"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels1="clr-namespace:Wallone.UI.ViewModels.Controls"
     xmlns:controls="clr-namespace:Wallone.UI.Controls"
-    d:DataContext="{d:DesignInstance Type=viewmodels:SinglePageViewModel,
+    xmlns:wallpapers="clr-namespace:Wallone.UI.ViewModels.Wallpapers"
+    xmlns:views="clr-namespace:Wallone.Controls.Views;assembly=Wallone.Controls"
+    d:DataContext="{d:DesignInstance Type=wallpapers:SinglePageViewModel,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="2000"
     d:DesignWidth="2048"
@@ -31,12 +32,12 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <template:LoadingControl
+        <views:LoadingControl
             x:Name="Loading"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
-        <template:NoNetworkControl
+        <views:NoNetworkControl
             x:Name="NoNetwork"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"

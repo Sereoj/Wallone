@@ -6,7 +6,7 @@ namespace Wallone.Core.Services
 
     public class AppSettingsService
     {
-        private static AppSettings _appSettings = new AppSettings();
+        private static readonly AppSettings _appSettings = new AppSettings();
 
         public static AppSettings GetSettings()
         {
@@ -22,10 +22,12 @@ namespace Wallone.Core.Services
         {
             return _appSettings.UseForFolders;
         }
+
         public static string GetAppLocation()
         {
             return _appSettings.AppPath;
         }
+
         public static void SetAppLocation(string path)
         {
             _appSettings.AppPath = path;
@@ -62,6 +64,7 @@ namespace Wallone.Core.Services
                     patten = "name";
                     break;
             }
+
             _appSettings.UseForFolders = patten;
         }
 

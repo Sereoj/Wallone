@@ -12,16 +12,17 @@ namespace Wallone.Core.Services
 {
     public class SettingsService
     {
-        private static Settings Settings { get; set; } = new Settings();
         private static string file;
         private static Timer autoSaveTimer;
-        private static bool restartPending = false;
+        private static bool restartPending;
         private static bool unsavedChanges;
+        private static Settings Settings { get; set; } = new Settings();
 
         public static void SetModel(Settings settings)
         {
             Settings = settings;
         }
+
         public static void SetFile(string path)
         {
             file = path;
@@ -39,28 +40,26 @@ namespace Wallone.Core.Services
 
             File.WriteAllText(file, JsonConvert.SerializeObject(Settings, Formatting.Indented));
         }
+
         //Проверка на первый запуск
         public static bool CheckFirstLaunch()
         {
             Trace.WriteLine("Проверка на первый запуск");
             return !file.ExistsFile();
         }
+
         //Загрузка конфига, выполняется один раз
         public static void Load()
         {
-            if (autoSaveTimer != null)
-            {
-                autoSaveTimer.Stop();
-            }
+            if (autoSaveTimer != null) autoSaveTimer.Stop();
 
             try
             {
-                string jsonText = File.ReadAllText(file);
+                var jsonText = File.ReadAllText(file);
                 Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
             }
             catch (Exception ex)
             {
-
             }
 
             unsavedChanges = false;
@@ -80,12 +79,10 @@ namespace Wallone.Core.Services
             unsavedChanges = true;
             autoSaveTimer.Start();
         }
-        private async static void OnAutoSaveTimerElapsed(object sender, ElapsedEventArgs e)
+
+        private static async void OnAutoSaveTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            if (!restartPending && !unsavedChanges)
-            {
-                return;
-            }
+            if (!restartPending && !unsavedChanges) return;
 
             if (unsavedChanges)
             {
@@ -114,6 +111,7 @@ namespace Wallone.Core.Services
         {
             return Settings.Token;
         }
+
         public static Settings Get()
         {
             return Settings;

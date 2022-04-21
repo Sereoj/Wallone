@@ -23,10 +23,10 @@
   </ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\WinDynamicDesktop.Authorization\Wallone.Authorization.csproj" />
-    <ProjectReference Include="..\WinDynamicDesktop.Common\Wallone.Common.csproj" />
-    <ProjectReference Include="..\WinDynamicDesktop.Controls\Wallone.Controls.csproj" />
-    <ProjectReference Include="..\WinDynamicDesktop.Core\Wallone.Core.csproj" />
+    <ProjectReference Include="..\Wallone.Authorization\Wallone.Authorization.csproj" />
+    <ProjectReference Include="..\Wallone.Common\Wallone.Common.csproj" />
+    <ProjectReference Include="..\Wallone.Controls\Wallone.Controls.csproj" />
+    <ProjectReference Include="..\Wallone.Core\Wallone.Core.csproj" />
   </ItemGroup>
 	
   <ItemGroup>

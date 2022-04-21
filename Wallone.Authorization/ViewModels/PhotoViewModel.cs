@@ -6,15 +6,15 @@ namespace Wallone.Authorization.ViewModels
 {
     public class PhotoViewModel : BindableBase
     {
-        readonly IRegionManager _regionManager;
-
-        public DelegateCommand<string> NavigateCommand { get; set; }
+        private readonly IRegionManager _regionManager;
 
         public PhotoViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
+
+        public DelegateCommand<string> NavigateCommand { get; set; }
 
         private void Navigate(string obj)
         {
@@ -25,8 +25,6 @@ namespace Wallone.Authorization.ViewModels
                     break;
                 case "Back":
                     _regionManager.RequestNavigate("ContentRegion", "Confirm");
-                    break;
-                default:
                     break;
             }
         }

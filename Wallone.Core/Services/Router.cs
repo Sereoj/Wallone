@@ -4,6 +4,7 @@
     {
         public static string domainExample { get; set; } = "https://example.com";
         public static string domainApi { get; set; }
+
         public static string domain { get; set; }
         //public static string domainApi = "http://v3.w2me.ru/public/api";
         //public static string domain = "http://v3.w2me.ru";
@@ -17,6 +18,7 @@
         {
             domain = value;
         }
+
         public static string OnlyNameDomainApi()
         {
             return domainApi.Replace("https://", null).Replace("http://", null);

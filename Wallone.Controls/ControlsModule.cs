@@ -1,5 +1,7 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
+using Wallone.Controls.ViewModels;
+using Wallone.Controls.Views;
 
 namespace Wallone.Controls
 {
@@ -11,11 +13,11 @@ namespace Wallone.Controls
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<Views.LoadingControl, ViewModels.LoadingViewModel>(); //Загрузка данных
-            containerRegistry.RegisterForNavigation<Views.NoNetworkControl, ViewModels.NoNetworkViewModel>(); //Соединение
-            containerRegistry.RegisterForNavigation<Views.NoConnectServer, ViewModels.NoConnectServerViewModel>(); //Сервер
-            containerRegistry.RegisterForNavigation<Views.UpdateControl, ViewModels.UpdateViewModel>(); //Обновление
-            containerRegistry.RegisterForNavigation<Views.NoItemControl, ViewModels.NoItemViewModel>(); //Нет результата
+            containerRegistry.RegisterForNavigation<LoadingControl, LoadingViewModel>(); //Загрузка данных
+            containerRegistry.RegisterForNavigation<NoNetworkControl, NoNetworkViewModel>(); //Соединение
+            containerRegistry.RegisterForNavigation<NoConnectServer, NoConnectServerViewModel>(); //Сервер
+            containerRegistry.RegisterForNavigation<UpdateControl, UpdateViewModel>(); //Обновление
+            containerRegistry.RegisterForNavigation<NoItemControl, NoItemViewModel>(); //Нет результата
         }
     }
 }
