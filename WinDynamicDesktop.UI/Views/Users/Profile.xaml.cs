@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using WinDynamicDesktop.UI.Services;
 
-namespace WinDynamicDesktop.UI.Views
+namespace WinDynamicDesktop.UI.Views.Users
 {
     /// <summary>
     /// Логика взаимодействия для Profile.xaml

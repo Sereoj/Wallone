@@ -7,9 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
+    xmlns:controls="clr-namespace:WinDynamicDesktop.UI.ViewModels.Controls"
     MinWidth="400"
     MinHeight="200"
-    d:DataContext="{d:DesignInstance Type=viewmodels:ImagePreviewViewModel,
+    d:DataContext="{d:DesignInstance Type=controls:ImagePreviewViewModel,
                                      IsDesignTimeCreatable=True}"
     prism:ViewModelLocator.AutoWireViewModel="True"
     SizeChanged="UserControl_SizeChanged"

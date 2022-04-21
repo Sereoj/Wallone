@@ -1,184 +1,22 @@
-﻿using Newtonsoft.Json;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Services;
+using WinDynamicDesktop.UI.ViewModels.Controls;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Users
 {
-    public class ProfileViewModelItems : BindableBase
-    {
-        private string name;
-        public string Name { get => name; set => SetProperty(ref name, value); }
-
-        private ImageSource cover;
-        public ImageSource Cover { get => cover; set => SetProperty(ref cover, value); }
-
-        private ImageSource avatar;
-        public ImageSource Avatar { get => avatar; set => SetProperty(ref avatar, value); }
-
-        private string description;
-        public string Description { get => description; set => SetProperty(ref description, value); }
-
-        private string subscribers;
-        public string Subscribers { get => subscribers; set => SetProperty(ref subscribers, value); }
-        private string subscriptions;
-        public string Subscriptions { get => subscriptions; set => SetProperty(ref subscriptions, value); }
-        private string likes;
-        public string Likes { get => likes; set => SetProperty(ref likes, value); }
-
-        private string publish;
-        public string Publish { get => publish; set => SetProperty(ref publish, value); }
-
-        public ProfileViewModelItems()
-        {
-
-        }
-    }
-
-    public class ProfileViewModelActions : BindableBase
-    {
-        private string actionText;
-        public string ActionText { get => actionText; set => SetProperty(ref actionText, value); }
-        private string actionStatus;
-        public string ActionStatus
-        {
-            get => actionStatus;
-            set
-            {
-                SetProperty(ref actionStatus, value);
-                ActionText = value != "true" ? "Отписка" : "Подписка";
-            }
-        }
-
-        private bool isEnableSub;
-        public bool IsEnableSub
-        {
-            get { return isEnableSub; }
-            set { SetProperty(ref isEnableSub, value); }
-        }
-
-        private bool isEnableEditProfile;
-        public bool IsEnableEditProfile
-        {
-            get { return isEnableEditProfile; }
-            set { SetProperty(ref isEnableEditProfile, value); }
-        }
-
-        private bool isEnableFacebook = false;
-        public bool IsEnableFacebook
-        {
-            get { return isEnableFacebook; }
-            set { SetProperty(ref isEnableFacebook, value); }
-        }
-
-        private bool isEnableGithub = false;
-        public bool IsEnableGithub
-        {
-            get { return isEnableGithub; }
-            set { SetProperty(ref isEnableGithub, value); }
-        }
-
-        private bool isEnableTwitter = false;
-        public bool IsEnableTwitter
-        {
-            get { return isEnableTwitter; }
-            set { SetProperty(ref isEnableTwitter, value); }
-        }
-
-        private bool isEnableVK = false;
-        public bool IsEnableVK
-        {
-            get { return isEnableVK; }
-            set { SetProperty(ref isEnableVK, value); }
-        }
-
-
-        private string titlePosts = "Опубликованные посты";
-        public string TitlePosts
-        {
-            get { return titlePosts; }
-            set { SetProperty(ref titlePosts, value); }
-        }
-
-        private bool isPosts;
-        public bool IsPosts
-        {
-            get { return isPosts; }
-            set
-            {
-                SetProperty(ref isPosts, value);
-                IsEmptyPosts = value == false;
-                TitlePosts = value == true ? "Опубликованные посты" : "Постов не существует";
-            }
-        }
-
-        private bool isEmptyPosts;
-        public bool IsEmptyPosts
-        {
-            get { return isEmptyPosts; }
-            set => SetProperty(ref isEmptyPosts, value);
-        }
-
-        private bool isMyProfile;
-        public bool IsMyProfile
-        {
-            get { return isMyProfile; }
-            set
-            {
-                SetProperty(ref isMyProfile, value);
-                if (value == true)
-                {
-                    IsEnableFacebook = false;
-                    IsEnableTwitter = false;
-                    IsEnableGithub = false;
-                    IsEnableVK = false;
-                }
-                else
-                {
-                    IsEnableFacebook = ProfileService.GetFacebook() != null;
-                    IsEnableTwitter = ProfileService.GetTwitter() != null;
-                    IsEnableGithub = ProfileService.GetGithub() != null;
-                    IsEnableVK = ProfileService.GetVK() != null;
-                }
-            }
-        }
-
-        private bool isEnableIcons;
-        public bool IsEnableIcons
-        {
-            get => isEnableIcons;
-            set
-            {
-                SetProperty(ref isEnableIcons, value);
-            }
-        }
-
-        private bool isEnableText = true;
-        public bool IsEnableText
-        {
-            get => isEnableText;
-            set
-            {
-                SetProperty(ref isEnableText, value);
-            }
-        }
-
-        public ProfileViewModelActions()
-        {
-
-        }
-    }
     public class ProfileViewModel : BindableBase, INavigationAware
     {
 

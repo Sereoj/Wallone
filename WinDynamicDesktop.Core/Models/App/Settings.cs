@@ -6,6 +6,14 @@ namespace WinDynamicDesktop.Core.Models.App
 {
     public class Settings : BindableBase, ISettings
     {
+
+        private string readme;
+        public string README
+        {
+            get { return readme; }
+            set { SetProperty(ref readme, value); }
+        }
+
         //Город
         private string location;
         public string Location

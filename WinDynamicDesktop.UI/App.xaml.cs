@@ -8,7 +8,14 @@ using WinDynamicDesktop.Controls;
 using WinDynamicDesktop.Core;
 using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.UI.Controls;
+using WinDynamicDesktop.UI.ViewModels.Controls;
+using WinDynamicDesktop.UI.ViewModels.Exceptions;
+using WinDynamicDesktop.UI.ViewModels.Users;
+using WinDynamicDesktop.UI.ViewModels.Wallpapers;
 using WinDynamicDesktop.UI.Views;
+using WinDynamicDesktop.UI.Views.Exceptions;
+using WinDynamicDesktop.UI.Views.Users;
+using WinDynamicDesktop.UI.Views.Wallpapers;
 
 namespace WinDynamicDesktop.UI
 {
@@ -25,23 +32,23 @@ namespace WinDynamicDesktop.UI
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<Main>();
-            containerRegistry.RegisterForNavigation<Indicator, ViewModels.IndicatorViewModel>();
-            containerRegistry.RegisterForNavigation<Uploader, ViewModels.UploaderViewModel>();
+            containerRegistry.RegisterForNavigation<Indicator, IndicatorViewModel>();
+            containerRegistry.RegisterForNavigation<Uploader, UploaderViewModel>();
 
-            containerRegistry.RegisterForNavigation<Article, ViewModels.ArticleViewModel>();
-            containerRegistry.RegisterForNavigation<ArticleMedium, ViewModels.ArticleViewModel>();
+            containerRegistry.RegisterForNavigation<Article, ArticleViewModel>();
+            containerRegistry.RegisterForNavigation<ArticleMedium, ArticleViewModel>();
 
-            containerRegistry.RegisterForNavigation<NotFound, ViewModels.NotFoundViewModel>();
+            containerRegistry.RegisterForNavigation<NotFound, NotFoundViewModel>();
 
-            containerRegistry.RegisterForNavigation<Wallpapers, ViewModels.WallpapersViewModel>();
+            containerRegistry.RegisterForNavigation<Wallpapers, WallpapersViewModel>();
 
-            containerRegistry.RegisterForNavigation<Profile, ViewModels.ProfileViewModel>();
-            containerRegistry.RegisterForNavigation<Account, ViewModels.AccountViewModel>();
+            containerRegistry.RegisterForNavigation<Profile, ProfileViewModel>();
+            containerRegistry.RegisterForNavigation<Account, AccountViewModel>();
             containerRegistry.RegisterForNavigation<Settings, ViewModels.SettingsViewModel>();
 
-            containerRegistry.RegisterForNavigation<SinglePage, ViewModels.SinglePageViewModel>();
-            containerRegistry.RegisterForNavigation<ImagePreview, ViewModels.ImagePreviewViewModel>();
-            containerRegistry.RegisterForNavigation<InformationArticle, ViewModels.InformationArticleViewModel>();
+            containerRegistry.RegisterForNavigation<SinglePage, SinglePageViewModel>();
+            containerRegistry.RegisterForNavigation<ImagePreview, ImagePreviewViewModel>();
+            containerRegistry.RegisterForNavigation<InformationArticle, InformationArticleViewModel>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {

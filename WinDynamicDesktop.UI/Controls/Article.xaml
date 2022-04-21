@@ -8,9 +8,10 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
+    xmlns:controls="clr-namespace:WinDynamicDesktop.UI.ViewModels.Controls"
     Width="270"
     Height="210"
-    d:DataContext="{d:DesignInstance Type=viewmodels:ArticleViewModel}"
+    d:DataContext="{d:DesignInstance Type=controls:ArticleViewModel}"
     SnapsToDevicePixels="True"
     mc:Ignorable="d">
     <UserControl.Resources>

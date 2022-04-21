@@ -1,16 +1,16 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.UI.Services;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Controls
 {
     public class ImagePreviewViewModel : BindableBase, INavigationAware
     {

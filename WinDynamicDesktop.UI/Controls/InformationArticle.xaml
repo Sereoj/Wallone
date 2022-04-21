@@ -8,7 +8,8 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
-    d:DataContext="{d:DesignInstance Type=viewmodels:InformationArticleViewModel,
+    xmlns:controls="clr-namespace:WinDynamicDesktop.UI.ViewModels.Controls"
+    d:DataContext="{d:DesignInstance Type=controls:InformationArticleViewModel,
                                      IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
     <UserControl.Resources>
@@ -172,7 +173,7 @@
                             </ui:ItemsRepeater.Layout>
 
                             <ui:ItemsRepeater.ItemTemplate>
-                                <DataTemplate DataType="{x:Type viewmodels:ItemTemplateViewModel}">
+                                <DataTemplate DataType="{x:Type controls:ItemTemplateViewModel}">
                                     <TextBlock Style="{StaticResource P}" Text="{Binding Text}" />
                                 </DataTemplate>
                             </ui:ItemsRepeater.ItemTemplate>
@@ -193,7 +194,7 @@
                             </ui:ItemsRepeater.Layout>
 
                             <ui:ItemsRepeater.ItemTemplate>
-                                <DataTemplate DataType="{x:Type viewmodels:ItemTemplateViewModel}">
+                                <DataTemplate DataType="{x:Type controls:ItemTemplateViewModel}">
                                     <TextBlock Style="{StaticResource P}" Text="{Binding Text}" />
                                 </DataTemplate>
                             </ui:ItemsRepeater.ItemTemplate>

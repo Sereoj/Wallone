@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WinDynamicDesktop.UI.Views
+namespace WinDynamicDesktop.UI.Views.Users
 {
     /// <summary>
     /// Логика взаимодействия для Account.xaml

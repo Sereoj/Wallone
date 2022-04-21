@@ -1,18 +1,19 @@
-﻿using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Prism.Events;
+using Prism.Mvvm;
+using Prism.Regions;
 using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Interfaces;
+using WinDynamicDesktop.UI.ViewModels.Controls;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Wallpapers
 {
     public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {

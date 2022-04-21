@@ -1,7 +1,7 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Exceptions
 {
     public class NotFoundViewModel : BindableBase, INavigationAware
     {

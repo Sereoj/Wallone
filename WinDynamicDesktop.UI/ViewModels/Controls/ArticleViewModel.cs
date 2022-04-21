@@ -1,10 +1,10 @@
-﻿using Prism.Commands;
+﻿using System.Windows.Input;
+using System.Windows.Media.Imaging;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Controls
 {
     public class ArticleViewModel : BindableBase, INavigationAware
     {

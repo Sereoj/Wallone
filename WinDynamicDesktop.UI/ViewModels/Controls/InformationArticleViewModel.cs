@@ -1,12 +1,11 @@
-﻿using ModernWpf.Controls;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using WinDynamicDesktop.Core.Builders;
 using WinDynamicDesktop.Core.Controllers;
 using WinDynamicDesktop.Core.Helpers;
@@ -14,97 +13,8 @@ using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Services;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Controls
 {
-    public class SinglePageItemsViewModel : BindableBase
-    {
-        private string name;
-        public string Name { get => name; set => SetProperty(ref name, value); }
-
-        //Имя пользователя
-        private string username;
-        public string Username { get => username; set => SetProperty(ref username, value); }
-
-        //Аватар
-        private ImageSource avatar;
-        public ImageSource Avatar { get => avatar; set => SetProperty(ref avatar, value); }
-
-        //Дата публикации
-        private string date;
-        public string Date { get => date; set => SetProperty(ref date, value); }
-
-        //Бренд
-        private string brand;
-        public string Brand { get => brand; set => SetProperty(ref brand, value); }
-
-        private string description;
-        public string Description { get => description; set => SetProperty(ref description, value); }
-
-        private string likes;
-        public string Likes { get => likes; set => SetProperty(ref likes, value); }
-
-        private string views;
-        public string Views { get => views; set => SetProperty(ref views, value); }
-
-        private string downloads;
-        public string Downloads { get => downloads; set => SetProperty(ref downloads, value); }
-    }
-
-    public class SinglePageLogicViewModel : BindableBase
-    {
-        private string displayTextInstall;
-        public string DisplayTextInstall { get => displayTextInstall; set => SetProperty(ref displayTextInstall, value); }
-
-        private FontIcon displayTextFavorite;
-        public FontIcon DisplayTextFavorite { get => displayTextFavorite; set => SetProperty(ref displayTextFavorite, value); }
-
-        private FontIcon displayTextReation;
-        public FontIcon DisplayTextReation { get => displayTextReation; set => SetProperty(ref displayTextReation, value); }
-
-
-        private bool isInstalled;
-        public bool IsInstalled
-        {
-            get => isInstalled;
-            set
-            {
-                SetProperty(ref isInstalled, value);
-                DisplayTextInstall = value == true ? "Удалить" : "Установить";
-            }
-        }
-
-        private bool isEnableInstalled = true;
-        public bool IsEnableInstalled { get => isEnableInstalled; set => SetProperty(ref isEnableInstalled, value); }
-
-        private bool isFavorited;
-        public bool IsFavorited
-        {
-            get => isFavorited;
-            set
-            {
-                SetProperty(ref isFavorited, value);
-                DisplayTextFavorite = value == true ? FontIconService.SetIcon("ultimate", "\uECB7") : FontIconService.SetIcon("ultimate", "\uECB8");
-            }
-        }
-
-        private bool isEnableFavorited = true;
-        public bool IsEnableFavorited { get => isEnableFavorited; set => SetProperty(ref isEnableFavorited, value); }
-
-        private bool isLiked;
-        public bool IsLiked
-        {
-            get => isLiked;
-            set
-            {
-                SetProperty(ref isLiked, value);
-                DisplayTextReation = value == true ? FontIconService.SetIcon("ultimate", "\uECE9") : FontIconService.SetIcon("ultimate", "\uECEA");
-            }
-        }
-
-        private bool isEnableLiked = true;
-        public bool IsEnableLiked { get => isEnableLiked; set => SetProperty(ref isEnableLiked, value); }
-    }
-
     public class InformationArticleViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;

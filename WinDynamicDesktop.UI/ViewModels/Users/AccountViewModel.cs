@@ -1,16 +1,16 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.Core.Models;
 using WinDynamicDesktop.Core.Services;
 using WinDynamicDesktop.UI.Services;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Users
 {
     public class AccountViewModel : BindableBase, INavigationAware
     {

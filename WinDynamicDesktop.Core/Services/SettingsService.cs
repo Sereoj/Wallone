@@ -35,6 +35,8 @@ namespace WinDynamicDesktop.Core.Services
         //Ручное сохранение
         public static void Save()
         {
+            Settings.README = "!!Это файл настроек, пожалуйста не удаляйте и не изменяйте его!!";
+
             File.WriteAllText(file, JsonConvert.SerializeObject(Settings, Formatting.Indented));
         }
         //Проверка на первый запуск

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:WinDynamicDesktop.UI.ViewModels"
     Title="{Binding Title}"
@@ -21,5 +22,12 @@
     mc:Ignorable="d">
     <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <tb:TaskbarIcon
+            x:Name="myNotifyIcon"
+            IconSource="/favicon.ico"
+            MenuActivation="LeftOrRightClick"
+            PopupActivation="DoubleClick"
+            ToolTipText="Fallback ToolTip for Windows xp"
+            Visibility="Visible" />
     </Grid>
 </Window>

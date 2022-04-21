@@ -1,11 +1,11 @@
-﻿using Microsoft.Win32;
+﻿using System.Windows.Media;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Windows.Media;
 using WinDynamicDesktop.Core.Helpers;
 using WinDynamicDesktop.UI.Services;
 
-namespace WinDynamicDesktop.UI.ViewModels
+namespace WinDynamicDesktop.UI.ViewModels.Controls
 {
     public class UploaderViewModel : BindableBase
     {

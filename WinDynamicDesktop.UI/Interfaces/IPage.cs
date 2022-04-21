@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using WinDynamicDesktop.UI.ViewModels;
+using WinDynamicDesktop.UI.ViewModels.Controls;
 
 namespace WinDynamicDesktop.UI.Interfaces
 {
