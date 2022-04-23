@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -109,7 +111,9 @@ namespace Wallone.UI.ViewModels.Controls
             }
             else
             {
-                Text = "Произошла ошибка";
+                FrontImageSource = new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+                transitionTimer.Stop();
+                Text = "Неловкая ситуация =(";
                 isEnable = false;
             }
         }
@@ -121,6 +125,7 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            transitionTimer.Stop();
         }
 
         private void onNext()
