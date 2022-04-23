@@ -1,6 +1,4 @@
-# WinDynamicDesktop
-
-Clone WinDynamicDesktop t1m0thyj/WinDynamicDesktop
+# Wallone
 
 > Проект создается в образовательных целях. Название проекта и основа взята с оригинала.
 
