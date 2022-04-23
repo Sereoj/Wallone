@@ -58,7 +58,8 @@
                         Margin="0,10,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Text="{Binding Name, TargetNullValue='User'}"
+                        ui:ControlHelper.PlaceholderText="User"
+                        Text="{Binding Name, Mode=TwoWay}"
                         UndoLimit="100" />
                     <TextBlock
                         Margin="0,10,0,5"
@@ -71,7 +72,8 @@
                         MaxHeight="35"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top"
-                        Text="{Binding Email, TargetNullValue='user@w2me.ru'}"
+                        ui:ControlHelper.PlaceholderText="user@w2me.ru"
+                        Text="{Binding Email, Mode=TwoWay}"
                         UndoLimit="100" />
                     <TextBlock
                         Margin="0,10,0,5"
