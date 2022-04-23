@@ -75,13 +75,21 @@ namespace Wallone.UI.ViewModels.Users
         public ImageSource Avatar
         {
             get => avatar;
-            set => SetProperty(ref avatar, value);
+            set
+            {
+                SetProperty(ref avatar, value);
+                RaisePropertyChanged();
+            }
         }
 
         public ImageSource Cover
         {
             get => cover;
-            set => SetProperty(ref cover, value);
+            set
+            {
+                SetProperty(ref cover, value);
+                RaisePropertyChanged();
+            }
         }
 
         public DateTime? DOB

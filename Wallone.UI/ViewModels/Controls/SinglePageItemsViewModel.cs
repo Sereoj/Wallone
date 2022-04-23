@@ -41,7 +41,11 @@ namespace Wallone.UI.ViewModels.Controls
         public ImageSource Avatar
         {
             get => avatar;
-            set => SetProperty(ref avatar, value);
+            set
+            {
+                SetProperty(ref avatar, value);
+                RaisePropertyChanged();
+            }
         }
 
         public string Date

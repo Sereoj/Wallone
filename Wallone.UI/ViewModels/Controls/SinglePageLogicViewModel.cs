@@ -48,6 +48,7 @@ namespace Wallone.UI.ViewModels.Controls
             set
             {
                 SetProperty(ref isInstalled, value);
+                RaisePropertyChanged();
                 DisplayTextInstall = value ? "Удалить" : "Установить";
             }
         }
@@ -64,6 +65,7 @@ namespace Wallone.UI.ViewModels.Controls
             set
             {
                 SetProperty(ref isFavorited, value);
+                RaisePropertyChanged();
                 DisplayTextFavorite =
                     value
                         ? FontIconService.SetIcon("ultimate", "\uECB7")
@@ -83,6 +85,7 @@ namespace Wallone.UI.ViewModels.Controls
             set
             {
                 SetProperty(ref isLiked, value);
+                RaisePropertyChanged();
                 DisplayTextReation =
                     value
                         ? FontIconService.SetIcon("ultimate", "\uECE9")

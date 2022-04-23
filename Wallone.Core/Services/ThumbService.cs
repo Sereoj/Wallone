@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 
 namespace Wallone.Core.Services
@@ -33,6 +37,38 @@ namespace Wallone.Core.Services
         public static bool CheckItems(List<Thumb> items)
         {
             return items != null;
+        }
+
+        public static bool IsNotNull(List<Thumb> items)
+        {
+            return items != null;
+        }
+
+        public static bool IsIDNotNull(string ID)
+        {
+            return ID != null;
+        }
+
+        public static string ValidateName(string name)
+        {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);
+        }
+
+        public static string ValidateViews(string views)
+        {
+            return views ?? "0";
+
+        }
+        public static string ValidateDownloads(string downloads)
+        {
+            return downloads ?? "0";
+        }
+
+        public static BitmapImage ValidatePreview(Uri uri)
+        {
+            return uri == null
+                ? new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"))
+                : new BitmapImage(uri);
         }
     }
 }

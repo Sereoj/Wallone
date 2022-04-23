@@ -114,6 +114,8 @@ namespace Wallone.UI.ViewModels.Users
             set
             {
                 SetProperty(ref isMyProfile, value);
+                RaisePropertyChanged();
+
                 if (value)
                 {
                     IsEnableFacebook = false;

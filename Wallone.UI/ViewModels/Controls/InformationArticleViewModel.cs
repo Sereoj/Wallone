@@ -97,7 +97,7 @@ namespace Wallone.UI.ViewModels.Controls
                 var themeBuilder = await new ThemeBuilder<ThemeCreatedBuilder>()
                     .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
                     .SetName(simplePage.name)
-                    .CreateModel(simplePage.images) //Создаем модель данных
+                    .CreateModel(simplePage.Links) //Создаем модель данных
                     .HasNotInstalled(SinglePageLogic.IsInstalled) //Если не установлена, прооходим проверку
                     .ExistOrCreateDirectory() // Если папка существует или не создана
                     .Remove() //Если существует и статус false, то удалить
@@ -170,7 +170,7 @@ namespace Wallone.UI.ViewModels.Controls
             var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
                 .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
                 .SetName(simplePage.name)
-                .HasNotInstalled(SinglePageService.GetInstall()); //Если не установлена, прооходим проверку
+                .HasNotInstalled(true); //Если не установлена, прооходим проверку
 
             SinglePageLogic.IsFavorited = SinglePageService.GetFavorite();
             SinglePageLogic.IsLiked = SinglePageService.GetReaction();

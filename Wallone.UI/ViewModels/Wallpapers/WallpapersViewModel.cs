@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Prism.Events;
@@ -87,13 +88,13 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .Query(new PageGallaryBuilder()) //Говорим, что gallery
                 .Catalog(root) //Устанввливам каталог
                 .Page(page_id) //Устанавливаем страницу
+                .Pagination("1")
                 .Validate() //Валидация полученных значений
                 .ShowAds(false) //Отображение рекламы
                 .Build(); //Сборка
 
             router = pageBuilder.GetRouter();
             parameters = pageBuilder.GetFields();
-
             Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
 
         }
@@ -108,7 +109,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
             {
                 SetProperty(ref header, value);
                 //При изменении заголовка обновлять контент
-                Loaded(null, router, parameters);
+
+                if(router == "wallpapers" || parameters.Count > 0)
+                {
+                    Loaded(null, router, parameters);
+                }
                 router = null;
                 parameters = null;
             }
@@ -122,6 +127,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 IsLoading = true;
 
                 var items = await ThumbService.GetThumbsAsync(router, page, parameters);
+                Trace.WriteLine("Количество постов: "+  items.Count);
+                await Task.Delay(100);
                 await LoadImages(items);
 
                 IsLoading = false;
@@ -139,30 +146,24 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         private async Task LoadImages(List<Thumb> items)
         {
-            if (ThumbService.CheckItems(items))
+            if(ThumbService.IsNotNull(items))
             {
                 foreach (var item in items)
                 {
-                    Library.Add(new ArticleViewModel(regionManager)
+                    if(ThumbService.IsIDNotNull(item.ID))
                     {
-                        ID = item.ID,
-                        Name = item.Name,
-                        ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
-                        Views = item.Views,
-                        Downloads = item.Downloads
-                    });
-                    await Task.CompletedTask;
+                        Library.Add(new ArticleViewModel(regionManager)
+                        {
+                            ID = item.ID,
+                            Name = ThumbService.ValidateName(item.Name),
+                            ImageSource = ThumbService.ValidatePreview(UriHelper.Get(item.Preview)),
+                            Views = ThumbService.ValidateViews(item.Views),
+                            Downloads = ThumbService.ValidateDownloads(item.Downloads)
+                        });
+                    }
                 }
             }
-            else
-            {
-                var param = new NavigationParameters
-                {
-                    {"Text", "Это не ошибка, просто не найдены изображения!"}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
-            }
+            await Task.CompletedTask;
         }
     }
 }

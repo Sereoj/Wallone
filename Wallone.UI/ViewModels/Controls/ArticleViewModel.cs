@@ -30,7 +30,11 @@ namespace Wallone.UI.ViewModels.Controls
         public BitmapImage ImageSource
         {
             get => imageSource;
-            set => SetProperty(ref imageSource, value);
+            set
+            {
+                SetProperty(ref imageSource, value);
+                RaisePropertyChanged();
+            }
         }
 
         public string Name

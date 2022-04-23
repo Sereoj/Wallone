@@ -58,13 +58,21 @@ namespace Wallone.UI.ViewModels.Controls
         public ImageSource FrontImageSource
         {
             get => frontImageSource;
-            set => SetProperty(ref frontImageSource, value);
+            set
+            {
+                SetProperty(ref frontImageSource, value);
+                RaisePropertyChanged();
+            }
         }
 
         public ImageSource BackImageSource
         {
             get => backImageSource;
-            set => SetProperty(ref backImageSource, value);
+            set
+            {
+                SetProperty(ref backImageSource, value);
+                RaisePropertyChanged();
+            }
         }
 
         public string Text
