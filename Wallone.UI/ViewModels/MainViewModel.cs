@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using ModernWpf.Controls;
 using Prism.Commands;
@@ -62,7 +63,15 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            regionManager.RequestNavigate("PageRegion", "Wallpapers");
+            var param = new NavigationParameters
+            {
+                {"Root", "Gallery"},
+                {"Page", ""},
+                {"ID", "Main"},
+                {"Text", "Библиотека"}
+            };
+
+            regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -88,6 +97,8 @@ namespace Wallone.UI.ViewModels
                 {"ID", e.InvokedItemContainer.Uid},
                 {"Text", text}
             };
+
+            Trace.WriteLine(param);
 
             switch (e.InvokedItemContainer.Tag.ToString())
             {

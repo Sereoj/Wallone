@@ -35,6 +35,16 @@ namespace Wallone.Core.Builders
             return this;
         }
 
+        public IPageBulder Pagination(string id)
+        {
+            if(id != null)
+            {
+                Fileds.Add(new Parameter("page", id));
+            }
+
+            return this;
+        }
+
         public IPageBulder Validate()
         {
             switch (catalog)

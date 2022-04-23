@@ -86,17 +86,12 @@ namespace Wallone.UI.Services
 
         public static bool GetReaction()
         {
-            return simplePage?.reaction == "true";
+            return simplePage?.hasLike == "true";
         }
 
         public static bool GetFavorite()
         {
-            return simplePage?.favorite == "true";
-        }
-
-        public static bool GetInstall()
-        {
-            return simplePage?.install == "true";
+            return simplePage?.hasFavorite == "true";
         }
 
         public static List<Thumb> GetPosts()
@@ -116,24 +111,24 @@ namespace Wallone.UI.Services
             return items;
         }
 
-        public static Task<SinglePage> SetDownloadAsync(string install)
+        public static Task<SinglePage> SetDownloadAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate {download = install});
+                new SinglePageUpdate {hasDownload = value });
             return items;
         }
 
-        public static Task<SinglePage> SetFavoriteAsync(string favorite)
+        public static Task<SinglePage> SetFavoriteAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate {favorite = favorite});
+                new SinglePageUpdate {hasFavorite = value });
             return items;
         }
 
-        public static Task<SinglePage> SetReactionAsync(string reaction)
+        public static Task<SinglePage> SetReactionAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate {reaction = reaction});
+                new SinglePageUpdate {hasLike = value });
             return items;
         }
     }

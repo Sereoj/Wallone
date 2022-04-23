@@ -12,7 +12,7 @@ namespace Wallone.Core.Builders
     //Созданная тема, где пользователь может скачать, установить, удалить.
     public class ThemeCreatedBuilder : IThemeCreatedBuilder
     {
-        private List<Images> Images;
+        private List<Link> Images;
         private static bool ThemeHasNotInstalled { get; set; }
         private static bool ThemeHasNotFavorited { get; set; }
         private static bool ThemeHasNotLiked { get; set; }
@@ -53,29 +53,26 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        public ThemeCreatedBuilder CreateModel(List<Images> images)
+        public ThemeCreatedBuilder CreateModel(List<Link> images)
         {
             if (Images == null) Images = images;
             return this;
         }
-
         // Скачать тему
         public async Task<ThemeCreatedBuilder> Download()
         {
-            if (ThemeHasNotInstalled)
+            if (ThemeHasNotInstalled && Images != null)
             {
                 foreach (var item in Images)
                 {
                     var wb = new WebClient();
 
-                    var replaced_link = item.location.Replace("images/carousel_", "uploads/");
-                    var filename = item.location.Replace("/public/storage/images/carousel_", "");
-
+                    var filename = ThemeName + "_" + item.name + "." + item.format;
                     var currentWallpaper = Path.Combine(ThemePath, filename);
-                    await wb.DownloadFileTaskAsync(UriHelper.Get(replaced_link), currentWallpaper);
-                }
 
-                await Task.CompletedTask;
+                    await wb.DownloadFileTaskAsync(UriHelper.Get(item.location), currentWallpaper);
+                    await Task.Delay(100);
+                }
             }
 
             return this;

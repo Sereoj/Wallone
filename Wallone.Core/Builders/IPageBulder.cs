@@ -22,6 +22,7 @@ namespace Wallone.Core.Builders
         public IPageBulder ShowAds(bool value);
         public IPageBulder Catalog(string root);
         public IPageBulder Page(string id);
+        public IPageBulder Pagination(string id);
 
         public string GetCatalog();
         public string GetPage();

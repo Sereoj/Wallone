@@ -2,8 +2,8 @@
 {
     public class SinglePageUpdate
     {
-        public string favorite { get; set; } = "";
-        public string reaction { get; set; } = "";
-        public string download { get; set; } = "";
+        public string hasDownload { get; set; } = "";
+        public string hasLike { get; set; } = "";
+        public string hasFavorite { get; set; } = "";
     }
 }

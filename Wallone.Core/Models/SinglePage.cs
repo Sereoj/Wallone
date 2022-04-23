@@ -15,9 +15,9 @@ namespace Wallone.Core.Models
         public Brand brand { get; set; }
         public string preview { get; set; }
         public List<Images> images { get; set; }
-        public string favorite { get; set; }
-        public string install { get; set; }
-        public string reaction { get; set; }
+        public List<Link> Links { get; set; }
+        public string hasLike { get; set; }
+        public string hasFavorite { get; set; }
         public User user { get; set; }
         public string download { get; set; }
         public List<Thumb> posts { get; set; }

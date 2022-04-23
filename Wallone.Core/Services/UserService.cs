@@ -58,7 +58,7 @@ namespace Wallone.Core.Services
         {
             var items = RequestRouter<string, Register>.PostAsync("register",
                 new Register
-                    {name = name, email = email, password = password, password_confirmation = password_confirmation});
+                    {username = name, email = email, password = password, password_confirmation = password_confirmation});
             return items;
         }
 
