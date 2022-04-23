@@ -17,6 +17,7 @@ using Prism.Diagnostics;
 
 using System;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Newtonsoft.Json;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -57,8 +58,20 @@ namespace Wallone.Authorization.ViewModels
             Header = "Wallone";
 
             LoadData();
+
+            ehternetTimer = new DispatcherTimer(DispatcherPriority.Send)
+            {
+                Interval = TimeSpan.FromSeconds(5)
+            };
+            ehternetTimer.Tick += (s, e) =>
+            {
+                LoadData();
+            };
+
+            ehternetTimer.Start();
         }
 
+        private readonly DispatcherTimer ehternetTimer;
         public UpdateViewModel UpdateViewModel { get; set; } = new UpdateViewModel();
         public NoConnectServerViewModel NoConnectServerViewModel { get; set; } = new NoConnectServerViewModel();
 
@@ -145,6 +158,8 @@ namespace Wallone.Authorization.ViewModels
 
                 if (statusServer)
                 {
+                    ehternetTimer.Stop();
+
                     var data = await AppVersionService.GetVersionAsync();
                     var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
 
