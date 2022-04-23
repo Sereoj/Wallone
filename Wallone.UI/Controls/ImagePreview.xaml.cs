@@ -17,7 +17,6 @@ namespace Wallone.UI.Controls
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Trace.WriteLine("C: " + ActualWidth);
         }
     }
 }

@@ -115,9 +115,14 @@ namespace Wallone.UI.ViewModels.Controls
                 SinglePageLogic.IsInstalled = themeController.GetValueInstall();
                 SinglePageLogic.IsEnableInstalled = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception();
+                var param = new NavigationParameters
+                {
+                    {"Text", ex.Message}
+                };
+
+                regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
         }
 

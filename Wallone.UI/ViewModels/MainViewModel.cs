@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using ModernWpf.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -18,8 +19,6 @@ namespace Wallone.UI.ViewModels
         private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
 
         private int footerHeight;
-
-        private string text;
 
         public MainViewModel()
         {
@@ -52,7 +51,7 @@ namespace Wallone.UI.ViewModels
             get => footerHeight;
             set => SetProperty(ref footerHeight, value);
         }
-
+        private string text = "This is text";
         public string Text
         {
             get => text;
@@ -79,6 +78,8 @@ namespace Wallone.UI.ViewModels
         private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)
         {
             var text = e.InvokedItemContainer.Content;
+
+            Text = Text;
 
             var param = new NavigationParameters
             {
@@ -112,7 +113,8 @@ namespace Wallone.UI.ViewModels
             {
                 var items = await BrandsService.GetBrandAsync(null);
 
-                foreach (var item in items)
+                foreach (var item in items.Where(item => item.Status))
+                {
                     Brands.Add(new NavigationViewItem
                     {
                         Uid = item.ID,
@@ -121,6 +123,7 @@ namespace Wallone.UI.ViewModels
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Brands"
                     });
+                }
             }
             catch (Exception ex)
             {
@@ -139,7 +142,8 @@ namespace Wallone.UI.ViewModels
             {
                 var items = await CategoriesService.GetCategoryAsync(null);
 
-                foreach (var item in items)
+                foreach (var item in items.Where(item => item.Status))
+                {
                     Categories.Add(new NavigationViewItem
                     {
                         Uid = item.ID,
@@ -148,6 +152,7 @@ namespace Wallone.UI.ViewModels
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Categories"
                     });
+                }
             }
             catch (Exception ex)
             {

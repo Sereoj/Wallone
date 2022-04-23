@@ -28,6 +28,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         private bool isLoading = true;
 
+        private string router;
+        private List<Parameter> parameters;
+
         public WallpapersViewModel()
         {
             Library.Add(new ArticleViewModel(regionManager));
@@ -88,10 +91,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .ShowAds(false) //Отображение рекламы
                 .Build(); //Сборка
 
-            Trace.WriteLine(pageBuilder.GetRouter());
+            router = pageBuilder.GetRouter();
+            parameters = pageBuilder.GetFields();
 
             Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
-            Loaded(null, pageBuilder.GetRouter(), pageBuilder.GetFields());
+
         }
 
         public ObservableCollection<ArticleViewModel> Library { get; set; } =
@@ -100,7 +104,14 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public string Header
         {
             get => header;
-            set => SetProperty(ref header, value);
+            set
+            {
+                SetProperty(ref header, value);
+                //При изменении заголовка обновлять контент
+                Loaded(null, router, parameters);
+                router = null;
+                parameters = null;
+            }
         }
 
         public async void Loaded(string page, string router, List<Parameter> parameters)

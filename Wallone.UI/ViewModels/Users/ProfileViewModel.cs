@@ -114,7 +114,7 @@ namespace Wallone.UI.ViewModels.Users
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            //throw new System.NotImplementedException();
+            GC.Collect(2);
         }
 
         private void OnSizeChanged(SizeChangedEventArgs e)
@@ -212,6 +212,7 @@ namespace Wallone.UI.ViewModels.Users
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
+            GC.Collect(1, GCCollectionMode.Forced);
         }
 
         private void update(Profile data)

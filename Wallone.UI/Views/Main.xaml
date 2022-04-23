@@ -4,9 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:viewmodels="clr-namespace:Wallone.UI.ViewModels"
+    x:Name="UserControl"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="900"
@@ -15,19 +18,42 @@
     Loaded="UserControl_Loaded"
     SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Thickness x:Key="NavigationViewHeaderMargin">12,0</Thickness>
+    </UserControl.Resources>
     <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
+
         <!--  DialogRegion  -->
         <ContentControl prism:RegionManager.RegionName="DialogRegion" />
         <!--  NavigationView  -->
         <ui:NavigationView
             x:Name="NavigationView"
+            Margin="0"
+            Padding="0"
             IsBackButtonVisible="Collapsed"
-            IsPaneOpen="False"
+            IsBackEnabled="False"
+            IsPaneOpen="True"
             IsPaneToggleButtonVisible="True"
             IsSettingsVisible="True"
-            IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="False"
-            OpenPaneLength="240">
+            PaneDisplayMode="LeftCompact">
+            <ui:NavigationView.Header>
+                <WrapPanel VerticalAlignment="Center">
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        FontSize="16"
+                        Text="" />
+                </WrapPanel>
+            </ui:NavigationView.Header>
+            <ui:NavigationView.PaneHeader>
+                <WrapPanel VerticalAlignment="Center">
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        FontSize="16"
+                        Foreground="White"
+                        Text="Wallone" />
+                </WrapPanel>
+            </ui:NavigationView.PaneHeader>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
                     x:Uid="Main"
@@ -98,26 +124,7 @@
             </i:Interaction.Triggers>
             <!--  Page Content  -->
             <ui:NavigationView.Content>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition
-                            Height="auto"
-                            MinHeight="0"
-                            MaxHeight="{Binding FooterHeight}" />
-                    </Grid.RowDefinitions>
-                    <!--  ScrollViewer для контента  -->
-                    <ContentControl
-                        Grid.Row="0"
-                        MinWidth="600"
-                        prism:RegionManager.RegionName="PageRegion" />
-                    <!--  ProgressRing для загрузки контента  -->
-                    <ui:ProgressRing
-                        Grid.Row="1"
-                        Foreground="#FF404040"
-                        IsActive="True" />
-                    <TextBlock Grid.Row="1" Text="{Binding Text}" />
-                </Grid>
+                <ContentControl MinWidth="600" prism:RegionManager.RegionName="PageRegion" />
             </ui:NavigationView.Content>
         </ui:NavigationView>
     </Grid>
