@@ -34,6 +34,8 @@ namespace Wallone.Authorization.ViewModels
      */
     public class LoadViewModel : BindableBase, INavigationAware
     {
+        private readonly DispatcherTimer ehternetTimer;
+        private readonly IRegionManager regionManager;
         private string header;
 
         private bool isConnect;
@@ -45,7 +47,6 @@ namespace Wallone.Authorization.ViewModels
         private bool isUpdate;
 
         private string message;
-        private readonly IRegionManager regionManager;
 
         public LoadViewModel()
         {
@@ -63,15 +64,11 @@ namespace Wallone.Authorization.ViewModels
             {
                 Interval = TimeSpan.FromSeconds(5)
             };
-            ehternetTimer.Tick += (s, e) =>
-            {
-                LoadData();
-            };
+            ehternetTimer.Tick += (s, e) => { LoadData(); };
 
             ehternetTimer.Start();
         }
 
-        private readonly DispatcherTimer ehternetTimer;
         public UpdateViewModel UpdateViewModel { get; set; } = new UpdateViewModel();
         public NoConnectServerViewModel NoConnectServerViewModel { get; set; } = new NoConnectServerViewModel();
 
@@ -159,6 +156,7 @@ namespace Wallone.Authorization.ViewModels
                 if (statusServer)
                 {
                     ehternetTimer.Stop();
+                    IsLoading = true;
 
                     var data = await AppVersionService.GetVersionAsync();
                     var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
@@ -195,6 +193,11 @@ namespace Wallone.Authorization.ViewModels
                         else
                             regionManager.RequestNavigate("ContentRegion", "Login");
                     }
+                    else
+                    {
+                        IsLoading = false;
+                        SetMessage("Доступно обновление..");
+                    }
                 }
                 else
                 {
@@ -202,6 +205,7 @@ namespace Wallone.Authorization.ViewModels
                     SetMessage("Нет соединения c " + Router.OnlyNameDomainApi());
                 }
             }
+
             GC.Collect(2);
         }
     }
