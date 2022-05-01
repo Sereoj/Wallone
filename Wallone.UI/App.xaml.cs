@@ -93,7 +93,6 @@ namespace Wallone.UI
             if (themeExist)
             {
                 var controller = new ThemeController();
-                controller.Set(theme.GetModel());
 
             }
         }

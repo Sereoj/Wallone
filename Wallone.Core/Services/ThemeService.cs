@@ -6,5 +6,11 @@
         {
             return SettingsService.Get().Current;
         }
+
+        public static void SetCurrentName(string name)
+        {
+            SettingsService.Get().Current = name;
+            SettingsService.Save();
+        }
     }
 }

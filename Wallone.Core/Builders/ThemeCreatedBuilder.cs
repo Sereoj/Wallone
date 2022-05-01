@@ -194,7 +194,16 @@ namespace Wallone.Core.Builders
         public bool Exist()
         {
             ThemePath = GetThemePath();
-            return ThemeHasDownloaded && AppSettingsService.GetUseForFolders() == "name" && ThemePath != null && AppSettingsService.ExistDirectory(ThemePath);
+
+            if (AppSettingsService.GetUseForFolders() == "name")
+            {
+                if (ThemePath != null && AppSettingsService.ExistDirectory(ThemePath))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public ThemeCreatedBuilder ExistOrCreateDirectory()

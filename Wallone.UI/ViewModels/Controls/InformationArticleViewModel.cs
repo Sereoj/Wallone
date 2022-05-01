@@ -113,9 +113,22 @@ namespace Wallone.UI.ViewModels.Controls
                     .Save()
                     .Build();
 
+                if (builder.Exist())
+                {
+                    SinglePageLogic.IsEnableInstalled = true;
+                }
+                else
+                {
+                    SinglePageLogic.IsInstalled = false;
+                    SinglePageLogic.IsEnableInstalled = false;
+                }
+
+
                 var data =
                     await SinglePageService.SetDownloadAsync(
                         AppConvert.BoolToString(builder.GetHasNotDownloaded()));
+
+
 
                 Update(data);
                 SinglePageLogic.IsDownloaded = builder.GetHasNotDownloaded();
@@ -136,16 +149,24 @@ namespace Wallone.UI.ViewModels.Controls
         {
             SinglePageLogic.IsEnableInstalled = false;
 
-            var builder = themeBuilder
+            ThemeCreatedBuilder builder = themeBuilder
                 .HasInstalled(SinglePageLogic.IsInstalled);
 
-            if (SinglePageLogic.IsInstalled)
+            ThemeController theme = new ThemeController();
+
+            if (builder.GetHasNotInstalled())
             {
-                //SettingsService.Get().Current = themeBuilder.GetTitle
+                ThemeService.SetCurrentName(SinglePageService.GetHeader());
+
+                theme.Set(ThemeService.GetCurrentName());
+            }
+            else
+            {
+                ThemeService.SetCurrentName(null);
             }
 
+            SinglePageLogic.IsInstalled = builder.GetHasNotInstalled();
 
-            SinglePageLogic.IsInstalled = themeBuilder.GetHasNotInstalled();
             SinglePageLogic.IsEnableInstalled = true;
         }
 
@@ -201,12 +222,14 @@ namespace Wallone.UI.ViewModels.Controls
             {
                 SinglePageLogic.IsDownloaded = true;
 
+                SinglePageLogic.IsEnableInstalled = true;
                 SinglePageLogic.IsInstalled = AppFormat.Compare(ThemeService.GetCurrentName(), themeName);
             }
             else
             {
                 SinglePageLogic.IsDownloaded = false;
                 SinglePageLogic.IsInstalled = false;
+                SinglePageLogic.IsEnableInstalled = false;
             }
 
             Trace.WriteLine("(LOAD)Theme Favorited: " + SinglePageLogic.IsFavorited);

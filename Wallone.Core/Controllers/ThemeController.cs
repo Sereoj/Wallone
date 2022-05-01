@@ -8,9 +8,9 @@ namespace Wallone.Core.Controllers
 {
     public class ThemeController
     {
-
-        public void Set(Theme theme)
+        public void Set(string name)
         {
+            
         }
 
         public void Get()
