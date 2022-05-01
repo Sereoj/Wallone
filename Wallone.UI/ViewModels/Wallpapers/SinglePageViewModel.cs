@@ -179,6 +179,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
+
             GC.Collect(1, GCCollectionMode.Forced);
         }
 

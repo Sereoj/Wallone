@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
@@ -19,7 +18,6 @@
     SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Thickness x:Key="NavigationViewHeaderMargin">12,0</Thickness>
     </UserControl.Resources>
     <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
 
@@ -69,7 +67,7 @@
                     Tag="Gallery" />
                 <!--  Categories  -->
                 <ui:NavigationViewItem
-                    x:Uid="Categories"
+                    x:Uid="CategoriesCollection"
                     Content="Категории"
                     Icon="GlobalNavigationButton"
                     MenuItemsSource="{Binding Categories}"

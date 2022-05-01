@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace Wallone.Core.Models
 {
@@ -11,5 +10,12 @@ namespace Wallone.Core.Models
         public string location { get; set; }
         public string format { get; set; }
         public string resolution { get; set; }
+    }
+
+    public class Image
+    {
+        public string id { get; set; }
+        public string type { get; set; }
+        public string location { get; set; }
     }
 }

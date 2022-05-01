@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using ModernWpf.Controls;
 using Wallone.Core.Services;
 
 namespace Wallone.UI.Views
@@ -26,53 +27,43 @@ namespace Wallone.UI.Views
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
             if (ActualWidth <= 680)
             {
-                if (ActualHeight <= 550)
-                {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.LeftMinimal;
-                }
-                else
-                {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.LeftMinimal;
-                }
+                NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
             }
-            else if(ActualWidth >= 680 && ActualWidth < 800)
+            else if (ActualWidth >= 680 && ActualWidth < 800)
             {
                 if (ActualHeight <= 550)
                 {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.LeftMinimal;
+                    NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
                 }
                 else
                 {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.LeftCompact;
+                    NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
                     NavigationView.IsPaneOpen = false;
                 }
-
             }
             else if (ActualWidth >= 800 && ActualWidth < 1024)
             {
                 if (ActualHeight <= 550)
                 {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.LeftMinimal;
+                    NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
                 }
                 else
                 {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.LeftCompact;
+                    NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftCompact;
                     NavigationView.IsPaneOpen = false;
                 }
-
             }
             else if (ActualWidth > 1024)
             {
                 if (ActualHeight <= 550)
                 {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.LeftMinimal;
+                    NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.LeftMinimal;
                 }
                 else
                 {
-                    NavigationView.PaneDisplayMode = ModernWpf.Controls.NavigationViewPaneDisplayMode.Left;
+                    NavigationView.PaneDisplayMode = NavigationViewPaneDisplayMode.Left;
                     NavigationView.IsPaneOpen = true;
                 }
             }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -20,6 +20,7 @@ namespace Wallone.UI.ViewModels.Controls
         private readonly BitmapHelper bitmapHelper;
         private readonly IRegionManager regionManager;
         private SinglePage simplePage;
+        private ThemeCreatedBuilder themeBuilder;
 
         public InformationArticleViewModel()
         {
@@ -32,21 +33,24 @@ namespace Wallone.UI.ViewModels.Controls
             bitmapHelper = new BitmapHelper();
 
             ProfileCommand = new DelegateCommand(OnProfileClicked);
-            InstallCommand = new DelegateCommand(OnThemeInstalled);
-            FavoriteCommand = new DelegateCommand(OnThemeFavorited);
-            ReactionCommand = new DelegateCommand(OnReaction);
+            DownloadCommand = new DelegateCommand(OnDownloadClicked);
+            InstallCommand = new DelegateCommand(OnInstallClicked);
+            FavoriteCommand = new DelegateCommand(OnFavoriteClicked);
+            ReactionCommand = new DelegateCommand(OnReactionClicked);
         }
 
         public SinglePageItemsViewModel SinglePageItemsViewModel { get; set; } = new SinglePageItemsViewModel();
         public SinglePageLogicViewModel SinglePageLogic { get; set; } = new SinglePageLogicViewModel();
 
-        public ObservableCollection<ItemTemplateViewModel> Categories { get; set; } =
+        public ObservableCollection<ItemTemplateViewModel> CategoriesCollection { get; set; } =
             new ObservableCollection<ItemTemplateViewModel>();
 
-        public ObservableCollection<ItemTemplateViewModel> Tags { get; set; } =
+        public ObservableCollection<ItemTemplateViewModel> TagsCollection { get; set; } =
             new ObservableCollection<ItemTemplateViewModel>();
 
         public DelegateCommand ProfileCommand { get; set; }
+
+        public DelegateCommand DownloadCommand { get; set; }
         public DelegateCommand InstallCommand { get; set; }
         public DelegateCommand FavoriteCommand { get; set; }
         public DelegateCommand ReactionCommand { get; set; }
@@ -89,31 +93,33 @@ namespace Wallone.UI.ViewModels.Controls
             regionManager.RequestNavigate("PageRegion", "Profile", param);
         }
 
-        private async void OnThemeInstalled()
+        private async void OnDownloadClicked()
         {
             try
             {
-                SinglePageLogic.IsEnableInstalled = false;
-                var themeBuilder = await new ThemeBuilder<ThemeCreatedBuilder>()
-                    .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                    .SetName(simplePage.name)
-                    .CreateModel(simplePage.Links) //Создаем модель данных
-                    .HasNotInstalled(SinglePageLogic.IsInstalled) //Если не установлена, прооходим проверку
+                SinglePageLogic.IsEnableDownloaded = false;
+
+                Trace.WriteLine("Theme Download: " + SinglePageLogic.IsDownloaded);
+
+                var builder = await themeBuilder
+                    .HasDownloaded() //Если не установлена, проходим проверку
                     .ExistOrCreateDirectory() // Если папка существует или не создана
                     .Remove() //Если существует и статус false, то удалить
-                    .Download(); //Разрешение на скачивание
+                    .ImageDownload(); //Разрешение на скачивание
 
-                themeBuilder.Build();
-                var themeController = new ThemeController(themeBuilder);
-                themeController.SetWallpaper();
+                await builder.PreviewDownloadAsync();
 
-                SinglePage data =
+                builder.CreateModel()
+                    .Save()
+                    .Build();
+
+                var data =
                     await SinglePageService.SetDownloadAsync(
-                        AppConvert.BoolToString(themeController.GetValueInstall()));
+                        AppConvert.BoolToString(builder.GetHasNotDownloaded()));
 
-                update(data);
-                SinglePageLogic.IsInstalled = themeController.GetValueInstall();
-                SinglePageLogic.IsEnableInstalled = true;
+                Update(data);
+                SinglePageLogic.IsDownloaded = builder.GetHasNotDownloaded();
+                SinglePageLogic.IsEnableDownloaded = true;
             }
             catch (Exception ex)
             {
@@ -126,111 +132,138 @@ namespace Wallone.UI.ViewModels.Controls
             }
         }
 
-        private async void OnThemeFavorited()
+        private void OnInstallClicked()
+        {
+            SinglePageLogic.IsEnableInstalled = false;
+
+            var builder = themeBuilder
+                .HasInstalled(SinglePageLogic.IsInstalled);
+
+            if (SinglePageLogic.IsInstalled)
+            {
+                //SettingsService.Get().Current = themeBuilder.GetTitle
+            }
+
+
+            SinglePageLogic.IsInstalled = themeBuilder.GetHasNotInstalled();
+            SinglePageLogic.IsEnableInstalled = true;
+        }
+
+        private async void OnFavoriteClicked()
         {
             SinglePageLogic.IsEnableFavorited = false;
+            Trace.WriteLine("Favorite");
+            themeBuilder
+                .HasFavorited(SinglePageLogic.IsFavorited)
+                .Build();
 
-            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
-                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .HasNotFavorited(SinglePageLogic.IsFavorited); //Если не установлена, проходим проверку
+            var data =
+                await SinglePageService.SetFavoriteAsync(AppConvert.BoolToString(themeBuilder.GetHasNotFavorited()));
 
-            //Закидываем выполненные настройки в контроллер для отображения данных
-            var themeController = new ThemeController(themeBuilder);
+            SinglePageLogic.IsFavorited = themeBuilder.GetHasNotFavorited();
 
-            SinglePage data =
-                await SinglePageService.SetFavoriteAsync(AppConvert.BoolToString(themeController.GetValueFavorite()));
-            update(data);
+            Update(data);
 
-            SinglePageLogic.IsFavorited = themeController.GetValueFavorite();
             SinglePageLogic.IsEnableFavorited = true;
         }
 
-        private async void OnReaction()
+        private async void OnReactionClicked()
         {
             SinglePageLogic.IsEnableLiked = false;
 
-            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
-                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .HasNotLiked(SinglePageLogic.IsLiked); //Если не установлена, проходим проверку
+            Trace.WriteLine("Like");
 
-            //Закидываем выполненные настройки в контроллер для отображения данных
-            var themeController = new ThemeController(themeBuilder);
+            themeBuilder
+                .HasNotLiked(SinglePageLogic.IsLiked)
+                .Build();
 
-            SinglePage data =
-                await SinglePageService.SetReactionAsync(AppConvert.BoolToString(themeController.GetValueReaction()));
-            update(data);
+            var data =
+                await SinglePageService.SetReactionAsync(AppConvert.BoolToString(themeBuilder.GetHasNotLiked()));
 
-            SinglePageLogic.IsLiked = themeController.GetValueReaction();
+            Update(data);
+
+            SinglePageLogic.IsLiked = themeBuilder.GetHasNotLiked();
             SinglePageLogic.IsEnableLiked = true;
         }
 
 
-        private async void setStatusForButtons()
+        private void setStatusForButtons()
         {
-            var themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
-                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .SetName(simplePage.name)
-                .HasNotInstalled(true); //Если не установлена, прооходим проверку
-
             SinglePageLogic.IsFavorited = SinglePageService.GetFavorite();
             SinglePageLogic.IsLiked = SinglePageService.GetReaction();
 
-            var theme = themeBuilder.GetThemePath();
-            SinglePageLogic.IsInstalled = AppSettingsService.ExistDirectory(theme);
+            var themeName = themeBuilder.GetName();
+            var themePath =  themeBuilder.GetThemePath();
 
-            SinglePage data =
-                await SinglePageService.SetDownloadAsync(AppConvert.BoolToString(SinglePageLogic.IsInstalled)); // true
-            update(data); // update ui
+            Trace.WriteLine("(LOAD)Theme path:  " + themePath);
+
+            if (AppSettingsService.ExistDirectory(themePath))
+            {
+                SinglePageLogic.IsDownloaded = true;
+
+                SinglePageLogic.IsInstalled = AppFormat.Compare(ThemeService.GetCurrentName(), themeName);
+            }
+            else
+            {
+                SinglePageLogic.IsDownloaded = false;
+                SinglePageLogic.IsInstalled = false;
+            }
+
+            Trace.WriteLine("(LOAD)Theme Favorited: " + SinglePageLogic.IsFavorited);
+            Trace.WriteLine("(LOAD)Theme Liked: " + SinglePageLogic.IsLiked);
+
+            Trace.WriteLine("(LOAD)Theme Downloaded: " + SinglePageLogic.IsDownloaded);
+            Trace.WriteLine("(LOAD)Theme Installed: " + SinglePageLogic.IsInstalled);
         }
 
         private async void tags(List<Tag> list)
         {
-            Tags.Clear();
+            TagsCollection.Clear();
 
             if (list != null)
             {
                 foreach (var item in list)
                 {
-                    Tags.Add(new ItemTemplateViewModel {Text = item.name});
+                    TagsCollection.Add(new ItemTemplateViewModel {Text = item.name});
                     await Task.CompletedTask;
                 }
             }
             else
             {
-                Tags.Add(new ItemTemplateViewModel {Text = "Unknown"});
+                TagsCollection.Add(new ItemTemplateViewModel {Text = "Unknown"});
                 await Task.CompletedTask;
             }
         }
 
         private async void categories(List<Category> list)
         {
-            Categories.Clear();
+            CategoriesCollection.Clear();
 
             if (list != null)
             {
                 foreach (var item in list)
                 {
-                    Categories.Add(new ItemTemplateViewModel {Text = item.Name});
+                    CategoriesCollection.Add(new ItemTemplateViewModel {Text = item.Name});
                     await Task.CompletedTask;
                 }
             }
             else
             {
-                Categories.Add(new ItemTemplateViewModel {Text = "Unknown"});
+                CategoriesCollection.Add(new ItemTemplateViewModel {Text = "Unknown"});
                 await Task.CompletedTask;
             }
         }
 
-        private void update(SinglePage data)
+        private void Update(SinglePage data)
         {
             SinglePageItemsViewModel.Views = data?.views ?? simplePage.views;
             SinglePageItemsViewModel.Likes = data?.likes ?? simplePage.likes;
-            SinglePageItemsViewModel.Downloads = data?.downloads ?? simplePage.likes;
+            SinglePageItemsViewModel.Downloads = data?.downloads ?? simplePage.downloads;
         }
 
         public void Loaded()
         {
-            //SinglePageItems
+            SettingsService.Load();
 
             SinglePageItemsViewModel.Name = SinglePageService.GetHeader();
             SinglePageItemsViewModel.Username = SinglePageService.GetUsername();
@@ -243,7 +276,14 @@ namespace Wallone.UI.ViewModels.Controls
 
             if (SinglePageService.GetAvatar() != null)
                 SinglePageItemsViewModel.Avatar =
-                    (ImageSource) bitmapHelper[UriHelper.Get(SinglePageService.GetAvatar())];
+                    bitmapHelper[UriHelper.Get(SinglePageService.GetAvatar())];
+
+            Trace.WriteLine("(LOAD)Theme Name: " + simplePage.name);
+
+            themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
+                .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
+                .SetName(AppFormat.Format(simplePage.name))
+                .SetImages(simplePage.Links);
 
             categories(SinglePageService.GetCategories());
             tags(SinglePageService.GetTags());

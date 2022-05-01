@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -20,6 +18,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
     public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
+        private readonly IEventAggregator eventAggregator;
 
         private string header = "Библиотека";
 
@@ -28,19 +27,20 @@ namespace Wallone.UI.ViewModels.Wallpapers
         private bool isInternet;
 
         private bool isLoading = true;
+        private List<Parameter> parameters;
 
         private string router;
-        private List<Parameter> parameters;
 
         public WallpapersViewModel()
         {
-            Library.Add(new ArticleViewModel(regionManager));
-            Library.Add(new ArticleViewModel(regionManager));
+            Library.Add(new ArticleViewModel(null));
+            Library.Add(new ArticleViewModel(null));
         }
 
         public WallpapersViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             this.regionManager = regionManager;
+            this.eventAggregator = eventAggregator;
         }
 
         public bool IsLoading
@@ -96,7 +96,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
             router = pageBuilder.GetRouter();
             parameters = pageBuilder.GetFields();
             Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
-
         }
 
         public ObservableCollection<ArticleViewModel> Library { get; set; } =
@@ -110,10 +109,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 SetProperty(ref header, value);
                 //При изменении заголовка обновлять контент
 
-                if(router == "wallpapers" || parameters.Count > 0)
-                {
-                    Loaded(null, router, parameters);
-                }
+                if (router == "wallpapers" || parameters.Count > 0) Loaded(null, router, parameters);
                 router = null;
                 parameters = null;
             }
@@ -125,10 +121,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
             try
             {
                 IsLoading = true;
-
+                Trace.WriteLine("Router: " + router + "|Page: " + page);
                 var items = await ThumbService.GetThumbsAsync(router, page, parameters);
-                Trace.WriteLine("Количество постов: "+  items.Count);
-                await Task.Delay(100);
+                Trace.WriteLine("Количество постов: " + items.Count);
                 await LoadImages(items);
 
                 IsLoading = false;
@@ -146,12 +141,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         private async Task LoadImages(List<Thumb> items)
         {
-            if(ThumbService.IsNotNull(items))
-            {
+            if (ThumbService.IsNotNull(items))
                 foreach (var item in items)
-                {
-                    if(ThumbService.IsIDNotNull(item.ID))
-                    {
+                    if (ThumbService.IsIDNotNull(item.ID))
                         Library.Add(new ArticleViewModel(regionManager)
                         {
                             ID = item.ID,
@@ -160,9 +152,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                             Views = ThumbService.ValidateViews(item.Views),
                             Downloads = ThumbService.ValidateDownloads(item.Downloads)
                         });
-                    }
-                }
-            }
             await Task.CompletedTask;
         }
     }

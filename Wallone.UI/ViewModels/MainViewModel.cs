@@ -20,6 +20,7 @@ namespace Wallone.UI.ViewModels
         private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
 
         private int footerHeight;
+        private string text = "This is text";
 
         public MainViewModel()
         {
@@ -52,7 +53,7 @@ namespace Wallone.UI.ViewModels
             get => footerHeight;
             set => SetProperty(ref footerHeight, value);
         }
-        private string text = "This is text";
+
         public string Text
         {
             get => text;
@@ -122,10 +123,9 @@ namespace Wallone.UI.ViewModels
         {
             try
             {
-                var items = await BrandsService.GetBrandAsync(null);
+                var items = await BrandsService.GetBrandAsync();
 
                 foreach (var item in items.Where(item => item.Status))
-                {
                     Brands.Add(new NavigationViewItem
                     {
                         Uid = item.ID,
@@ -134,7 +134,6 @@ namespace Wallone.UI.ViewModels
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Brands"
                     });
-                }
             }
             catch (Exception ex)
             {
@@ -151,19 +150,17 @@ namespace Wallone.UI.ViewModels
         {
             try
             {
-                var items = await CategoriesService.GetCategoryAsync(null);
+                var items = await CategoriesService.GetCategoryAsync();
 
                 foreach (var item in items.Where(item => item.Status))
-                {
                     Categories.Add(new NavigationViewItem
                     {
                         Uid = item.ID,
                         Content = item.Name,
                         Name = item.Tag != null ? item.Tag.ToLower() : "walllpapers",
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
-                        Tag = "Categories"
+                        Tag = "CategoriesCollection"
                     });
-                }
             }
             catch (Exception ex)
             {

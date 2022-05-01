@@ -6,23 +6,27 @@ namespace Wallone.UI.ViewModels.Controls
 {
     public class SinglePageLogicViewModel : BindableBase
     {
+        private string displayTextDownload;
         private FontIcon displayTextFavorite;
         private string displayTextInstall;
 
         private FontIcon displayTextReation;
+        private bool isDownloaded;
 
+        private bool isEnableDownloaded = true;
         private bool isEnableFavorited = true;
-
         private bool isEnableInstalled = true;
-
         private bool isEnableLiked = true;
 
         private bool isFavorited;
-
-
         private bool isInstalled;
-
         private bool isLiked;
+
+        public string DisplayTextDownload
+        {
+            get => displayTextDownload;
+            set => SetProperty(ref displayTextDownload, value);
+        }
 
         public string DisplayTextInstall
         {
@@ -42,6 +46,17 @@ namespace Wallone.UI.ViewModels.Controls
             set => SetProperty(ref displayTextReation, value);
         }
 
+        public bool IsDownloaded
+        {
+            get => isDownloaded;
+            set
+            {
+                SetProperty(ref isDownloaded, value);
+                RaisePropertyChanged();
+                DisplayTextDownload = value ? "Удалить" : "Загрузить";
+            }
+        }
+
         public bool IsInstalled
         {
             get => isInstalled;
@@ -49,14 +64,8 @@ namespace Wallone.UI.ViewModels.Controls
             {
                 SetProperty(ref isInstalled, value);
                 RaisePropertyChanged();
-                DisplayTextInstall = value ? "Удалить" : "Установить";
+                DisplayTextInstall = value ? "Выключить" : "Включить";
             }
-        }
-
-        public bool IsEnableInstalled
-        {
-            get => isEnableInstalled;
-            set => SetProperty(ref isEnableInstalled, value);
         }
 
         public bool IsFavorited
@@ -73,12 +82,6 @@ namespace Wallone.UI.ViewModels.Controls
             }
         }
 
-        public bool IsEnableFavorited
-        {
-            get => isEnableFavorited;
-            set => SetProperty(ref isEnableFavorited, value);
-        }
-
         public bool IsLiked
         {
             get => isLiked;
@@ -91,6 +94,24 @@ namespace Wallone.UI.ViewModels.Controls
                         ? FontIconService.SetIcon("ultimate", "\uECE9")
                         : FontIconService.SetIcon("ultimate", "\uECEA");
             }
+        }
+
+        public bool IsEnableDownloaded
+        {
+            get => isEnableDownloaded;
+            set => SetProperty(ref isEnableDownloaded, value);
+        }
+
+        public bool IsEnableInstalled
+        {
+            get => isEnableInstalled;
+            set => SetProperty(ref isEnableInstalled, value);
+        }
+
+        public bool IsEnableFavorited
+        {
+            get => isEnableFavorited;
+            set => SetProperty(ref isEnableFavorited, value);
         }
 
         public bool IsEnableLiked

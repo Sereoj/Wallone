@@ -43,7 +43,7 @@ namespace Wallone.UI.Views.Wallpapers
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             Trace.WriteLine("H: " + ActualHeight);
-            Trace.WriteLine("W: " +  ActualWidth);
+            Trace.WriteLine("W: " + ActualWidth);
         }
     }
 }

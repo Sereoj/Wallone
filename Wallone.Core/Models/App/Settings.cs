@@ -6,6 +6,7 @@ namespace Wallone.Core.Models.App
 {
     public class Settings : BindableBase, ISettings
     {
+        private string current;
         private string email;
 
         [NonSerialized] private string host;
@@ -48,6 +49,12 @@ namespace Wallone.Core.Models.App
         {
             get => prefix;
             set => SetProperty(ref prefix, value);
+        }
+
+        public string Current
+        {
+            get => current;
+            set => SetProperty(ref current, value);
         }
 
         public string Theme

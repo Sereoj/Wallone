@@ -7,6 +7,11 @@ using Wallone.Common;
 using Wallone.Controls;
 using Wallone.Core;
 using Wallone.Core.Builders;
+using Wallone.Core.Controllers;
+using Wallone.Core.Helpers;
+using Wallone.Core.Interfaces;
+using Wallone.Core.Models;
+using Wallone.Core.Services;
 using Wallone.UI.Controls;
 using Wallone.UI.ViewModels;
 using Wallone.UI.ViewModels.Controls;
@@ -17,6 +22,8 @@ using Wallone.UI.Views;
 using Wallone.UI.Views.Exceptions;
 using Wallone.UI.Views.Users;
 using Wallone.UI.Views.Wallpapers;
+using Profile = Wallone.UI.Views.Users.Profile;
+using SinglePage = Wallone.UI.Views.Wallpapers.SinglePage;
 
 namespace Wallone.UI
 {
@@ -54,16 +61,21 @@ namespace Wallone.UI
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            new AppSettingsBuilder()
-                .Query(new AppPathBulder()
+            moduleCatalog.AddModule<CoreModule>();
+            moduleCatalog.AddModule<CommonModule>();
+            moduleCatalog.AddModule<ControlsModule>();
+            moduleCatalog.AddModule<AuthorizationModule>();
+
+            var app = new AppSettingsBuilder()
+                .Query(new AppPathBuilder()
                     .AppLocation(Directory.GetCurrentDirectory())
+                    .Build())
+                .Query(new SettingsBuilder()
+                    .UpdateOrCreateFile("app.settings")
                     .Build())
                 .Query(new ThemePathBuilder()
                     .ExistOrCreateDirectory("themes")
                     .UseForFolders("name")
-                    .Build())
-                .Query(new SettingsBuilder()
-                    .UpdateOrCreateFile("app.settings")
                     .Build())
                 .Query(new HostBuilder()
                     .SetHost()
@@ -72,10 +84,18 @@ namespace Wallone.UI
                     .Build()
                 );
 
-            moduleCatalog.AddModule<CoreModule>();
-            moduleCatalog.AddModule<CommonModule>();
-            moduleCatalog.AddModule<ControlsModule>();
-            moduleCatalog.AddModule<AuthorizationModule>();
+            var theme = new ThemeCreatedBuilder()
+                .SetName(AppFormat.Format(ThemeService.GetCurrentName()))
+                .HasDownloaded();
+
+            var themeExist = theme.Exist();
+
+            if (themeExist)
+            {
+                var controller = new ThemeController();
+                controller.Set(theme.GetModel());
+
+            }
         }
     }
 }

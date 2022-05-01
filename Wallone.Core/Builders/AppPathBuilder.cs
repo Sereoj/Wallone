@@ -2,15 +2,15 @@
 
 namespace Wallone.Core.Builders
 {
-    public class AppPathBulder : IAppSettings
+    public class AppPathBuilder : IAppSettings
     {
-        public AppPathBulder AppLocation(string path)
+        public AppPathBuilder AppLocation(string path)
         {
             AppSettingsService.SetAppLocation(path);
             return this;
         }
 
-        public AppPathBulder Build()
+        public AppPathBuilder Build()
         {
             return this;
         }

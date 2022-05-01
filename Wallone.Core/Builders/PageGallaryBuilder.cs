@@ -37,10 +37,7 @@ namespace Wallone.Core.Builders
 
         public IPageBulder Pagination(string id)
         {
-            if(id != null)
-            {
-                Fileds.Add(new Parameter("page", id));
-            }
+            if (id != null) Fileds.Add(new Parameter("page", id));
 
             return this;
         }

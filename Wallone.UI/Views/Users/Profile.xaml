@@ -318,7 +318,6 @@
                                                 Margin="0,0,0,10"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Bottom"
-                                                Cursor="Hand"
                                                 Style="{StaticResource PProfile}"
                                                 Text="Постов"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />

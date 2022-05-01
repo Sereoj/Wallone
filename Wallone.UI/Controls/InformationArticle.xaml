@@ -2,10 +2,10 @@
     x:Class="Wallone.UI.Controls.InformationArticle"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Wallone.UI.ViewModels.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    xmlns:controls="clr-namespace:Wallone.UI.ViewModels.Controls"
     d:DataContext="{d:DesignInstance Type=controls:InformationArticleViewModel,
                                      IsDesignTimeCreatable=True}"
     mc:Ignorable="d">
@@ -164,7 +164,7 @@
                             MinWidth="175"
                             MaxWidth="375"
                             Margin="8,0,0,0"
-                            ItemsSource="{Binding Categories}">
+                            ItemsSource="{Binding CategoriesCollection}">
                             <ui:ItemsRepeater.Layout>
                                 <ui:StackLayout Orientation="Horizontal" Spacing="5" />
                             </ui:ItemsRepeater.Layout>
@@ -185,7 +185,7 @@
                             MinWidth="175"
                             MaxWidth="375"
                             Margin="8,0,0,0"
-                            ItemsSource="{Binding Tags}">
+                            ItemsSource="{Binding TagsCollection}">
                             <ui:ItemsRepeater.Layout>
                                 <ui:StackLayout Orientation="Horizontal" Spacing="5" />
                             </ui:ItemsRepeater.Layout>
@@ -202,18 +202,32 @@
             <StackPanel Grid.Row="3">
                 <ui:GridView Margin="15,10,15,10" Padding="0">
                     <Button
-                        x:Name="Install"
-                        Width="300"
+                        x:Name="Download"
+                        Width="150"
                         Height="50"
                         MinWidth="150"
                         MinHeight="35"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        Command="{Binding DownloadCommand}"
+                        Content="{Binding SinglePageLogic.DisplayTextDownload, FallbackValue=Установить, TargetNullValue=Установить}"
+                        IsEnabled="{Binding SinglePageLogic.IsEnableDownloaded}"
+                        Style="{StaticResource AccentButtonStyle}" />
+                    <Button
+                        x:Name="Load"
+                        Width="150"
+                        Height="50"
+                        MinWidth="150"
+                        MinHeight="35"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         Command="{Binding InstallCommand}"
-                        Content="{Binding SinglePageLogic.DisplayTextInstall, FallbackValue=Установить, TargetNullValue=Установить}"
+                        Content="{Binding SinglePageLogic.DisplayTextInstall, FallbackValue=Включить, TargetNullValue=Включить}"
                         IsEnabled="{Binding SinglePageLogic.IsEnableInstalled}"
                         Style="{StaticResource AccentButtonStyle}" />
                     <Button
+                        x:Name="Favorite"
                         Width="50"
                         Height="50"
                         Margin="10,0,0,0"
@@ -223,6 +237,7 @@
                         IsEnabled="{Binding SinglePageLogic.IsEnableFavorited}"
                         Style="{StaticResource AccentButtonStyle}" />
                     <Button
+                        x:Name="Like"
                         Width="50"
                         Height="50"
                         Margin="10,0,0,0"

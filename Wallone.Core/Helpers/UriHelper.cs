@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using Wallone.Core.Services;
 
 namespace Wallone.Core.Helpers
@@ -21,6 +23,26 @@ namespace Wallone.Core.Helpers
             if (path != null)
                 return path.IsAbsoluteUri ? path : new Uri(Router.domain + path.OriginalString);
             return new Uri(Router.domain);
+        }
+
+        public static string GetUri(string uri, string path , string separator)
+        {
+            if (uri == null || path == null || separator == null) return null;
+            
+            var item = uri.Split(separator).FirstOrDefault();
+            
+            if (string.IsNullOrEmpty(item)) return null;
+            var filename = Path.GetFileName(item);
+            
+            return Path.Combine(path, filename);
+        }
+
+        public static string GetFirstValue(string uri, string separator)
+        {
+            if (uri == null || separator == null) return null;
+            var item = uri.Split(separator).FirstOrDefault();
+            
+            return item;
         }
     }
 }

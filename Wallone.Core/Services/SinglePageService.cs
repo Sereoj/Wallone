@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wallone.Core.Models;
-using Wallone.Core.Services;
 
-namespace Wallone.UI.Services
+namespace Wallone.Core.Services
 {
     public class SinglePageService
     {
@@ -42,6 +41,11 @@ namespace Wallone.UI.Services
             return simplePage?.user?.name ?? "Lorem";
         }
 
+        public static string GetPreview()
+        {
+            return simplePage.preview;
+        }
+
         public static string GetAvatar()
         {
             return simplePage?.user?.avatar;
@@ -50,7 +54,7 @@ namespace Wallone.UI.Services
         public static string GetData()
         {
             return simplePage?.created_at != null
-                ? "Дата публикации: " + DateTime.Parse(simplePage?.created_at).ToShortDateString()
+                ? "Дата публикации: " + DateTime.Parse(simplePage.created_at).ToShortDateString()
                 : "Дата публикации: 01/01/2021";
         }
 
@@ -107,28 +111,28 @@ namespace Wallone.UI.Services
 
         public static Task<string> GetPageAdsAsync()
         {
-            var items = RequestRouter<string>.GetAsync("app/ads", null);
+            var items = RequestRouter<string>.GetAsync("app/ads");
             return items;
         }
 
         public static Task<SinglePage> SetDownloadAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate {hasDownload = value });
+                new SinglePageUpdate {hasDownload = value});
             return items;
         }
 
         public static Task<SinglePage> SetFavoriteAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate {hasFavorite = value });
+                new SinglePageUpdate {hasFavorite = value});
             return items;
         }
 
         public static Task<SinglePage> SetReactionAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate {hasLike = value });
+                new SinglePageUpdate {hasLike = value});
             return items;
         }
     }

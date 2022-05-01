@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -17,6 +16,7 @@ namespace Wallone.UI.ViewModels.Controls
     public class ImagePreviewViewModel : BindableBase, INavigationAware
     {
         private readonly BitmapHelper bitmapHelper;
+        private readonly DispatcherTimer transitionTimer;
 
         private ImageSource backImageSource;
         private ImageSource frontImageSource;
@@ -28,7 +28,6 @@ namespace Wallone.UI.ViewModels.Controls
         private bool startAnimationValue;
 
         private string text;
-        private readonly DispatcherTimer transitionTimer;
 
         public ImagePreviewViewModel()
         {
@@ -119,7 +118,9 @@ namespace Wallone.UI.ViewModels.Controls
             }
             else
             {
-                FrontImageSource = new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+                FrontImageSource =
+                    new BitmapImage(
+                        UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
                 transitionTimer.Stop();
                 Text = "Неловкая ситуация =(";
                 isEnable = false;

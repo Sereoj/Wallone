@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -31,6 +32,7 @@ namespace Wallone.Core.Services
         public static Task<List<Thumb>> GetThumbsInstallAsync(string page, List<Parameter> parameters)
         {
             var items = RequestRouter<List<Thumb>>.GetAsync("wallpapers/install", page, parameters);
+
             return items;
         }
 
@@ -57,8 +59,8 @@ namespace Wallone.Core.Services
         public static string ValidateViews(string views)
         {
             return views ?? "0";
-
         }
+
         public static string ValidateDownloads(string downloads)
         {
             return downloads ?? "0";
@@ -67,7 +69,8 @@ namespace Wallone.Core.Services
         public static BitmapImage ValidatePreview(Uri uri)
         {
             return uri == null
-                ? new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"))
+                ? new BitmapImage(
+                    UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"))
                 : new BitmapImage(uri);
         }
     }
