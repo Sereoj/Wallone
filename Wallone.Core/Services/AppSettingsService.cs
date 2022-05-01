@@ -6,41 +6,46 @@ namespace Wallone.Core.Services
 
     public class AppSettingsService
     {
-        private static readonly AppSettings _appSettings = new AppSettings();
+        private static readonly AppSettings AppSettings;
+
+        static AppSettingsService()
+        {
+            AppSettings = new AppSettings();
+        }
 
         public static AppSettings GetSettings()
         {
-            return _appSettings;
+            return AppSettings;
         }
 
         public static string GetThemesLocation()
         {
-            return _appSettings.ThemePath;
+            return AppSettings.ThemePath;
         }
 
         public static string GetUseForFolders()
         {
-            return _appSettings.UseForFolders;
+            return AppSettings.UseForFolders;
         }
 
         public static string GetAppLocation()
         {
-            return _appSettings.AppPath;
+            return AppSettings.AppPath;
         }
 
         public static void SetAppLocation(string path)
         {
-            _appSettings.AppPath = path;
+            AppSettings.AppPath = path;
         }
 
         public static void SetThemesLocation(string path)
         {
-            _appSettings.ThemePath = path;
+            AppSettings.ThemePath = path;
         }
 
         public static void SetSettingsLocation(string path)
         {
-            _appSettings.SettingsPath = path;
+            AppSettings.SettingsPath = path;
         }
 
         public static void CreateDirectory(string path)
@@ -65,7 +70,7 @@ namespace Wallone.Core.Services
                     break;
             }
 
-            _appSettings.UseForFolders = patten;
+            AppSettings.UseForFolders = patten;
         }
 
         public static bool ExistDirectory(string path)

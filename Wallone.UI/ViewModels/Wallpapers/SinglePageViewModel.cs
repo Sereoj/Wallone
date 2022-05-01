@@ -9,7 +9,6 @@ using Prism.Regions;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
-using Wallone.UI.Services;
 using Wallone.UI.ViewModels.Controls;
 
 namespace Wallone.UI.ViewModels.Wallpapers
@@ -90,12 +89,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
             else
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", "Не найдена страница.."}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                Loaded(id);
             }
         }
 
@@ -129,7 +123,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 SinglePageAds.Text = ex.Message;
             }
         }
-
         public async void Loaded(string id)
         {
             try

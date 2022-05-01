@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Wallone.UI.Views.Wallpapers.Wallpapers"
+    x:Class="Wallone.UI.Views.Wallpapers.DownloadsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Wallone.UI.Controls"
@@ -10,12 +10,11 @@
     xmlns:viewmodels="clr-namespace:Wallone.UI.ViewModels.Controls"
     xmlns:views="clr-namespace:Wallone.Controls.Views;assembly=Wallone.Controls"
     xmlns:wallpapers="clr-namespace:Wallone.UI.ViewModels.Wallpapers"
-    d:DataContext="{d:DesignInstance Type=wallpapers:WallpapersViewModel,
+    d:DataContext="{d:DesignInstance Type=wallpapers:DownloadsPageViewModel,
                                      IsDesignTimeCreatable=True}"
     d:DesignHeight="900"
     d:DesignWidth="960"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -36,11 +35,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
-        <views:NoNetworkControl
-            x:Name="NoNetwork"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
         <ScrollViewer
             x:Name="ScrollViewer"
             IsTabStop="False"

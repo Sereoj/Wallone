@@ -17,8 +17,7 @@
     Loaded="UserControl_Loaded"
     SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
-    <UserControl.Resources>
-    </UserControl.Resources>
+    <UserControl.Resources />
     <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
 
         <!--  DialogRegion  -->
@@ -102,7 +101,7 @@
                     x:Uid="Downloads"
                     Content="Загрузки"
                     Icon="download"
-                    Tag="Gallery" />
+                    Tag="Downloads" />
                 <ui:NavigationViewItem
                     x:Uid="Favourite"
                     Content="Закладки"

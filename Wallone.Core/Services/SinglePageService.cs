@@ -20,6 +20,11 @@ namespace Wallone.Core.Services
                 simplePage = page;
         }
 
+        public static string GetID()
+        {
+            return simplePage.id;
+        }
+
         public static SinglePage GetSimplePage()
         {
             return simplePage;

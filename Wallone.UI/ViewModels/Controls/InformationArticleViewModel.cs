@@ -11,7 +11,6 @@ using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
-using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Controls
 {
@@ -129,7 +128,6 @@ namespace Wallone.UI.ViewModels.Controls
                         AppConvert.BoolToString(builder.GetHasNotDownloaded()));
 
 
-
                 Update(data);
                 SinglePageLogic.IsDownloaded = builder.GetHasNotDownloaded();
                 SinglePageLogic.IsEnableDownloaded = true;
@@ -149,10 +147,10 @@ namespace Wallone.UI.ViewModels.Controls
         {
             SinglePageLogic.IsEnableInstalled = false;
 
-            ThemeCreatedBuilder builder = themeBuilder
+            var builder = themeBuilder
                 .HasInstalled(SinglePageLogic.IsInstalled);
 
-            ThemeController theme = new ThemeController();
+            var theme = new ThemeController();
 
             if (builder.GetHasNotInstalled())
             {
@@ -214,7 +212,7 @@ namespace Wallone.UI.ViewModels.Controls
             SinglePageLogic.IsLiked = SinglePageService.GetReaction();
 
             var themeName = themeBuilder.GetName();
-            var themePath =  themeBuilder.GetThemePath();
+            var themePath = themeBuilder.GetThemePath();
 
             Trace.WriteLine("(LOAD)Theme path:  " + themePath);
 

@@ -25,15 +25,15 @@ namespace Wallone.Core.Helpers
             return new Uri(Router.domain);
         }
 
-        public static string GetUri(string uri, string path , string separator)
+        public static string GetUri(string uri, string path, string separator)
         {
             if (uri == null || path == null || separator == null) return null;
-            
+
             var item = uri.Split(separator).FirstOrDefault();
-            
+
             if (string.IsNullOrEmpty(item)) return null;
             var filename = Path.GetFileName(item);
-            
+
             return Path.Combine(path, filename);
         }
 
@@ -41,7 +41,7 @@ namespace Wallone.Core.Helpers
         {
             if (uri == null || separator == null) return null;
             var item = uri.Split(separator).FirstOrDefault();
-            
+
             return item;
         }
     }

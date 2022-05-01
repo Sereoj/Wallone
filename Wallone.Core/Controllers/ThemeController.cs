@@ -1,8 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Runtime.InteropServices;
-using Wallone.Core.Builders;
-using Wallone.Core.Models;
+﻿using Wallone.Core.Models;
 
 namespace Wallone.Core.Controllers
 {
@@ -10,7 +6,6 @@ namespace Wallone.Core.Controllers
     {
         public void Set(string name)
         {
-            
         }
 
         public void Get()

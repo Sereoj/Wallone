@@ -97,7 +97,6 @@ namespace Wallone.Core.Builders
                 "popular" => "wallpapers/popular",
                 "wait" => "wallpapers/wait",
                 "favourite" => "wallpapers/favorite",
-                "downloads" => "wallpapers/downloads",
                 _ => "wallpapers"
             };
         }

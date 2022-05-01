@@ -9,8 +9,6 @@ using Wallone.Core;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
-using Wallone.Core.Interfaces;
-using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.Controls;
 using Wallone.UI.ViewModels;
@@ -22,8 +20,6 @@ using Wallone.UI.Views;
 using Wallone.UI.Views.Exceptions;
 using Wallone.UI.Views.Users;
 using Wallone.UI.Views.Wallpapers;
-using Profile = Wallone.UI.Views.Users.Profile;
-using SinglePage = Wallone.UI.Views.Wallpapers.SinglePage;
 
 namespace Wallone.UI
 {
@@ -49,6 +45,7 @@ namespace Wallone.UI
             containerRegistry.RegisterForNavigation<NotFound, NotFoundViewModel>();
 
             containerRegistry.RegisterForNavigation<Wallpapers, WallpapersViewModel>();
+            containerRegistry.RegisterForNavigation<DownloadsPage, DownloadsPageViewModel>();
 
             containerRegistry.RegisterForNavigation<Profile, ProfileViewModel>();
             containerRegistry.RegisterForNavigation<Account, AccountViewModel>();
@@ -93,7 +90,6 @@ namespace Wallone.UI
             if (themeExist)
             {
                 var controller = new ThemeController();
-
             }
         }
     }

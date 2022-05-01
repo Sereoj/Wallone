@@ -17,8 +17,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
 {
     public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {
-        private readonly IRegionManager regionManager;
         private readonly IEventAggregator eventAggregator;
+        private readonly IRegionManager regionManager;
 
         private string header = "Библиотека";
 

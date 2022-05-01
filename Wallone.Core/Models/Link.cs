@@ -1,7 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace Wallone.Core.Models
+﻿namespace Wallone.Core.Models
 {
     public class Link
     {

@@ -64,6 +64,12 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+
+            navigationContext.NavigationService.Navigated += NavigationService_Navigated;
+        }
+
+        private void NavigationService_Navigated(object sender, RegionNavigationEventArgs e)
+        {
             var param = new NavigationParameters
             {
                 {"Root", "Gallery"},
@@ -89,8 +95,6 @@ namespace Wallone.UI.ViewModels
         {
             var text = e.InvokedItemContainer.Content;
 
-            Text = Text;
-
             var param = new NavigationParameters
             {
                 {"Root", e.InvokedItemContainer.Tag.ToString()},
@@ -103,6 +107,9 @@ namespace Wallone.UI.ViewModels
 
             switch (e.InvokedItemContainer.Tag.ToString())
             {
+                case "Downloads":
+                    regionManager.RequestNavigate("PageRegion", "DownloadsPage", param);
+                    break;
                 case "Profile":
                     regionManager.RequestNavigate("PageRegion", "Profile", param);
                     break;
@@ -130,7 +137,7 @@ namespace Wallone.UI.ViewModels
                     {
                         Uid = item.ID,
                         Content = item.Name,
-                        Name = item.Tag != null ? item.Tag.ToLower() : "walllpapers",
+                        Name = item.Tag != null ? item.Tag.ToLower() : "wallpapers",
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "Brands"
                     });
@@ -157,7 +164,7 @@ namespace Wallone.UI.ViewModels
                     {
                         Uid = item.ID,
                         Content = item.Name,
-                        Name = item.Tag != null ? item.Tag.ToLower() : "walllpapers",
+                        Name = item.Tag != null ? item.Tag.ToLower() : "wallpapers",
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
                         Tag = "CategoriesCollection"
                     });

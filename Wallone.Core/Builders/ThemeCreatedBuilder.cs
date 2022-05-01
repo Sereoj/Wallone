@@ -1,11 +1,10 @@
 ﻿using System;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
@@ -18,6 +17,9 @@ namespace Wallone.Core.Builders
     //Созданная тема, где пользователь может скачать, установить, удалить.
     public class ThemeCreatedBuilder : IThemeCreatedBuilder
     {
+        private readonly List<Image> images = new List<Image>();
+
+        private List<Link> links;
         private static bool ThemeHasDownloaded { get; set; }
         private static bool ThemeHasInstalled { get; set; }
         private static bool ThemeHasFavorited { get; set; }
@@ -26,9 +28,6 @@ namespace Wallone.Core.Builders
         private static string ThemePath { get; set; }
 
         private static string ThemeThumbFileName { get; set; } = "thumb.jpg";
-
-        private List<Link> links;
-        private readonly List<Image> images = new List<Image>();
 
         private Theme Theme { get; set; }
 
@@ -65,15 +64,16 @@ namespace Wallone.Core.Builders
         {
             return this;
         }
+
         public ThemeCreatedBuilder CreateModel()
         {
             if (AppConvert.Revert(ThemeHasDownloaded))
-            {
                 Theme = new Theme
                 {
+                    ID = GetID(),
                     Name = GetHeader(),
                     User = GetUsername(),
-                    Preview = ThemeThumbFileName,
+                    Preview = new Uri(Path.Combine(ThemePath, ThemeThumbFileName)),
                     Resolution = "Не доступно, отвечает за пользовательские разрешения изображений для мониторов",
                     Views = GetViews(),
                     Downloads = GetDownloads(),
@@ -81,7 +81,6 @@ namespace Wallone.Core.Builders
                     HashCode = GetHeader().GetHashCode().ToString(),
                     ImagesList = images
                 };
-            }
             return this;
         }
 
@@ -95,7 +94,6 @@ namespace Wallone.Core.Builders
             }
 
             return this;
-
         }
 
         public ThemeCreatedBuilder SetImages(List<Link> images)
@@ -103,14 +101,12 @@ namespace Wallone.Core.Builders
             links = images;
 
             foreach (var item in images)
-            {
-                this.images.Add(new Image()
+                this.images.Add(new Image
                 {
                     id = item.id,
                     type = item.name,
                     location = UriHelper.GetUri(item.location, ThemePath, "?")
                 });
-            }
 
             return this;
         }
@@ -125,7 +121,6 @@ namespace Wallone.Core.Builders
         public async Task<ThemeCreatedBuilder> ImageDownload()
         {
             if (AppConvert.Revert(ThemeHasDownloaded) && images != null)
-            {
                 foreach (var item in links)
                 {
                     var path = UriHelper.GetUri(item.location, ThemePath, "?");
@@ -133,7 +128,6 @@ namespace Wallone.Core.Builders
                     await DownloadTask(item.location, path);
                     await Task.Delay(100);
                 }
-            }
 
             return this;
         }
@@ -175,9 +169,7 @@ namespace Wallone.Core.Builders
         public ThemeCreatedBuilder HasDownloaded()
         {
             if (AppSettingsService.GetUseForFolders() == "name")
-            {
                 ThemeHasDownloaded = AppSettingsService.ExistDirectory(GetThemePath());
-            }
 
             return this;
         }
@@ -196,12 +188,8 @@ namespace Wallone.Core.Builders
             ThemePath = GetThemePath();
 
             if (AppSettingsService.GetUseForFolders() == "name")
-            {
                 if (ThemePath != null && AppSettingsService.ExistDirectory(ThemePath))
-                {
                     return true;
-                }
-            }
 
             return false;
         }

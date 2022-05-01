@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Wallone.Core.Helpers
 {
@@ -13,7 +11,8 @@ namespace Wallone.Core.Helpers
 
         public static bool Compare(string settingThemeName, string singleThemeName)
         {
-            return string.Equals(Format(settingThemeName), Format(singleThemeName), StringComparison.CurrentCultureIgnoreCase);
+            return string.Equals(Format(settingThemeName), Format(singleThemeName),
+                StringComparison.CurrentCultureIgnoreCase);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Wallone.Core.Helpers
         {
             return value ? "false" : "true";
         }
+
         public static bool Revert(bool value)
         {
             return value != true;

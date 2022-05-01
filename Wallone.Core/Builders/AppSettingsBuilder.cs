@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Wallone.Core.Builders
+﻿namespace Wallone.Core.Builders
 {
     public class AppSettingsBuilder : IAppSettings
     {
