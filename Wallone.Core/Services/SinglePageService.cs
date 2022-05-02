@@ -43,7 +43,7 @@ namespace Wallone.Core.Services
 
         public static string GetUsername()
         {
-            return simplePage?.user?.name ?? "Lorem";
+            return simplePage?.user?.username ?? "Lorem";
         }
 
         public static string GetPreview()

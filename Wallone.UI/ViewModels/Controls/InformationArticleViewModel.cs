@@ -86,7 +86,7 @@ namespace Wallone.UI.ViewModels.Controls
             var param = new NavigationParameters
             {
                 {"id", simplePage.user.id},
-                {"name", simplePage.user.name}
+                {"name", simplePage.user.username}
             };
 
             regionManager.RequestNavigate("PageRegion", "Profile", param);

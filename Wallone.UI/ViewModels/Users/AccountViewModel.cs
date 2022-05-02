@@ -232,7 +232,7 @@ namespace Wallone.UI.ViewModels.Users
         {
             var list = AccountService.getUser();
 
-            if (Name != AccountService.GetUsername()) list.name = Name;
+            if (Name != AccountService.GetUsername()) list.username = Name;
 
             if (Description != AccountService.GetDescription()) list.description = Description;
 

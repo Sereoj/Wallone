@@ -29,7 +29,7 @@ namespace Wallone.UI.Services
 
         public static string GetUsername()
         {
-            return user.name;
+            return user.username;
         }
 
         public static string GetDescription()

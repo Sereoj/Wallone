@@ -16,7 +16,7 @@ namespace Wallone.Core.Services
 
         public static string GetUsername()
         {
-            return user.name;
+            return user.username;
         }
 
         public static string GetToken()
@@ -40,7 +40,7 @@ namespace Wallone.Core.Services
             if (data["id"] != null && data["name"] != null)
             {
                 user.id = data["id"].ToString();
-                user.name = data["name"].ToString();
+                user.username = data["name"].ToString();
                 return true;
             }
 
