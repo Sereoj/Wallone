@@ -1,14 +1,31 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net5.0-windows10.0.18362</TargetFrameworks>
+	<TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>Wallone.UI</AssemblyName>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
     <UserSecretsId>f6609849-f6e3-4f7d-8f70-4ca7b33351ec</UserSecretsId>
+	<SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	<StartupObject>Wallone.UI.App</StartupObject>
+	<PackageId>Wallone</PackageId>
+	<Authors>Wallone</Authors>
+	<PackageIcon>StoreLogo.backup.png</PackageIcon>
+	<PackageIconUrl />
+	<Win32Resource />
+	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
-  <ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <DebugSymbols>false</DebugSymbols>
+	  <DebugType>None</DebugType>
+  </PropertyGroup>
+	<ItemGroup>
     <None Remove="favicon.ico" />
+    <None Include="..\Wallone.Package\Images\StoreLogo.backup.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
