@@ -98,15 +98,17 @@ namespace Wallone.Core.Builders
 
         public ThemeCreatedBuilder SetImages(List<Link> images)
         {
+            if (images != null)
+            {
+                foreach (var item in images)
+                    this.images.Add(new Image
+                    {
+                        id = item.id,
+                        type = item.name,
+                        location = UriHelper.GetUri(item.location, ThemePath, "?")
+                    });
+            }
             links = images;
-
-            foreach (var item in images)
-                this.images.Add(new Image
-                {
-                    id = item.id,
-                    type = item.name,
-                    location = UriHelper.GetUri(item.location, ThemePath, "?")
-                });
 
             return this;
         }
@@ -120,7 +122,7 @@ namespace Wallone.Core.Builders
         // Скачать тему
         public async Task<ThemeCreatedBuilder> ImageDownload()
         {
-            if (AppConvert.Revert(ThemeHasDownloaded) && images != null)
+            if (AppConvert.Revert(ThemeHasDownloaded) && links != null)
                 foreach (var item in links)
                 {
                     var path = UriHelper.GetUri(item.location, ThemePath, "?");

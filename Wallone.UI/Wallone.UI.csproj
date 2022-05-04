@@ -22,10 +22,6 @@
   </PropertyGroup>
 	<ItemGroup>
     <None Remove="favicon.ico" />
-    <None Include="..\Wallone.Package\Images\StoreLogo.backup.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
