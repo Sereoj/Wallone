@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿using ModernWpf.Controls;
+using System.Windows;
 using System.Windows.Media;
-using ModernWpf.Controls;
 
 namespace Wallone.UI.Services
 {
@@ -13,17 +13,17 @@ namespace Wallone.UI.Services
             switch (font)
             {
                 case "free":
-                    fontFamily = (FontFamily) Application.Current.Resources["FontIconMoonFree"];
+                    fontFamily = (FontFamily)Application.Current.Resources["FontIconMoonFree"];
                     break;
                 case "icomoon":
-                    fontFamily = (FontFamily) Application.Current.Resources["FontIconMoon"];
+                    fontFamily = (FontFamily)Application.Current.Resources["FontIconMoon"];
                     break;
                 case "ultimate":
-                    fontFamily = (FontFamily) Application.Current.Resources["FontIconMoonUltimate"];
+                    fontFamily = (FontFamily)Application.Current.Resources["FontIconMoonUltimate"];
                     break;
             }
 
-            return new FontIcon {FontFamily = fontFamily, Glyph = value};
+            return new FontIcon { FontFamily = fontFamily, Glyph = value };
         }
     }
 }

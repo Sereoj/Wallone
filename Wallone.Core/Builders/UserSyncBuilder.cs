@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Wallone.Core.Models.App;
 using Wallone.Core.Services;
 

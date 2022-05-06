@@ -1,5 +1,5 @@
-﻿using System.Windows.Media;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
+using System.Windows.Media;
 
 namespace Wallone.UI.ViewModels.Controls
 {

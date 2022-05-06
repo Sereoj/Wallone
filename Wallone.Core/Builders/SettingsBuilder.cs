@@ -1,10 +1,17 @@
 ﻿using System.IO;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Services;
 
 namespace Wallone.Core.Builders
 {
     public class SettingsBuilder : IAppSettings
     {
+
+        public SettingsBuilder(ISettings settings)
+        {
+            SettingsService.SetModel(settings);
+        }
+
         public SettingsBuilder CreateFile(string path)
         {
             SettingsService.SetFile(path);
@@ -24,9 +31,16 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        public SettingsItemBuiler Items()
+        public SettingsBuilder SetConfigName(string name)
         {
-            return new SettingsItemBuiler();
+            AppSettingsService.SetThemeConfigName(name);
+            return this;
+        }
+
+        public SettingsItemBuilder ItemBuilder()
+        {
+            return new SettingsItemBuilder(SettingsService.Get());
+            ;
         }
 
         public SettingsBuilder Build()

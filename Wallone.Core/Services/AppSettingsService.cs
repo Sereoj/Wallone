@@ -1,4 +1,6 @@
 ﻿using Wallone.Core.Extension;
+using Wallone.Core.Interfaces;
+using Wallone.Core.Models.App;
 
 namespace Wallone.Core.Services
 {
@@ -7,15 +9,22 @@ namespace Wallone.Core.Services
     public class AppSettingsService
     {
         private static readonly AppSettings AppSettings;
+        private static readonly ISettings Settings;
 
         static AppSettingsService()
         {
             AppSettings = new AppSettings();
+            Settings = new Settings();
         }
 
-        public static AppSettings GetSettings()
+        public static AppSettings GetAppSettings()
         {
             return AppSettings;
+        }
+
+        public static ISettings GetSettings()
+        {
+            return Settings;
         }
 
         public static string GetThemesLocation()
@@ -46,6 +55,16 @@ namespace Wallone.Core.Services
         public static void SetSettingsLocation(string path)
         {
             AppSettings.SettingsPath = path;
+        }
+
+        public static void SetThemeConfigName(string name)
+        {
+            AppSettings.ThemeConfig = string.IsNullOrEmpty(name) ? "theme.json" : name;
+        }
+
+        public static string GetThemeConfigName()
+        {
+            return AppSettings.ThemeConfig;
         }
 
         public static void CreateDirectory(string path)

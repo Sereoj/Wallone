@@ -1,16 +1,75 @@
-﻿namespace Wallone.Core.Services
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
+using Wallone.Core.Builders;
+using Wallone.Core.Models;
+
+namespace Wallone.Core.Services
 {
     public class ThemeService
     {
+        private static Theme themeModel;
+        private static string themeName;
         public static string GetCurrentName()
         {
-            return SettingsService.Get().Current;
+            return themeName ?? "default";
         }
 
         public static void SetCurrentName(string name)
         {
-            SettingsService.Get().Current = name;
-            SettingsService.Save();
+            themeName = name;
+
+            new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .SetTheme(name)
+                .Build();
+        }
+
+        public static string GetPath()
+        {
+            return Path.Combine(AppSettingsService.GetThemesLocation(), themeName);
+        }
+
+        public static string GetPathConfig()
+        {
+            return Path.Combine(GetPath(), AppSettingsService.GetThemeConfigName());
+        }
+
+        public static void Set(Theme theme)
+        {
+            SetCurrentName(theme.Name);
+            themeModel = theme;
+        }
+
+        public static Theme Get()
+        {
+            return themeModel;
+        }
+
+
+        public static void Load()
+        {
+            try
+            {
+                var jsonText = File.ReadAllText(GetPathConfig());
+                themeModel = JsonConvert.DeserializeObject<Theme>(jsonText);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+        public static void Save()
+        {
+            try
+            {
+                var file = GetPathConfig();
+                File.WriteAllText(file, JsonConvert.SerializeObject(themeModel, Formatting.Indented));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

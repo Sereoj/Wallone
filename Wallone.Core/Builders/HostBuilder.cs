@@ -67,10 +67,12 @@ namespace Wallone.Core.Builders
 
         public HostBuilder Build()
         {
-            SettingsService.Get().Host = host;
-            SettingsService.Get().Prefix = prefix;
+            new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .SetHost(host)
+                .SetPrefix(prefix)
+                .Build();
 
-            SettingsService.Save();
             return this;
         }
     }

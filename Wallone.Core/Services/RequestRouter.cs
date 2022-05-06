@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using RestSharp;
+﻿using RestSharp;
 using RestSharp.Authenticators;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Parameter = Wallone.Core.Models.Parameter;
 
 namespace Wallone.Core.Services

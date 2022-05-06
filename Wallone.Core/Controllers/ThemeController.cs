@@ -1,27 +1,27 @@
 ﻿using Wallone.Core.Models;
+using Wallone.Core.Services;
 
 namespace Wallone.Core.Controllers
 {
     public class ThemeController
     {
-        public void Set(string name)
+
+        public void Set(Theme theme)
         {
+            if (theme != null)
+            {
+                ThemeService.Set(theme);
+                ThemeService.Save();
+            }
         }
 
-        public void Get()
+        public Theme Get()
         {
+            return ThemeService.Get();
         }
 
 
         public void Edit(Theme theme)
-        {
-        }
-
-        public void Remove(Theme theme)
-        {
-        }
-
-        public void Download()
         {
         }
     }

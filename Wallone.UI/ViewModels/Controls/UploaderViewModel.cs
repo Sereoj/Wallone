@@ -1,7 +1,7 @@
-﻿using System.Windows.Media;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Windows.Media;
 using Wallone.Core.Helpers;
 using Wallone.UI.Services;
 

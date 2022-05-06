@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
 using Wallone.Core.Models;
 
 namespace Wallone.Core.Services
@@ -49,7 +49,7 @@ namespace Wallone.Core.Services
 
         public static Task<string> GetLoginAsync(string email, string password)
         {
-            var items = RequestRouter<string, Login>.PostAsync("login", new Login {email = email, password = password});
+            var items = RequestRouter<string, Login>.PostAsync("login", new Login { email = email, password = password });
             return items;
         }
 
@@ -59,7 +59,10 @@ namespace Wallone.Core.Services
             var items = RequestRouter<string, Register>.PostAsync("register",
                 new Register
                 {
-                    username = name, email = email, password = password, password_confirmation = password_confirmation
+                    username = name,
+                    email = email,
+                    password = password,
+                    password_confirmation = password_confirmation
                 });
             return items;
         }

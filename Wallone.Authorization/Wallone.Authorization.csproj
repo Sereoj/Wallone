@@ -9,6 +9,16 @@
 		<DebugSymbols>false</DebugSymbols>
 		<DebugType>None</DebugType>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Models\**" />
+	  <Compile Remove="Services\**" />
+	  <EmbeddedResource Remove="Models\**" />
+	  <EmbeddedResource Remove="Services\**" />
+	  <None Remove="Models\**" />
+	  <None Remove="Services\**" />
+	  <Page Remove="Models\**" />
+	  <Page Remove="Services\**" />
+	</ItemGroup>
 
 	<ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -19,11 +29,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Wallone.Controls\Wallone.Controls.csproj" />
     <ProjectReference Include="..\Wallone.Core\Wallone.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

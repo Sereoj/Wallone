@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Media;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections.Generic;
+using System.Windows.Media;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -159,9 +159,9 @@ namespace Wallone.UI.ViewModels.Users
         private async void OnSave()
         {
             var param = new List<Parameter>();
-            if (avatar_path != null) param.Add(new Parameter {Name = "avatar", Type = "file", Value = avatar_path});
+            if (avatar_path != null) param.Add(new Parameter { Name = "avatar", Type = "file", Value = avatar_path });
             if (AccountService.GetCover() != null)
-                param.Add(new Parameter {Name = "cover", Type = "file", Value = AccountService.GetCover()});
+                param.Add(new Parameter { Name = "cover", Type = "file", Value = AccountService.GetCover() });
 
             _ = await AccountService.EditUserPageAsync(update(), param);
         }

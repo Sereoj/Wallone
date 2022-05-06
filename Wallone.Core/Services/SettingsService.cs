@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Timers;
-using Newtonsoft.Json;
 using Wallone.Core.Extension;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Models.App;
 
 namespace Wallone.Core.Services
@@ -13,13 +14,11 @@ namespace Wallone.Core.Services
     public class SettingsService
     {
         private static string file;
-        private static Timer autoSaveTimer;
-        private static bool restartPending;
-        private static bool unsavedChanges;
-        private static Settings Settings { get; set; } = new Settings();
+        private static ISettings Settings { get; set; }
 
-        public static void SetModel(Settings settings)
+        public static void SetModel(ISettings settings)
         {
+            Trace.WriteLine("Установка модели");
             Settings = settings;
         }
 
@@ -41,18 +40,9 @@ namespace Wallone.Core.Services
             File.WriteAllText(file, JsonConvert.SerializeObject(Settings, Formatting.Indented));
         }
 
-        //Проверка на первый запуск
-        public static bool CheckFirstLaunch()
-        {
-            Trace.WriteLine("Проверка на первый запуск");
-            return !file.ExistsFile();
-        }
-
         //Загрузка конфига, выполняется один раз
         public static void Load()
         {
-            if (autoSaveTimer != null) autoSaveTimer.Stop();
-
             try
             {
                 var jsonText = File.ReadAllText(file);
@@ -61,50 +51,6 @@ namespace Wallone.Core.Services
             catch (Exception ex)
             {
             }
-
-            unsavedChanges = false;
-            autoSaveTimer = new Timer
-            {
-                AutoReset = false,
-                Interval = 100
-            };
-
-            Settings.PropertyChanged += OnSettingsPropertyChanged;
-            autoSaveTimer.Elapsed += OnAutoSaveTimerElapsed;
-        }
-
-        private static void OnSettingsPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Trace.WriteLine("Файл настроек изменен");
-            unsavedChanges = true;
-            autoSaveTimer.Start();
-        }
-
-        private static async void OnAutoSaveTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (!restartPending && !unsavedChanges) return;
-
-            if (unsavedChanges)
-            {
-                unsavedChanges = false;
-                autoSaveTimer.Elapsed -= OnAutoSaveTimerElapsed;
-
-                await Task.Run(() =>
-                {
-                    Save();
-                    Trace.WriteLine("Автоматическое сохранение");
-                });
-            }
-
-            if (restartPending)
-            {
-                restartPending = false;
-            }
-            else
-            {
-                autoSaveTimer.Elapsed += OnAutoSaveTimerElapsed;
-                autoSaveTimer.Start();
-            }
         }
 
         public static string GetToken()
@@ -112,7 +58,7 @@ namespace Wallone.Core.Services
             return Settings.Token;
         }
 
-        public static Settings Get()
+        public static ISettings Get()
         {
             return Settings;
         }

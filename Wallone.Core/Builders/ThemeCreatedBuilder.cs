@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using Wallone.Core.Extension;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
@@ -89,7 +90,7 @@ namespace Wallone.Core.Builders
             if (ThemePath == null || Theme == null) return this;
             if (AppSettingsService.ExistDirectory(ThemePath))
             {
-                var file = Path.Combine(ThemePath, "theme.json");
+                var file = Path.Combine(ThemePath, AppSettingsService.GetThemeConfigName());
                 WriteAllText(file, JsonConvert.SerializeObject(Theme, Formatting.Indented));
             }
 
@@ -245,6 +246,19 @@ namespace Wallone.Core.Builders
         public bool GetHasNotLiked()
         {
             return AppConvert.Revert(ThemeHasLiked);
+        }
+
+        public Theme GetModelFromFile()
+        {
+            var configFile = Path.Combine(GetThemePath(), AppSettingsService.GetThemeConfigName());
+
+            if (configFile.ExistsFile())
+            {
+                var jsonText = ReadAllText(configFile);
+                Theme = JsonConvert.DeserializeObject<Theme>(jsonText);
+                return GetModel();
+            }
+            return null;
         }
     }
 }

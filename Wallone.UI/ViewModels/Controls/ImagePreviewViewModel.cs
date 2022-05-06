@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.UI.Services;
@@ -104,7 +104,7 @@ namespace Wallone.UI.ViewModels.Controls
             Items.Clear();
             bitmapHelper.Clear();
 
-            simplePage = (SinglePage) navigationContext.Parameters["simplePage"];
+            simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
 
             if (ThemePreviewService.IsNotNull(simplePage.images))
             {

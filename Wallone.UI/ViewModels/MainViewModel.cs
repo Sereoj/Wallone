@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using ModernWpf.Controls;
+﻿using ModernWpf.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Linq;
 using Wallone.Core.Services;
 using Wallone.UI.Services;
 

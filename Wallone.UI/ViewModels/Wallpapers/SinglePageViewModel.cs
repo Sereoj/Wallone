@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using Newtonsoft.Json;
-using Prism.Mvvm;
-using Prism.Regions;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -80,7 +80,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
         //Вызывается после SinglePageViewModel, получает данные с другой страницы и отображает
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            id = (string) navigationContext.Parameters["ID"];
+            id = (string)navigationContext.Parameters["ID"];
 
             if (id != null)
             {

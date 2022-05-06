@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Prism.Events;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
@@ -81,8 +81,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var root = (string) navigationContext.Parameters["Root"] ?? "Gallery";
-            var page_id = (string) navigationContext.Parameters["ID"] ?? "Main";
+            var root = (string)navigationContext.Parameters["Root"] ?? "Gallery";
+            var page_id = (string)navigationContext.Parameters["ID"] ?? "Main";
 
             var pageBuilder = new PageBuilder() // Создаем билдер
                 .Query(new PageGallaryBuilder()) //Говорим, что gallery
@@ -95,7 +95,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
             router = pageBuilder.GetRouter();
             parameters = pageBuilder.GetFields();
-            Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
+            Header = (string)navigationContext.Parameters["Text"] ?? "Библиотека";
         }
 
         public ObservableCollection<ArticleViewModel> Library { get; set; } =

@@ -35,7 +35,7 @@ namespace Wallone.UI.ViewModels.Exceptions
 
         void INavigationAware.OnNavigatedTo(NavigationContext navigationContext)
         {
-            Text = (string) navigationContext.Parameters["Text"];
+            Text = (string)navigationContext.Parameters["Text"];
         }
     }
 }

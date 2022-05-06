@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
@@ -56,7 +56,7 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            simplePage = (SinglePage) navigationContext.Parameters["simplePage"];
+            simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
             if (simplePage == null)
             {
                 var param = new NavigationParameters
@@ -154,9 +154,7 @@ namespace Wallone.UI.ViewModels.Controls
 
             if (builder.GetHasNotInstalled())
             {
-                ThemeService.SetCurrentName(SinglePageService.GetHeader());
-
-                theme.Set(ThemeService.GetCurrentName());
+                theme.Set(builder.GetModelFromFile());
             }
             else
             {
@@ -245,13 +243,13 @@ namespace Wallone.UI.ViewModels.Controls
             {
                 foreach (var item in list)
                 {
-                    TagsCollection.Add(new ItemTemplateViewModel {Text = item.name});
+                    TagsCollection.Add(new ItemTemplateViewModel { Text = item.name });
                     await Task.CompletedTask;
                 }
             }
             else
             {
-                TagsCollection.Add(new ItemTemplateViewModel {Text = "Unknown"});
+                TagsCollection.Add(new ItemTemplateViewModel { Text = "Unknown" });
                 await Task.CompletedTask;
             }
         }
@@ -264,13 +262,13 @@ namespace Wallone.UI.ViewModels.Controls
             {
                 foreach (var item in list)
                 {
-                    CategoriesCollection.Add(new ItemTemplateViewModel {Text = item.Name});
+                    CategoriesCollection.Add(new ItemTemplateViewModel { Text = item.Name });
                     await Task.CompletedTask;
                 }
             }
             else
             {
-                CategoriesCollection.Add(new ItemTemplateViewModel {Text = "Unknown"});
+                CategoriesCollection.Add(new ItemTemplateViewModel { Text = "Unknown" });
                 await Task.CompletedTask;
             }
         }

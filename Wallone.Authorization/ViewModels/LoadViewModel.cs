@@ -15,14 +15,17 @@ using System;
 using Prism.Diagnostics;
 */
 
-using System;
-using System.Threading.Tasks;
-using System.Windows.Threading;
 using Newtonsoft.Json;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Threading;
 using Wallone.Controls.ViewModels;
 using Wallone.Core.Builders;
+using Wallone.Core.Controllers;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models.App;
 using Wallone.Core.Services;
 
@@ -58,6 +61,7 @@ namespace Wallone.Authorization.ViewModels
 
             Header = "Wallone";
 
+            Init();
             LoadData();
 
             ehternetTimer = new DispatcherTimer(DispatcherPriority.Send)
@@ -130,6 +134,35 @@ namespace Wallone.Authorization.ViewModels
             Message = message;
         }
 
+        private static void Init()
+        {
+            var app = new AppSettingsBuilder()
+                .Query(new AppPathBuilder()
+                    .AppLocation(Directory.GetCurrentDirectory())
+                    .Build())
+                .Query(new SettingsBuilder(AppSettingsService.GetSettings())
+                    .UpdateOrCreateFile("app.settings")
+                    .SetConfigName("theme.json")
+                    .Build())
+                .Query(new ThemePathBuilder()
+                    .ExistOrCreateDirectory("themes")
+                    .UseForFolders("name")
+                    .Build())
+                .Query(new HostBuilder()
+                    .SetHost()
+                    .SetPrefix()
+                    .Validate()
+                    .Build()
+                );
+
+            var theme = new ThemeCreatedBuilder()
+                .SetName(AppFormat.Format(ThemeService.GetCurrentName()))
+                .HasDownloaded()
+                .GetModelFromFile();
+
+            var controller = new ThemeController();
+            controller.Set(theme);
+        }
         private async void LoadData()
         {
             var status = AppEthernetService.IsConnect(Router.domainExample); // true
@@ -161,19 +194,19 @@ namespace Wallone.Authorization.ViewModels
                     var data = await AppVersionService.GetVersionAsync();
                     var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
 
-                    AppVersionService.SetVersion(appVersion.Version);
+                    AppVersionService.SetVersion(appVersion?.Version);
                     SetMessage("Поиск обновления...");
                     await Task.Delay(2000);
 
-                    var verionCurrent = AppVersionService.GetCurrentVersion();
-                    var verionActual = AppVersionService.GetActualVersion();
+                    var versionCurrent = AppVersionService.GetCurrentVersion();
+                    var versionActual = AppVersionService.GetActualVersion();
 
                     var index = new AppUpdaterBuilder()
-                        .Compare(verionCurrent, verionActual);
+                        .Compare(versionCurrent, versionActual);
 
                     UpdateViewModel.SetStatus(index);
-                    UpdateViewModel.SetCurrentVersion(verionCurrent);
-                    UpdateViewModel.SetActualVersion(verionActual);
+                    UpdateViewModel.SetCurrentVersion(versionCurrent);
+                    UpdateViewModel.SetActualVersion(versionActual);
 
                     IsUpdate = UpdateViewModel.IsShow();
 
