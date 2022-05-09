@@ -5,6 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.Interfaces;
@@ -90,15 +91,15 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     var item = JsonConvert.DeserializeObject<Theme>(jsonText);
 
                     if (item == null) continue;
-                    if (!ThumbService.IsIDNotNull(item.ID)) continue;
+                    if (!ThumbService.IsIDNotNull(item.Id)) continue;
 
                     Library.Add(new ArticleViewModel(regionManager)
                     {
-                        ID = item.ID,
+                        ID = item.Id,
                         Name = ThumbService.ValidateName(item.Name),
-                        ImageSource = ThumbService.ValidatePreview(item.Preview),
-                        Views = ThumbService.ValidateViews(item.Views),
-                        Downloads = ThumbService.ValidateDownloads(item.Downloads)
+                        ImageSource = ThumbService.ValidatePreview(UriHelper.Get(item.Preview)),
+                        Views = ThumbService.ValidateViews("0"),
+                        Downloads = ThumbService.ValidateDownloads("0")
                     });
 
                     await Task.Delay(100);

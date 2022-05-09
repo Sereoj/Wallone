@@ -3,15 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Wallone.Core.Extension;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
-using static System.IO.File;
-using static Wallone.Core.Services.SinglePageService;
 
 namespace Wallone.Core.Builders
 {
@@ -71,16 +72,17 @@ namespace Wallone.Core.Builders
             if (AppConvert.Revert(ThemeHasDownloaded))
                 Theme = new Theme
                 {
-                    ID = GetID(),
-                    Name = GetHeader(),
-                    User = GetUsername(),
-                    Preview = new Uri(Path.Combine(ThemePath, ThemeThumbFileName)),
+                    Id = SinglePageService.GetID(),
+                    Name = SinglePageService.GetHeader(),
+                    User = SinglePageService.GetUser(),
+                    Preview = Path.Combine(ThemePath, ThemeThumbFileName),
+                    Images = images,
+                    Brand = SinglePageService.GetBrand(),
+                    Categories = SinglePageService.GetCategories(),
+                    Description = SinglePageService.GetDescription(),
+                    Created_at = SinglePageService.GetDate(),
                     Resolution = "Не доступно, отвечает за пользовательские разрешения изображений для мониторов",
-                    Views = GetViews(),
-                    Downloads = GetDownloads(),
-                    DATA_KEY = null,
-                    HashCode = GetHeader().GetHashCode().ToString(),
-                    ImagesList = images
+                    HashCode = null
                 };
             return this;
         }
@@ -91,7 +93,7 @@ namespace Wallone.Core.Builders
             if (AppSettingsService.ExistDirectory(ThemePath))
             {
                 var file = Path.Combine(ThemePath, AppSettingsService.GetThemeConfigName());
-                WriteAllText(file, JsonConvert.SerializeObject(Theme, Formatting.Indented));
+                File.WriteAllText(file, JsonConvert.SerializeObject(Theme, Formatting.Indented));
             }
 
             return this;
@@ -139,7 +141,7 @@ namespace Wallone.Core.Builders
         {
             if (AppConvert.Revert(ThemeHasDownloaded))
             {
-                var preview = GetPreview();
+                var preview = SinglePageService.GetPreview();
                 var uri = UriHelper.Get(preview).LocalPath;
 
                 await DownloadTask(uri, Path.Combine(ThemePath, ThemeThumbFileName));
@@ -254,7 +256,7 @@ namespace Wallone.Core.Builders
 
             if (configFile.ExistsFile())
             {
-                var jsonText = ReadAllText(configFile);
+                var jsonText = File.ReadAllText(configFile);
                 Theme = JsonConvert.DeserializeObject<Theme>(jsonText);
                 return GetModel();
             }

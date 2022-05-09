@@ -64,7 +64,17 @@ namespace Wallone.Core.Services
                 : "Дата публикации: 01/01/2021";
         }
 
-        public static IBrandShort GetBrand()
+        public static UserShort GetUser()
+        {
+            return simplePage.user;
+        }
+
+        public static string GetDate()
+        {
+            return DateTime.Parse(simplePage.created_at).ToShortDateString();
+        }
+
+        public static BrandShort GetBrand()
         {
             return simplePage?.brand;
         }

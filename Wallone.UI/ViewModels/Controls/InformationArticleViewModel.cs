@@ -105,6 +105,7 @@ namespace Wallone.UI.ViewModels.Controls
                     .HasDownloaded() //Если не установлена, проходим проверку
                     .ExistOrCreateDirectory() // Если папка существует или не создана
                     .Remove() //Если существует и статус false, то удалить
+                    .SetImages(simplePage.Links)
                     .ImageDownload(); //Разрешение на скачивание
 
                 await builder.PreviewDownloadAsync();
@@ -302,8 +303,7 @@ namespace Wallone.UI.ViewModels.Controls
 
             themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
                 .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .SetName(AppFormat.Format(simplePage.name))
-                .SetImages(simplePage.Links);
+                .SetName(AppFormat.Format(simplePage.name));
 
             categories(SinglePageService.GetCategories());
             tags(SinglePageService.GetTags());

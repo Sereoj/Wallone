@@ -20,7 +20,6 @@ namespace Wallone.Core.Models
         public string hasLike { get; set; }
         public string hasFavorite { get; set; }
         public UserShort user { get; set; }
-        public string download { get; set; }
         public List<Thumb> posts { get; set; }
         public string created_at { get; set; }
 

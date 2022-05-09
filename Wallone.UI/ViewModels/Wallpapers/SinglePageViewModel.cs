@@ -133,8 +133,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
-                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data, settings);
+                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
 
                     if (simplePage?.message != null)
                     {
