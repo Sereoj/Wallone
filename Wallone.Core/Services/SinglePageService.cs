@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 
 namespace Wallone.Core.Services
@@ -63,14 +64,14 @@ namespace Wallone.Core.Services
                 : "Дата публикации: 01/01/2021";
         }
 
-        public static Brand GetBrand()
+        public static IBrandShort GetBrand()
         {
             return simplePage?.brand;
         }
 
-        public static List<Category> GetCategories()
+        public static List<CategoryShort> GetCategories()
         {
-            return simplePage?.category;
+            return simplePage?.categories;
         }
 
         public static List<Tag> GetTags()

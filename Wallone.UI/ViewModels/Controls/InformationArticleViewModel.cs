@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 
@@ -254,7 +255,7 @@ namespace Wallone.UI.ViewModels.Controls
             }
         }
 
-        private async void categories(List<Category> list)
+        private async void categories(List<CategoryShort> list)
         {
             CategoriesCollection.Clear();
 
@@ -262,7 +263,7 @@ namespace Wallone.UI.ViewModels.Controls
             {
                 foreach (var item in list)
                 {
-                    CategoriesCollection.Add(new ItemTemplateViewModel { Text = item.Name });
+                    CategoriesCollection.Add(new ItemTemplateViewModel { Text = item.name });
                     await Task.CompletedTask;
                 }
             }
@@ -290,7 +291,7 @@ namespace Wallone.UI.ViewModels.Controls
             SinglePageItemsViewModel.Likes = SinglePageService.GetLikes();
             SinglePageItemsViewModel.Views = SinglePageService.GetViews();
             SinglePageItemsViewModel.Downloads = SinglePageService.GetDownloads();
-            SinglePageItemsViewModel.Brand = SinglePageService.GetBrand()?.Name;
+            SinglePageItemsViewModel.Brand = SinglePageService.GetBrand()?.name;
             SinglePageItemsViewModel.Date = SinglePageService.GetData();
 
             if (SinglePageService.GetAvatar() != null)

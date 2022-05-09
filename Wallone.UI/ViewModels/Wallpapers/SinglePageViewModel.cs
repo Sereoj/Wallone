@@ -4,6 +4,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Wallone.Core.Helpers;
@@ -132,8 +133,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    //var jArray = JArray.Parse(data);
-                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
+                    var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data, settings);
 
                     if (simplePage?.message != null)
                     {
@@ -169,7 +170,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 {
                     {"Text", ex.Message}
                 };
-
+                Trace.WriteLine(ex.Message);
                 regionManager.RequestNavigate("PageRegion", "NotFound", param);
             }
 

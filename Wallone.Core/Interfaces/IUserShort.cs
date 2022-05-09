@@ -2,8 +2,8 @@
 {
     public interface IUserShort : IUser
     {
-        public string Id { get; set; }
-        public string Username { get; set; }
-        public string Avatar { get; set; }
+        public string id { get; set; }
+        public string username { get; set; }
+        public string avatar { get; set; }
     }
 }
