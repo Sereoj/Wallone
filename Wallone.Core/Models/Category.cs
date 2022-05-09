@@ -1,6 +1,8 @@
-﻿namespace Wallone.Core.Models
+﻿using Wallone.Core.Interfaces;
+
+namespace Wallone.Core.Models
 {
-    public class Category
+    public class Category : ICategory
     {
         public string ID { get; set; }
         public string Name { get; set; }

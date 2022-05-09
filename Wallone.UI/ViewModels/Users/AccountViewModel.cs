@@ -183,7 +183,7 @@ namespace Wallone.UI.ViewModels.Users
                 var info = await AccountService.GetPageGuidsAsync();
                 if (!string.IsNullOrEmpty(info))
                 {
-                    var text = JsonConvert.DeserializeObject<Text>(info);
+                    var text = JsonConvert.DeserializeObject<Advertisement>(info);
 
                     TextInformation = text.text ?? "Информация не доступна";
                 }

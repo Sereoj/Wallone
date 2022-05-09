@@ -113,7 +113,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var message = JsonConvert.DeserializeObject<Text>(data);
+                    var message = JsonConvert.DeserializeObject<Advertisement>(data);
                     SinglePageAds.IsVisible = true;
                     SinglePageAds.Text = message.text ?? "Не удалось загрузить =(";
                 }
