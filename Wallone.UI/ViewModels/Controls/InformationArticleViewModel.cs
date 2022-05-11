@@ -211,6 +211,9 @@ namespace Wallone.UI.ViewModels.Controls
             SinglePageLogic.IsFavorited = SinglePageService.GetFavorite();
             SinglePageLogic.IsLiked = SinglePageService.GetReaction();
 
+            SinglePageLogic.IsEnableFavorited = SinglePageService.HasFavorite();
+            SinglePageLogic.IsEnableLiked = SinglePageService.HasReaction();
+
             var themeName = themeBuilder.GetName();
             var themePath = themeBuilder.GetThemePath();
 
@@ -294,6 +297,7 @@ namespace Wallone.UI.ViewModels.Controls
             SinglePageItemsViewModel.Downloads = SinglePageService.GetDownloads();
             SinglePageItemsViewModel.Brand = SinglePageService.GetBrand()?.name;
             SinglePageItemsViewModel.Date = SinglePageService.GetData();
+
 
             if (SinglePageService.GetAvatar() != null)
                 SinglePageItemsViewModel.Avatar =

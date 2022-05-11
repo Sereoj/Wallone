@@ -104,6 +104,28 @@ namespace Wallone.Core.Services
             return simplePage?.likes ?? "0";
         }
 
+        public static bool HasReaction()
+        {
+            return simplePage.hasLike switch
+            {
+                "true" => true,
+                "false" => true,
+                null => false,
+                _ => false
+            };
+        }
+
+        public static bool HasFavorite()
+        {
+            return simplePage.hasFavorite switch
+            {
+                "true" => true,
+                "false" => true,
+                null => false,
+                _ => false
+            };
+        }
+
         public static bool GetReaction()
         {
             return simplePage?.hasLike == "true";
