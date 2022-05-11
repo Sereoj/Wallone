@@ -37,12 +37,22 @@ namespace Wallone.Core.Helpers
             return Path.Combine(path, filename);
         }
 
-        public static string GetFirstValue(string uri, string separator)
+        public static Uri ValidateUri(Uri uri)
         {
-            if (uri == null || separator == null) return null;
-            var item = uri.Split(separator).FirstOrDefault();
+            if (uri.IsAbsoluteUri)
+            {
+                if (uri.IsFile)
+                {
+                    if (File.Exists(uri.LocalPath))
+                    {
+                        return uri;
+                    }
+                    return Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
+                }
 
-            return item;
+                return uri;
+            }
+            return Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
         }
     }
 }

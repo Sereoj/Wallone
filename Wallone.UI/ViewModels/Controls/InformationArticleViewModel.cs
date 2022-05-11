@@ -105,7 +105,7 @@ namespace Wallone.UI.ViewModels.Controls
                     .HasDownloaded() //Если не установлена, проходим проверку
                     .ExistOrCreateDirectory() // Если папка существует или не создана
                     .Remove() //Если существует и статус false, то удалить
-                    .SetImages(simplePage.Links)
+                    .SetImages(simplePage.links)
                     .ImageDownload(); //Разрешение на скачивание
 
                 await builder.PreviewDownloadAsync();
@@ -156,7 +156,7 @@ namespace Wallone.UI.ViewModels.Controls
 
             if (builder.GetHasNotInstalled())
             {
-                theme.Set(builder.GetModelFromFile());
+                theme.Set(builder.GetThemeModelFromFile());
             }
             else
             {

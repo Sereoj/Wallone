@@ -101,19 +101,39 @@ namespace Wallone.Core.Builders
 
         public ThemeCreatedBuilder SetImages(List<Link> images)
         {
+            this.images.Clear();
             if (images != null)
             {
                 foreach (var item in images)
                     this.images.Add(new Image
                     {
                         id = item.id,
-                        type = item.name,
+                        times = item.name,
                         location = UriHelper.GetUri(item.location, ThemePath, "?")
                     });
             }
+
             links = images;
 
             return this;
+        }
+
+        public bool ValidateConfig()
+        {
+            var configFile = GetConfigPath();
+
+            if (configFile.ExistsFile())
+            {
+                var jsonText = File.ReadAllText(configFile);
+                if (!JsonHelper.IsValidJson(jsonText))
+                {
+                    return false;
+                }
+
+                return true;
+
+            }
+            return false;
         }
 
         private async Task DownloadTask(string uri, string filename)
@@ -250,16 +270,35 @@ namespace Wallone.Core.Builders
             return AppConvert.Revert(ThemeHasLiked);
         }
 
-        public Theme GetModelFromFile()
+        public string GetConfigPath()
         {
-            var configFile = Path.Combine(GetThemePath(), AppSettingsService.GetThemeConfigName());
+            return Path.Combine(GetThemePath(), AppSettingsService.GetThemeConfigName());
+        }
 
-            if (configFile.ExistsFile())
+        public SinglePage GetModelFromFile()
+        {
+            var configFile = GetConfigPath();
+
+            if (ValidateConfig())
+            {
+                var jsonText = File.ReadAllText(configFile);
+                return JsonConvert.DeserializeObject<SinglePage>(jsonText);
+            }
+
+            return null;
+        }
+
+        public Theme GetThemeModelFromFile()
+        {
+            var configFile = GetConfigPath();
+
+            if (ValidateConfig())
             {
                 var jsonText = File.ReadAllText(configFile);
                 Theme = JsonConvert.DeserializeObject<Theme>(jsonText);
                 return GetModel();
             }
+
             return null;
         }
     }

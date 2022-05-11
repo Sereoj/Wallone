@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -81,17 +82,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
         //Вызывается после SinglePageViewModel, получает данные с другой страницы и отображает
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            id = (string)navigationContext.Parameters["ID"];
+            id = (string)navigationContext.Parameters["ID"] ?? "0";
+            Name = (string)navigationContext.Parameters["Name"] ?? "default";
 
-            if (id != null)
-            {
-                Loaded(id);
-                LoadAds();
-            }
-            else
-            {
-                Loaded(id);
-            }
+            Loaded(id, name); 
+            LoadAds();
         }
 
         //Если данные получены отображение
@@ -116,7 +111,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 {
                     var message = JsonConvert.DeserializeObject<Advertisement>(data);
                     SinglePageAds.IsVisible = true;
-                    SinglePageAds.Text = message.text ?? "Не удалось загрузить =(";
+                    SinglePageAds.Text = message?.text ?? "Не удалось загрузить =(";
                 }
             }
             catch (Exception ex)
@@ -124,42 +119,45 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 SinglePageAds.Text = ex.Message;
             }
         }
-        public async void Loaded(string id)
+        public async void Loaded(string pageId, string pageName)
         {
             try
             {
                 IsLoading = true;
-                var data = await SinglePageService.GetPageAsync(id);
 
-                if (!string.IsNullOrEmpty(data))
+                var theme = new ThemeCreatedBuilder()
+                    .SetName(pageName);
+
+
+                if (theme.Exist())
                 {
-                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
-
-                    if (simplePage?.message != null)
+                    if (theme.ValidateConfig())
                     {
-                        var navigationParameters = new NavigationParameters
-                        {
-                            {"Text", simplePage.message}
-                        };
-
-                        regionManager.RequestNavigate("PageRegion", "NotFound", navigationParameters);
+                        simplePage = theme.GetModelFromFile();
                     }
                     else
                     {
-                        SinglePageService.Load(simplePage);
-
-                        Name = SinglePageService.GetHeader();
-
-                        var param = new NavigationParameters
-                        {
-                            {"simplePage", simplePage}
-                        };
-                        regionManager.RequestNavigate("Slider", "ImagePreview", param);
-                        regionManager.RequestNavigate("Information", "InformationArticle", param);
-
-                        posts(SinglePageService.GetPosts());
+                        regionManager.RequestNavigate("PageRegion", "NotFound");
                     }
                 }
+                else
+                {
+                    var data = await SinglePageService.GetPageAsync(id);
+                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
+                }
+                
+                SinglePageService.Load(simplePage);
+
+                Name = SinglePageService.GetHeader();
+
+                var param = new NavigationParameters
+                {
+                    {"simplePage", simplePage}
+                };
+                regionManager.RequestNavigate("Slider", "ImagePreview", param);
+                regionManager.RequestNavigate("Information", "InformationArticle", param);
+
+                posts(SinglePageService.GetPosts());
 
                 IsLoading = false;
             }
@@ -193,15 +191,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                         });
                         await Task.CompletedTask;
                     }
-                }
-                else
-                {
-                    var param = new NavigationParameters
-                    {
-                        {"Text", "Это не ошибка, просто не найдены изображения!"}
-                    };
-
-                    regionManager.RequestNavigate("PageRegion", "NotFound", param);
                 }
             }
             catch (Exception ex)

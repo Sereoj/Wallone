@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -65,12 +66,29 @@ namespace Wallone.Core.Services
             return downloads ?? "0";
         }
 
+
+        public static BitmapImage Validate(Uri uri)
+        {
+            if (uri.IsAbsoluteUri)
+            {
+                if (uri.IsFile)
+                {
+                    if (File.Exists(uri.LocalPath))
+                    {
+                        return new BitmapImage(uri);
+                    }
+                    return new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+                }
+
+                return new BitmapImage(uri);
+            }
+
+            return new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+        }
+
         public static BitmapImage ValidatePreview(Uri uri)
         {
-            return uri == null
-                ? new BitmapImage(
-                    UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"))
-                : new BitmapImage(uri);
+            return Validate(uri);
         }
     }
 }

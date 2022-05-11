@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Timers;
 using Wallone.Core.Extension;
+using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models.App;
 
@@ -46,7 +47,10 @@ namespace Wallone.Core.Services
             try
             {
                 var jsonText = File.ReadAllText(file);
-                Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
+                if (JsonHelper.IsValidJson(jsonText))
+                {
+                    Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
+                }
             }
             catch (Exception ex)
             {

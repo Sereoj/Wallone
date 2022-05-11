@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Windows.Media.Imaging;
@@ -26,17 +27,15 @@ namespace Wallone.Core.Helpers
 
         private BitmapImage CreateBitmapImage(Uri uri)
         {
-            var bitmap = new BitmapImage();
-
-            bitmap.BeginInit();
-
-            var stream = new MemoryStream(new WebClient().DownloadData(uri));
-            bitmap.StreamSource = stream;
-
-            bitmap.EndInit();
-            bitmap.Freeze();
-
-            return bitmap;
+            try
+            {
+                return new BitmapImage(uri);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+                throw;
+            }
         }
 
         public void Clear()

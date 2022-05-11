@@ -106,25 +106,29 @@ namespace Wallone.UI.ViewModels.Controls
 
             simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
 
-            if (ThemePreviewService.IsNotNull(simplePage.images))
+            if (simplePage != null)
             {
-                foreach (var item in simplePage.images) SetImageList(item.times, UriHelper.Get(item.location));
+                if (ThemePreviewService.IsNotNull(simplePage.images))
+                {
+                    foreach (var item in simplePage.images) SetImageList(item.times, UriHelper.Get(item.location));
 
-                isEnable = true;
-                SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
-                FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
-                Text = Items[SelectedIndex].Name;
-                transitionTimer.Start();
+                    isEnable = true;
+                    SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
+                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    Text = Items[SelectedIndex].Name;
+                    transitionTimer.Start();
+                }
+                else
+                {
+                    FrontImageSource =
+                        new BitmapImage(
+                            UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+                    transitionTimer.Stop();
+                    Text = "Неловкая ситуация =(";
+                    isEnable = false;
+                }
             }
-            else
-            {
-                FrontImageSource =
-                    new BitmapImage(
-                        UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
-                transitionTimer.Stop();
-                Text = "Неловкая ситуация =(";
-                isEnable = false;
-            }
+
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

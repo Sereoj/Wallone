@@ -12,7 +12,7 @@
     public class Image
     {
         public string id { get; set; }
-        public string type { get; set; }
+        public string times { get; set; }
         public string location { get; set; }
     }
 }

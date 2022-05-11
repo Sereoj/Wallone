@@ -88,21 +88,23 @@ namespace Wallone.UI.ViewModels.Wallpapers
                              SearchOption.AllDirectories))
                 {
                     var jsonText = await File.ReadAllTextAsync(filePath);
-                    var item = JsonConvert.DeserializeObject<Theme>(jsonText);
 
-                    if (item == null) continue;
-                    if (!ThumbService.IsIDNotNull(item.Id)) continue;
-
-                    Library.Add(new ArticleViewModel(regionManager)
+                    if (JsonHelper.IsValidJson(jsonText))
                     {
-                        ID = item.Id,
-                        Name = ThumbService.ValidateName(item.Name),
-                        ImageSource = ThumbService.ValidatePreview(UriHelper.Get(item.Preview)),
-                        Views = ThumbService.ValidateViews("0"),
-                        Downloads = ThumbService.ValidateDownloads("0")
-                    });
+                        var item = JsonConvert.DeserializeObject<Theme>(jsonText);
 
-                    await Task.Delay(100);
+                        if (item == null) continue;
+                        if (!ThumbService.IsIDNotNull(item.Id)) continue;
+
+                        Library.Add(new ArticleViewModel(regionManager)
+                        {
+                            ID = item.Id,
+                            Name = ThumbService.ValidateName(item.Name),
+                            ImageSource = ThumbService.ValidatePreview(UriHelper.Get(item.Preview)),
+                            Views = ThumbService.ValidateViews("0"),
+                            Downloads = ThumbService.ValidateDownloads("0")
+                        });
+                    }
                 }
 
                 IsLoading = false;

@@ -17,7 +17,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
 {
     public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {
-        private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
 
         private string header = "Библиотека";
@@ -37,10 +36,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
             Library.Add(new ArticleViewModel(null));
         }
 
-        public WallpapersViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public WallpapersViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-            this.eventAggregator = eventAggregator;
         }
 
         public bool IsLoading
@@ -88,7 +86,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .Query(new PageGallaryBuilder()) //Говорим, что gallery
                 .Catalog(root) //Устанввливам каталог
                 .Page(page_id) //Устанавливаем страницу
-                .Pagination("1")
                 .Validate() //Валидация полученных значений
                 .ShowAds(false) //Отображение рекламы
                 .Build(); //Сборка
@@ -125,7 +122,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 var items = await ThumbService.GetThumbsAsync(router, page, parameters);
                 Trace.WriteLine("Количество постов: " + items.Count);
                 await LoadImages(items);
-
                 IsLoading = false;
             }
             catch (Exception ex)

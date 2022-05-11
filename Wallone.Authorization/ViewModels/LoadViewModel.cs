@@ -158,7 +158,7 @@ namespace Wallone.Authorization.ViewModels
             var theme = new ThemeCreatedBuilder()
                 .SetName(AppFormat.Format(ThemeService.GetCurrentName()))
                 .HasDownloaded()
-                .GetModelFromFile();
+                .GetThemeModelFromFile();
 
             var controller = new ThemeController();
             controller.Set(theme);
