@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 
@@ -46,7 +45,7 @@ namespace Wallone.Core.Services
             return items != null;
         }
 
-        public static bool IsIDNotNull(string ID)
+        public static bool IsIdNotNull(string ID)
         {
             return ID != null;
         }
@@ -67,26 +66,25 @@ namespace Wallone.Core.Services
         }
 
 
-        public static BitmapImage Validate(Uri uri)
+        public static Uri Validate(Uri uri)
         {
+
             if (uri.IsAbsoluteUri)
             {
                 if (uri.IsFile)
                 {
                     if (File.Exists(uri.LocalPath))
                     {
-                        return new BitmapImage(uri);
+                        return uri;
                     }
-                    return new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+                    return UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
                 }
-
-                return new BitmapImage(uri);
+                return uri;
             }
-
-            return new BitmapImage(UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+            return UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
         }
 
-        public static BitmapImage ValidatePreview(Uri uri)
+        public static Uri ValidatePreview(Uri uri)
         {
             return Validate(uri);
         }

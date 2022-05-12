@@ -1,13 +1,14 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using Prism.Mvvm;
 using System.Windows.Media;
 
 namespace Wallone.UI.ViewModels.Users
 {
     public class ProfileViewModelItems : BindableBase
     {
-        private ImageSource avatar;
+        private Uri avatar;
 
-        private ImageSource cover;
+        private Uri cover;
 
         private string description;
         private string likes;
@@ -24,7 +25,7 @@ namespace Wallone.UI.ViewModels.Users
             set => SetProperty(ref name, value);
         }
 
-        public ImageSource Cover
+        public Uri Cover
         {
             get => cover;
             set
@@ -34,7 +35,7 @@ namespace Wallone.UI.ViewModels.Users
             }
         }
 
-        public ImageSource Avatar
+        public Uri Avatar
         {
             get => avatar;
             set

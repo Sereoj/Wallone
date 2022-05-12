@@ -28,7 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.13" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="ModernWpfUI.MahApps" Version="0.9.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

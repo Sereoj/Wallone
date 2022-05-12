@@ -17,7 +17,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
 {
     public class SinglePageViewModel : BindableBase, INavigationAware
     {
-        private readonly BitmapHelper bitmapHelper;
         private readonly IRegionManager regionManager;
         private string id;
 
@@ -38,7 +37,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public SinglePageViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-            bitmapHelper = new BitmapHelper();
         }
 
         public string Name

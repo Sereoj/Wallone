@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
@@ -17,7 +18,6 @@ namespace Wallone.UI.ViewModels.Controls
 {
     public class InformationArticleViewModel : BindableBase, INavigationAware
     {
-        private readonly BitmapHelper bitmapHelper;
         private readonly IRegionManager regionManager;
         private SinglePage simplePage;
         private ThemeCreatedBuilder themeBuilder;
@@ -29,8 +29,6 @@ namespace Wallone.UI.ViewModels.Controls
         public InformationArticleViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-
-            bitmapHelper = new BitmapHelper();
 
             ProfileCommand = new DelegateCommand(OnProfileClicked);
             DownloadCommand = new DelegateCommand(OnDownloadClicked);
@@ -80,6 +78,8 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            TagsCollection.Clear();
+            CategoriesCollection.Clear();
         }
 
         private void OnProfileClicked()
@@ -242,8 +242,6 @@ namespace Wallone.UI.ViewModels.Controls
 
         private async void tags(List<Tag> list)
         {
-            TagsCollection.Clear();
-
             if (list != null)
             {
                 foreach (var item in list)
@@ -261,8 +259,6 @@ namespace Wallone.UI.ViewModels.Controls
 
         private async void categories(List<CategoryShort> list)
         {
-            CategoriesCollection.Clear();
-
             if (list != null)
             {
                 foreach (var item in list)
@@ -301,7 +297,7 @@ namespace Wallone.UI.ViewModels.Controls
 
             if (SinglePageService.GetAvatar() != null)
                 SinglePageItemsViewModel.Avatar =
-                    bitmapHelper[UriHelper.Get(SinglePageService.GetAvatar())];
+                    UriHelper.Get(SinglePageService.GetAvatar());
 
             Trace.WriteLine("(LOAD)Theme Name: " + simplePage.name);
 
@@ -312,8 +308,6 @@ namespace Wallone.UI.ViewModels.Controls
             categories(SinglePageService.GetCategories());
             tags(SinglePageService.GetTags());
             setStatusForButtons();
-
-            bitmapHelper.Clear();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
@@ -74,6 +75,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            Library.Clear();
             GC.Collect(2);
         }
 
@@ -87,6 +89,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .Catalog(root) //Устанввливам каталог
                 .Page(page_id) //Устанавливаем страницу
                 .Validate() //Валидация полученных значений
+                .Pagination("1")
                 .ShowAds(false) //Отображение рекламы
                 .Build(); //Сборка
 
@@ -114,7 +117,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public async void Loaded(string page, string router, List<Parameter> parameters)
         {
-            Library.Clear();
             try
             {
                 IsLoading = true;
@@ -139,12 +141,12 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             if (ThumbService.IsNotNull(items))
                 foreach (var item in items)
-                    if (ThumbService.IsIDNotNull(item.ID))
+                    if (ThumbService.IsIdNotNull(item.ID))
                         Library.Add(new ArticleViewModel(regionManager)
                         {
                             ID = item.ID,
                             Name = ThumbService.ValidateName(item.Name),
-                            ImageSource = ThumbService.ValidatePreview(UriHelper.Get(item.Preview)),
+                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
                             Views = ThumbService.ValidateViews(item.Views),
                             Downloads = ThumbService.ValidateDownloads(item.Downloads)
                         });

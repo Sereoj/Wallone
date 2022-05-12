@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using System;
+using Prism.Mvvm;
 using System.Windows.Media;
 
 namespace Wallone.UI.ViewModels.Controls
@@ -6,7 +7,7 @@ namespace Wallone.UI.ViewModels.Controls
     public class SinglePageItemsViewModel : BindableBase
     {
         //Аватар
-        private ImageSource avatar;
+        private Uri avatar;
 
         //Бренд
         private string brand;
@@ -38,7 +39,7 @@ namespace Wallone.UI.ViewModels.Controls
             set => SetProperty(ref username, value);
         }
 
-        public ImageSource Avatar
+        public Uri Avatar
         {
             get => avatar;
             set

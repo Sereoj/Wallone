@@ -19,7 +19,6 @@ namespace Wallone.UI.ViewModels.Users
 {
     public class ProfileViewModel : BindableBase, INavigationAware
     {
-        private static readonly BitmapHelper bitmapHelper = new BitmapHelper();
         private readonly IRegionManager regionManager;
         private string header = "Профиль";
 
@@ -175,10 +174,10 @@ namespace Wallone.UI.ViewModels.Users
 
                     ProfileItemsVM.Avatar = ProfileService.GetAvatar() == null
                         ? null
-                        : (ImageSource)bitmapHelper[UriHelper.Get(ProfileService.GetAvatar())];
+                        : UriHelper.Get(ProfileService.GetAvatar());
                     ProfileItemsVM.Cover = ProfileService.GetCover() == null
-                        ? (ImageSource)Application.Current.Resources["Placeholder1280"]
-                        : bitmapHelper[UriHelper.Get(ProfileService.GetCover())];
+                        ? null
+                        : UriHelper.Get(ProfileService.GetCover());
 
                     ProfileItemsVM.Subscribers = ProfileService.GetSubscribers();
                     ProfileItemsVM.Subscriptions = ProfileService.GetSubscriptions();
@@ -198,7 +197,6 @@ namespace Wallone.UI.ViewModels.Users
                     }
 
                     posts(ProfileService.GetPosts());
-                    bitmapHelper.Clear();
                 }
 
                 IsLoading = false;

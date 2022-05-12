@@ -9,38 +9,24 @@ namespace Wallone.Core.Helpers
 {
     public class BitmapHelper
     {
-        private readonly Dictionary<Uri, BitmapImage> images = new Dictionary<Uri, BitmapImage>();
-
-        public BitmapImage this[Uri imageUrl]
-        {
-            get
-            {
-                if (images.TryGetValue(imageUrl, out var bitmap)) return bitmap;
-
-                bitmap = CreateBitmapImage(imageUrl);
-
-                images[imageUrl] = bitmap;
-
-                return bitmap;
-            }
-        }
-
-        private BitmapImage CreateBitmapImage(Uri uri)
+        public static BitmapImage CreateBitmapImage(Uri uri)
         {
             try
             {
-                return new BitmapImage(uri);
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = uri;
+                image.EndInit();
+
+                return image;
             }
             catch (Exception e)
             {
                 Trace.WriteLine(e);
-                throw;
             }
-        }
 
-        public void Clear()
-        {
-            images.Clear();
+            return null;
         }
     }
 }

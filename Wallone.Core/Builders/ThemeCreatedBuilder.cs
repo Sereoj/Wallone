@@ -122,18 +122,9 @@ namespace Wallone.Core.Builders
         {
             var configFile = GetConfigPath();
 
-            if (configFile.ExistsFile())
-            {
-                var jsonText = File.ReadAllText(configFile);
-                if (!JsonHelper.IsValidJson(jsonText))
-                {
-                    return false;
-                }
-
-                return true;
-
-            }
-            return false;
+            if (!configFile.ExistsFile()) return false;
+            var jsonText = File.ReadAllText(configFile);
+            return JsonHelper.IsValidJson(jsonText);
         }
 
         private async Task DownloadTask(string uri, string filename)

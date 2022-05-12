@@ -58,6 +58,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            Library.Clear();
             GC.Collect(2);
         }
 
@@ -72,7 +73,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public async Task Loaded()
         {
-            Library.Clear();
             try
             {
                 IsLoading = true;
@@ -94,13 +94,13 @@ namespace Wallone.UI.ViewModels.Wallpapers
                         var item = JsonConvert.DeserializeObject<Theme>(jsonText);
 
                         if (item == null) continue;
-                        if (!ThumbService.IsIDNotNull(item.Id)) continue;
+                        if (!ThumbService.IsIdNotNull(item.Id)) continue;
 
                         Library.Add(new ArticleViewModel(regionManager)
                         {
                             ID = item.Id,
                             Name = ThumbService.ValidateName(item.Name),
-                            ImageSource = ThumbService.ValidatePreview(UriHelper.Get(item.Preview)),
+                            ImageSource = BitmapHelper.CreateBitmapImage(ThumbService.ValidatePreview(UriHelper.Get(item.Preview))),
                             Views = ThumbService.ValidateViews("0"),
                             Downloads = ThumbService.ValidateDownloads("0")
                         });

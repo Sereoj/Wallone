@@ -6,6 +6,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -15,14 +16,13 @@ namespace Wallone.UI.ViewModels.Users
 {
     public class AccountViewModel : BindableBase, INavigationAware
     {
-        private static readonly BitmapHelper bitmapHelper = new BitmapHelper();
         private readonly IRegionManager regionManager;
         private User account;
 
-        private ImageSource avatar;
+        private Uri avatar;
         private string avatar_path;
 
-        private ImageSource cover;
+        private Uri cover;
 
         private string description;
 
@@ -72,7 +72,7 @@ namespace Wallone.UI.ViewModels.Users
             set => SetProperty(ref description, value);
         }
 
-        public ImageSource Avatar
+        public Uri Avatar
         {
             get => avatar;
             set
@@ -82,7 +82,7 @@ namespace Wallone.UI.ViewModels.Users
             }
         }
 
-        public ImageSource Cover
+        public Uri Cover
         {
             get => cover;
             set
@@ -172,7 +172,7 @@ namespace Wallone.UI.ViewModels.Users
             if (fileDialog.ShowDialog() == true)
             {
                 avatar_path = fileDialog.FileName;
-                Avatar = bitmapHelper[UriHelper.Get(fileDialog.FileName)];
+                Avatar = UriHelper.Get(fileDialog.FileName);
             }
         }
 
@@ -185,7 +185,7 @@ namespace Wallone.UI.ViewModels.Users
                 {
                     var text = JsonConvert.DeserializeObject<Advertisement>(info);
 
-                    TextInformation = text.text ?? "Информация не доступна";
+                    TextInformation = text?.text ?? "Информация не доступна";
                 }
             }
             catch (Exception ex)

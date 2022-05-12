@@ -15,11 +15,10 @@ namespace Wallone.UI.ViewModels.Controls
 {
     public class ImagePreviewViewModel : BindableBase, INavigationAware
     {
-        private readonly BitmapHelper bitmapHelper;
         private readonly DispatcherTimer transitionTimer;
 
-        private ImageSource backImageSource;
-        private ImageSource frontImageSource;
+        private BitmapImage backImageSource;
+        private BitmapImage frontImageSource;
         private bool isEnable;
         private int selectedIndex;
         private SinglePage simplePage;
@@ -31,8 +30,6 @@ namespace Wallone.UI.ViewModels.Controls
 
         public ImagePreviewViewModel()
         {
-            bitmapHelper = new BitmapHelper();
-
             PreviousCommand = new DelegateCommand(onPrevious);
             NextCommand = new DelegateCommand(onNext);
 
@@ -54,7 +51,7 @@ namespace Wallone.UI.ViewModels.Controls
             set => SetProperty(ref startAnimationValue, value);
         }
 
-        public ImageSource FrontImageSource
+        public BitmapImage FrontImageSource
         {
             get => frontImageSource;
             set
@@ -64,7 +61,7 @@ namespace Wallone.UI.ViewModels.Controls
             }
         }
 
-        public ImageSource BackImageSource
+        public BitmapImage BackImageSource
         {
             get => backImageSource;
             set
@@ -88,7 +85,7 @@ namespace Wallone.UI.ViewModels.Controls
                 SetProperty(ref selectedIndex, value);
                 if (value != -1)
                 {
-                    FrontImageSource = bitmapHelper[Items[value].Uri];
+                    FrontImageSource = BitmapHelper.CreateBitmapImage(Items[value].Uri);
                     Text = Items[value].Name;
                 }
             }
@@ -101,9 +98,6 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Items.Clear();
-            bitmapHelper.Clear();
-
             simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
 
             if (simplePage != null)
@@ -114,15 +108,14 @@ namespace Wallone.UI.ViewModels.Controls
 
                     isEnable = true;
                     SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
-                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = BitmapHelper.CreateBitmapImage(Items[SelectedIndex].Uri);
                     Text = Items[SelectedIndex].Name;
                     transitionTimer.Start();
                 }
                 else
                 {
-                    FrontImageSource =
-                        new BitmapImage(
-                            UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+                    FrontImageSource = BitmapHelper.CreateBitmapImage(
+                        UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
                     transitionTimer.Stop();
                     Text = "Неловкая ситуация =(";
                     isEnable = false;
@@ -138,6 +131,7 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            Items.Clear();
             transitionTimer.Stop();
         }
 
@@ -151,12 +145,12 @@ namespace Wallone.UI.ViewModels.Controls
                 if (SelectedIndex + 1 >= Items.Count)
                 {
                     SelectedIndex = Items.IndexOf(Items.First());
-                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = BitmapHelper.CreateBitmapImage(Items[SelectedIndex].Uri);
                 }
                 else
                 {
                     SelectedIndex++;
-                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = BitmapHelper.CreateBitmapImage(Items[SelectedIndex].Uri);
                 }
 
                 StartAnimationValue = true;
@@ -174,12 +168,12 @@ namespace Wallone.UI.ViewModels.Controls
                 if (SelectedIndex - 1 == -1)
                 {
                     SelectedIndex = Items.IndexOf(Items.Last());
-                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = BitmapHelper.CreateBitmapImage(Items[SelectedIndex].Uri);
                 }
                 else
                 {
                     SelectedIndex--;
-                    FrontImageSource = bitmapHelper[Items[SelectedIndex].Uri];
+                    FrontImageSource = BitmapHelper.CreateBitmapImage(Items[SelectedIndex].Uri);
                 }
 
                 StartAnimationValue = true;

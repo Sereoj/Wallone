@@ -67,6 +67,11 @@ namespace Wallone.Core.Services
             return AppSettings.ThemeConfig;
         }
 
+        public static bool ExistsFile(string path)
+        {
+            return path.ExistsFile();
+        }
+
         public static void CreateDirectory(string path)
         {
             path.CreateDirectory();
