@@ -9,10 +9,7 @@ namespace Wallone.Core.Builders
 
         public SettingsItemBuilder(ISettings settings)
         {
-            if (settings != null)
-            {
-                this.settings = settings;
-            }
+            if (settings != null) this.settings = settings;
         }
 
         public SettingsItemBuilder SetTheme(string theme)

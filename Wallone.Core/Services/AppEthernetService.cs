@@ -12,7 +12,7 @@ namespace Wallone.Core.Services
             try
             {
                 var request = WebRequest.Create(domain);
-                var response = (HttpWebResponse)request.GetResponse();
+                var response = (HttpWebResponse) request.GetResponse();
                 codeStatus = response.StatusCode;
                 response.Close();
 

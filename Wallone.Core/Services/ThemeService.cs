@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using Wallone.Core.Builders;
 using Wallone.Core.Models;
 
@@ -10,6 +10,7 @@ namespace Wallone.Core.Services
     {
         private static Theme themeModel;
         private static string themeName;
+
         public static string GetCurrentName()
         {
             return themeName ?? "default";
@@ -59,6 +60,7 @@ namespace Wallone.Core.Services
                 Console.WriteLine(e);
             }
         }
+
         public static void Save()
         {
             try

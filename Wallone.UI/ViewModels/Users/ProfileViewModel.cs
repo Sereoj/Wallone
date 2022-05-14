@@ -1,14 +1,13 @@
-﻿using Newtonsoft.Json;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -88,8 +87,8 @@ namespace Wallone.UI.ViewModels.Users
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            id = (string)navigationContext.Parameters["id"];
-            ProfileItemsVM.Name = (string)navigationContext.Parameters["name"];
+            id = (string) navigationContext.Parameters["id"];
+            ProfileItemsVM.Name = (string) navigationContext.Parameters["name"];
 
             if (id != null)
             {

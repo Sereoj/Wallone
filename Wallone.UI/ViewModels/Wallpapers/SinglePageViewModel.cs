@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
+using Prism.Mvvm;
+using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
@@ -80,10 +80,10 @@ namespace Wallone.UI.ViewModels.Wallpapers
         //Вызывается после SinglePageViewModel, получает данные с другой страницы и отображает
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            id = (string)navigationContext.Parameters["ID"] ?? "0";
-            Name = (string)navigationContext.Parameters["Name"] ?? "default";
+            id = (string) navigationContext.Parameters["ID"] ?? "0";
+            Name = (string) navigationContext.Parameters["Name"] ?? "default";
 
-            Loaded(id, name); 
+            Loaded(id, name);
             LoadAds();
         }
 
@@ -117,6 +117,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 SinglePageAds.Text = ex.Message;
             }
         }
+
         public async void Loaded(string pageId, string pageName)
         {
             try
@@ -130,20 +131,16 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 if (theme.Exist())
                 {
                     if (theme.ValidateConfig())
-                    {
                         simplePage = theme.GetModelFromFile();
-                    }
                     else
-                    {
                         regionManager.RequestNavigate("PageRegion", "NotFound");
-                    }
                 }
                 else
                 {
                     var data = await SinglePageService.GetPageAsync(id);
                     simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
                 }
-                
+
                 SinglePageService.Load(simplePage);
 
                 Name = SinglePageService.GetHeader();
@@ -178,7 +175,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
             try
             {
                 if (ThumbService.CheckItems(list))
-                {
                     foreach (var item in list)
                     {
                         Posts.Add(new ArticleViewModel(regionManager)
@@ -189,7 +185,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                         });
                         await Task.CompletedTask;
                     }
-                }
             }
             catch (Exception ex)
             {

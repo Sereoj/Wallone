@@ -1,11 +1,11 @@
-﻿using ModernWpf.Controls;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using ModernWpf.Controls;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using Wallone.Core.Services;
 using Wallone.UI.Services;
 
@@ -64,8 +64,17 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-
             navigationContext.NavigationService.Navigated += NavigationService_Navigated;
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            GC.Collect(2);
         }
 
         private void NavigationService_Navigated(object sender, RegionNavigationEventArgs e)
@@ -79,16 +88,6 @@ namespace Wallone.UI.ViewModels
             };
 
             regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-            GC.Collect(2);
         }
 
         private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)

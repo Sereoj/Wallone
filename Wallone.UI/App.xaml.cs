@@ -1,6 +1,6 @@
-﻿using Prism.Ioc;
+﻿using System.Windows;
+using Prism.Ioc;
 using Prism.Modularity;
-using System.Windows;
 using Wallone.Authorization;
 using Wallone.Common;
 using Wallone.Controls;

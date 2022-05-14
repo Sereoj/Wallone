@@ -1,13 +1,9 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
-using System.Security.Policy;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Wallone.Core.Extension;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
@@ -103,7 +99,6 @@ namespace Wallone.Core.Builders
         {
             this.images.Clear();
             if (images != null)
-            {
                 foreach (var item in images)
                     this.images.Add(new Image
                     {
@@ -111,7 +106,6 @@ namespace Wallone.Core.Builders
                         times = item.name,
                         location = UriHelper.GetUri(item.location, ThemePath, "?")
                     });
-            }
 
             links = images;
 

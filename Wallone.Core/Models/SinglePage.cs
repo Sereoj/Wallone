@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Wallone.Core.Interfaces;
 
 namespace Wallone.Core.Models
 {

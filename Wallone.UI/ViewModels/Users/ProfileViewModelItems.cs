@@ -1,6 +1,5 @@
 ﻿using System;
 using Prism.Mvvm;
-using System.Windows.Media;
 
 namespace Wallone.UI.ViewModels.Users
 {

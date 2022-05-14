@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
-using System.Timers;
+using Newtonsoft.Json;
 using Wallone.Core.Extension;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
@@ -47,10 +44,7 @@ namespace Wallone.Core.Services
             try
             {
                 var jsonText = File.ReadAllText(file);
-                if (JsonHelper.IsValidJson(jsonText))
-                {
-                    Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
-                }
+                if (JsonHelper.IsValidJson(jsonText)) Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
             }
             catch (Exception ex)
             {

@@ -6,7 +6,6 @@ namespace Wallone.Core.Builders
 {
     public class SettingsBuilder : IAppSettings
     {
-
         public SettingsBuilder(ISettings settings)
         {
             SettingsService.SetModel(settings);

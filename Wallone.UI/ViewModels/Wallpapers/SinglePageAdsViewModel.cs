@@ -1,5 +1,5 @@
-﻿using Prism.Mvvm;
-using System.Windows.Media;
+﻿using System.Windows.Media;
+using Prism.Mvvm;
 
 namespace Wallone.UI.ViewModels.Wallpapers
 {

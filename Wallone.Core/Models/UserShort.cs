@@ -1,5 +1,4 @@
-﻿using System;
-using Wallone.Core.Interfaces;
+﻿using Wallone.Core.Interfaces;
 
 namespace Wallone.Core.Models
 {

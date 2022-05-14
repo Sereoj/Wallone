@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Prism.Mvvm;
+using Prism.Regions;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -80,9 +80,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 var themeDirectory = AppSettingsService.GetThemesLocation();
 
                 if (AppSettingsService.ExistDirectory(themeDirectory))
-                {
                     AppSettingsService.CreateDirectory(themeDirectory);
-                }
 
                 foreach (var filePath in Directory.EnumerateFiles(AppSettingsService.GetThemesLocation(), "theme.json",
                              SearchOption.AllDirectories))
@@ -100,7 +98,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
                         {
                             ID = item.Id,
                             Name = ThumbService.ValidateName(item.Name),
-                            ImageSource = BitmapHelper.CreateBitmapImage(ThumbService.ValidatePreview(UriHelper.Get(item.Preview))),
+                            ImageSource =
+                                BitmapHelper.CreateBitmapImage(
+                                    ThumbService.ValidatePreview(UriHelper.Get(item.Preview))),
                             Views = ThumbService.ValidateViews("0"),
                             Downloads = ThumbService.ValidateDownloads("0")
                         });
