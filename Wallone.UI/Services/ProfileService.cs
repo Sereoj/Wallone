@@ -90,14 +90,14 @@ namespace Wallone.UI.Services
         public static Task<Profile> SetAppendFriendAsync()
         {
             var items = RequestRouter<Profile, Subscription>.PostAsync("user/add",
-                new Subscription { friend_id = GetId() });
+                new Subscription {friend_id = GetId()});
             return items;
         }
 
         public static Task<Profile> SetRemoveFriendAsync()
         {
             var items = RequestRouter<Profile, Subscription>.PostAsync("user/remove",
-                new Subscription { friend_id = GetId() });
+                new Subscription {friend_id = GetId()});
             return items;
         }
 

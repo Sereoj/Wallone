@@ -25,12 +25,12 @@ namespace Wallone.Authorization.Helpers
 
         public static bool GetAttach(DependencyObject dp)
         {
-            return (bool)dp.GetValue(AttachProperty);
+            return (bool) dp.GetValue(AttachProperty);
         }
 
         public static string GetPassword(DependencyObject dp)
         {
-            return (string)dp.GetValue(PasswordProperty);
+            return (string) dp.GetValue(PasswordProperty);
         }
 
         public static void SetPassword(DependencyObject dp, string value)
@@ -40,7 +40,7 @@ namespace Wallone.Authorization.Helpers
 
         private static bool GetIsUpdating(DependencyObject dp)
         {
-            return (bool)dp.GetValue(IsUpdatingProperty);
+            return (bool) dp.GetValue(IsUpdatingProperty);
         }
 
         private static void SetIsUpdating(DependencyObject dp, bool value)
@@ -53,7 +53,7 @@ namespace Wallone.Authorization.Helpers
         {
             var passwordBox = sender as PasswordBox;
             passwordBox.PasswordChanged -= PasswordChanged;
-            if (!GetIsUpdating(passwordBox)) passwordBox.Password = (string)e.NewValue;
+            if (!GetIsUpdating(passwordBox)) passwordBox.Password = (string) e.NewValue;
             passwordBox.PasswordChanged += PasswordChanged;
         }
 
@@ -63,8 +63,8 @@ namespace Wallone.Authorization.Helpers
             var passwordBox = sender as PasswordBox;
             if (passwordBox == null)
                 return;
-            if ((bool)e.OldValue) passwordBox.PasswordChanged -= PasswordChanged;
-            if ((bool)e.NewValue) passwordBox.PasswordChanged += PasswordChanged;
+            if ((bool) e.OldValue) passwordBox.PasswordChanged -= PasswordChanged;
+            if ((bool) e.NewValue) passwordBox.PasswordChanged += PasswordChanged;
         }
 
         private static void PasswordChanged(object sender, RoutedEventArgs e)

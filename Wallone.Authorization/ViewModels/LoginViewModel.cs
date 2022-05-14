@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using System.Net;
+using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.Net;
 using Wallone.Core.Services;
 
 namespace Wallone.Authorization.ViewModels

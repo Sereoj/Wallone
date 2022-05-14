@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Wallone.Core.Interfaces;
+﻿using System.Collections.Generic;
 
 namespace Wallone.Core.Models
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 
 namespace Wallone.Core.Services
@@ -156,21 +155,21 @@ namespace Wallone.Core.Services
         public static Task<SinglePage> SetDownloadAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate { hasDownload = value });
+                new SinglePageUpdate {hasDownload = value});
             return items;
         }
 
         public static Task<SinglePage> SetFavoriteAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate { hasFavorite = value });
+                new SinglePageUpdate {hasFavorite = value});
             return items;
         }
 
         public static Task<SinglePage> SetReactionAsync(string value)
         {
             var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
-                new SinglePageUpdate { hasLike = value });
+                new SinglePageUpdate {hasLike = value});
             return items;
         }
     }

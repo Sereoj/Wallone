@@ -1,5 +1,5 @@
-﻿using Prism.Events;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using Prism.Events;
 
 namespace Wallone.Core.Events
 {

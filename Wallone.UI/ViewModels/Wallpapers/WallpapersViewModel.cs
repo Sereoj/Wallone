@@ -1,17 +1,19 @@
-﻿using Prism.Events;
-using Prism.Mvvm;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.Interfaces;
+using Wallone.UI.Services;
 using Wallone.UI.ViewModels.Controls;
 
 namespace Wallone.UI.ViewModels.Wallpapers
@@ -19,7 +21,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
     public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
-
         private string header = "Библиотека";
 
         private bool isContent;
@@ -40,7 +41,13 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public WallpapersViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+
+            ViewerScrollChangedCommand = new DelegateCommand<ScrollChangedEventArgs>(OnViewerScrollChanged);
         }
+
+        public IPageBulder PageBuilder { get; private set; }
+
+        public DelegateCommand<ScrollChangedEventArgs> ViewerScrollChangedCommand { get; set; }
 
         public bool IsLoading
         {
@@ -81,10 +88,10 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var root = (string)navigationContext.Parameters["Root"] ?? "Gallery";
-            var page_id = (string)navigationContext.Parameters["ID"] ?? "Main";
+            var root = (string) navigationContext.Parameters["Root"] ?? "Gallery";
+            var page_id = (string) navigationContext.Parameters["ID"] ?? "Main";
 
-            var pageBuilder = new PageBuilder() // Создаем билдер
+            PageBuilder = new PageBuilder() // Создаем билдер
                 .Query(new PageGallaryBuilder()) //Говорим, что gallery
                 .Catalog(root) //Устанввливам каталог
                 .Page(page_id) //Устанавливаем страницу
@@ -93,9 +100,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .ShowAds(false) //Отображение рекламы
                 .Build(); //Сборка
 
-            router = pageBuilder.GetRouter();
-            parameters = pageBuilder.GetFields();
-            Header = (string)navigationContext.Parameters["Text"] ?? "Библиотека";
+            router = PageBuilder.GetRouter();
+            parameters = PageBuilder.GetFields();
+            Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
         }
 
         public ObservableCollection<ArticleViewModel> Library { get; set; } =
@@ -112,6 +119,22 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 if (router == "wallpapers" || parameters.Count > 0) Loaded(null, router, parameters);
                 router = null;
                 parameters = null;
+            }
+        }
+
+        private void OnViewerScrollChanged(ScrollChangedEventArgs e)
+        {
+            var data = ScrollViewerService.Get(ref e);
+
+            if (e.ViewportHeight + e.VerticalOffset == e.ExtentHeight)
+            {
+                PageBuilder.Pagination("2");
+                PageBuilder.Build();
+
+                router = PageBuilder.GetRouter();
+                parameters = PageBuilder.GetFields();
+
+                Loaded(null,router, parameters);
             }
         }
 

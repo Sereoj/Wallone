@@ -15,13 +15,13 @@ using System;
 using Prism.Diagnostics;
 */
 
-using Newtonsoft.Json;
-using Prism.Mvvm;
-using Prism.Regions;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using Newtonsoft.Json;
+using Prism.Mvvm;
+using Prism.Regions;
 using Wallone.Controls.ViewModels;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
@@ -163,6 +163,7 @@ namespace Wallone.Authorization.ViewModels
             var controller = new ThemeController();
             controller.Set(theme);
         }
+
         private async void LoadData()
         {
             var status = AppEthernetService.IsConnect(Router.domainExample); // true

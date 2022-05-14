@@ -1,5 +1,4 @@
 ﻿using Prism.Mvvm;
-using System;
 using Wallone.Core.Interfaces;
 
 namespace Wallone.Core.Models.App

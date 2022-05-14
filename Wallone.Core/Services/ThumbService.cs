@@ -68,19 +68,17 @@ namespace Wallone.Core.Services
 
         public static Uri Validate(Uri uri)
         {
-
             if (uri.IsAbsoluteUri)
             {
                 if (uri.IsFile)
                 {
-                    if (File.Exists(uri.LocalPath))
-                    {
-                        return uri;
-                    }
+                    if (File.Exists(uri.LocalPath)) return uri;
                     return UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
                 }
+
                 return uri;
             }
+
             return UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
         }
 

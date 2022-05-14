@@ -8,11 +8,10 @@ namespace Wallone.Core.Helpers
     {
         public static bool IsValidJson(string strInput)
         {
-            if (string.IsNullOrWhiteSpace(strInput)) { return false; }
+            if (string.IsNullOrWhiteSpace(strInput)) return false;
             strInput = strInput.Trim();
             if ((strInput.StartsWith("{") && strInput.EndsWith("}")) || //For object
                 (strInput.StartsWith("[") && strInput.EndsWith("]"))) //For array
-            {
                 try
                 {
                     var obj = JToken.Parse(strInput);
@@ -29,11 +28,8 @@ namespace Wallone.Core.Helpers
                     Console.WriteLine(ex.ToString());
                     return false;
                 }
-            }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
     }
 }

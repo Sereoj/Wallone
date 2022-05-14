@@ -1,6 +1,6 @@
-﻿using ModernWpf.Controls;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using ModernWpf.Controls;
 using Wallone.Core.Services;
 
 namespace Wallone.UI.Views
