@@ -26,6 +26,8 @@ namespace Wallone.UI.ViewModels.Controls
         {
             this.regionManager = regionManager;
             ArticleMouseDownCommand = new DelegateCommand<MouseButtonEventArgs>(OnArticleMouseDown);
+
+            ImageSource = null;
         }
 
         public BitmapImage ImageSource

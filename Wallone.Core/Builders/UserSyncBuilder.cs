@@ -20,16 +20,21 @@ namespace Wallone.Core.Builders
         private static async Task<JObject> GetUserData()
         {
             var json = await UserService.GetLoginWithTokenAsync();
-            var objects = JObject.Parse(json);
-            return objects;
+            if (!string.IsNullOrEmpty(json))
+            {
+                var objects = JObject.Parse(json);
+                return objects;
+            }
+
+            return null;
         }
 
         public async Task<UserSyncBuilder> ValidateAsync()
         {
             if (token != null)
             {
-                var data = await GetUserData();
-                if (UserService.ValidateWithToken(data))
+                JObject data = await GetUserData();
+                if (data != null & UserService.ValidateWithToken(data))
                 {
                     isAuth = true;
                     return this;
@@ -50,24 +55,8 @@ namespace Wallone.Core.Builders
             return isAuth;
         }
 
-        public UserSyncBuilder GetSettings()
+        public void Build()
         {
-            return this;
-        }
-
-        public UserSyncBuilder Build()
-        {
-            return this;
-        }
-
-        public Settings GetConfig()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void GetCollection()
-        {
-            throw new NotImplementedException();
         }
     }
 }
