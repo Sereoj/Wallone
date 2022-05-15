@@ -28,15 +28,12 @@ namespace Wallone.UI.ViewModels.Wallpapers
         private bool isInternet;
 
         private bool isLoading = true;
-        private List<Parameter> parameters;
 
-        private string router;
+        private int pagination = 1;
+        private bool isNextPage;
+        private int countPosts = 1;
 
-        public WallpapersViewModel()
-        {
-            Library.Add(new ArticleViewModel(null));
-            Library.Add(new ArticleViewModel(null));
-        }
+        public WallpapersViewModel() { }
 
         public WallpapersViewModel(IRegionManager regionManager)
         {
@@ -45,7 +42,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             ViewerScrollChangedCommand = new DelegateCommand<ScrollChangedEventArgs>(OnViewerScrollChanged);
         }
 
-        public IPageBulder PageBuilder { get; private set; }
+        public PageGalleryBuilder PageBuilder { get; private set; }
 
         public DelegateCommand<ScrollChangedEventArgs> ViewerScrollChangedCommand { get; set; }
 
@@ -88,21 +85,19 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var root = (string) navigationContext.Parameters["Root"] ?? "Gallery";
-            var page_id = (string) navigationContext.Parameters["ID"] ?? "Main";
-
-            PageBuilder = new PageBuilder() // Создаем билдер
-                .Query(new PageGallaryBuilder()) //Говорим, что gallery
-                .Catalog(root) //Устанввливам каталог
-                .Page(page_id) //Устанавливаем страницу
-                .Validate() //Валидация полученных значений
-                .Pagination("1")
-                .ShowAds(false) //Отображение рекламы
-                .Build(); //Сборка
-
-            router = PageBuilder.GetRouter();
-            parameters = PageBuilder.GetFields();
+            var page = (string) navigationContext.Parameters["Page"];
+            var page_id = (string)navigationContext.Parameters["ID"];
             Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
+
+            PageBuilder = new PageGalleryBuilder()
+                .SetApplicationRouter(page)
+                .SetPagination(1)
+                .SetBrand(page, page_id)
+                .SetCategory(page, page_id)
+                .ValidateRouter()
+                .CreatePageQuery();
+
+            Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
         }
 
         public ObservableCollection<ArticleViewModel> Library { get; set; } =
@@ -114,11 +109,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
             set
             {
                 SetProperty(ref header, value);
-                //При изменении заголовка обновлять контент
-
-                if (router == "wallpapers" || parameters.Count > 0) Loaded(null, router, parameters);
-                router = null;
-                parameters = null;
             }
         }
 
@@ -126,28 +116,41 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             var data = ScrollViewerService.Get(ref e);
 
-            if (e.ViewportHeight + e.VerticalOffset == e.ExtentHeight)
+            if (data.percent80 < data.offset && data.percent90 > data.offset)
             {
-                PageBuilder.Pagination("2");
-                PageBuilder.Build();
-
-                router = PageBuilder.GetRouter();
-                parameters = PageBuilder.GetFields();
-
-                Loaded(null,router, parameters);
+                if (isNextPage && countPosts != 0)
+                {
+                    pagination++;
+                    PageBuilder.SetPagination(pagination)
+                        .ValidateRouter()
+                        .CreatePageQuery();
+                    Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), false);
+                }
             }
+
         }
 
-        public async void Loaded(string page, string router, List<Parameter> parameters)
+        public async void Loaded(string router, List<Parameter> parameters, bool isLoaded)
         {
             try
             {
-                IsLoading = true;
-                Trace.WriteLine("Router: " + router + "|Page: " + page);
-                var items = await ThumbService.GetThumbsAsync(router, page, parameters);
-                Trace.WriteLine("Количество постов: " + items.Count);
+                if (isLoaded)
+                {
+                    IsLoading = true;
+                }
+
+                isNextPage = false;
+
+                var items = await ThumbService.GetThumbsAsync(router, parameters);
                 await LoadImages(items);
-                IsLoading = false;
+                
+                PageBuilder.ClearQuery();
+
+                isNextPage = true;
+                if (IsLoading)
+                {
+                    IsLoading = false;
+                }
             }
             catch (Exception ex)
             {
@@ -163,8 +166,13 @@ namespace Wallone.UI.ViewModels.Wallpapers
         private async Task LoadImages(List<Thumb> items)
         {
             if (ThumbService.IsNotNull(items))
+            {
+                countPosts = items.Count;
+
                 foreach (var item in items)
+                {
                     if (ThumbService.IsIdNotNull(item.ID))
+                    {
                         Library.Add(new ArticleViewModel(regionManager)
                         {
                             ID = item.ID,
@@ -173,6 +181,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
                             Views = ThumbService.ValidateViews(item.Views),
                             Downloads = ThumbService.ValidateDownloads(item.Downloads)
                         });
+                    }
+                }
+            }
             await Task.CompletedTask;
         }
     }

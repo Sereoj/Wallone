@@ -53,7 +53,10 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <!--  Grid Header  -->
-                    <Grid x:Name="Header" Grid.Row="0">
+                    <Grid
+                        x:Name="Header"
+                        Grid.Row="0"
+                        Focusable="False">
                         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                             <TextBlock
                                 Margin="0,10,0,0"
@@ -62,6 +65,7 @@
                             <TextBlock
                                 Margin="10,15,0,0"
                                 Cursor="Hand"
+                                Focusable="False"
                                 FontFamily="{StaticResource FontIconMoonUltimate}"
                                 IsHitTestVisible="True"
                                 Style="{StaticResource H3}"
@@ -74,8 +78,9 @@
                     <Grid
                         x:Name="ArticleView"
                         Grid.Row="1"
-                        Margin="20,20,20,0">
-                        <StackPanel HorizontalAlignment="Center">
+                        Margin="20,20,20,0"
+                        Focusable="False">
+                        <StackPanel HorizontalAlignment="Center" Focusable="False">
                             <ui:GridView x:Name="CarouselInformationBlock">
                                 <ContentControl
                                     x:Name="Carousel"
@@ -83,19 +88,22 @@
                                     MinHeight="200"
                                     MaxWidth="900"
                                     MaxHeight="400"
-                                    prism:RegionManager.RegionName="Slider" />
+                                    prism:RegionManager.RegionName="Slider"
+                                    Focusable="False" />
                                 <ContentControl
                                     x:Name="Information"
                                     MinWidth="400"
                                     MinHeight="200"
                                     MaxWidth="880"
                                     MaxHeight="400"
-                                    prism:RegionManager.RegionName="Information" />
+                                    prism:RegionManager.RegionName="Information"
+                                    Focusable="False" />
                             </ui:GridView>
                             <Grid
                                 x:Name="AdBlock"
                                 Height="120"
                                 Background="{StaticResource SystemControlBackgroundListLowBrush}"
+                                Focusable="False"
                                 Visibility="{Binding SinglePageAds.IsVisible, Converter={StaticResource BoolToVis}, FallbackValue=Visible}">
                                 <Image
                                     HorizontalAlignment="Center"
@@ -122,14 +130,20 @@
                                     </TextBlock.Effect>
                                 </TextBlock>
                             </Grid>
-                            <StackPanel x:Name="RandomEntriesBlock" Margin="0,20,0,0">
+                            <StackPanel
+                                x:Name="RandomEntriesBlock"
+                                Margin="0,20,0,0"
+                                Focusable="False">
                                 <StackPanel HorizontalAlignment="Center">
                                     <TextBlock
                                         Padding="0,2"
                                         FontFamily="{StaticResource FontGardensC}"
                                         Style="{StaticResource H4}"
                                         Text="Похожие посты" />
-                                    <ui:GridView Margin="0,10,0,0" ItemsSource="{Binding Posts}">
+                                    <ui:GridView
+                                        Margin="0,10,0,0"
+                                        Focusable="True"
+                                        ItemsSource="{Binding Posts}">
                                         <ui:GridView.ItemTemplate>
                                             <DataTemplate DataType="{x:Type viewmodels1:ArticleViewModel}">
                                                 <controls:ArticleMedium />
@@ -153,6 +167,7 @@
             Click="ScrollUp_Click"
             Content="&#xEA3A;"
             Cursor="Hand"
+            Focusable="True"
             FontFamily="{StaticResource FontIconMoon}"
             Opacity="0.6"
             Visibility="Visible">

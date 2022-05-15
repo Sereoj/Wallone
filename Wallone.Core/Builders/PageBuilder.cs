@@ -2,7 +2,7 @@
 {
     public class PageBuilder
     {
-        public IPageBulder Query(IPageBulder t)
+        public IPageBuilder Query(IPageBuilder t)
         {
             return t;
         }

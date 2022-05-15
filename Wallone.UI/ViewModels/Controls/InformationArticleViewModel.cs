@@ -131,6 +131,7 @@ namespace Wallone.UI.ViewModels.Controls
 
 
                 Update(data);
+
                 SinglePageLogic.IsDownloaded = builder.GetHasNotDownloaded();
                 SinglePageLogic.IsEnableDownloaded = true;
             }
@@ -228,6 +229,9 @@ namespace Wallone.UI.ViewModels.Controls
             }
             else
             {
+                SinglePageLogic.IsEnableDownloaded = simplePage.isActive;
+                SinglePageLogic.IsEnableLiked = simplePage.isActive;
+
                 SinglePageLogic.IsDownloaded = false;
                 SinglePageLogic.IsInstalled = false;
                 SinglePageLogic.IsEnableInstalled = false;

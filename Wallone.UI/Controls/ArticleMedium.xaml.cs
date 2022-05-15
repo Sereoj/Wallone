@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Wallone.Core.Helpers;
 
 namespace Wallone.UI.Controls
 {
@@ -10,6 +11,7 @@ namespace Wallone.UI.Controls
         public ArticleMedium()
         {
             InitializeComponent();
+            RandomColors.Background = new ColorHelper().Get();
         }
     }
 }

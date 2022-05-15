@@ -16,9 +16,9 @@ namespace Wallone.Core.Services
             return AppEthernetService.GetStatus();
         }
 
-        public static Task<List<Thumb>> GetThumbsAsync(string router, string page, List<Parameter> parameters)
+        public static Task<List<Thumb>> GetThumbsAsync(string router, List<Parameter> parameters)
         {
-            var items = RequestRouter<List<Thumb>>.GetAsync(router, page, parameters);
+            var items = RequestRouter<List<Thumb>>.GetAsync(router,null, parameters);
             return items;
         }
 

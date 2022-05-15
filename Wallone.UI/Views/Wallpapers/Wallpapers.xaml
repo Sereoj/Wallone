@@ -44,6 +44,8 @@
             Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
         <ScrollViewer
             x:Name="ScrollViewer"
+            CanContentScroll="False"
+            Focusable="False"
             IsTabStop="False"
             ScrollChanged="ScrollViewer_ScrollChanged">
             <b:Interaction.Triggers>
@@ -102,6 +104,7 @@
             VerticalAlignment="Bottom"
             Click="ScrollUp_Click"
             Content="&#xEA3A;"
+            Cursor="Hand"
             FontFamily="{StaticResource FontIconMoon}"
             Opacity="0.6"
             Visibility="Visible">

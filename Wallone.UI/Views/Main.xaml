@@ -53,44 +53,50 @@
             </ui:NavigationView.PaneHeader>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
-                    x:Uid="Main"
+                    x:Name="Gallery"
                     Content="Библиотека"
+                    Cursor="Hand"
                     Icon="Library"
                     Tag="Gallery" />
                 <!--  Brands  -->
                 <ui:NavigationViewItem
-                    x:Uid="Brands"
+                    x:Name="Brands"
                     Content="Бренды"
+                    Cursor="Hand"
                     Icon="AllApps"
                     MenuItemsSource="{Binding Brands}"
                     Tag="Gallery" />
                 <!--  Categories  -->
                 <ui:NavigationViewItem
-                    x:Uid="CategoriesCollection"
+                    x:Name="Categories"
                     Content="Категории"
+                    Cursor="Hand"
                     Icon="GlobalNavigationButton"
                     MenuItemsSource="{Binding Categories}"
                     Tag="Gallery" />
                 <ui:NavigationViewItemSeparator />
                 <ui:NavigationViewItem
-                    x:Uid="New"
+                    x:Name="New"
                     Content="Новые"
+                    Cursor="Hand"
                     Tag="Gallery">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xE953;" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem
-                    x:Uid="Popular"
+                    x:Name="Popular"
                     Content="Популярные"
+                    Cursor="Hand"
                     Tag="Gallery">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xE9A9;" />
                     </ui:NavigationViewItem.Icon>
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItem
-                    x:Uid="Wait"
+                    x:Name="Wait"
                     Content="Ожидаемые"
+                    Cursor="Hand"
                     Tag="Gallery">
                     <ui:NavigationViewItem.Icon>
                         <ui:FontIcon FontFamily="{StaticResource FontIconMoonFree}" Glyph="&#xE950;" />
@@ -98,19 +104,23 @@
                 </ui:NavigationViewItem>
                 <ui:NavigationViewItemSeparator />
                 <ui:NavigationViewItem
-                    x:Uid="Downloads"
+                    x:Name="Downloads"
                     Content="Загрузки"
+                    Cursor="Hand"
                     Icon="download"
                     Tag="Downloads" />
                 <ui:NavigationViewItem
-                    x:Uid="Favourite"
+                    x:Name="Favourite"
                     Content="Закладки"
+                    Cursor="Hand"
                     Icon="favorite"
                     Tag="Gallery" />
             </ui:NavigationView.MenuItems>
             <ui:NavigationView.FooterMenuItems>
                 <ui:NavigationViewItem
+                    x:Name="Profile"
                     Content="Профиль"
+                    Cursor="Hand"
                     Icon="Contact"
                     Tag="Profile" />
             </ui:NavigationView.FooterMenuItems>

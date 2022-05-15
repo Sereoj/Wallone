@@ -18,6 +18,7 @@ namespace Wallone.Core.Models
         public List<Link> links { get; set; }
         public string hasLike { get; set; }
         public string hasFavorite { get; set; }
+        public bool isActive { get; set; }
         public UserShort user { get; set; }
         public List<Thumb> posts { get; set; }
         public string created_at { get; set; }

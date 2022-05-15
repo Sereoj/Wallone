@@ -193,9 +193,15 @@ namespace Wallone.Authorization.ViewModels
                     IsLoading = true;
 
                     var data = await AppVersionService.GetVersionAsync();
-                    var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
-
-                    AppVersionService.SetVersion(appVersion?.Version);
+                    if (!string.IsNullOrEmpty(data))
+                    {
+                        var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
+                        AppVersionService.SetVersion(appVersion?.Version);
+                    }
+                    else
+                    {
+                        AppVersionService.SetVersion(null);
+                    }
                     SetMessage("Поиск обновления...");
                     await Task.Delay(2000);
 

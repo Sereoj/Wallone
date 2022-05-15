@@ -136,9 +136,9 @@ namespace Wallone.UI.ViewModels
                     {
                         Uid = item.ID,
                         Content = item.Name,
-                        Name = item.Tag != null ? item.Tag.ToLower() : "wallpapers",
+                        Name = "Brands",
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
-                        Tag = "Brands"
+                        Tag = "Gallery"
                     });
             }
             catch (Exception ex)
@@ -163,9 +163,9 @@ namespace Wallone.UI.ViewModels
                     {
                         Uid = item.ID,
                         Content = item.Name,
-                        Name = item.Tag != null ? item.Tag.ToLower() : "wallpapers",
+                        Name = "Categories",
                         Icon = item.Icon != null ? FontIconService.SetIcon("ultimate", item.Icon) : null,
-                        Tag = "CategoriesCollection"
+                        Tag = "Gallery"
                     });
             }
             catch (Exception ex)

@@ -90,6 +90,7 @@
             VerticalAlignment="Bottom"
             Click="ScrollUp_Click"
             Content="&#xEA3A;"
+            Cursor="Hand"
             FontFamily="{StaticResource FontIconMoon}"
             Opacity="0.6"
             Visibility="Visible">

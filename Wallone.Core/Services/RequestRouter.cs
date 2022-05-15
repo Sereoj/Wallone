@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
@@ -23,10 +25,23 @@ namespace Wallone.Core.Services
             return result.Data;
         }
 
-        public static async Task<T> GetAsync(string method, string page = null)
+        public static async Task<T> GetAsync(string method, string page)
         {
             var client = new RestClient(domainApi);
             var request = new RestRequest($"{method}/{page}", Method.GET, DataFormat.Json);
+            var result = await client.ExecuteGetAsync<T>(request);
+            AppEthernetService.SetStatus(result.StatusCode);
+            return result.Data;
+        }
+
+        public static async Task<T> GetAsync(string method)
+        {
+            var client = new RestClient($"{domainApi}")
+            {
+                Authenticator = new JwtAuthenticator(SettingsService.Get().Token)
+            };
+            var request = new RestRequest($"{method}", Method.GET, DataFormat.Json);
+
             var result = await client.ExecuteGetAsync<T>(request);
             AppEthernetService.SetStatus(result.StatusCode);
             return result.Data;
