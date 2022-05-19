@@ -155,8 +155,10 @@ namespace Wallone.Authorization.ViewModels
                     .Build()
                 );
 
+            ThemeService.SetCurrentName(SettingsService.Get().Theme);
+
             var theme = new ThemeCreatedBuilder()
-                .SetName(AppFormat.Format(ThemeService.GetCurrentName()))
+                .SetName(ThemeService.GetCurrentName())
                 .HasDownloaded()
                 .GetThemeModelFromFile();
 

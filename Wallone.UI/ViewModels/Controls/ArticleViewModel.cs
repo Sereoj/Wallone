@@ -13,8 +13,7 @@ namespace Wallone.UI.ViewModels.Controls
 
         private string downloads;
 
-        private string id;
-
+        private string uuid;
 
         private BitmapImage imageSource;
 
@@ -58,10 +57,10 @@ namespace Wallone.UI.ViewModels.Controls
             set => SetProperty(ref views, value);
         }
 
-        public string ID
+        public string Uuid
         {
-            get => id;
-            set => SetProperty(ref id, value);
+            get => uuid;
+            set => SetProperty(ref uuid, value);
         }
 
         public DelegateCommand<MouseButtonEventArgs> ArticleMouseDownCommand { get; set; }
@@ -83,7 +82,7 @@ namespace Wallone.UI.ViewModels.Controls
         {
             var param = new NavigationParameters
             {
-                {"ID", ID},
+                {"Uuid", Uuid},
                 {"Name", Name},
                 {"ImageSource", ImageSource}
             };

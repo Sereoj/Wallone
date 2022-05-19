@@ -22,7 +22,7 @@ namespace Wallone.Core.Services
 
         public static string GetID()
         {
-            return simplePage.id;
+            return simplePage.uuid;
         }
 
         public static SinglePage GetSimplePage()
@@ -154,21 +154,21 @@ namespace Wallone.Core.Services
 
         public static Task<SinglePage> SetDownloadAsync(string value)
         {
-            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
+            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.uuid,
                 new SinglePageUpdate {hasDownload = value});
             return items;
         }
 
         public static Task<SinglePage> SetFavoriteAsync(string value)
         {
-            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
+            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.uuid,
                 new SinglePageUpdate {hasFavorite = value});
             return items;
         }
 
         public static Task<SinglePage> SetReactionAsync(string value)
         {
-            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.id,
+            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.uuid,
                 new SinglePageUpdate {hasLike = value});
             return items;
         }

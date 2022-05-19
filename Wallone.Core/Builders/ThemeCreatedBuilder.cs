@@ -68,7 +68,7 @@ namespace Wallone.Core.Builders
             if (AppConvert.Revert(ThemeHasDownloaded))
                 Theme = new Theme
                 {
-                    Id = SinglePageService.GetID(),
+                    Uuid = SinglePageService.GetID(),
                     Name = SinglePageService.GetHeader(),
                     User = SinglePageService.GetUser(),
                     Preview = Path.Combine(ThemePath, ThemeThumbFileName),

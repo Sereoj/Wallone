@@ -15,6 +15,8 @@ namespace Wallone.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
 
+        public ManagerViewModel ManagerViewModel { get; }
+
         private ObservableCollection<NavigationViewItem> brands = new ObservableCollection<NavigationViewItem>();
 
         private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
@@ -32,6 +34,7 @@ namespace Wallone.UI.ViewModels
 
             LoadBrands();
             LoadCategory();
+            ManagerViewModel = new ManagerViewModel(regionManager);
 
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
         }
@@ -143,12 +146,7 @@ namespace Wallone.UI.ViewModels
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                // ignored
             }
         }
 
@@ -170,12 +168,7 @@ namespace Wallone.UI.ViewModels
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                // ignored
             }
         }
     }

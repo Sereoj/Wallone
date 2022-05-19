@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Helpers;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.Interfaces;
@@ -16,6 +17,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
     public class DownloadsPageViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
+
+        public ManagerViewModel ManagerViewModel { get; }
 
         private string header = "Установленные";
         private bool isContent;
@@ -28,6 +31,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public DownloadsPageViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+            ManagerViewModel = new ManagerViewModel(regionManager);
         }
 
         public bool IsLoading
@@ -92,11 +96,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
                         var item = JsonConvert.DeserializeObject<Theme>(jsonText);
 
                         if (item == null) continue;
-                        if (!ThumbService.IsIdNotNull(item.Id)) continue;
+                        if (!ThumbService.IsIdNotNull(item.Uuid)) continue;
 
                         Library.Add(new ArticleViewModel(regionManager)
                         {
-                            ID = item.Id,
+                            Uuid = item.Uuid,
                             Name = ThumbService.ValidateName(item.Name),
                             ImageSource =
                                 BitmapHelper.CreateBitmapImage(
@@ -111,12 +115,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                ManagerViewModel.Show(Pages.NotFound, ex.Message);
             }
         }
     }

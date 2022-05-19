@@ -37,11 +37,14 @@ namespace Wallone.Core.Services
 
         internal static bool ValidateWithToken(JObject data)
         {
-            if (data["id"] != null && data["name"] != null)
+            if (data != null)
             {
-                user.id = data["id"].ToString();
-                user.username = data["name"].ToString();
-                return true;
+                if (data["id"] != null && data["name"] != null)
+                {
+                    user.id = data["id"].ToString();
+                    user.username = data["name"].ToString();
+                    return true;
+                }
             }
 
             return false;

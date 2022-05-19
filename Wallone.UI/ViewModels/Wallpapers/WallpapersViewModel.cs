@@ -10,6 +10,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.Interfaces;
@@ -21,6 +22,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
     public class WallpapersViewModel : BindableBase, INavigationAware, IPage
     {
         private readonly IRegionManager regionManager;
+
+        public ManagerViewModel ManagerViewModel { get; }
+
         private string header = "Библиотека";
 
         private bool isContent;
@@ -38,7 +42,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public WallpapersViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-
+            ManagerViewModel = new ManagerViewModel(regionManager);
             ViewerScrollChangedCommand = new DelegateCommand<ScrollChangedEventArgs>(OnViewerScrollChanged);
         }
 
@@ -86,14 +90,14 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             var page = (string) navigationContext.Parameters["Page"];
-            var page_id = (string)navigationContext.Parameters["ID"];
+            var pageId = (string)navigationContext.Parameters["ID"];
             Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
 
             PageBuilder = new PageGalleryBuilder()
                 .SetApplicationRouter(page)
                 .SetPagination(1)
-                .SetBrand(page, page_id)
-                .SetCategory(page, page_id)
+                .SetBrand(page, pageId)
+                .SetCategory(page, pageId)
                 .ValidateRouter()
                 .CreatePageQuery();
 
@@ -106,10 +110,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public string Header
         {
             get => header;
-            set
-            {
-                SetProperty(ref header, value);
-            }
+            set => SetProperty(ref header, value);
         }
 
         private void OnViewerScrollChanged(ScrollChangedEventArgs e)
@@ -154,12 +155,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                ManagerViewModel.Show(Pages.NotFound, ex.Message);
             }
         }
 
@@ -171,11 +167,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 foreach (var item in items)
                 {
-                    if (ThumbService.IsIdNotNull(item.ID))
+                    if (ThumbService.IsIdNotNull(item.Uuid))
                     {
                         Library.Add(new ArticleViewModel(regionManager)
                         {
-                            ID = item.ID,
+                            Uuid = item.Uuid,
                             Name = ThumbService.ValidateName(item.Name),
                             ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
                             Views = ThumbService.ValidateViews(item.Views),

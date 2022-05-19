@@ -9,6 +9,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Helpers;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.Services;
@@ -19,6 +20,9 @@ namespace Wallone.UI.ViewModels.Users
     public class ProfileViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
+
+        public ManagerViewModel ManagerViewModel { get; }
+
         private string header = "Профиль";
 
         private string id;
@@ -37,6 +41,9 @@ namespace Wallone.UI.ViewModels.Users
         public ProfileViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+
+            ManagerViewModel = new ManagerViewModel(regionManager);
+
             ActionCommand = new DelegateCommand(OnAction);
             EditProfileCommand = new DelegateCommand(OnEditProfile);
             SizeChangedCommand = new DelegateCommand<SizeChangedEventArgs>(OnSizeChanged);
@@ -202,12 +209,7 @@ namespace Wallone.UI.ViewModels.Users
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                ManagerViewModel.Show(Pages.NotFound, ex.Message);
             }
 
             GC.Collect(1, GCCollectionMode.Forced);
@@ -232,7 +234,7 @@ namespace Wallone.UI.ViewModels.Users
                     {
                         Posts.Add(new ArticleViewModel(regionManager)
                         {
-                            ID = item.ID,
+                            Uuid = item.Uuid,
                             Name = item.Name,
                             ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
                         });
@@ -244,12 +246,7 @@ namespace Wallone.UI.ViewModels.Users
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                ManagerViewModel.Show(Pages.NotFound, ex.Message);
             }
         }
     }

@@ -9,6 +9,7 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.ViewModels.Controls;
@@ -18,7 +19,10 @@ namespace Wallone.UI.ViewModels.Wallpapers
     public class SinglePageViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
-        private string id;
+
+        public ManagerViewModel ManagerViewModel { get; }
+
+        private string uuid;
 
         private bool isContent;
 
@@ -37,6 +41,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public SinglePageViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+
+            ManagerViewModel = new ManagerViewModel(regionManager);
         }
 
         public string Name
@@ -80,10 +86,10 @@ namespace Wallone.UI.ViewModels.Wallpapers
         //Вызывается после SinglePageViewModel, получает данные с другой страницы и отображает
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            id = (string) navigationContext.Parameters["ID"] ?? "0";
+            uuid = (string) navigationContext.Parameters["Uuid"];
             Name = (string) navigationContext.Parameters["Name"] ?? "default";
 
-            Loaded(id, name);
+            Loaded(uuid, name);
             LoadAds();
         }
 
@@ -127,43 +133,43 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 var theme = new ThemeCreatedBuilder()
                     .SetName(pageName);
 
+                var data = await SinglePageService.GetPageAsync(uuid);
+                simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
 
-                if (theme.Exist())
+                if (simplePage != null)
                 {
-                    if (theme.ValidateConfig())
-                        simplePage = theme.GetModelFromFile();
-                    else
-                        regionManager.RequestNavigate("PageRegion", "NotFound");
+                    if (theme.Exist())
+                    {
+                        if (theme.ValidateConfig())
+                        {
+                            simplePage.images = theme.GetModelFromFile().images;
+                        }
+                        else
+                        {
+                            ManagerViewModel.Show(Pages.NotFound, "Ошибка конфигурации");
+                        }
+                    }
+
+
+                    SinglePageService.Load(simplePage);
+
+                    Name = SinglePageService.GetHeader();
+
+                    var param = new NavigationParameters
+                    {
+                        {"simplePage", simplePage}
+                    };
+                    regionManager.RequestNavigate("Slider", "ImagePreview", param);
+                    regionManager.RequestNavigate("Information", "InformationArticle", param);
+
+                    posts(SinglePageService.GetPosts());
                 }
-                else
-                {
-                    var data = await SinglePageService.GetPageAsync(id);
-                    simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
-                }
-
-                SinglePageService.Load(simplePage);
-
-                Name = SinglePageService.GetHeader();
-
-                var param = new NavigationParameters
-                {
-                    {"simplePage", simplePage}
-                };
-                regionManager.RequestNavigate("Slider", "ImagePreview", param);
-                regionManager.RequestNavigate("Information", "InformationArticle", param);
-
-                posts(SinglePageService.GetPosts());
 
                 IsLoading = false;
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-                Trace.WriteLine(ex.Message);
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                ManagerViewModel.Show(Pages.NotFound, ex.Message);
             }
 
             GC.Collect(1, GCCollectionMode.Forced);
@@ -179,7 +185,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     {
                         Posts.Add(new ArticleViewModel(regionManager)
                         {
-                            ID = item.ID,
+                            Uuid = item.Uuid,
                             Name = item.Name,
                             ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
                         });
@@ -188,12 +194,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
             catch (Exception ex)
             {
-                var param = new NavigationParameters
-                {
-                    {"Text", ex.Message}
-                };
-
-                regionManager.RequestNavigate("PageRegion", "NotFound", param);
+                ManagerViewModel.Show(Pages.NotFound, ex.Message);
             }
         }
     }

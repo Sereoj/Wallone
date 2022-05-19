@@ -4,7 +4,7 @@ namespace Wallone.Core.Models
 {
     public class Theme
     {
-        public string Id { get; set; }
+        public string Uuid { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public List<CategoryShort> Categories { get; set; }

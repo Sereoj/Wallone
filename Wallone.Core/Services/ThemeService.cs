@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using Wallone.Core.Builders;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 
 namespace Wallone.Core.Services
@@ -18,7 +19,7 @@ namespace Wallone.Core.Services
 
         public static void SetCurrentName(string name)
         {
-            themeName = name;
+            themeName = AppFormat.Format(name);
 
             new SettingsBuilder(SettingsService.Get())
                 .ItemBuilder()
