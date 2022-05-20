@@ -84,6 +84,9 @@
                         Margin="0,20,0,0"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top">
+                        <Grid>
+                            <views:NoItemControl x:Name="NoItemControl" Visibility="{Binding IsNoItems, Converter={StaticResource BoolToVis}}" />
+                        </Grid>
                         <ui:GridView x:Name="ItemsRepeater" ItemsSource="{Binding Library}">
                             <ui:GridView.ItemTemplate>
                                 <DataTemplate DataType="{x:Type viewmodels:ArticleViewModel}">

@@ -33,6 +33,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         private bool isLoading = true;
 
+        private bool isNoItems = true;
+
         private int pagination = 1;
         private bool isNextPage;
         private int countPosts = 1;
@@ -74,6 +76,12 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             get => isContent;
             set => SetProperty(ref isContent, value);
+        }
+
+        public bool IsNoItems
+        {
+            get => isNoItems;
+            set => SetProperty(ref isNoItems, value);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -144,10 +152,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 var items = await ThumbService.GetThumbsAsync(router, parameters);
                 await LoadImages(items);
-                
                 PageBuilder.ClearQuery();
-
                 isNextPage = true;
+
+                IsNoItems = Library.Count == 0;
+
                 if (IsLoading)
                 {
                     IsLoading = false;
