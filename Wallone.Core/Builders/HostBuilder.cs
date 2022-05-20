@@ -13,25 +13,33 @@ namespace Wallone.Core.Builders
 
         public bool ValidatePrefix()
         {
-            return prefix.StartsWith("/") && !prefix.EndsWith("/") && prefix.Contains("api");
+            if(prefix != null)
+                return prefix.StartsWith("/") && !prefix.EndsWith("/") && prefix.Contains("api");
+            return false;
         }
 
         public bool ValidateHost()
         {
-            return Uri.TryCreate(host, UriKind.Absolute, out var uriResult)
+            if (host != null)
+                return Uri.TryCreate(host, UriKind.Absolute, out var uriResult)
                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+            return false;
         }
 
         public HostBuilder SetHost()
         {
-            host = SettingsService.Get().Host;
-            switch (host)
+            var valueHost = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .GetHost();
+
+            switch (valueHost)
             {
                 case null:
                     host = default_host;
                     Router.SetDomain(host);
                     break;
                 default:
+                    host = valueHost;
                     Router.SetDomain(host);
                     break;
             }
@@ -41,14 +49,18 @@ namespace Wallone.Core.Builders
 
         public HostBuilder SetPrefix()
         {
-            prefix = SettingsService.Get().Prefix;
-            switch (prefix)
+            var valuePrefix = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .GetPrefix();
+
+            switch (valuePrefix)
             {
                 case null:
                     prefix = default_prefix;
                     Router.SetDomainApi(host + prefix);
                     break;
                 default:
+                    prefix = valuePrefix;
                     Router.SetDomainApi(host + prefix);
                     break;
             }

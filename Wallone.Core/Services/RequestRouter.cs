@@ -2,18 +2,28 @@
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
+using Wallone.Core.Builders;
 using Parameter = Wallone.Core.Models.Parameter;
 
 namespace Wallone.Core.Services
 {
     public class RequestRouter<T> : Router
     {
+
         public static async Task<T> GetAsync(string method, string page, List<Parameter> parameters)
         {
-            var client = new RestClient($"{domainApi}/{method}")
+
+            var token = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .GetToken();
+
+            var client = new RestClient($"{domainApi}/{method}");
+            
+            if (token != null)
             {
-                Authenticator = new JwtAuthenticator(SettingsService.Get().Token)
-            };
+                client.Authenticator = new JwtAuthenticator(token);
+            }
+
             var request = new RestRequest(page, Method.GET, DataFormat.Json);
             if (parameters != null)
                 foreach (var parameter in parameters)
@@ -34,10 +44,17 @@ namespace Wallone.Core.Services
 
         public static async Task<T> GetAsync(string method)
         {
-            var client = new RestClient($"{domainApi}")
+            var token = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .GetToken();
+
+            var client = new RestClient($"{domainApi}");
+            
+            if (token != null)
             {
-                Authenticator = new JwtAuthenticator(SettingsService.Get().Token)
-            };
+                client.Authenticator = new JwtAuthenticator(token);
+            }
+            
             var request = new RestRequest($"{method}", Method.GET, DataFormat.Json);
 
             var result = await client.ExecuteGetAsync<T>(request);
@@ -50,10 +67,16 @@ namespace Wallone.Core.Services
     {
         public static async Task<T> PostAsync(string method, T2 model, List<Parameter> parameters = null)
         {
-            var client = new RestClient(domainApi);
+            var token = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .GetToken();
 
-            if (SettingsService.Get().Token != null)
-                client.Authenticator = new JwtAuthenticator(SettingsService.Get().Token);
+            var client = new RestClient(domainApi);
+            
+            if (token != null)
+            {
+                client.Authenticator = new JwtAuthenticator(token);
+            }
 
             var request = new RestRequest($"{method}", Method.POST, DataFormat.Json);
             request.AddBody(model);

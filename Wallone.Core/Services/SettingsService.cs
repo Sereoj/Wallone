@@ -33,7 +33,7 @@ namespace Wallone.Core.Services
         //Ручное сохранение
         public static void Save()
         {
-            Settings.README = "!!Это файл настроек, пожалуйста не удаляйте и не изменяйте его!!";
+            Settings.Information = "!!Это файл настроек, пожалуйста не удаляйте и не изменяйте его!!";
 
             File.WriteAllText(file, JsonConvert.SerializeObject(Settings, Formatting.Indented));
         }
@@ -53,7 +53,7 @@ namespace Wallone.Core.Services
 
         public static string GetToken()
         {
-            return Settings.Token;
+            return Settings.User.Token;
         }
 
         public static ISettings Get()

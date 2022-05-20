@@ -14,43 +14,43 @@ namespace Wallone.Core.Builders
 
         public SettingsItemBuilder SetTheme(string theme)
         {
-            settings.Theme = theme;
+            settings.General.Image = theme;
             return this;
         }
 
         public SettingsItemBuilder SetEmail(string email)
         {
-            settings.Email = email;
+            settings.User.Email = email;
             return this;
         }
 
         public SettingsItemBuilder SetToken(string token)
         {
-            settings.Token = token;
+            settings.User.Token = token;
             return this;
         }
 
         public SettingsItemBuilder SetLanguage(string language)
         {
-            settings.Language = language;
+            settings.User.Language = language;
             return this;
         }
 
         public SettingsItemBuilder SetWindowTheme(string theme)
         {
-            settings.WindowTheme = theme;
+            settings.General.Image = theme;
             return this;
         }
 
         public SettingsItemBuilder SetHost(string host)
         {
-            settings.Host = host;
+            settings.Server.Host = host;
             return this;
         }
 
         public SettingsItemBuilder SetPrefix(string prefix)
         {
-            settings.Prefix = prefix;
+            settings.Server.Prefix = prefix;
             return this;
         }
 
@@ -64,6 +64,31 @@ namespace Wallone.Core.Builders
         {
             SettingsService.SetModel(settings);
             SettingsService.Save();
+        }
+
+        public string GetToken()
+        {
+            return settings.User.Token;
+        }
+
+        public string GetImage()
+        {
+            return settings.General.Image;
+        }
+
+        public string GetHost()
+        {
+            return settings.Server.Host;
+        }
+
+        public string GetPrefix()
+        {
+            return settings.Server.Prefix;
+        }
+
+        public string GetEmail()
+        {
+            return settings.User.Email;
         }
     }
 }

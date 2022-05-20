@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
+using SunCalcSharp;
 
 namespace Wallone.Core.Controllers
 {
@@ -14,6 +15,13 @@ namespace Wallone.Core.Controllers
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(uint uiAction, uint uiParam, string pvParam, uint fWinIni);
+
+        enum TimeOfDay
+        {
+           TimeSet, // пользователь может сам настроить время для смены
+           Auto, // Автоматически подбираются данные за счет геолокации.
+
+        }
 
         public void Set(Theme theme)
         {
@@ -28,6 +36,7 @@ namespace Wallone.Core.Controllers
                 ThemeService.Save();
             }
         }
+
 
         public Image GetCurrentImageByTime(List<Image> images)
         {

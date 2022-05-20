@@ -45,8 +45,11 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            Host = SettingsService.Get().Host;
-            Prefix = SettingsService.Get().Prefix;
+            var settings = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder();
+
+            Host = settings.GetHost();
+            Prefix = settings.GetPrefix();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -58,9 +61,12 @@ namespace Wallone.UI.ViewModels
         {
             if (SettingsService.Exist())
             {
-                SettingsService.Get().Host = Host;
-                SettingsService.Get().Prefix = Prefix;
-                SettingsService.Save();
+                var settings = new SettingsBuilder(SettingsService.Get())
+                    .ItemBuilder();
+
+                settings.SetHost(Host);
+                settings.SetPrefix(Prefix);
+                settings.Build();
 
                 new HostBuilder()
                     .SetHost()

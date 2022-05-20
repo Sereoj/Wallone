@@ -26,6 +26,7 @@
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     <PackageReference Include="RestSharp" Version="106.15.0" />
+    <PackageReference Include="SunCalcSharp" Version="1.0.4" />
   </ItemGroup>
 
 </Project>

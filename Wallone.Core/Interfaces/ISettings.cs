@@ -1,16 +1,11 @@
-﻿using Wallone.Core.Builders;
-
-namespace Wallone.Core.Interfaces
+﻿namespace Wallone.Core.Interfaces
 {
-    public interface ISettings : IAppSettings
+    public interface ISettings
     {
-        string Email { get; set; }
-        string Token { get; set; }
-        string Language { get; set; }
-        string WindowTheme { get; set; }
-        string Host { get; set; }
-        string Prefix { get; set; }
-        string Theme { get; set; }
-        string README { get; set; }
+        public string Information { get; set; }
+        public Models.Settings.User User { get; set; }
+        public Models.Settings.General General { get; set; }
+        public Models.Settings.Advanced Advanced { get; set; }
+        public Models.Settings.Server Server { get; set; }
     }
 }

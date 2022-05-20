@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -149,8 +150,11 @@ namespace Wallone.UI.ViewModels.Users
 
         private void OnExit()
         {
+            var settings = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder();
+            settings.SetToken(null);
+
             UserService.Close();
-            SettingsService.Get().Token = null;
             SettingsService.Save();
 
             regionManager.RequestNavigate("ContentRegion", "Login");

@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Builders;
 using Wallone.Core.Services;
 
 namespace Wallone.Authorization.ViewModels
@@ -138,10 +139,11 @@ namespace Wallone.Authorization.ViewModels
             var msg = UserService.ValidateRegister(objects);
             if (UserService.GetToken() != null)
             {
-                var settings = SettingsService.Get();
+                var settings = new SettingsBuilder(SettingsService.Get())
+                    .ItemBuilder();
 
-                settings.Email = Email;
-                settings.Token = UserService.GetToken();
+                settings.SetEmail(Email);
+                settings.SetToken(UserService.GetToken());
                 SettingsService.Save();
 
                 _regionManager.RequestNavigate("ContentRegion", "Main");

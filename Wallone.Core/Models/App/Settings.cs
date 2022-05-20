@@ -1,17 +1,15 @@
 ﻿using Prism.Mvvm;
 using Wallone.Core.Interfaces;
+using Wallone.Core.Models.Settings;
 
 namespace Wallone.Core.Models.App
 {
-    public class Settings : BindableBase, ISettings
+    public class Settings : ISettings
     {
-        public string Email { get; set; }
-        public string Token { get; set; }
-        public string Language { get; set; }
-        public string WindowTheme { get; set; }
-        public string Theme { get; set; }
-        public string Host { get; set; }
-        public string Prefix { get; set; }
-        public string README { get; set; }
+        public string Information { get; set; }
+        public Models.Settings.User User { get; set; } = new Models.Settings.User();
+        public Models.Settings.General General { get; set; } = new General();
+        public Models.Settings.Advanced Advanced { get; set; } = new Advanced();
+        public Models.Settings.Server Server { get; set; } = new Server();
     }
 }

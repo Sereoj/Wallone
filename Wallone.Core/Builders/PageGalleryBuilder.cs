@@ -10,14 +10,10 @@ namespace Wallone.Core.Builders
     {
         private string routerApplication;
         private string routerWebsite;
-        private string routerQueryWebsite;
 
         private List<Parameter> Parameters = new List<Parameter>();
 
-        private string queryPage = "?page=";
-        private string queryCategory = "&category_id=";
-        private string queryBrand = "&brand_id=";
-        private int PaginationID;
+        private int paginationId;
 
         public PageGalleryBuilder SetApplicationRouter(string nameRouter)
         {
@@ -50,13 +46,13 @@ namespace Wallone.Core.Builders
 
         public PageGalleryBuilder SetPagination(int pageId)
         {
-            PaginationID = pageId;
+            paginationId = pageId;
             return this;
         }
 
         public int GetPagination()
         {
-            return PaginationID;
+            return paginationId;
         }
 
         public PageGalleryBuilder SetBrand(string page, string pageId)
@@ -92,7 +88,7 @@ namespace Wallone.Core.Builders
                 Parameters.Add(new Parameter()
                 {
                     Name = "page",
-                    Value = PaginationID.ToString()
+                    Value = paginationId.ToString()
                 });
             }
             return this;
