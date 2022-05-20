@@ -143,6 +143,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             try
             {
+                IsInternet = false;
                 if (isLoaded)
                 {
                     IsLoading = true;
@@ -152,10 +153,10 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 var items = await ThumbService.GetThumbsAsync(router, parameters);
                 await LoadImages(items);
+                Validate();
+
                 PageBuilder.ClearQuery();
                 isNextPage = true;
-
-                IsNoItems = Library.Count == 0;
 
                 if (IsLoading)
                 {
@@ -190,6 +191,20 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 }
             }
             await Task.CompletedTask;
+        }
+
+        private void Validate()
+        {
+            var status = AppEthernetService.GetStatus();
+
+            if (status != 0)
+            {
+                IsNoItems = Library.Count == 0;
+            }
+            else
+            {
+                IsInternet = true;
+            }
         }
     }
 }
