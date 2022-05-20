@@ -1,9 +1,8 @@
-﻿using System;
+﻿using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
-using System.Windows.Input;
-using System.Windows.Media.Imaging;
 
 namespace Wallone.UI.ViewModels.Controls
 {
@@ -13,11 +12,11 @@ namespace Wallone.UI.ViewModels.Controls
 
         private string downloads;
 
-        private string uuid;
-
         private BitmapImage imageSource;
 
         private string name;
+
+        private string uuid;
 
         private string views;
 

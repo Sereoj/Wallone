@@ -9,11 +9,11 @@ namespace Wallone.Core.Controllers
 {
     public class ThemeController
     {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam, String pvParam, UInt32 fWinIni);
+        private static readonly uint SPI_SETDESKWALLPAPER = 20;
+        private static readonly uint SPIF_UPDATEINIFILE = 0x1;
 
-        private static UInt32 SPI_SETDESKWALLPAPER = 20;
-        private static UInt32 SPIF_UPDATEINIFILE = 0x1;
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int SystemParametersInfo(uint uiAction, uint uiParam, string pvParam, uint fWinIni);
 
         public void Set(Theme theme)
         {
@@ -23,10 +23,8 @@ namespace Wallone.Core.Controllers
 
                 var filename = GetCurrentImageByTime(theme.Images).location;
                 if (filename != null)
-                {
-                    SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filename, SPIF_UPDATEINIFILE);
-                }
-
+                    if (AppSettingsService.ExistsFile(filename))
+                        SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filename, SPIF_UPDATEINIFILE);
                 ThemeService.Save();
             }
         }
@@ -35,25 +33,13 @@ namespace Wallone.Core.Controllers
         {
             var hours = int.Parse(DateTime.Now.ToString("HH"));
 
-            if (6 <= hours && hours <= 11)
-            {
-                return images.FirstOrDefault(image => image.times == "sunrise");
-            }
+            if (6 <= hours && hours <= 11) return images.FirstOrDefault(image => image.times == "sunrise");
 
-            if (12 <= hours && hours <= 17)
-            {
-                return images.FirstOrDefault(image => image.times == "day");
-            }
+            if (12 <= hours && hours <= 17) return images.FirstOrDefault(image => image.times == "day");
 
-            if (18 <= hours && hours <= 23)
-            {
-                return images.FirstOrDefault(image => image.times == "sunset");
-            }
+            if (18 <= hours && hours <= 23) return images.FirstOrDefault(image => image.times == "sunset");
 
-            if (24 >= hours && hours <= 6)
-            {
-                return images.FirstOrDefault(image => image.times == "night");
-            }
+            if (24 >= hours && hours <= 6) return images.FirstOrDefault(image => image.times == "night");
 
             return null;
         }

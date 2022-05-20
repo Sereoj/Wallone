@@ -7,7 +7,6 @@
         Profile,
         ProfileEdit,
 
-        NotFound,
-
+        NotFound
     }
 }

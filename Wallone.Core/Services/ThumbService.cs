@@ -18,7 +18,7 @@ namespace Wallone.Core.Services
 
         public static Task<List<Thumb>> GetThumbsAsync(string router, List<Parameter> parameters)
         {
-            var items = RequestRouter<List<Thumb>>.GetAsync(router,null, parameters);
+            var items = RequestRouter<List<Thumb>>.GetAsync(router, null, parameters);
             return items;
         }
 
