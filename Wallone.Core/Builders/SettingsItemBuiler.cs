@@ -1,4 +1,6 @@
-﻿using Wallone.Core.Interfaces;
+﻿using System;
+using ModernWpf;
+using Wallone.Core.Interfaces;
 using Wallone.Core.Services;
 
 namespace Wallone.Core.Builders
@@ -89,6 +91,40 @@ namespace Wallone.Core.Builders
         public string GetEmail()
         {
             return settings.User.Email;
+        }
+
+        public SettingsItemBuilder SetLatitude(string value)
+        {
+            settings.User.Latitude = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetLongitude(string value)
+        {
+            settings.User.Longitude = value;
+            return this;
+        }
+
+        public double GetLatitude()
+        {
+            return double.TryParse(settings.User.Latitude, out var result) ? result : double.NaN;
+        }
+
+        public double GetLongitude()
+        {
+            return double.TryParse(settings.User.Longitude, out var result) ? result : double.NaN;
+        }
+
+        public SettingsItemBuilder SetCountry(string locationCountry)
+        {
+            settings.User.Country = locationCountry;
+            return this;
+        }
+
+        public SettingsItemBuilder SetCity(string locationCity)
+        {
+            settings.User.City = locationCity;
+            return this;
         }
     }
 }

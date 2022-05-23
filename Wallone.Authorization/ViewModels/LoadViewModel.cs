@@ -17,6 +17,7 @@ using Prism.Diagnostics;
 
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Newtonsoft.Json;
@@ -26,7 +27,9 @@ using Wallone.Controls.ViewModels;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
+using Wallone.Core.Models;
 using Wallone.Core.Models.App;
+using Wallone.Core.Models.Settings;
 using Wallone.Core.Services;
 
 namespace Wallone.Authorization.ViewModels
@@ -155,7 +158,6 @@ namespace Wallone.Authorization.ViewModels
                     .Build()
                 );
 
-
             var themeName = new SettingsBuilder(SettingsService.Get())
                 .ItemBuilder()
                 .GetImage();
@@ -230,6 +232,23 @@ namespace Wallone.Authorization.ViewModels
                         await Task.Delay(1000);
 
                         SetMessage("Подождите пару секунд..");
+
+                        var dataLocation = await LocationService.GetLocationAsync();
+                        if (!string.IsNullOrEmpty(dataLocation))
+                        {
+                            var location = JsonConvert.DeserializeObject<Location>(dataLocation);
+                            if (location != null)
+                            {
+                                new SettingsBuilder(SettingsService.Get())
+                                    .ItemBuilder()
+                                    .SetLatitude(location.latitude)
+                                    .SetLongitude(location.longitude)
+                                    .SetCountry(location.country)
+                                    .SetCity(location.city)
+                                    .Build();
+                            }
+                        }
+
                         var builder = await new UserSyncBuilder()
                             .GetToken()
                             .ValidateAsync();

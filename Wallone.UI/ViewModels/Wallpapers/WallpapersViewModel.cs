@@ -91,6 +91,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            pagination = 1;
             Library.Clear();
             GC.Collect(2);
         }
@@ -103,7 +104,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
             PageBuilder = new PageGalleryBuilder()
                 .SetApplicationRouter(page)
-                .SetPagination(1)
+                .SetPagination(pagination)
                 .SetBrand(page, pageId)
                 .SetCategory(page, pageId)
                 .ValidateRouter()
@@ -197,13 +198,13 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             var status = AppEthernetService.GetStatus();
 
-            if (status != 0)
+            if (status == 0)
             {
-                IsNoItems = Library.Count == 0;
+                IsInternet = true;
             }
             else
             {
-                IsInternet = true;
+                IsNoItems = Library.Count == 0;
             }
         }
     }

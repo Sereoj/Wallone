@@ -39,7 +39,6 @@ namespace Wallone.Core.Builders
         public SettingsItemBuilder ItemBuilder()
         {
             return new SettingsItemBuilder(SettingsService.Get());
-            ;
         }
 
         public SettingsBuilder Build()

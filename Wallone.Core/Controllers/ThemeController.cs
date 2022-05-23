@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
-using SunCalcSharp;
 
 namespace Wallone.Core.Controllers
 {
@@ -20,7 +19,6 @@ namespace Wallone.Core.Controllers
         {
            TimeSet, // пользователь может сам настроить время для смены
            Auto, // Автоматически подбираются данные за счет геолокации.
-
         }
 
         public void Set(Theme theme)
