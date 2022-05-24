@@ -93,13 +93,13 @@ namespace Wallone.Core.Builders
             return settings.User.Email;
         }
 
-        public SettingsItemBuilder SetLatitude(string value)
+        public SettingsItemBuilder SetLatitude(double value)
         {
             settings.User.Latitude = value;
             return this;
         }
 
-        public SettingsItemBuilder SetLongitude(string value)
+        public SettingsItemBuilder SetLongitude(double value)
         {
             settings.User.Longitude = value;
             return this;
@@ -107,12 +107,12 @@ namespace Wallone.Core.Builders
 
         public double GetLatitude()
         {
-            return double.TryParse(settings.User.Latitude, out var result) ? result : double.NaN;
+            return settings.User.Latitude;
         }
 
         public double GetLongitude()
         {
-            return double.TryParse(settings.User.Longitude, out var result) ? result : double.NaN;
+            return settings.User.Longitude;
         }
 
         public SettingsItemBuilder SetCountry(string locationCountry)

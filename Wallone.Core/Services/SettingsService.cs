@@ -16,7 +16,6 @@ namespace Wallone.Core.Services
 
         public static void SetModel(ISettings settings)
         {
-            Trace.WriteLine("Установка модели");
             Settings = settings;
         }
 

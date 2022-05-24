@@ -85,7 +85,7 @@ namespace Wallone.UI.ViewModels.Controls
                 if (value != -1)
                 {
                     FrontImageSource = BitmapHelper.CreateBitmapImage(Items[value].Uri);
-                    Text = Items[value].Name;
+                    Text = Items[value].Name.ToString();
                 }
             }
         }
@@ -108,7 +108,7 @@ namespace Wallone.UI.ViewModels.Controls
                     isEnable = true;
                     SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
                     FrontImageSource = BitmapHelper.CreateBitmapImage(Items[SelectedIndex].Uri);
-                    Text = Items[SelectedIndex].Name;
+                    Text = Items[SelectedIndex].Name.ToString();
                     transitionTimer.Start();
                 }
                 else
@@ -152,7 +152,7 @@ namespace Wallone.UI.ViewModels.Controls
                 }
 
                 StartAnimationValue = true;
-                Text = Items[SelectedIndex].Name;
+                Text = Items[SelectedIndex].Name.ToString();
             }
         }
 
@@ -175,11 +175,11 @@ namespace Wallone.UI.ViewModels.Controls
                 }
 
                 StartAnimationValue = true;
-                Text = Items[SelectedIndex].Name;
+                Text = Items[SelectedIndex].Name.ToString();
             }
         }
 
-        public void SetImageList(string type, Uri imagePath)
+        public void SetImageList(Times type, Uri imagePath)
         {
             Items.Add(new ThemePreviewItem(type, imagePath));
         }

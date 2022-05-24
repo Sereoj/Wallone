@@ -157,7 +157,7 @@ namespace Wallone.UI.ViewModels.Controls
 
             if (builder.GetHasNotInstalled())
             {
-                theme.Set(builder.GetThemeModelFromFile());
+                theme.Set(builder.GetThemeModelFromFile(), Mode.UseWebLocation);
             }
             else
             {

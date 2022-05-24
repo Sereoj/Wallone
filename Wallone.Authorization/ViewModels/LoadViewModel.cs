@@ -157,20 +157,6 @@ namespace Wallone.Authorization.ViewModels
                     .Validate()
                     .Build()
                 );
-
-            var themeName = new SettingsBuilder(SettingsService.Get())
-                .ItemBuilder()
-                .GetImage();
-
-            ThemeService.SetCurrentName(themeName);
-
-            var theme = new ThemeCreatedBuilder()
-                .SetName(ThemeService.GetCurrentName())
-                .HasDownloaded()
-                .GetThemeModelFromFile();
-
-            var controller = new ThemeController();
-            controller.Set(theme);
         }
 
         private async void LoadData()
@@ -239,13 +225,28 @@ namespace Wallone.Authorization.ViewModels
                             var location = JsonConvert.DeserializeObject<Location>(dataLocation);
                             if (location != null)
                             {
-                                new SettingsBuilder(SettingsService.Get())
-                                    .ItemBuilder()
+                                var settings = new SettingsBuilder(SettingsService.Get())
+                                    .ItemBuilder();
+
+                                settings
                                     .SetLatitude(location.latitude)
                                     .SetLongitude(location.longitude)
                                     .SetCountry(location.country)
                                     .SetCity(location.city)
                                     .Build();
+
+                                var themeName = settings
+                                    .GetImage();
+
+                                ThemeService.SetCurrentName(themeName);
+
+                                var theme = new ThemeCreatedBuilder()
+                                    .SetName(ThemeService.GetCurrentName())
+                                    .HasDownloaded()
+                                    .GetThemeModelFromFile();
+
+                                var controller = new ThemeController();
+                                controller.Set(theme, Mode.UseWebLocation);
                             }
                         }
 
