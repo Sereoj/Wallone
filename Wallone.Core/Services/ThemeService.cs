@@ -11,6 +11,7 @@ namespace Wallone.Core.Services
     {
         private static Theme themeModel;
         private static string themeName;
+        private static TimeSpan spanImage;
 
         public static string GetCurrentName()
         {
@@ -48,7 +49,15 @@ namespace Wallone.Core.Services
             return themeModel;
         }
 
+        public static void SetTimeSpan(TimeSpan span)
+        {
+            spanImage = span;
+        }
 
+        public static TimeSpan GetTimeSpan()
+        {
+            return spanImage;
+        }
         public static void Load()
         {
             try

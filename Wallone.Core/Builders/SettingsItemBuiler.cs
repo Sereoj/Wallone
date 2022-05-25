@@ -1,6 +1,7 @@
 ﻿using System;
 using ModernWpf;
 using Wallone.Core.Interfaces;
+using Wallone.Core.Models;
 using Wallone.Core.Services;
 
 namespace Wallone.Core.Builders
@@ -59,6 +60,17 @@ namespace Wallone.Core.Builders
         public ISettings Get()
         {
             return settings;
+        }
+
+        public SettingsItemBuilder SetMode(Mode mode)
+        {
+            settings.Advanced.Type = mode;
+            return this;
+        }
+
+        public Mode GetMode()
+        {
+            return settings.Advanced.Type;
         }
 
 

@@ -4,5 +4,6 @@
     {
         public string Theme { get; set; }
         public string Image { get; set; }
+        public bool AutoRun { get; set; }
     }
 }

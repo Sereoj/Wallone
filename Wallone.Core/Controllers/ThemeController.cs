@@ -19,24 +19,37 @@ namespace Wallone.Core.Controllers
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         private static extern int SystemParametersInfo(uint uiAction, uint uiParam, string pvParam, uint fWinIni);
 
-        public void Set(Theme theme, Mode mode)
+        private Phase PhaseModel { get; set; }
+        private SettingsItemBuilder SettingsItemBuilder { get; set; }
+        private Times nextTime;
+        private bool isDone;
+        private double lat;
+        private double lng;
+        public ThemeController()
         {
-            var phaseModel = PhaseService.GetPhase();
+            PhaseModel = PhaseService.GetPhase();
 
-            var itemBuilder = new SettingsBuilder(SettingsService.Get())
+            SettingsItemBuilder = new SettingsBuilder(SettingsService.Get())
                 .ItemBuilder();
+            GetLocation();
+        }
 
+        public void GetLocation()
+        {
+            lat = SettingsItemBuilder.GetLatitude();
+            lng = SettingsItemBuilder.GetLongitude();
+        }
+
+        public void Set(Theme theme)
+        {
             if (theme != null)
             {
                 ThemeService.Set(theme);
 
-                var lat = itemBuilder.GetLatitude();
-                var lng = itemBuilder.GetLongitude();
-
-                switch (mode)
+                switch (SettingsItemBuilder.GetMode())
                 {
                     case Mode.UseWebLocation:
-                        UseWebLocation(theme, phaseModel, lat, lng);
+                        UseWebLocation(theme, PhaseModel, lat, lng);
                         break;
                     case Mode.NoUseLocation:
                         var image = GetCurrentImageByTime(theme.Images);
@@ -50,6 +63,7 @@ namespace Wallone.Core.Controllers
         private void UseWebLocation(Theme theme, Phase phaseModel, double lat, double lng)
         {
             DateTime time = DateTime.Now;
+            var imageCount = theme.Images.Count;
 
             var sunPhases = GetSunPhases(lat, lng).ToList();
 
@@ -64,37 +78,95 @@ namespace Wallone.Core.Controllers
             if (phaseModel.dawnSolarTime < time && phaseModel.sunriseSolarTime > time)
             {
                 Trace.WriteLine("Заря");
+                SetSpan(phaseModel.sunriseSolarTime, phaseModel.dawnSolarTime, imageCount);
                 SetCurrentImage(theme, phaseModel, phaseModel.dawnSolarTime, time, Times.Dawn);
             }
             if (phaseModel.sunriseSolarTime < time && phaseModel.daySolarTime > time)
             {
                 Trace.WriteLine("Утро");
+                SetSpan(phaseModel.daySolarTime, phaseModel.sunriseSolarTime, imageCount);
                 SetCurrentImage(theme, phaseModel, phaseModel.sunriseSolarTime, time, Times.Sunrise);
             }
             if (phaseModel.daySolarTime < time && phaseModel.goldenSolarTime > time)
             {
                 Trace.WriteLine("День");
+                SetSpan(phaseModel.goldenSolarTime, phaseModel.daySolarTime, imageCount);
                 SetCurrentImage(theme, phaseModel, phaseModel.daySolarTime, time, Times.Day);
             }
             if (phaseModel.goldenSolarTime < time && phaseModel.sunsetSolarTime > time)
             {
                 Trace.WriteLine("Золотое время");
+                SetSpan(phaseModel.sunsetSolarTime, phaseModel.goldenSolarTime, imageCount);
                 SetCurrentImage(theme, phaseModel, phaseModel.goldenSolarTime, time, Times.GoldenHour);
             }
             if (phaseModel.sunsetSolarTime < time && phaseModel.duskSolarTime > time)
             {
                 Trace.WriteLine("Закат");
+                SetSpan(phaseModel.duskSolarTime, phaseModel.sunsetSolarTime, imageCount);
                 SetCurrentImage(theme, phaseModel, phaseModel.sunsetSolarTime, time, Times.Sunset);
             }
+            else
+            {
+                if (phaseModel.duskSolarTime < time)
+                {
+                    Trace.WriteLine("Ночь");
+                    SetSpan(phaseModel.duskSolarTime, phaseModel.dawnSolarTime, imageCount);
+                    SetCurrentImage(theme, phaseModel, phaseModel.duskSolarTime, time, Times.Night);
+                }
+            }
+        }
+
+        public void SetSpan(DateTime date2, DateTime date1, int count)
+        {
+            ThemeService.SetTimeSpan(Span(date2, date1, count));
+        }
+
+        public TimeSpan GetSpan()
+        {
+            return ThemeService.GetTimeSpan();
         }
 
         public void SetCurrentImage(Theme theme, Phase phaseModel, DateTime date1, DateTime nowDateTime, Times times)
         {
             var images = GetImagesWithTime(theme.Images, times);
-            //TimeSpan timeSpan = Span(phaseModel.goldenSolarTime, phaseModel.daySolarTime, images.Count);
-            var id = GetSpanId(nowDateTime, date1);
 
-            SetImage(images.Count >= id ? images[id].location : images.LastOrDefault()!.location);
+            if (images.Count != 0)
+            {
+                var id = GetSpanId(nowDateTime, date1);
+                SetImage(images.Count > id ? images[id].location : images.LastOrDefault()!.location);
+            }
+            else
+            {
+                //рекурсия, пока не найдем
+                NextTime(times);
+                SetCurrentImage(theme, phaseModel, date1, nowDateTime, nextTime);
+            }
+        }
+
+
+        public void NextTime(Times times)
+        {
+            switch (times)
+            {
+                case Times.Dawn:
+                    nextTime = Times.Sunrise;
+                    break;
+                case Times.Sunrise:
+                    nextTime = Times.Day;
+                    break;
+                case Times.Day:
+                    nextTime = Times.GoldenHour;
+                    break;
+                case Times.GoldenHour:
+                    nextTime = Times.Sunset;
+                    break;
+                case Times.Sunset:
+                    nextTime = Times.Night;
+                    break;
+                case Times.Night:
+                    nextTime = Times.Dawn;
+                    break;
+            }
         }
 
         public TimeSpan Span(DateTime date2, DateTime date1, int count)
@@ -145,6 +217,21 @@ namespace Wallone.Core.Controllers
             if (24 >= hours && hours <= 6) return images.FirstOrDefault(image => image.times == Times.Night);
 
             return null;
+        }
+
+        public bool IsAwake()
+        {
+            return true;
+        }
+
+        public bool IsDone()
+        {
+            return isDone;
+        }
+
+        public void Done()
+        {
+            isDone = true;
         }
     }
 }

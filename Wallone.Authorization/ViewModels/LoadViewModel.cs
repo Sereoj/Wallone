@@ -30,6 +30,7 @@ using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Models.App;
 using Wallone.Core.Models.Settings;
+using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
 
 namespace Wallone.Authorization.ViewModels
@@ -246,7 +247,11 @@ namespace Wallone.Authorization.ViewModels
                                     .GetThemeModelFromFile();
 
                                 var controller = new ThemeController();
-                                controller.Set(theme, Mode.UseWebLocation);
+                                controller.Set(theme);
+                                controller.Done();
+
+                                var themeScheduler = new ThemeScheduler(controller);
+                                themeScheduler.Start();
                             }
                         }
 
