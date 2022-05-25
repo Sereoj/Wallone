@@ -21,8 +21,6 @@ namespace Wallone.Core.Controllers
 
         private Phase PhaseModel { get; set; }
         private SettingsItemBuilder SettingsItemBuilder { get; set; }
-        private Times nextTime;
-        private bool isDone;
         private double lat;
         private double lng;
         public ThemeController()
@@ -40,12 +38,19 @@ namespace Wallone.Core.Controllers
             lng = SettingsItemBuilder.GetLongitude();
         }
 
-        public void Set(Theme theme)
+        public void Load(Theme theme)
         {
             if (theme != null)
             {
                 ThemeService.Set(theme);
+                ThemeService.Save();
+            }
+        }
 
+        public void Set(Theme theme)
+        {
+            if (theme != null)
+            {
                 switch (SettingsItemBuilder.GetMode())
                 {
                     case Mode.UseWebLocation:
@@ -54,18 +59,18 @@ namespace Wallone.Core.Controllers
                     case Mode.NoUseLocation:
                         var image = GetCurrentImageByTime(theme.Images);
                         SetImage(image.location);
-                    break;
+                        break;
                 }
-                ThemeService.Save();
             }
         }
 
         private void UseWebLocation(Theme theme, Phase phaseModel, double lat, double lng)
         {
             DateTime time = DateTime.Now;
-            var imageCount = theme.Images.Count;
+            DateTime oldTime = default;
+            Times currentPhase = Times.Dawn; 
 
-            var sunPhases = GetSunPhases(lat, lng).ToList();
+            var sunPhases = GetSunPhases(DateTime.Today, lat, lng).ToList();
 
             phaseModel.dawnSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dawn);
             phaseModel.sunriseSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunrise);
@@ -77,48 +82,88 @@ namespace Wallone.Core.Controllers
 
             if (phaseModel.dawnSolarTime < time && phaseModel.sunriseSolarTime > time)
             {
-                Trace.WriteLine("Заря");
-                SetSpan(phaseModel.sunriseSolarTime, phaseModel.dawnSolarTime, imageCount);
-                SetCurrentImage(theme, phaseModel, phaseModel.dawnSolarTime, time, Times.Dawn);
+                Trace.WriteLine($"Заря {phaseModel.dawnSolarTime} {phaseModel.sunriseSolarTime}");
+
+                oldTime = phaseModel.dawnSolarTime;
+                currentPhase = Times.Dawn;
+
+                var images = GetImagesWithTime(theme.Images, currentPhase);
+                SetSpan(phaseModel.sunriseSolarTime, time, images.Count);
+
             }
             if (phaseModel.sunriseSolarTime < time && phaseModel.daySolarTime > time)
             {
-                Trace.WriteLine("Утро");
-                SetSpan(phaseModel.daySolarTime, phaseModel.sunriseSolarTime, imageCount);
-                SetCurrentImage(theme, phaseModel, phaseModel.sunriseSolarTime, time, Times.Sunrise);
+                Trace.WriteLine($"Утро {phaseModel.sunriseSolarTime} {phaseModel.daySolarTime}");
+
+                oldTime = phaseModel.sunriseSolarTime;
+                currentPhase = Times.Sunrise;
+
+                var images = GetImagesWithTime(theme.Images, currentPhase);
+                SetSpan(phaseModel.daySolarTime, time, images.Count);
             }
             if (phaseModel.daySolarTime < time && phaseModel.goldenSolarTime > time)
             {
-                Trace.WriteLine("День");
-                SetSpan(phaseModel.goldenSolarTime, phaseModel.daySolarTime, imageCount);
-                SetCurrentImage(theme, phaseModel, phaseModel.daySolarTime, time, Times.Day);
+                Trace.WriteLine($"День {phaseModel.daySolarTime} {phaseModel.goldenSolarTime}");
+
+                oldTime = phaseModel.daySolarTime;
+                currentPhase = Times.Day;
+                var images = GetImagesWithTime(theme.Images, currentPhase);
+
+                SetSpan(phaseModel.goldenSolarTime, time, images.Count);
             }
             if (phaseModel.goldenSolarTime < time && phaseModel.sunsetSolarTime > time)
             {
-                Trace.WriteLine("Золотое время");
-                SetSpan(phaseModel.sunsetSolarTime, phaseModel.goldenSolarTime, imageCount);
-                SetCurrentImage(theme, phaseModel, phaseModel.goldenSolarTime, time, Times.GoldenHour);
+                Trace.WriteLine($"Золотое время {phaseModel.goldenSolarTime} {phaseModel.sunsetSolarTime}");
+
+                oldTime = phaseModel.goldenSolarTime;
+                currentPhase = Times.GoldenHour;
+                var images = GetImagesWithTime(theme.Images, currentPhase);
+
+                SetSpan(phaseModel.sunsetSolarTime, time, images.Count);
             }
             if (phaseModel.sunsetSolarTime < time && phaseModel.duskSolarTime > time)
             {
-                Trace.WriteLine("Закат");
-                SetSpan(phaseModel.duskSolarTime, phaseModel.sunsetSolarTime, imageCount);
-                SetCurrentImage(theme, phaseModel, phaseModel.sunsetSolarTime, time, Times.Sunset);
+                oldTime = phaseModel.sunsetSolarTime;
+                currentPhase = Times.Sunset;
+                var images = GetImagesWithTime(theme.Images, currentPhase);
+
+                Trace.WriteLine($"Закат {phaseModel.sunsetSolarTime} {phaseModel.duskSolarTime}");
+                SetSpan(phaseModel.duskSolarTime, time, images.Count);
             }
             else
             {
                 if (phaseModel.duskSolarTime < time)
                 {
-                    Trace.WriteLine("Ночь");
-                    SetSpan(phaseModel.duskSolarTime, phaseModel.dawnSolarTime, imageCount);
-                    SetCurrentImage(theme, phaseModel, phaseModel.duskSolarTime, time, Times.Night);
+                    oldTime = phaseModel.duskSolarTime;
+                    currentPhase = Times.Night;
+                    var images = GetImagesWithTime(theme.Images, currentPhase);
+
+                    var nextSunPhases = GetSunPhases(DateTime.Today.AddDays(1), lat, lng).ToList();
+                    phaseModel.dawnSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Dawn);
+                    phaseModel.sunriseSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Sunrise);
+                    phaseModel.daySolarTime = GetSolarTime(nextSunPhases, SunPhaseName.SolarNoon);
+                    phaseModel.goldenSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.GoldenHour);
+                    phaseModel.sunsetSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Sunset);
+                    phaseModel.duskSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Dusk);
+                    phaseModel.nightSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Night);
+
+                    Trace.WriteLine($"Ночь {oldTime}");
+                    Trace.WriteLine($"Утро {phaseModel.dawnSolarTime}");
+                    Trace.WriteLine($"Получается {phaseModel.dawnSolarTime - DateTime.Now}");
+                    SetSpan(phaseModel.dawnSolarTime, time, images.Count);
                 }
             }
+
+            PhaseModel.currentPhase = currentPhase;
+            PhaseService.SetModel(phaseModel);
+            SetCurrentImage(theme, PhaseModel, oldTime, DateTime.Now, PhaseModel.currentPhase);
         }
 
         public void SetSpan(DateTime date2, DateTime date1, int count)
         {
             var time = Span(date2, date1, count);
+            PhaseModel.nextPhaseSpan = time;
+            Trace.WriteLine($"SetSpan {time}");
             ThemeService.SetTimeSpan(time);
         }
 
@@ -131,6 +176,7 @@ namespace Wallone.Core.Controllers
         {
             var images = GetImagesWithTime(theme.Images, times);
 
+            PhaseService.SetCurrentPhase(times);
             if (images.Count != 0)
             {
                 var id = GetSpanId(nowDateTime, date1);
@@ -140,7 +186,7 @@ namespace Wallone.Core.Controllers
             {
                 //рекурсия, пока не найдем
                 NextTime(times);
-                SetCurrentImage(theme, phaseModel, date1, nowDateTime, nextTime);
+                SetCurrentImage(theme, phaseModel, date1, nowDateTime, PhaseModel.nextPhase);
             }
         }
 
@@ -150,22 +196,22 @@ namespace Wallone.Core.Controllers
             switch (times)
             {
                 case Times.Dawn:
-                    nextTime = Times.Sunrise;
+                    PhaseModel.nextPhase = Times.Sunrise;
                     break;
                 case Times.Sunrise:
-                    nextTime = Times.Day;
+                    PhaseModel.nextPhase = Times.Day;
                     break;
                 case Times.Day:
-                    nextTime = Times.GoldenHour;
+                    PhaseModel.nextPhase = Times.GoldenHour;
                     break;
                 case Times.GoldenHour:
-                    nextTime = Times.Sunset;
+                    PhaseModel.nextPhase = Times.Sunset;
                     break;
                 case Times.Sunset:
-                    nextTime = Times.Night;
+                    PhaseModel.nextPhase = Times.Night;
                     break;
                 case Times.Night:
-                    nextTime = Times.Dawn;
+                    PhaseModel.nextPhase = Times.Dawn;
                     break;
             }
         }
@@ -187,9 +233,9 @@ namespace Wallone.Core.Controllers
             return true;
         }
 
-        private static List<SunPhase> GetSunPhases(double latitude, double longitude)
+        private static List<SunPhase> GetSunPhases(DateTime dateTime,double latitude, double longitude)
         {
-            return SunCalcNet.SunCalc.GetSunPhases(DateTime.Today, latitude, longitude).ToList();
+            return SunCalcNet.SunCalc.GetSunPhases(dateTime, latitude, longitude).ToList();
         }
 
         private static DateTime GetSolarTime(List<SunPhase> sunPhases, SunPhaseName desiredPhase)
@@ -222,17 +268,7 @@ namespace Wallone.Core.Controllers
 
         public bool IsAwake()
         {
-            return true;
-        }
-
-        public bool IsDone()
-        {
-            return isDone;
-        }
-
-        public void Done()
-        {
-            isDone = true;
+            return ThemeService.Get() != null;
         }
     }
 }

@@ -11,5 +11,10 @@ namespace Wallone.Core.Models
         public DateTime sunsetSolarTime;
         public DateTime duskSolarTime;
         public DateTime nightSolarTime;
+
+        public Times currentPhase;
+        public Times nextPhase;
+
+        public TimeSpan nextPhaseSpan;
     }
 }

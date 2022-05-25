@@ -40,7 +40,10 @@ namespace Wallone.Core.Services
 
         public static void Set(Theme theme)
         {
-            SetCurrentName(theme.Name);
+            if (theme != null)
+            {
+                SetCurrentName(theme.Name);
+            }
             themeModel = theme;
         }
 

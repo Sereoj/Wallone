@@ -22,17 +22,14 @@ namespace Wallone.Core.Schedulers
         {
             if (themeController.IsAwake())
             {
-                if (!themeController.IsDone())
-                {
-                    themeController.Set(ThemeService.Get());
-                }
-                //выполнить следующий раз через..
+                themeController.Set(ThemeService.Get());
+                long ticks = themeController.GetSpan().Ticks;
 
-                var time = Time(themeController.GetSpan().Ticks);
+                var spanNextImage = Time(ticks);
+                SetInterval(spanNextImage);
 
-                SetInterval(time);
                 Stop();
-                Trace.WriteLine("Выполнить через: " + TimeSpan.FromMilliseconds(time));
+                Trace.WriteLine("Выполнить через: " + TimeSpan.FromMilliseconds(spanNextImage));
                 Start();
             }
         }

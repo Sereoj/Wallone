@@ -247,8 +247,7 @@ namespace Wallone.Authorization.ViewModels
                                     .GetThemeModelFromFile();
 
                                 var controller = new ThemeController();
-                                controller.Set(theme);
-                                controller.Done();
+                                controller.Load(theme);
 
                                 var themeScheduler = new ThemeScheduler(controller);
                                 themeScheduler.Start();

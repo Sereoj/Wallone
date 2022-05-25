@@ -62,6 +62,7 @@ namespace Wallone.UI
             Application.DoEvents();
             notifyIcon.Visible = false;
             notifyIcon.Dispose();
+            Application.Exit();
         }
 
         public static void Show(bool b)

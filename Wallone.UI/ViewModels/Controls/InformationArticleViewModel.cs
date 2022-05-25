@@ -12,6 +12,7 @@ using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
+using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
 
 namespace Wallone.UI.ViewModels.Controls
@@ -157,12 +158,15 @@ namespace Wallone.UI.ViewModels.Controls
 
             if (builder.GetHasNotInstalled())
             {
-                theme.Set(builder.GetThemeModelFromFile());
-                theme.Done();
+                ThemeScheduler.Stop();
+                theme.Load(builder.GetThemeModelFromFile()); // загружаем тему
+                theme.Set(builder.GetThemeModelFromFile()); // устанавливаем как обои
+                ThemeScheduler.SetInterval(1000);
+                ThemeScheduler.Run();
             }
             else
             {
-                ThemeService.SetCurrentName(null);
+                ThemeService.Set(null);
             }
 
             SinglePageLogic.IsInstalled = builder.GetHasNotInstalled();

@@ -1,4 +1,5 @@
-﻿using Wallone.Core.Models;
+﻿using System;
+using Wallone.Core.Models;
 
 namespace Wallone.Core.Services
 {
@@ -9,6 +10,16 @@ namespace Wallone.Core.Services
         public static Phase GetPhase()
         {
             return phase;
+        }
+
+        public static void SetModel(Phase phaseModel)
+        {
+            phase = phaseModel;
+        }
+
+        public static void SetCurrentPhase(Times times)
+        {
+            phase.currentPhase = times;
         }
     }
 }
