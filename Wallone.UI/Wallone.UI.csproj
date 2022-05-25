@@ -4,7 +4,7 @@
 	<TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>Wallone.UI</AssemblyName>
-    <ApplicationIcon>favicon.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\favicon.ico</ApplicationIcon>
     <UserSecretsId>f6609849-f6e3-4f7d-8f70-4ca7b33351ec</UserSecretsId>
 	<SatelliteResourceLanguages>none</SatelliteResourceLanguages>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -20,7 +20,7 @@
 	  <DebugSymbols>false</DebugSymbols>
 	  <DebugType>None</DebugType>
   </PropertyGroup>
-	<ItemGroup>
+  <ItemGroup>
     <None Remove="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -40,6 +40,25 @@
     <ProjectReference Include="..\Wallone.Common\Wallone.Common.csproj" />
     <ProjectReference Include="..\Wallone.Controls\Wallone.Controls.csproj" />
     <ProjectReference Include="..\Wallone.Core\Wallone.Core.csproj" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 	
   <ItemGroup>

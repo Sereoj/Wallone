@@ -25,7 +25,11 @@ namespace Wallone.UI
     {
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            var container = Container.Resolve<MainWindow>();
+
+            new AppContext(container);
+            return container;
+
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
