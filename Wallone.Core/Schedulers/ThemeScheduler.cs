@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Timers;
 using Windows.UI.StartScreen;
 using Wallone.Core.Controllers;
@@ -26,8 +27,19 @@ namespace Wallone.Core.Schedulers
                     themeController.Set(ThemeService.Get());
                 }
                 //выполнить следующий раз через..
-                Trace.WriteLine("Выполнить через: "+ themeController.GetSpan().Ticks);
+
+                var time = Time(themeController.GetSpan().Ticks);
+
+                SetInterval(time);
+                Stop();
+                Trace.WriteLine("Выполнить через: " + TimeSpan.FromMilliseconds(time));
+                Start();
             }
+        }
+
+        public double Time(long tick)
+        {
+            return new TimeSpan(tick).TotalMilliseconds;
         }
 
         public static void SetInterval(double value)

@@ -118,7 +118,8 @@ namespace Wallone.Core.Controllers
 
         public void SetSpan(DateTime date2, DateTime date1, int count)
         {
-            ThemeService.SetTimeSpan(Span(date2, date1, count));
+            var time = Span(date2, date1, count);
+            ThemeService.SetTimeSpan(time);
         }
 
         public TimeSpan GetSpan()
