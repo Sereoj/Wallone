@@ -173,12 +173,10 @@
                                 FontFamily="{StaticResource FontGardensC}"
                                 Style="{StaticResource P}"
                                 Text="Страна:" />
-                            <ComboBox
-                                Width="250"
-                                Margin="0,15,0,0"
+                            <TextBox
+                                Margin="0,10,0,0"
                                 IsEnabled="False"
-                                ItemsSource="{Binding Countries}"
-                                SelectedItem="{Binding Country}" />
+                                Text="{Binding Country}" />
                         </StackPanel>
                     </Grid>
                     <Grid Grid.Row="5" Margin="0,10,0,10">

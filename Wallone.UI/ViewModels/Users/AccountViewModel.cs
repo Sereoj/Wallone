@@ -129,6 +129,13 @@ namespace Wallone.UI.ViewModels.Users
             set => SetProperty(ref textInformation, value);
         }
 
+        private string country;
+        public string Country
+        {
+            get => country;
+            set => SetProperty(ref country, value);
+        }
+
         public DelegateCommand PersonPictureCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand ExitCommand { get; set; }
@@ -219,6 +226,8 @@ namespace Wallone.UI.ViewModels.Users
                     Facebook = AccountService.GetFacebook();
                     VK = AccountService.GetVK();
                     Twitter = AccountService.GetTwitter();
+
+                    Country = SettingsService.Get().User.Country;
                 }
             }
             catch (Exception ex)
