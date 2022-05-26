@@ -130,7 +130,6 @@ namespace Wallone.UI.ViewModels.Controls
                     await SinglePageService.SetDownloadAsync(
                         AppConvert.BoolToString(builder.GetHasNotDownloaded()));
 
-
                 Update(data);
 
                 SinglePageLogic.IsDownloaded = builder.GetHasNotDownloaded();
@@ -163,6 +162,7 @@ namespace Wallone.UI.ViewModels.Controls
                 theme.Set(builder.GetThemeModelFromFile()); // устанавливаем как обои
                 ThemeScheduler.SetInterval(1000);
                 ThemeScheduler.Run();
+                regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
             }
             else
             {

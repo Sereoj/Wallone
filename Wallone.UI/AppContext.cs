@@ -69,6 +69,7 @@ namespace Wallone.UI
 
         public static void Close()
         {
+            Application.DoEvents();
             notifyIcon.Dispose();
             Application.Exit();
         }

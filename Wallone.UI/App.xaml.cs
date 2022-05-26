@@ -40,6 +40,7 @@ namespace Wallone.UI
 
             containerRegistry.RegisterForNavigation<Article, ArticleViewModel>();
             containerRegistry.RegisterForNavigation<ArticleMedium, ArticleViewModel>();
+            containerRegistry.RegisterForNavigation<TabSunTimes, TabSunTimesViewModel>();
 
             containerRegistry.RegisterForNavigation<NotFound, NotFoundViewModel>();
 
