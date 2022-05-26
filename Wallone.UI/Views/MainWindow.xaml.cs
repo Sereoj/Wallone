@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Drawing;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Forms;
-using System.Windows.Media.Imaging;
+
 
 namespace Wallone.UI.Views
 {
@@ -18,11 +17,16 @@ namespace Wallone.UI.Views
 
         private void MainWindow_OnDeactivated(object sender, EventArgs e)
         {
-            if (this.WindowState == WindowState.Minimized)
+            if (WindowState == WindowState.Minimized)
             {
                 ShowInTaskbar = false;
                 AppContext.Show(true);
             }
+        }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            AppContext.Close();
         }
     }
 }

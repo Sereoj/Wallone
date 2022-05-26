@@ -59,15 +59,18 @@ namespace Wallone.UI
 
         private void Application_ApplicationExit(object sender, EventArgs e)
         {
-            Application.DoEvents();
-            notifyIcon.Visible = false;
-            notifyIcon.Dispose();
-            Application.Exit();
+            Close();
         }
 
         public static void Show(bool b)
         {
             notifyIcon.Visible = b;
+        }
+
+        public static void Close()
+        {
+            notifyIcon.Dispose();
+            Application.Exit();
         }
     }
 }
