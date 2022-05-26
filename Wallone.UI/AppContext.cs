@@ -46,7 +46,7 @@ namespace Wallone.UI
 
             if (e.Button == MouseButtons.Right)
             {
-                notifyIcon.ContextMenuStrip = MainMenu.GetMenu();
+                notifyIcon.ContextMenuStrip = MainMenu.GetMenu(main);
             }
         }
 

@@ -138,5 +138,11 @@ namespace Wallone.Core.Builders
             settings.User.City = locationCity;
             return this;
         }
+
+        public SettingsItemBuilder SetAutorun(bool isRun)
+        {
+            settings.General.AutoRun = isRun;
+            return this;
+        }
     }
 }

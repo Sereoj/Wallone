@@ -1,24 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Forms;
 using Prism.Regions;
 using Wallone.Core.Builders;
+using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
 using Wallone.UI.ViewModels;
+using Wallone.UI.Views;
+using Application = System.Windows.Forms.Application;
 
 namespace Wallone.UI
 {
     public class MainMenu
     {
-        public static ContextMenuStrip GetMenu()
-        {
-            List<ToolStripItem> menuItems = GetMenuItems();
+        private static MainWindow main;
+        public static ToolStripMenuItem Autorun;
 
-            ContextMenuStrip menuStrip = new ContextMenuStrip();
-            menuStrip.Items.Clear();
-            
-            menuStrip.Items.AddRange(menuItems.ToArray());
-            return menuStrip;
+        public static ContextMenuStrip GetMenu(Views.MainWindow window)
+        {
+            if (window != null && SettingsService.Get() != null)
+            {
+                main = window;
+
+                List<ToolStripItem> menuItems = GetMenuItems();
+                ContextMenuStrip menuStrip = new ContextMenuStrip();
+                menuStrip.Items.AddRange(menuItems.ToArray());
+                return menuStrip;
+            }
+
+            return null;
         }
 
         private static List<ToolStripItem> GetMenuItems()
@@ -43,14 +55,13 @@ namespace Wallone.UI
                 new ToolStripSeparator()
             });
 
-
-            var autorun = new ToolStripMenuItem("Автозапуск", null, OnAutorun);
+            Autorun = new ToolStripMenuItem("Автозапуск", null, OnAutorun);
+            Autorun.Checked = SettingsService.Get().General.AutoRun;
             items.AddRange(new List<ToolStripItem>
             {
-                autorun,
+                Autorun,
                 new ToolStripMenuItem("Выход", null, OnCloseApplication),
             });
-
             return items;
         }
 
@@ -61,22 +72,24 @@ namespace Wallone.UI
         }
         private static void OnAutorun(object sender, EventArgs e)
         {
-
-        }
-
-        private static void OnEnableTheme(object sender, EventArgs e)
-        {
-
+            Autorun.Checked = !Autorun.Checked;
+            SettingsService.Get().General.AutoRun = Autorun.Checked;
+            SettingsService.Save();
         }
 
         private static void OnUpdateImage(object sender, EventArgs e)
         {
-
+            ThemeScheduler.Stop();
+            ThemeScheduler.SetInterval(1000);
+            ThemeScheduler.Run();
         }
 
         private static void OnSelect(object sender, EventArgs e)
         {
-
+            main.Topmost = true;
+            main.WindowState = WindowState.Normal;
+            main.ShowInTaskbar = true;
+            main.Topmost = false;
         }
     }
 }
