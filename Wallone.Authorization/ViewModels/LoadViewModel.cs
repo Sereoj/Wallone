@@ -172,10 +172,12 @@ namespace Wallone.Authorization.ViewModels
             if (IsInternet)
             {
                 SetMessage("Нет интернет соединения");
+                ehternetTimer.Interval = TimeSpan.FromMinutes(2);
                 IsLoading = false;
             }
             else
             {
+                ehternetTimer.Interval = TimeSpan.FromSeconds(5);
                 var statusServer = AppEthernetService.IsConnect(Router.domainApi); // true
                 SetMessage("Проверка соединения c " + Router.OnlyNameDomain());
                 await Task.Delay(2000);
