@@ -74,7 +74,8 @@ namespace Wallone.UI.ViewModels.Controls
                 }
             }
 
-            await Task.Delay(3000);
+            Opacity = 1.0;
+            await Task.Delay(5000);
 
             for (int i = 0; i <= 10; i++)
             {

@@ -17,57 +17,69 @@
     </UserControl.Resources>
     <Border
         Height="50"
-        Background="AliceBlue"
+        Background="{StaticResource SystemControlBackgroundListLowBrush}"
         CornerRadius="15"
         Opacity="{Binding Opacity}"
         Visibility="{Binding IsVisible, Converter={StaticResource BoolToVis}}">
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <WrapPanel x:Name="SunrisePanel" HorizontalAlignment="Center">
-                <Border
+                <Image
                     Width="32"
                     Height="32"
-                    Background="AntiqueWhite"
-                    CornerRadius="15" />
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Source="{StaticResource PhaseSunrise}"
+                    Stretch="UniformToFill" />
                 <TextBlock
                     Margin="20,5,20,5"
-                    FontSize="16"
-                    Foreground="Black"
+                    FontFamily="{StaticResource FontGardensC}"
+                    Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
+                    Style="{StaticResource P}"
                     Text="{Binding SunriseTime}" />
             </WrapPanel>
             <WrapPanel x:Name="DayPanel" HorizontalAlignment="Center">
-                <Border
+                <Image
                     Width="32"
                     Height="32"
-                    Background="AntiqueWhite"
-                    CornerRadius="15" />
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Source="{StaticResource PhaseDay}"
+                    Stretch="UniformToFill" />
                 <TextBlock
                     Margin="20,5,20,5"
-                    FontSize="16"
-                    Foreground="Black"
+                    FontFamily="{StaticResource FontGardensC}"
+                    Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
+                    Style="{StaticResource P}"
                     Text="{Binding DayTime}" />
             </WrapPanel>
             <WrapPanel x:Name="SunsetPanel" HorizontalAlignment="Center">
-                <Border
+                <Image
                     Width="32"
                     Height="32"
-                    Background="AntiqueWhite"
-                    CornerRadius="15" />
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Source="{StaticResource PhaseSunset}"
+                    Stretch="UniformToFill" />
                 <TextBlock
                     Margin="20,5,20,5"
-                    FontSize="16"
-                    Foreground="Black"
+                    FontFamily="{StaticResource FontGardensC}"
+                    Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
+                    Style="{StaticResource P}"
                     Text="{Binding SunsetTime}" />
             </WrapPanel>
             <WrapPanel x:Name="NightPanel" HorizontalAlignment="Center">
-                <Border
+                <Image
                     Width="32"
                     Height="32"
-                    Background="AntiqueWhite"
-                    CornerRadius="15" />
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Source="{StaticResource PhaseNight}"
+                    Stretch="UniformToFill" />
                 <TextBlock
                     Margin="20,5,20,5"
-                    FontSize="16"
-                    Foreground="Black"
+                    FontFamily="{StaticResource FontGardensC}"
+                    Foreground="{StaticResource SystemControlBackgroundChromeWhiteBrush}"
+                    Style="{StaticResource P}"
                     Text="{Binding NightTime}" />
             </WrapPanel>
         </WrapPanel>

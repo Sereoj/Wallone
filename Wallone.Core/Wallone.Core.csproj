@@ -21,6 +21,7 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DesktopBridge.Helpers" Version="1.2.2" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />

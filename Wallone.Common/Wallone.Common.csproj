@@ -22,6 +22,10 @@
     <None Remove="Fonts\icomoon-ultimate.ttf" />
     <None Remove="Fonts\icomoon.ttf" />
     <None Remove="Fonts\IcoMoon_0.ttf" />
+    <None Remove="Images\phases\day.png" />
+    <None Remove="Images\phases\night.png" />
+    <None Remove="Images\phases\sunrise.png" />
+    <None Remove="Images\phases\sunset.png" />
     <None Remove="Images\Placeholder1280x720.png" />
     <None Remove="Images\TransparentPlaceholder.png" />
   </ItemGroup>
@@ -45,6 +49,18 @@
         </Resource>
         <Resource Include="Fonts\IcoMoon_0.ttf">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\phases\day.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\phases\night.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\phases\sunrise.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\phases\sunset.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Images\Placeholder.png">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>

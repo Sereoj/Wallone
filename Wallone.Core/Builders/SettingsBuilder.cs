@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Services;
 
@@ -18,15 +19,16 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        public SettingsBuilder UpdateOrCreateFile(string path)
+        public SettingsBuilder UpdateOrCreateFile(string filename)
         {
+            var path = Path.Combine(Platformer.GetHelper().GetCurrentFolder(), filename);
+
             SettingsService.SetFile(path); // Установка пути
             if (!SettingsService.Exist()) // Проверка файла
                 CreateFile(path); // Создание файла
             SettingsService.Load(); // Загрузка данных
 
-            var settingsPath = Path.Combine(AppSettingsService.GetAppLocation(), path);
-            AppSettingsService.SetSettingsLocation(settingsPath);
+            AppSettingsService.SetSettingsLocation(path);
             return this;
         }
 

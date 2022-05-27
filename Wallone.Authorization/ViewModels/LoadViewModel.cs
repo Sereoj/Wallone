@@ -140,9 +140,12 @@ namespace Wallone.Authorization.ViewModels
 
         private static void Init()
         {
+
+            var platformer = Platformer.GetHelper();
+
             var app = new AppSettingsBuilder()
                 .Query(new AppPathBuilder()
-                    .AppLocation(Directory.GetCurrentDirectory())
+                    .AppLocation(platformer.GetCurrentFolder())
                     .Build())
                 .Query(new SettingsBuilder(AppSettingsService.GetSettings())
                     .UpdateOrCreateFile("app.settings")

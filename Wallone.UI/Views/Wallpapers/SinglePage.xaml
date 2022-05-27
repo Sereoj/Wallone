@@ -32,7 +32,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <!--<views:LoadingControl
+        <views:LoadingControl
             x:Name="Loading"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -41,14 +41,13 @@
             x:Name="NoNetwork"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />-->
+            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
         <ScrollViewer
             x:Name="ScrollViewer"
             IsTabStop="False"
             ScrollChanged="ScrollViewer_ScrollChanged">
             <Grid>
-                <Grid>
-                    <!--<Grid Visibility="{Binding IsContent, Converter={StaticResource BoolToVis}}">-->
+                <Grid Visibility="{Binding IsContent, Converter={StaticResource BoolToVis}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60" />
                         <RowDefinition Height="*" />
