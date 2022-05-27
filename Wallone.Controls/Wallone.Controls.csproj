@@ -21,4 +21,9 @@
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Wallone.Common\Wallone.Common.csproj" />
+	  <ProjectReference Include="..\Wallone.Core\Wallone.Core.csproj" />
+	</ItemGroup>
+
 </Project>
