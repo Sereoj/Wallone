@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Forms;
 using Wallone.UI.Views;
-using Application = System.Windows.Forms.Application;
+using Application = System.Windows.Application;
 
 namespace Wallone.UI
 {
@@ -17,14 +17,12 @@ namespace Wallone.UI
             {
                 main = mainWindow;
             }
-
             InitTrayIcon();
         }
 
+
         private void InitTrayIcon()
         {
-            Application.ApplicationExit += Application_ApplicationExit;
-
             notifyIcon = new System.Windows.Forms.NotifyIcon()
             {
                 Text = "Wallone",
@@ -57,11 +55,6 @@ namespace Wallone.UI
             notifyIcon.ShowBalloonTip(10000);
         }
 
-        private void Application_ApplicationExit(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         public static void Show(bool b)
         {
             notifyIcon.Visible = b;
@@ -69,9 +62,8 @@ namespace Wallone.UI
 
         public static void Close()
         {
-            Application.DoEvents();
             notifyIcon.Dispose();
-            Application.Exit();
+            Application.Current.Shutdown();
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
 using Prism.Regions;
 using Wallone.Core.Builders;
+using Wallone.Core.Helpers;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
 using Wallone.UI.ViewModels;
@@ -56,7 +58,7 @@ namespace Wallone.UI
             });
 
             Autorun = new ToolStripMenuItem("Автозапуск", null, OnAutorun);
-            Autorun.Checked = SettingsService.Get().General.AutoRun;
+            Autorun.Checked = Platformer.GetHelper().CheckAutorun();
             items.AddRange(new List<ToolStripItem>
             {
                 Autorun,
@@ -67,14 +69,16 @@ namespace Wallone.UI
 
         private static void OnCloseApplication(object sender, EventArgs e)
         {
-            Application.DoEvents();
-            Application.Exit();
+            AppContext.Close();
         }
         private static void OnAutorun(object sender, EventArgs e)
         {
             Autorun.Checked = !Autorun.Checked;
-            SettingsService.Get().General.AutoRun = Autorun.Checked;
-            SettingsService.Save();
+            Trace.WriteLine(Application.ExecutablePath);
+            Trace.WriteLine(Assembly.GetEntryAssembly()?.Location);
+            Trace.WriteLine(Assembly.GetExecutingAssembly().Location);
+            Trace.WriteLine(System.AppDomain.CurrentDomain.FriendlyName);
+            Platformer.GetHelper().SwitcherAutorun(Application.ExecutablePath, Autorun.Checked);
         }
 
         private static void OnUpdateImage(object sender, EventArgs e)

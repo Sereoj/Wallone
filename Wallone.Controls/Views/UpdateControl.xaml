@@ -6,21 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views="clr-namespace:Wallone.Controls.Views"
     mc:Ignorable="d">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <views:Logo />
-        </Grid>
-        <TextBlock
-            Grid.Row="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource FontGardensC}"
-            Foreground="White"
-            Style="{StaticResource H3}"
-            Text="Требуется обновление" />
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Image
+            Width="300"
+            MinHeight="100"
+            MaxHeight="400"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Source="{StaticResource LogoUpdate}"
+            Stretch="Uniform" />
     </Grid>
 </UserControl>

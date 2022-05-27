@@ -272,7 +272,7 @@ namespace Wallone.Authorization.ViewModels
                     else
                     {
                         IsLoading = false;
-                        SetMessage("Доступно обновление..");
+                        SetMessage("Найдена новая версия приложения!");
                     }
                 }
                 else

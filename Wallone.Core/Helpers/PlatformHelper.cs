@@ -1,4 +1,11 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows;
+using Microsoft.Win32;
+using Wallone.Core.Builders;
+using Wallone.Core.Services;
 
 namespace Wallone.Core.Helpers
 {
@@ -6,13 +13,51 @@ namespace Wallone.Core.Helpers
     public abstract class PlatformHelper
     {
         public abstract string GetCurrentFolder();
+
+        public abstract void SwitcherAutorun(string path, bool autorunChecked);
+        public abstract bool CheckAutorun();
+        public abstract void OpenUpdateLink();
     }
 
     public class ClassicPlatformHelper : PlatformHelper
     {
+        private string RegistryStartupLocation = @"Software\Microsoft\Windows\CurrentVersion\Run";
         public override string GetCurrentFolder()
         {
             return Directory.GetCurrentDirectory();
+        }
+
+        public override void SwitcherAutorun(string path, bool autorunChecked)
+        {
+            RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(RegistryStartupLocation, true);
+
+            var settings = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder();
+
+            if (startupKey == null) return;
+            if (!CheckAutorun() && autorunChecked)
+            {
+                startupKey.SetValue("Wallone", path);
+                settings.SetAutorun(true);
+            }
+            else
+            {
+                startupKey.DeleteValue("Wallone");
+                settings.SetAutorun(false);
+            }
+        }
+
+        public override bool CheckAutorun()
+        {
+            RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(RegistryStartupLocation);
+            var isChecked = startupKey.GetValue("Wallone") != null; // true
+            startupKey.Close();
+            return isChecked;
+        }
+
+        public override void OpenUpdateLink()
+        {
+            System.Diagnostics.Process.Start(Router.domain + "/update");
         }
     }
 
@@ -21,6 +66,24 @@ namespace Wallone.Core.Helpers
         public override string GetCurrentFolder()
         {
             return Windows.Storage.ApplicationData.Current.LocalFolder.Path;
+        }
+
+        public override void SwitcherAutorun(string path, bool autorunChecked)
+        {
+            if (CheckAutorun())
+            {
+
+            }
+        }
+
+        public override bool CheckAutorun()
+        {
+            return false;
+        }
+
+        public override void OpenUpdateLink()
+        {
+            Task.Run(() => Windows.System.Launcher.LaunchUriAsync(new Uri("ms-windows-store://downloadsandupdates")));
         }
     }
     public class Platformer

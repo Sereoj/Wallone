@@ -21,6 +21,9 @@
     <ImageSource x:Key="Placeholder1280">pack://application:,,,/Wallone.Common;component/Images/Placeholder1280x720.png</ImageSource>
     <ImageSource x:Key="TransparentPlaceholder">pack://application:,,,/Wallone.Common;component/Images/TransparentPlaceholder.png</ImageSource>
 
+    <ImageSource x:Key="LogoUpdate">pack://application:,,,/Wallone.Common;component/Images/logo/logoUpdate.png</ImageSource>
+
+
     <ImageSource x:Key="PhaseSunrise">pack://application:,,,/Wallone.Common;component/Images/phases/sunrise.png</ImageSource>
     <ImageSource x:Key="PhaseDay">pack://application:,,,/Wallone.Common;component/Images/phases/day.png</ImageSource>
     <ImageSource x:Key="PhaseSunset">pack://application:,,,/Wallone.Common;component/Images/phases/sunset.png</ImageSource>
