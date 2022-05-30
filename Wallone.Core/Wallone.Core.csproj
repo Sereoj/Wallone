@@ -3,6 +3,10 @@
   <PropertyGroup>
 	  <TargetFramework>netcoreapp3.1</TargetFramework>
 	  <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+	  <Authors>Wallone</Authors>
+	  <Company>Wallone</Company>
+	  <Product>Wallone</Product>
+	  <Description>Ядро приложения</Description>
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugSymbols>false</DebugSymbols>

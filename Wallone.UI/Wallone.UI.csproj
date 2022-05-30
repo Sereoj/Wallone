@@ -10,8 +10,8 @@
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<StartupObject>Wallone.UI.App</StartupObject>
 	<PackageId>Wallone</PackageId>
-	<Authors>Wallone</Authors>
-	<PackageIcon>StoreLogo.backup.png</PackageIcon>
+	<Authors></Authors>
+	<PackageIcon>Icon.png</PackageIcon>
 	<PackageIconUrl />
 	<Win32Resource />
 	<UseWindowsForms>true</UseWindowsForms>
@@ -23,6 +23,10 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="favicon.ico" />
+    <None Include="Icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

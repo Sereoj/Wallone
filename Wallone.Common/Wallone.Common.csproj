@@ -4,6 +4,10 @@
 	  <TargetFramework>netcoreapp3.1</TargetFramework>
 	  <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
     <UseWPF>true</UseWPF>
+    <Description>Модуль дополнительных файлов, изображений</Description>
+    <Authors>Wallone</Authors>
+    <Company>Wallone</Company>
+    <Product>Wallone</Product>
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugSymbols>false</DebugSymbols>
