@@ -14,6 +14,7 @@
 	<PackageIcon>StoreLogo.backup.png</PackageIcon>
 	<PackageIconUrl />
 	<Win32Resource />
+	<UseWindowsForms>true</UseWindowsForms>
 	<ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -27,9 +28,7 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
-    <PackageReference Include="ModernWpfUI.MahApps" Version="0.9.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />

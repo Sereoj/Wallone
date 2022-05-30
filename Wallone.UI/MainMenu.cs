@@ -4,12 +4,10 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
-using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
-using Wallone.UI.ViewModels;
 using Wallone.UI.Views;
 using Application = System.Windows.Forms.Application;
 
