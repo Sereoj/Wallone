@@ -7,6 +7,8 @@
 	  <Company>Wallone</Company>
 	  <Product>Wallone</Product>
 	  <Description>Ядро приложения</Description>
+	  <PackageIcon>Icon.png</PackageIcon>
+	  <PackageIconUrl />
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugSymbols>false</DebugSymbols>
@@ -22,6 +24,10 @@
 	  <None Remove="Behaviors\**" />
 	  <None Remove="Commands\**" />
 	  <None Remove="Desktop\**" />
+	  <None Include="..\Wallone.UI\Icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
 	</ItemGroup>
 
   <ItemGroup>

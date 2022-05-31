@@ -8,6 +8,8 @@
     <Company>Wallone</Company>
     <Product>Wallone</Product>
     <Description>Модульные компоненты для работы с приложением</Description>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugSymbols>false</DebugSymbols>
@@ -17,6 +19,10 @@
 	  <Compile Remove="Models\**" />
 	  <EmbeddedResource Remove="Models\**" />
 	  <None Remove="Models\**" />
+	  <None Include="..\Wallone.UI\Icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
 	  <Page Remove="Models\**" />
 	</ItemGroup>
 

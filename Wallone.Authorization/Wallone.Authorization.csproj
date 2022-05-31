@@ -7,6 +7,8 @@
     <Description>Модуль авторизации</Description>
     <Company>Wallone</Company>
     <Product>Wallone</Product>
+    <PackageIcon>Icon.png</PackageIcon>
+    <PackageIconUrl />
   </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugSymbols>false</DebugSymbols>
@@ -19,6 +21,10 @@
 	  <EmbeddedResource Remove="Services\**" />
 	  <None Remove="Models\**" />
 	  <None Remove="Services\**" />
+	  <None Include="..\Wallone.UI\Icon.png">
+	    <Pack>True</Pack>
+	    <PackagePath></PackagePath>
+	  </None>
 	  <Page Remove="Models\**" />
 	  <Page Remove="Services\**" />
 	</ItemGroup>
