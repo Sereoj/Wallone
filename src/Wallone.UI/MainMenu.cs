@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
@@ -72,11 +73,12 @@ namespace Wallone.UI
         private static void OnAutorun(object sender, EventArgs e)
         {
             Autorun.Checked = !Autorun.Checked;
-            Trace.WriteLine(Application.ExecutablePath);
-            Trace.WriteLine(Assembly.GetEntryAssembly()?.Location);
-            Trace.WriteLine(Assembly.GetExecutingAssembly().Location);
-            Trace.WriteLine(System.AppDomain.CurrentDomain.FriendlyName);
-            Platformer.GetHelper().SwitcherAutorun(Application.ExecutablePath, Autorun.Checked);
+            var processName = Process.GetCurrentProcess().ProcessName + ".exe";
+            var path = Path.Combine(AppSettingsService.GetAppLocation(), processName);
+            if (AppSettingsService.ExistsFile(path))
+            {
+                Platformer.GetHelper().SwitcherAutorun(path, Autorun.Checked);
+            }
         }
 
         private static void OnUpdateImage(object sender, EventArgs e)
