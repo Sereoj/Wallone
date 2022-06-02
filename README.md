@@ -12,11 +12,12 @@
 5. Wallone.UI - Отображение интерфейса и взаимодейтвие с ним.
 
 ### Изображения
-
-<img src="images/gallery.png" width="300">
-<img src="images/galleryBrands.png" width="300">
-<img src="images/singlePage.png" width="300">
-<img src="images/Profile.png" width="300">
+<p align="center">
+<img src="images/gallery.png" width="350">
+<img src="images/galleryBrands.png" width="350">
+<img src="images/singlePage.png" width="350">
+<img src="images/Profile.png" width="350">
+</p>
 
 ### Цели и задачи:
 1. Доработать профиль;
