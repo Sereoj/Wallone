@@ -42,10 +42,13 @@ namespace Wallone.Core.Controllers
         {
             if (theme != null)
             {
+                CheckLocation();
                 ThemeService.Set(theme);
                 ThemeService.Save();
             }
         }
+
+
 
         public void Set(Theme theme)
         {
@@ -61,6 +64,15 @@ namespace Wallone.Core.Controllers
                         SetImage(image.location);
                         break;
                 }
+            }
+        }
+
+        private void CheckLocation()
+        {
+            if (SettingsItemBuilder.GetGeolocation() || double.IsNaN(lat) || double.IsNaN(lng))
+            {
+                SettingsItemBuilder.SetMode(Mode.NoUseLocation);
+                SettingsItemBuilder.Build();
             }
         }
 

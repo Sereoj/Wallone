@@ -14,5 +14,7 @@
 
         //Путь до настроек
         public string SettingsPath { get; set; }
+
+        public string ApplicationPath { get; set; }
     }
 }

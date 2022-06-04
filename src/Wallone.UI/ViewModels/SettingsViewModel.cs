@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
+using Wallone.Core.Helpers;
+using Wallone.Core.Models.Settings;
 using Wallone.Core.Services;
 
 namespace Wallone.UI.ViewModels
@@ -10,11 +13,13 @@ namespace Wallone.UI.ViewModels
     {
         private readonly IRegionManager regionManager;
 
-        private string host;
+        private bool isAutorun;
+        private bool isGeolocation;
 
         private string name = "Настройки";
 
-        private string prefix;
+        private SettingsItemBuilder settings
+            ;
 
         public SettingsViewModel()
         {
@@ -23,6 +28,8 @@ namespace Wallone.UI.ViewModels
         public SettingsViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+
+            SettingsService.Get().General.PropertyChanged += General_PropertyChanged;
         }
 
         public string Name
@@ -31,25 +38,40 @@ namespace Wallone.UI.ViewModels
             set => SetProperty(ref name, value);
         }
 
-        public string Host
+        public bool IsAutorun
         {
-            get => host;
-            set => SetProperty(ref host, value);
+            get => isAutorun;
+            set
+            {
+                Platformer
+                    .GetHelper()
+                    .SwitcherAutorun(AppSettingsService.GetApplicationPath(), value);
+                SetProperty(ref isAutorun, value);
+            }
         }
 
-        public string Prefix
+        public bool IsGeolocation
         {
-            get => prefix;
-            set => SetProperty(ref prefix, value);
+            get => isGeolocation;
+            set
+            {
+                settings
+                    .SetGeolocation(value)
+                    .Build();
+                SetProperty(ref isGeolocation, value);
+            }
         }
+
+
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var settings = new SettingsBuilder(SettingsService.Get())
+            settings = new SettingsBuilder(SettingsService.Get())
                 .ItemBuilder();
 
-            Host = settings.GetHost();
-            Prefix = settings.GetPrefix();
+            IsAutorun = settings.GetAutorun() && Platformer.GetHelper().CheckAutorun();
+            IsGeolocation = settings.GetGeolocation();
+            settings.Build();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -59,23 +81,11 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            if (SettingsService.Exist())
-            {
-                var settings = new SettingsBuilder(SettingsService.Get())
-                    .ItemBuilder();
+        }
 
-                settings.SetHost(Host);
-                settings.SetPrefix(Prefix);
-                settings.Build();
-
-                new HostBuilder()
-                    .SetHost()
-                    .SetPrefix()
-                    .Validate()
-                    .Build();
-            }
-
-            GC.Collect(2);
+        private void General_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            IsAutorun = ((General)sender).AutoRun;
         }
     }
 }

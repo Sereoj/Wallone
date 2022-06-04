@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -35,16 +36,23 @@ namespace Wallone.Core.Helpers
                 .ItemBuilder();
 
             if (startupKey == null) return;
-            if (!CheckAutorun() && autorunChecked)
+
+            if (autorunChecked)
             {
                 startupKey.SetValue(Common.Translation.Localization.AppName, path);
                 settings.SetAutorun(true);
             }
             else
             {
-                startupKey.DeleteValue(Common.Translation.Localization.AppName);
-                settings.SetAutorun(false);
+                if (CheckAutorun())
+                {
+                    startupKey.DeleteValue(Common.Translation.Localization.AppName);
+                    settings.SetAutorun(false);
+                }
             }
+            
+
+            settings.Build();
         }
 
         public override bool CheckAutorun()

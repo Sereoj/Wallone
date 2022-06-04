@@ -43,8 +43,8 @@
                     Grid.Column="1"
                     Margin="20,0">
                     <StackPanel VerticalAlignment="Top">
-                        <CheckBox Content="Автозапуск"/>
-                        <CheckBox Content="Использовать геолокацию"/>
+                        <CheckBox Content="Автозапуск" IsChecked="{Binding IsAutorun}" />
+                        <CheckBox Content="Использовать геолокацию" IsChecked="{Binding IsGeolocation}" />
                     </StackPanel>
                 </Grid>
             </Grid>

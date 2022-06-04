@@ -146,6 +146,7 @@ namespace Wallone.Authorization.ViewModels
             var app = new AppSettingsBuilder()
                 .Query(new AppPathBuilder()
                     .AppLocation(platformer.GetCurrentFolder())
+                    .ApplicationPath(AppSettingsService.AppPath())
                     .Build())
                 .Query(new SettingsBuilder(AppSettingsService.GetSettings())
                     .UpdateOrCreateFile("app.settings")

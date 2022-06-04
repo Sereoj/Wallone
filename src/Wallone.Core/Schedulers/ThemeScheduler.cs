@@ -41,6 +41,8 @@ namespace Wallone.Core.Schedulers
 
         public static void SetInterval(double value)
         {
+            if (value == 0)
+                value = 1000;
             SchedulerTimer.Interval = value;
         }
         public void Start()

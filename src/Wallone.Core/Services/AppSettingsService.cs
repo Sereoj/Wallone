@@ -1,4 +1,6 @@
-﻿using Wallone.Core.Extension;
+﻿using System.Diagnostics;
+using System.IO;
+using Wallone.Core.Extension;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models.App;
 
@@ -40,6 +42,21 @@ namespace Wallone.Core.Services
         public static string GetAppLocation()
         {
             return AppSettings.AppPath;
+        }
+
+        public static string GetApplicationPath()
+        {
+            return AppSettings.ApplicationPath;
+        }
+
+        public static string AppPath()
+        {
+            var processName = Process.GetCurrentProcess().ProcessName + ".exe";
+            return Path.Combine(GetAppLocation(), processName);
+        }
+        public static void SetApplicationPath(string path)
+        {
+            AppSettings.ApplicationPath = path;
         }
 
         public static void SetAppLocation(string path)

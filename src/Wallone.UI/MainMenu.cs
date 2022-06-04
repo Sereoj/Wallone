@@ -74,8 +74,9 @@ namespace Wallone.UI
         private static void OnAutorun(object sender, EventArgs e)
         {
             Autorun.Checked = !Autorun.Checked;
-            var processName = Process.GetCurrentProcess().ProcessName + ".exe";
-            var path = Path.Combine(AppSettingsService.GetAppLocation(), processName);
+
+            var path = AppSettingsService.GetApplicationPath();
+
             if (AppSettingsService.ExistsFile(path))
             {
                 Platformer.GetHelper().SwitcherAutorun(path, Autorun.Checked);

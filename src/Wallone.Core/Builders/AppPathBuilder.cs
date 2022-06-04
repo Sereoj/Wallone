@@ -10,6 +10,12 @@ namespace Wallone.Core.Builders
             return this;
         }
 
+        public AppPathBuilder ApplicationPath(string path)
+        {
+            AppSettingsService.SetApplicationPath(path);
+            return this;
+        }
+
         public AppPathBuilder Build()
         {
             return this;

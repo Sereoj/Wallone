@@ -144,5 +144,21 @@ namespace Wallone.Core.Builders
             settings.General.AutoRun = isRun;
             return this;
         }
+
+        public bool GetAutorun()
+        {
+            return settings.General.AutoRun;
+        }
+
+        public SettingsItemBuilder SetGeolocation(bool isGeolocation)
+        {
+            settings.General.Geolocation = isGeolocation;
+            return this;
+        }
+
+        public bool GetGeolocation()
+        {
+            return settings.General.Geolocation;
+        }
     }
 }
