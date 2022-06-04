@@ -46,4 +46,8 @@
     <Folder Include="Schedulers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Wallone.Common\Wallone.Common.csproj" />
+  </ItemGroup>
+
 </Project>

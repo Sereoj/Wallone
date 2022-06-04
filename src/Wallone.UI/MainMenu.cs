@@ -9,6 +9,7 @@ using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
+using Wallone.UI.Properties;
 using Wallone.UI.Views;
 using Application = System.Windows.Forms.Application;
 
@@ -41,7 +42,7 @@ namespace Wallone.UI
                 .ItemBuilder();
 
             List<ToolStripItem> items = new List<ToolStripItem>();
-            items.Add(new ToolStripLabel("Wallone"));
+            items.Add(new ToolStripLabel(Common.Translation.Localization.AppName));
             items[0].Enabled = false;
             
             items.Add(new ToolStripSeparator());

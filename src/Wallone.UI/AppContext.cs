@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Forms;
+using Wallone.UI.Properties;
 using Wallone.UI.Views;
 using Application = System.Windows.Application;
 
@@ -23,9 +24,9 @@ namespace Wallone.UI
 
         private void InitTrayIcon()
         {
-            notifyIcon = new System.Windows.Forms.NotifyIcon()
+            notifyIcon = new NotifyIcon()
             {
-                Text = "Wallone",
+                Text = Common.Translation.Localization.AppName,
                 Visible = true,
                 Icon = Properties.Resources.favicon
             };
@@ -48,9 +49,16 @@ namespace Wallone.UI
             }
         }
 
+        public static void SetMessage(string message)
+        {
+            if (message == null)
+                message = Common.Translation.Localization.AppName;
+            notifyIcon.Text = message;
+        }
+
         public static void ShowPopup(string message, string title = null)
         {
-            notifyIcon.BalloonTipTitle = title ?? "Wallone";
+            notifyIcon.BalloonTipTitle = title ?? Common.Translation.Localization.AppName;
             notifyIcon.BalloonTipText = message;
             notifyIcon.ShowBalloonTip(10000);
         }

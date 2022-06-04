@@ -37,12 +37,12 @@ namespace Wallone.Core.Helpers
             if (startupKey == null) return;
             if (!CheckAutorun() && autorunChecked)
             {
-                startupKey.SetValue("Wallone", path);
+                startupKey.SetValue(Common.Translation.Localization.AppName, path);
                 settings.SetAutorun(true);
             }
             else
             {
-                startupKey.DeleteValue("Wallone");
+                startupKey.DeleteValue(Common.Translation.Localization.AppName);
                 settings.SetAutorun(false);
             }
         }
@@ -50,7 +50,7 @@ namespace Wallone.Core.Helpers
         public override bool CheckAutorun()
         {
             RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(RegistryStartupLocation);
-            var isChecked = startupKey.GetValue("Wallone") != null; // true
+            var isChecked = startupKey.GetValue(Common.Translation.Localization.AppName) != null; // true
             startupKey.Close();
             return isChecked;
         }

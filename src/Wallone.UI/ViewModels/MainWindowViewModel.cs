@@ -1,13 +1,14 @@
 ﻿using ModernWpf;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.UI.Properties;
 
 namespace Wallone.UI.ViewModels
 {
     public class MainWindowViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
-        private string title = "Wallone";
+        private string title = Common.Translation.Localization.AppName;
 
         private ModernWpf.ElementTheme currentTheme;
         public ModernWpf.ElementTheme CurrentTheme { get => currentTheme; set => SetProperty(ref currentTheme, value); }

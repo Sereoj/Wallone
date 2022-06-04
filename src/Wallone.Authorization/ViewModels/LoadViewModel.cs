@@ -63,7 +63,7 @@ namespace Wallone.Authorization.ViewModels
         {
             this.regionManager = regionManager;
 
-            Header = "Wallone";
+            Header = Common.Translation.Localization.AppName;
 
             Init();
             LoadData();

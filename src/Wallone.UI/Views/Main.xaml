@@ -6,6 +6,7 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:translation="clr-namespace:Wallone.Common.Translation;assembly=Wallone.Common"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewmodels="clr-namespace:Wallone.UI.ViewModels"
     x:Name="UserControl"
@@ -123,7 +124,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             FontSize="16"
-            Text="Wallone" />
+            Text="{x:Static translation:Localization.AppName}" />
 
     </Grid>
 </UserControl>

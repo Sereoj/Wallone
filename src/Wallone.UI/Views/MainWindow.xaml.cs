@@ -21,6 +21,7 @@ namespace Wallone.UI.Views
             {
                 ShowInTaskbar = false;
                 AppContext.Show(true);
+                AppContext.ShowPopup("Приложение работает в фоновом режиме");
             }
         }
 

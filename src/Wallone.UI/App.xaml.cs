@@ -58,8 +58,8 @@ namespace Wallone.UI
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<CoreModule>();
             moduleCatalog.AddModule<CommonModule>();
+            moduleCatalog.AddModule<CoreModule>();
             moduleCatalog.AddModule<ControlsModule>();
             moduleCatalog.AddModule<AuthorizationModule>();
         }
