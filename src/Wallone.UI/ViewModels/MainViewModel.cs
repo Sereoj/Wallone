@@ -67,7 +67,17 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            navigationContext.NavigationService.Navigated += NavigationService_Navigated;
+            //navigationContext.NavigationService.Navigated += NavigationService_Navigated;
+
+            var param = new NavigationParameters
+            {
+                {"Root", "Gallery"},
+                {"Page", ""},
+                {"ID", "Main"},
+                {"Text", "Библиотека"}
+            };
+            //navigationContext.NavigationService.RequestNavigate("Wallpapers", param);
+            regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -105,7 +115,6 @@ namespace Wallone.UI.ViewModels
                 {"Text", text}
             };
 
-            Trace.WriteLine(param);
 
             switch (e.InvokedItemContainer.Tag.ToString())
             {

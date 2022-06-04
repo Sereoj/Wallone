@@ -9,11 +9,11 @@ namespace Wallone.Authorization
 {
     public class AuthorizationModule : IModule
     {
-        private readonly IRegionManager _regionManager;
+        private readonly IRegionManager regionManager;
 
         public AuthorizationModule(IRegionManager regionManager)
         {
-            _regionManager = regionManager;
+            this.regionManager = regionManager;
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
@@ -28,7 +28,7 @@ namespace Wallone.Authorization
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate("ContentRegion", "Load");
+            regionManager.RequestNavigate("ContentRegion", "Load");
         }
     }
 }

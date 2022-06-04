@@ -14,7 +14,7 @@
     prism:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d">
     <UserControl.Resources />
-    <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
+    <Grid>
         <ScrollViewer x:Name="ScrollViewer" IsTabStop="False">
             <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid.RowDefinitions>

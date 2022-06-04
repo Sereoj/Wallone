@@ -40,10 +40,6 @@
     <None Remove="Images\Placeholder1280x720.png" />
     <None Remove="Images\TransparentPlaceholder.png" />
   </ItemGroup>
-
-    <ItemGroup>
-		<Folder Include="Styles\" />
-    </ItemGroup>
 	
     <ItemGroup>
         <Resource Include="Fonts\Comfortaa.ttf">
@@ -88,7 +84,7 @@
     </ItemGroup>
 	
     <ItemGroup>
-        <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+        <PackageReference Include="ModernWpfUI" Version="0.9.5" />
         <PackageReference Include="Prism.Wpf" Version="8.1.97" />
     </ItemGroup>
 </Project>

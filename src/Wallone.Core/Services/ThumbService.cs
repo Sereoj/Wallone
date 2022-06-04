@@ -73,13 +73,13 @@ namespace Wallone.Core.Services
                 if (uri.IsFile)
                 {
                     if (File.Exists(uri.LocalPath)) return uri;
-                    return UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
+                    return UriHelper.Get("/Wallone.Common;component/Images/Placeholder.png");
                 }
 
                 return uri;
             }
 
-            return UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
+            return UriHelper.Get("/Wallone.Common;component/Images/Placeholder.png");
         }
 
         public static Uri ValidatePreview(Uri uri)

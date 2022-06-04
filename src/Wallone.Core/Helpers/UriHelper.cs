@@ -44,13 +44,13 @@ namespace Wallone.Core.Helpers
                 if (uri.IsFile)
                 {
                     if (File.Exists(uri.LocalPath)) return uri;
-                    return Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
+                    return Get("/Wallone.Common;component/Images/Placeholder.png");
                 }
 
                 return uri;
             }
 
-            return Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png");
+            return Get("/Wallone.Common;component/Images/Placeholder.png");
         }
     }
 }

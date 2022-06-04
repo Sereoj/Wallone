@@ -213,7 +213,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid Grid.Column="0">
-                                        <Grid
+                                        <!--<Grid
                                             x:Name="subscriptions"
                                             Margin="16"
                                             Background="{x:Null}">
@@ -240,10 +240,10 @@
                                                 Style="{StaticResource PProfile}"
                                                 Text="Подписки"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
-                                        </Grid>
+                                        </Grid>-->
                                     </Grid>
                                     <Grid Grid.Column="1">
-                                        <Grid x:Name="subscribers" Margin="16">
+                                        <!--<Grid x:Name="subscribers" Margin="16">
                                             <TextBlock
                                                 x:Name="count_subscribers"
                                                 HorizontalAlignment="Center"
@@ -267,10 +267,10 @@
                                                 Style="{StaticResource PProfile}"
                                                 Text="Подписчики"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
-                                        </Grid>
+                                        </Grid>-->
                                     </Grid>
                                     <Grid Grid.Column="2">
-                                        <Grid x:Name="likes" Margin="16">
+                                        <!--<Grid x:Name="likes" Margin="16">
                                             <TextBlock
                                                 x:Name="count_likes"
                                                 HorizontalAlignment="Center"
@@ -294,10 +294,10 @@
                                                 Style="{StaticResource PProfile}"
                                                 Text="Лайки"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
-                                        </Grid>
+                                        </Grid>-->
                                     </Grid>
                                     <Grid Grid.Column="3">
-                                        <Grid x:Name="publish" Margin="16">
+                                        <!--<Grid x:Name="publish" Margin="16">
                                             <TextBlock
                                                 x:Name="count_publish"
                                                 HorizontalAlignment="Center"
@@ -321,7 +321,7 @@
                                                 Style="{StaticResource PProfile}"
                                                 Text="Постов"
                                                 Visibility="{Binding ProfileActionsVM.IsEnableText, Converter={StaticResource BoolToVis}}" />
-                                        </Grid>
+                                        </Grid>-->
                                     </Grid>
                                 </Grid>
                             </Grid>

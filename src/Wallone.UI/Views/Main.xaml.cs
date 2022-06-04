@@ -19,10 +19,7 @@ namespace Wallone.UI.Views
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            NavigationService.SetNavigationView(NavigationView);
-            NavigationService.CurrentItemID(0);
             NavigationView.OpenPaneLength = 240;
-            NavigationView.SelectedItem = NavigationService.GetSelectedItem();
         }
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)

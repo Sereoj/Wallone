@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
 using Wallone.Authorization;
 using Wallone.Common;
 using Wallone.Controls;
@@ -26,8 +27,7 @@ namespace Wallone.UI
         protected override Window CreateShell()
         {
             var container = Container.Resolve<MainWindow>();
-
-            new AppContext(container);
+            var appContext = new AppContext(container);
             return container;
 
         }

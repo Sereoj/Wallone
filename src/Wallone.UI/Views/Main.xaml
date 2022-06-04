@@ -11,46 +11,30 @@
     x:Name="UserControl"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel,
                                      IsDesignTimeCreatable=True}"
-    d:DesignHeight="900"
-    d:DesignWidth="1200"
+    d:DesignHeight="700"
+    d:DesignWidth="600"
     prism:ViewModelLocator.AutoWireViewModel="True"
     Loaded="UserControl_Loaded"
     SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
     <UserControl.Resources />
-    <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
-
-        <!--  DialogRegion  -->
-        <ContentControl prism:RegionManager.RegionName="DialogRegion" />
+    <Grid>
         <!--  NavigationView  -->
         <ui:NavigationView
             x:Name="NavigationView"
             Margin="0"
             Padding="0"
             IsBackButtonVisible="Collapsed"
-            IsBackEnabled="False"
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="True"
             IsSettingsVisible="True"
             IsTitleBarAutoPaddingEnabled="False"
             PaneDisplayMode="LeftCompact">
             <ui:NavigationView.Header>
-                <WrapPanel VerticalAlignment="Center">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        FontSize="16"
-                        Text="" />
+                <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <TextBlock Margin="0" FontSize="16" />
                 </WrapPanel>
             </ui:NavigationView.Header>
-            <ui:NavigationView.PaneHeader>
-                <WrapPanel VerticalAlignment="Center">
-                    <TextBlock
-                        Margin="10,0,0,0"
-                        FontSize="16"
-                        Foreground="White"
-                        Text="Wallone" />
-                </WrapPanel>
-            </ui:NavigationView.PaneHeader>
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
                     x:Name="Gallery"
@@ -131,8 +115,15 @@
             </i:Interaction.Triggers>
             <!--  Page Content  -->
             <ui:NavigationView.Content>
-                <ContentControl MinWidth="600" prism:RegionManager.RegionName="PageRegion" />
+                <ContentControl prism:RegionManager.RegionName="PageRegion" />
             </ui:NavigationView.Content>
         </ui:NavigationView>
+        <TextBlock
+            Margin="45,6,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            FontSize="16"
+            Text="Wallone" />
+
     </Grid>
 </UserControl>

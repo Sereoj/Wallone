@@ -7,12 +7,20 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemeResources />
+                <ui:ThemeResources CanBeAccessedAcrossThreads="True">
+                    <ui:ThemeResources.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light" ui:ThemeDictionary.Key="Light">
+                            <SolidColorBrush x:Key="PrimaryColor" Color="#F0F0F0" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark" ui:ThemeDictionary.Key="Dark">
+                            <SolidColorBrush x:Key="PrimaryColor" Color="#202020" />
+                        </ResourceDictionary>
+                    </ui:ThemeResources.ThemeDictionaries>
+                </ui:ThemeResources>
                 <ui:XamlControlsResources />
-                <ResourceDictionary Source="pack://application:,,,/Wallone.Common;component/Styles/Style.xaml" />
-                <!--  Other merged dictionaries here  -->
+                <!--  Other app resources here  -->
+                <ResourceDictionary Source="/Wallone.Common;component/Styles/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <!--  Other app resources here  -->
         </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>

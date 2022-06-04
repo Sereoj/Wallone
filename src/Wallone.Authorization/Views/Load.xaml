@@ -15,7 +15,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </UserControl.Resources>
-    <Grid Background="{StaticResource SystemControlBackgroundAltMediumHighBrush}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="65" />
             <RowDefinition Height="*" />
@@ -39,14 +39,10 @@
                 Style="{StaticResource H3}"
                 Text="{Binding Header, FallbackValue=WinDynamicDesktop}" />
             <Grid Grid.Row="1">
-                <views:LoadingControl x:Name="Loading"
-                                      Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
-                <views:NoNetworkControl x:Name="NoNetwork"
-                                        Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
-                <views:NoConnectServer x:Name="NoConnectServer"
-                                       Visibility="{Binding IsConnect, Converter={StaticResource BoolToVis}}" />
-                <views:UpdateControl x:Name="Update"
-                                     Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}" />
+                <views:LoadingControl x:Name="Loading" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
+                <views:NoNetworkControl x:Name="NoNetwork" Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
+                <views:NoConnectServer x:Name="NoConnectServer" Visibility="{Binding IsConnect, Converter={StaticResource BoolToVis}}" />
+                <views:UpdateControl x:Name="Update" Visibility="{Binding IsUpdate, Converter={StaticResource BoolToVis}}" />
             </Grid>
             <TextBlock
                 Grid.Row="2"

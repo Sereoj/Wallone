@@ -114,7 +114,7 @@ namespace Wallone.UI.ViewModels.Controls
                 else
                 {
                     FrontImageSource = BitmapHelper.CreateBitmapImage(
-                        UriHelper.Get("pack://application:,,,/Wallone.Common;component/Images/Placeholder.png"));
+                        UriHelper.Get("/Wallone.Common;component/Images/Placeholder.png"));
                     transitionTimer.Stop();
                     Text = "Неловкая ситуация =(";
                     isEnable = false;

@@ -218,6 +218,8 @@ namespace Wallone.Core.Controllers
 
         public TimeSpan Span(DateTime date2, DateTime date1, int count)
         {
+            if (count == 0)
+                count = 1;
             return (date2 - date1) / count;
         }
 
