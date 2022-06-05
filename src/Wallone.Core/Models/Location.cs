@@ -1,5 +1,11 @@
 ﻿namespace Wallone.Core.Models
 {
+    public enum Geolocation
+    {
+        Custom,
+        Auto,
+        Windows
+    }
     public class Location
     {
         public string country { get; set; }

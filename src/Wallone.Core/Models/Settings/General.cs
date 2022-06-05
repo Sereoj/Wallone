@@ -33,6 +33,14 @@ namespace Wallone.Core.Models.Settings
             set { SetProperty(ref geolocation, value); }
         }
 
+
+        private Geolocation geolocationMode;
+        public Geolocation GeolocationMode
+        {
+            get { return geolocationMode; }
+            set { SetProperty(ref geolocationMode, value); }
+        }
+
         private bool autoSetImage;
         public bool AutoSetImage
         {
@@ -53,6 +61,42 @@ namespace Wallone.Core.Models.Settings
         {
             get { return animation; }
             set { SetProperty(ref animation, value); }
+        }
+
+        private bool useCustomResolution;
+        public bool UseCustomResolution
+        {
+            get { return useCustomResolution; }
+            set { SetProperty(ref useCustomResolution, value); }
+        }
+
+        private ResolutionMode resolutionMode;
+        public ResolutionMode ResolutionMode
+        {
+            get { return resolutionMode; }
+            set { SetProperty(ref resolutionMode, value); }
+        }
+
+        private int resolutionTemplate;
+        public int ResolutionTemplate
+        {
+            get { return resolutionTemplate; }
+            set { SetProperty(ref resolutionTemplate, value); }
+        }
+
+        private int resolutionWidth;
+        public int ResolutionWidth
+        {
+            get { return resolutionWidth; }
+            set { SetProperty(ref resolutionWidth, value); }
+        }
+
+
+        private int resolutionHeight;
+        public int ResolutionHeight
+        {
+            get { return resolutionHeight; }
+            set { SetProperty(ref resolutionHeight, value); }
         }
     }
 }

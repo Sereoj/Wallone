@@ -70,12 +70,15 @@
                             CornerRadius="15">
                             <StackPanel Margin="10">
                                 <CheckBox Content="Использовать геолокацию" IsChecked="{Binding IsGeolocation}" />
-                                <ComboBox Width="530" SelectedIndex="{Binding GeolocationIndexSelected}">
+                                <ComboBox
+                                    Width="530"
+                                    IsEnabled="{Binding IsEnableListLocation}"
+                                    SelectedIndex="{Binding GeolocationIndexSelected}">
                                     <ComboBoxItem Content="Пользовательский" />
                                     <ComboBoxItem Content="Автоматический" />
                                     <ComboBoxItem Content="Системный" />
                                 </ComboBox>
-                                <WrapPanel Margin="0,10,0,0">
+                                <WrapPanel Margin="0,10,0,0" IsEnabled="{Binding IsEnableCustomLocation}">
                                     <StackPanel>
                                         <TextBox
                                             Width="200"
@@ -99,37 +102,38 @@
                             Background="{StaticResource BorderColor}"
                             CornerRadius="15">
                             <StackPanel Margin="10">
-                                <CheckBox Content="Пользовательское разрешение изображений" IsChecked="{Binding IsCustomImage}" />
+                                <CheckBox Content="Пользовательское разрешение изображений" IsChecked="{Binding IsCustomResolution}" />
 
-                                <WrapPanel>
-                                    <ComboBox Width="260" SelectedIndex="{Binding ImageIndexSelected}">
-                                        <ComboBoxItem Content="Автоматическое" />
-                                        <ComboBoxItem Content="Шаблонное" />
-                                        <ComboBoxItem Content="Пользовательское" />
+                                <WrapPanel IsEnabled="{Binding IsEnableResolutionList}">
+                                    <ComboBox Width="260" SelectedIndex="{Binding ResolutionModeSelected}">
+                                        <ComboBoxItem Content="Пользовательский" />
+                                        <ComboBoxItem Content="Шаблонный" />
+                                        <ComboBoxItem Content="Автоматический" />
                                     </ComboBox>
 
                                     <ComboBox
                                         Width="260"
                                         Margin="10,0,0,0"
-                                        SelectedIndex="{Binding ThemeIndexSelected}">
+                                        IsEnabled="{Binding IsEnableResolutionTemplate}"
+                                        SelectedIndex="{Binding ResolutionTemplateSelected}">
                                         <ComboBoxItem Content="1920×1080" />
                                         <ComboBoxItem Content="2560×1440" />
                                         <ComboBoxItem Content="3840×2160" />
                                     </ComboBox>
                                 </WrapPanel>
 
-                                <WrapPanel Margin="0,10,0,0">
+                                <WrapPanel Margin="0,10,0,0" IsEnabled="{Binding IsEnableResolutionCustom}">
                                     <StackPanel>
                                         <TextBox
                                             Width="200"
                                             Margin="0,0,10,0"
                                             ui:ControlHelper.PlaceholderText="Широта"
-                                            Text="" />
+                                            Text="{Binding ImgResolutionWidth}" />
                                     </StackPanel>
                                     <TextBox
                                         Width="200"
                                         ui:ControlHelper.PlaceholderText="Высота"
-                                        Text="" />
+                                        Text="{Binding ImgResolutionHeight}" />
                                     <Button
                                         Width="110"
                                         Margin="10,0,0,0"

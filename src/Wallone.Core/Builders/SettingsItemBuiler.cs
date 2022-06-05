@@ -199,5 +199,71 @@ namespace Wallone.Core.Builders
             settings.General.AutoSetImage = value;
             return this;
         }
+
+        public Geolocation GetGeolocationMode()
+        {
+            return settings.General.GeolocationMode;
+        }
+
+        public SettingsItemBuilder SetGeolocationMode(Geolocation value)
+        {
+            settings.General.GeolocationMode = value;
+            return this;
+        }
+
+        public bool GetUseCustomResolution()
+        {
+            return settings.General.UseCustomResolution;
+        }
+
+        public SettingsItemBuilder SetUseCustomResolution(bool value)
+        {
+            settings.General.UseCustomResolution = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetResolutionMode(ResolutionMode value)
+        {
+            settings.General.ResolutionMode = value;
+            return this;
+        }
+
+        public ResolutionMode GetResolutionMode()
+        {
+            return settings.General.ResolutionMode;
+        }
+
+        public SettingsItemBuilder SetResolutionTemplate(int value)
+        {
+            settings.General.ResolutionTemplate = value;
+            return this;
+        }
+
+        public int GetResolutionTemplate()
+        {
+            return settings.General.ResolutionTemplate;
+        }
+
+        public int GetResolutionWidth()
+        {
+            return settings.General.ResolutionWidth;
+        }
+
+        public int GetResolutionHeight()
+        {
+            return settings.General.ResolutionHeight;
+        }
+
+        public SettingsItemBuilder SetResolutionWidth(int value)
+        {
+            settings.General.ResolutionWidth = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetResolutionHeight(int value)
+        {
+            settings.General.ResolutionHeight = value;
+            return this;
+        }
     }
 }

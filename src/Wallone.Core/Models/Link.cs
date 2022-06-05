@@ -18,6 +18,12 @@
         UseWindowsLocation,
     }
 
+    public enum ResolutionMode
+    {
+        Custom,
+        Template,
+        Auto
+    }
     public class Link
     {
         public string id { get; set; }
