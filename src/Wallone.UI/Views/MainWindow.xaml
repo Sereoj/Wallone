@@ -15,8 +15,6 @@
     MinHeight="400"
     d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    ui:ThemeManager.HasThemeResources="True"
-    ui:ThemeManager.IsThemeAware="True"
     ui:ThemeManager.RequestedTheme="{Binding CurrentTheme}"
     ui:TitleBar.ExtendViewIntoTitleBar="True"
     ui:WindowHelper.UseModernWindowStyle="True"

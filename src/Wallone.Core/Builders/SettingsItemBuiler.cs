@@ -39,9 +39,9 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        public SettingsItemBuilder SetWindowTheme(string theme)
+        public SettingsItemBuilder SetWindowTheme(ModernWpf.ElementTheme theme)
         {
-            settings.General.Image = theme;
+            settings.General.Theme = theme;
             return this;
         }
 
@@ -100,6 +100,12 @@ namespace Wallone.Core.Builders
             return settings.Server.Prefix;
         }
 
+        public SettingsItemBuilder SetModelWindow(bool value)
+        {
+            settings.General.IsArcticModal = value;
+            return this;
+        }
+
         public string GetEmail()
         {
             return settings.User.Email;
@@ -111,10 +117,22 @@ namespace Wallone.Core.Builders
             return this;
         }
 
+
         public SettingsItemBuilder SetLongitude(double value)
         {
             settings.User.Longitude = value;
             return this;
+        }
+
+        public SettingsItemBuilder SetAnimation(bool value)
+        {
+            settings.General.Animation = value;
+            return this;
+        }
+
+        public bool GetAutoSetImage()
+        {
+            return settings.General.AutoSetImage;
         }
 
         public double GetLatitude()
@@ -131,6 +149,11 @@ namespace Wallone.Core.Builders
         {
             settings.User.Country = locationCountry;
             return this;
+        }
+
+        public bool GetAnimation()
+        {
+            return settings.General.Animation;
         }
 
         public SettingsItemBuilder SetCity(string locationCity)
@@ -159,6 +182,22 @@ namespace Wallone.Core.Builders
         public bool GetGeolocation()
         {
             return settings.General.Geolocation;
+        }
+
+        public ElementTheme GetWindowTheme()
+        {
+            return settings.General.Theme;
+        }
+
+        public bool GetModelWindow()
+        {
+            return settings.General.IsArcticModal;
+        }
+
+        public SettingsItemBuilder SetAutoSetImage(bool value)
+        {
+            settings.General.AutoSetImage = value;
+            return this;
         }
     }
 }

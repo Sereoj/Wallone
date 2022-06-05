@@ -29,7 +29,7 @@ namespace Wallone.UI.ViewModels
         {
             this.regionManager = regionManager;
 
-            SettingsService.Get().General.PropertyChanged += General_PropertyChanged;
+            SettingsService.Get().General.PropertyChanged += SettingsChanged;
         }
 
         public string Name
@@ -63,14 +63,77 @@ namespace Wallone.UI.ViewModels
         }
 
 
+        private bool isAutoSetImage;
+        public bool IsAutoSetImage
+        {
+            get { return isAutoSetImage; }
+            set
+            {
+                settings
+                    .SetAutoSetImage(value)
+                    .Build();
+                SetProperty(ref isAutoSetImage, value);
+            }
+        }
+
+        private int themeIndexSelected;
+        public int ThemeIndexSelected
+        {
+            get { return themeIndexSelected; }
+            set
+            {
+                settings
+                    .SetWindowTheme((ModernWpf.ElementTheme)value)
+                    .Build();
+                SetProperty(ref themeIndexSelected, value);
+            }
+        }
+
+
+        private bool isSetModel;
+        public bool IsSetModel
+        {
+            get { return isSetModel; }
+            set
+            {
+                settings
+                    .SetModelWindow(value)
+                    .Build();
+                SetProperty(ref isSetModel, value);
+            }
+        }
+
+        private bool isAnimation;
+        public bool IsAnimation
+        {
+            get { return isAnimation; }
+            set
+            {
+                settings
+                    .SetAnimation(value)
+                    .Build();
+                SetProperty(ref isAnimation, value);
+            }
+        }
+
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             settings = new SettingsBuilder(SettingsService.Get())
                 .ItemBuilder();
 
+            ThemeIndexSelected = settings.GetWindowTheme() switch
+            {
+                ModernWpf.ElementTheme.Default => 0,
+                ModernWpf.ElementTheme.Light => 1,
+                ModernWpf.ElementTheme.Dark => 2,
+                _ => ThemeIndexSelected = 0
+            };
             IsAutorun = settings.GetAutorun() && Platformer.GetHelper().CheckAutorun();
             IsGeolocation = settings.GetGeolocation();
+            IsAutoSetImage = settings.GetAutoSetImage();
+            IsSetModel = settings.GetModelWindow();
+            IsAnimation = settings.GetAnimation();
             settings.Build();
         }
 
@@ -83,7 +146,7 @@ namespace Wallone.UI.ViewModels
         {
         }
 
-        private void General_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void SettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             IsAutorun = ((General)sender).AutoRun;
         }

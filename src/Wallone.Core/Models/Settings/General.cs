@@ -4,8 +4,8 @@ namespace Wallone.Core.Models.Settings
 {
     public class General : BindableBase
     {
-        private string theme;
-        public string Theme
+        private ModernWpf.ElementTheme theme;
+        public ModernWpf.ElementTheme Theme
         {
             get { return theme; }
             set { SetProperty(ref theme, value); }
@@ -31,6 +31,28 @@ namespace Wallone.Core.Models.Settings
         {
             get { return geolocation; }
             set { SetProperty(ref geolocation, value); }
+        }
+
+        private bool autoSetImage;
+        public bool AutoSetImage
+        {
+            get { return autoSetImage; }
+            set { SetProperty(ref autoSetImage, value); }
+        }
+
+        private bool isArcticModal;
+        public bool IsArcticModal
+        {
+            get { return isArcticModal; }
+            set { SetProperty(ref isArcticModal, value); }
+        }
+
+
+        private bool animation;
+        public bool Animation
+        {
+            get { return animation; }
+            set { SetProperty(ref animation, value); }
         }
     }
 }

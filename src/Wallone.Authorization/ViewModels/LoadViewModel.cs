@@ -54,8 +54,9 @@ namespace Wallone.Authorization.ViewModels
         private bool isUpdate;
 
         private string message;
+        private readonly SettingsItemBuilder settings;
 
-        public LoadViewModel()
+    public LoadViewModel()
         {
         }
 
@@ -65,8 +66,9 @@ namespace Wallone.Authorization.ViewModels
 
             Header = Common.Translation.Localization.AppName;
 
-            Init();
             LoadData();
+
+            settings = new SettingsBuilder(SettingsService.Get()).ItemBuilder();
 
             ehternetTimer = new DispatcherTimer(DispatcherPriority.Send)
             {
@@ -138,32 +140,6 @@ namespace Wallone.Authorization.ViewModels
             Message = message;
         }
 
-        private static void Init()
-        {
-
-            var platformer = Platformer.GetHelper();
-
-            var app = new AppSettingsBuilder()
-                .Query(new AppPathBuilder()
-                    .AppLocation(platformer.GetCurrentFolder())
-                    .ApplicationPath(AppSettingsService.AppPath())
-                    .Build())
-                .Query(new SettingsBuilder(AppSettingsService.GetSettings())
-                    .UpdateOrCreateFile("app.settings")
-                    .SetConfigName("theme.json")
-                    .Build())
-                .Query(new ThemePathBuilder()
-                    .ExistOrCreateDirectory("themes")
-                    .UseForFolders("name")
-                    .Build())
-                .Query(new HostBuilder()
-                    .SetHost()
-                    .SetPrefix()
-                    .Validate()
-                    .Build()
-                );
-        }
-
         private async void LoadData()
         {
             var status = AppEthernetService.IsConnect(Router.domainExample); // true
@@ -226,6 +202,16 @@ namespace Wallone.Authorization.ViewModels
 
                         SetMessage("Подождите пару секунд..");
 
+                        var useGeolocation = new SettingsBuilder(SettingsService.Get())
+                            .ItemBuilder()
+                            .GetGeolocation();
+
+                        if (useGeolocation)
+                        {
+                            await UseGeolocation();
+                            UseTheme();
+                        }
+
                         var dataLocation = await LocationService.GetLocationAsync();
                         if (!string.IsNullOrEmpty(dataLocation))
                         {
@@ -241,22 +227,6 @@ namespace Wallone.Authorization.ViewModels
                                     .SetCountry(location.country)
                                     .SetCity(location.city)
                                     .Build();
-
-                                var themeName = settings
-                                    .GetImage();
-
-                                ThemeService.SetCurrentName(themeName);
-
-                                var theme = new ThemeCreatedBuilder()
-                                    .SetName(ThemeService.GetCurrentName())
-                                    .HasDownloaded()
-                                    .GetThemeModelFromFile();
-
-                                var controller = new ThemeController();
-                                controller.Load(theme);
-
-                                var themeScheduler = new ThemeScheduler(controller);
-                                themeScheduler.Start();
                             }
                         }
 
@@ -284,6 +254,47 @@ namespace Wallone.Authorization.ViewModels
             }
 
             GC.Collect(2);
+        }
+
+        private void UseTheme()
+        {
+            var themeName = settings
+                .GetImage();
+
+            ThemeService.SetCurrentName(themeName);
+
+            var theme = new ThemeCreatedBuilder()
+                .SetName(ThemeService.GetCurrentName())
+                .HasDownloaded()
+                .GetThemeModelFromFile();
+
+            var controller = new ThemeController();
+            controller.Load(theme);
+
+            var themeScheduler = new ThemeScheduler(controller);
+            themeScheduler.Start();
+        }
+
+        private async Task UseGeolocation()
+        {
+            if (settings.GetGeolocation())
+            {
+                var dataLocation = await LocationService.GetLocationAsync();
+                if (!string.IsNullOrEmpty(dataLocation))
+                {
+                    var location = JsonConvert.DeserializeObject<Location>(dataLocation);
+                    if (location != null)
+                    {
+                        settings
+                            .SetLatitude(location.latitude)
+                            .SetLongitude(location.longitude)
+                            .SetCountry(location.country)
+                            .SetCity(location.city)
+                            .SetMode(Mode.UseWebLocation)
+                            .Build();
+                    }
+                }
+            }
         }
     }
 }

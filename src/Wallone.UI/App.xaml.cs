@@ -6,6 +6,9 @@ using Wallone.Authorization;
 using Wallone.Common;
 using Wallone.Controls;
 using Wallone.Core;
+using Wallone.Core.Builders;
+using Wallone.Core.Helpers;
+using Wallone.Core.Services;
 using Wallone.UI.Controls;
 using Wallone.UI.ViewModels;
 using Wallone.UI.ViewModels.Controls;
@@ -62,6 +65,34 @@ namespace Wallone.UI
             moduleCatalog.AddModule<CoreModule>();
             moduleCatalog.AddModule<ControlsModule>();
             moduleCatalog.AddModule<AuthorizationModule>();
+
+            Init();
+        }
+
+        private static void Init()
+        {
+
+            var platformer = Platformer.GetHelper();
+
+            var app = new AppSettingsBuilder()
+                .Query(new AppPathBuilder()
+                    .AppLocation(platformer.GetCurrentFolder())
+                    .ApplicationPath(AppSettingsService.AppPath())
+                    .Build())
+                .Query(new SettingsBuilder(AppSettingsService.GetSettings())
+                    .UpdateOrCreateFile("app.settings")
+                    .SetConfigName("theme.json")
+                    .Build())
+                .Query(new ThemePathBuilder()
+                    .ExistOrCreateDirectory("themes")
+                    .UseForFolders("name")
+                    .Build())
+                .Query(new HostBuilder()
+                    .SetHost()
+                    .SetPrefix()
+                    .Validate()
+                    .Build()
+                );
         }
     }
 }

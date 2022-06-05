@@ -69,11 +69,18 @@ namespace Wallone.Core.Controllers
 
         private void CheckLocation()
         {
-            if (SettingsItemBuilder.GetGeolocation() || double.IsNaN(lat) || double.IsNaN(lng))
+            if (double.IsNaN(lat) || double.IsNaN(lng))
             {
                 SettingsItemBuilder.SetMode(Mode.NoUseLocation);
                 SettingsItemBuilder.Build();
             }
+
+            if (SettingsItemBuilder.GetGeolocation() != true)
+            {
+                SettingsItemBuilder.SetMode(Mode.NoUseLocation);
+                SettingsItemBuilder.Build();
+            }
+
         }
 
         private void UseWebLocation(Theme theme, Phase phaseModel, double lat, double lng)

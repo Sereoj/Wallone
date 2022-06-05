@@ -43,8 +43,100 @@
                     Grid.Column="1"
                     Margin="20,0">
                     <StackPanel VerticalAlignment="Top">
-                        <CheckBox Content="Автозапуск" IsChecked="{Binding IsAutorun}" />
-                        <CheckBox Content="Использовать геолокацию" IsChecked="{Binding IsGeolocation}" />
+                        <Border Background="{StaticResource BorderColor}" CornerRadius="15">
+                            <StackPanel Margin="10">
+                                <CheckBox Content="Автозапуск приложения" IsChecked="{Binding IsAutorun}" />
+                                <CheckBox Content="Автоматически устанавливать изображения" IsChecked="{Binding IsAutoSetImage}" />
+                                <CheckBox Content="Отображать модальное окно при включении темы" IsChecked="{Binding IsSetModel}" />
+                                <CheckBox Content="Использовать анимацию при смене обоев" IsChecked="{Binding IsAnimation}" />
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Margin="0,10,0,0"
+                            Background="{StaticResource BorderColor}"
+                            CornerRadius="15">
+                            <StackPanel Margin="10">
+                                <TextBlock Margin="0,0,0,5" Text="Тема:" />
+                                <ComboBox Width="530" SelectedIndex="{Binding ThemeIndexSelected}">
+                                    <ComboBoxItem Content="Авто" />
+                                    <ComboBoxItem Content="Светлая" />
+                                    <ComboBoxItem Content="Темная" />
+                                </ComboBox>
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Margin="0,10,0,0"
+                            Background="{StaticResource BorderColor}"
+                            CornerRadius="15">
+                            <StackPanel Margin="10">
+                                <CheckBox Content="Использовать геолокацию" IsChecked="{Binding IsGeolocation}" />
+                                <ComboBox Width="530" SelectedIndex="{Binding GeolocationIndexSelected}">
+                                    <ComboBoxItem Content="Пользовательский" />
+                                    <ComboBoxItem Content="Автоматический" />
+                                    <ComboBoxItem Content="Системный" />
+                                </ComboBox>
+                                <WrapPanel Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <TextBox
+                                            Width="200"
+                                            Margin="0,0,10,0"
+                                            ui:ControlHelper.PlaceholderText="Широта"
+                                            Text="{Binding Latitude}" />
+                                    </StackPanel>
+                                    <TextBox
+                                        Width="200"
+                                        ui:ControlHelper.PlaceholderText="Долгота"
+                                        Text="{Binding Longitude}" />
+                                    <Button
+                                        Width="110"
+                                        Margin="10,0,0,0"
+                                        Content="Помощь" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                        <Border
+                            Margin="0,10,0,0"
+                            Background="{StaticResource BorderColor}"
+                            CornerRadius="15">
+                            <StackPanel Margin="10">
+                                <CheckBox Content="Пользовательское разрешение изображений" IsChecked="{Binding IsCustomImage}" />
+
+                                <WrapPanel>
+                                    <ComboBox Width="260" SelectedIndex="{Binding ImageIndexSelected}">
+                                        <ComboBoxItem Content="Автоматическое" />
+                                        <ComboBoxItem Content="Шаблонное" />
+                                        <ComboBoxItem Content="Пользовательское" />
+                                    </ComboBox>
+
+                                    <ComboBox
+                                        Width="260"
+                                        Margin="10,0,0,0"
+                                        SelectedIndex="{Binding ThemeIndexSelected}">
+                                        <ComboBoxItem Content="1920×1080" />
+                                        <ComboBoxItem Content="2560×1440" />
+                                        <ComboBoxItem Content="3840×2160" />
+                                    </ComboBox>
+                                </WrapPanel>
+
+                                <WrapPanel Margin="0,10,0,0">
+                                    <StackPanel>
+                                        <TextBox
+                                            Width="200"
+                                            Margin="0,0,10,0"
+                                            ui:ControlHelper.PlaceholderText="Широта"
+                                            Text="" />
+                                    </StackPanel>
+                                    <TextBox
+                                        Width="200"
+                                        ui:ControlHelper.PlaceholderText="Высота"
+                                        Text="" />
+                                    <Button
+                                        Width="110"
+                                        Margin="10,0,0,0"
+                                        Content="Помощь" />
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
                     </StackPanel>
                 </Grid>
             </Grid>
