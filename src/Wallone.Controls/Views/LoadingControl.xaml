@@ -21,7 +21,7 @@
             Grid.Row="1"
             Width="60"
             Height="60"
-            Foreground="{StaticResource SystemControlBackgroundBaseHighBrush}"
+            Foreground="{ui:ThemeResource SystemControlBackgroundBaseHighBrush}"
             IsActive="True" />
     </Grid>
 </UserControl>

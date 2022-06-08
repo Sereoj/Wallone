@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
     xmlns:viewModels="clr-namespace:Wallone.Authorization.ViewModels"
     xmlns:views="clr-namespace:Wallone.Controls.Views;assembly=Wallone.Controls"
     d:DataContext="{d:DesignInstance Type=viewModels:LoadViewModel}"
@@ -49,7 +50,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Cursor="Hand"
-                Foreground="{StaticResource SystemControlBackgroundBaseHighBrush}"
+                Foreground="{ui:ThemeResource ForegroundColor}"
                 Style="{StaticResource PProfile}"
                 Text="{Binding Message}" />
         </Grid>

@@ -30,6 +30,50 @@ namespace Wallone.UI.ViewModels
         {
             this.regionManager = regionManager;
 
+            settings = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder();
+
+            IsAutorun = settings.GetAutorun() && Platformer.GetHelper().CheckAutorun();
+            IsGeolocation = settings.GetGeolocation();
+            IsAutoSetImage = settings.GetAutoSetImage();
+            IsSetModel = settings.GetModelWindow();
+            IsAnimation = settings.GetAnimation();
+            IsCustomResolution = settings.GetUseCustomResolution();
+
+            ThemeIndexSelected = settings.GetWindowTheme() switch
+            {
+                ModernWpf.ElementTheme.Default => 0,
+                ModernWpf.ElementTheme.Light => 1,
+                ModernWpf.ElementTheme.Dark => 2,
+                _ => ThemeIndexSelected = 0
+            };
+
+            GeolocationIndexSelected = settings.GetGeolocationMode() switch
+            {
+                Geolocation.Custom => 0,
+                Geolocation.Auto => 1,
+                Geolocation.Windows => 2,
+                _ => GeolocationIndexSelected = 1
+            };
+
+            ResolutionModeSelected = settings.GetResolutionMode() switch
+            {
+                ResolutionMode.Custom => 0,
+                ResolutionMode.Template => 1,
+                ResolutionMode.Auto => 2,
+                _ => ResolutionModeSelected = 2
+            };
+            ResolutionTemplateSelected = settings.GetResolutionTemplate();
+
+            Latitude = settings.GetLatitude();
+            Longitude = settings.GetLongitude();
+
+            ImgResolutionWidth = settings.GetResolutionWidth();
+            ImgResolutionHeight = settings.GetResolutionHeight();
+
+            settings.Build();
+
+
             SettingsService.Get().General.PropertyChanged += SettingsChanged;
         }
 
@@ -269,48 +313,6 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            settings = new SettingsBuilder(SettingsService.Get())
-                .ItemBuilder();
-
-            IsAutorun = settings.GetAutorun() && Platformer.GetHelper().CheckAutorun();
-            IsGeolocation = settings.GetGeolocation();
-            IsAutoSetImage = settings.GetAutoSetImage();
-            IsSetModel = settings.GetModelWindow();
-            IsAnimation = settings.GetAnimation();
-            IsCustomResolution = settings.GetUseCustomResolution();
-
-            ThemeIndexSelected = settings.GetWindowTheme() switch
-            {
-                ModernWpf.ElementTheme.Default => 0,
-                ModernWpf.ElementTheme.Light => 1,
-                ModernWpf.ElementTheme.Dark => 2,
-                _ => ThemeIndexSelected = 0
-            };
-
-            GeolocationIndexSelected = settings.GetGeolocationMode() switch
-            {
-                Geolocation.Custom => 0,
-                Geolocation.Auto => 1,
-                Geolocation.Windows => 2,
-                _ => GeolocationIndexSelected = 1
-            };
-
-            ResolutionModeSelected = settings.GetResolutionMode() switch
-            {
-                ResolutionMode.Custom => 0,
-                ResolutionMode.Template => 1,
-                ResolutionMode.Auto => 2,
-                _ => ResolutionModeSelected = 2
-            };
-            ResolutionTemplateSelected = settings.GetResolutionTemplate();
-
-            Latitude = settings.GetLatitude();
-            Longitude = settings.GetLongitude();
-
-            ImgResolutionWidth = settings.GetResolutionWidth();
-            ImgResolutionHeight = settings.GetResolutionHeight();
-
-            settings.Build();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

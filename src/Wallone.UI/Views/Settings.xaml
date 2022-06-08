@@ -43,7 +43,7 @@
                     Grid.Column="1"
                     Margin="20,0">
                     <StackPanel VerticalAlignment="Top">
-                        <Border Background="{StaticResource BorderColor}" CornerRadius="15">
+                        <Border Background="{ui:ThemeResource BorderColor}" CornerRadius="15">
                             <StackPanel Margin="10">
                                 <CheckBox Content="Автозапуск приложения" IsChecked="{Binding IsAutorun}" />
                                 <CheckBox Content="Автоматически устанавливать изображения" IsChecked="{Binding IsAutoSetImage}" />
@@ -53,7 +53,7 @@
                         </Border>
                         <Border
                             Margin="0,10,0,0"
-                            Background="{StaticResource BorderColor}"
+                            Background="{ui:ThemeResource BorderColor}"
                             CornerRadius="15">
                             <StackPanel Margin="10">
                                 <TextBlock Margin="0,0,0,5" Text="Тема:" />
@@ -66,7 +66,7 @@
                         </Border>
                         <Border
                             Margin="0,10,0,0"
-                            Background="{StaticResource BorderColor}"
+                            Background="{ui:ThemeResource BorderColor}"
                             CornerRadius="15">
                             <StackPanel Margin="10">
                                 <CheckBox Content="Использовать геолокацию" IsChecked="{Binding IsGeolocation}" />
@@ -99,7 +99,7 @@
                         </Border>
                         <Border
                             Margin="0,10,0,0"
-                            Background="{StaticResource BorderColor}"
+                            Background="{ui:ThemeResource BorderColor}"
                             CornerRadius="15">
                             <StackPanel Margin="10">
                                 <CheckBox Content="Пользовательское разрешение изображений" IsChecked="{Binding IsCustomResolution}" />

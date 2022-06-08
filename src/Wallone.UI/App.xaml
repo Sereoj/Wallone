@@ -12,10 +12,12 @@
                         <ResourceDictionary x:Key="Light" ui:ThemeDictionary.Key="Light">
                             <SolidColorBrush x:Key="PrimaryColor" Color="#F0F0F0" />
                             <SolidColorBrush x:Key="BorderColor" Color="#F2F2F2" />
+                            <SolidColorBrush x:Key="ForegroundColor" Color="Black" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark" ui:ThemeDictionary.Key="Dark">
                             <SolidColorBrush x:Key="PrimaryColor" Color="#202020" />
                             <SolidColorBrush x:Key="BorderColor" Color="#383838" />
+                            <SolidColorBrush x:Key="ForegroundColor" Color="White" />
                         </ResourceDictionary>
                     </ui:ThemeResources.ThemeDictionaries>
                 </ui:ThemeResources>

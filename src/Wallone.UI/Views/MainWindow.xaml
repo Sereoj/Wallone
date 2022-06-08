@@ -25,7 +25,7 @@
     WindowStartupLocation="CenterScreen"
     WindowState="Normal"
     mc:Ignorable="d">
-    <Grid Background="{StaticResource PrimaryColor}">
+    <Grid Background="{ui:ThemeResource PrimaryColor}">
         <ContentControl prism:RegionManager.RegionName="ContentRegion" />
     </Grid>
 </Window>
