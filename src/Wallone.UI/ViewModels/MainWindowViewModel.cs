@@ -24,6 +24,12 @@ namespace Wallone.UI.ViewModels
         public MainWindowViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
+
+            new SettingsBuilder(SettingsService.Get())
+            .ItemBuilder()
+            .SetWindowTheme(currentTheme)
+            .Build();
+
             SettingsService.Get().General.PropertyChanged += SettingsChanged;
         }
 
@@ -36,12 +42,6 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            regionManager.RequestNavigate("ContentRegion", "Load");
-
-            new SettingsBuilder(SettingsService.Get())
-                .ItemBuilder()
-                .SetWindowTheme(currentTheme)
-                .Build();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

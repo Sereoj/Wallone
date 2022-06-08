@@ -1,23 +1,4 @@
-﻿/* Необъединенное слияние из проекта "WinDynamicDesktop.Authorization (net5.0-windows10.0.18362)"
-До:
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Prism.Commands;
-using Prism.Mvvm;
-После:
-using Newtonsoft.Json;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Json;
-using System;
-using Prism.Diagnostics;
-*/
-
-using System;
-using System.IO;
-using System.Net;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Newtonsoft.Json;
@@ -26,10 +7,8 @@ using Prism.Regions;
 using Wallone.Controls.ViewModels;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
-using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Models.App;
-using Wallone.Core.Models.Settings;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
 
@@ -56,11 +35,9 @@ namespace Wallone.Authorization.ViewModels
         private string message;
         private readonly SettingsItemBuilder settings;
 
-    public LoadViewModel()
-        {
-        }
+    public LoadViewModel(){}
 
-        public LoadViewModel(IRegionManager regionManager)
+    public LoadViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
 
@@ -144,7 +121,7 @@ namespace Wallone.Authorization.ViewModels
         {
             var status = AppEthernetService.IsConnect(Router.domainExample); // true
             SetMessage("Проверка соединения с интернетом");
-            await Task.Delay(2000);
+            await Task.Delay(1000);
 
             NoNetworkViewModel.SetStatus(status);
             IsInternet = !NoNetworkViewModel.IsShow(); // false
@@ -160,7 +137,7 @@ namespace Wallone.Authorization.ViewModels
                 ehternetTimer.Interval = TimeSpan.FromSeconds(5);
                 var statusServer = AppEthernetService.IsConnect(Router.domainApi); // true
                 SetMessage("Проверка соединения c " + Router.OnlyNameDomain());
-                await Task.Delay(2000);
+                await Task.Delay(1000);
 
                 NoConnectServerViewModel.SetStatus(statusServer);
                 IsConnect = !NoConnectServerViewModel.IsShow();
@@ -181,7 +158,7 @@ namespace Wallone.Authorization.ViewModels
                         AppVersionService.SetVersion(null);
                     }
                     SetMessage("Поиск обновления...");
-                    await Task.Delay(2000);
+                    await Task.Delay(1000);
 
                     var versionCurrent = AppVersionService.GetCurrentVersion();
                     var versionActual = AppVersionService.GetActualVersion();
@@ -235,8 +212,10 @@ namespace Wallone.Authorization.ViewModels
                             .ValidateAsync();
                         await Task.Delay(1000);
 
+                        var authParameters = new NavigationParameters();
+                        authParameters.Add("IsAuth", builder.IsUserAuth());
                         if (builder.IsUserAuth())
-                            regionManager.RequestNavigate("ContentRegion", "Main");
+                            regionManager.RequestNavigate("ContentRegion", "Main", authParameters);
                         else
                             regionManager.RequestNavigate("ContentRegion", "Login");
                     }

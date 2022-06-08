@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Navigation;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -65,8 +66,18 @@ namespace Wallone.UI
             moduleCatalog.AddModule<CoreModule>();
             moduleCatalog.AddModule<ControlsModule>();
             moduleCatalog.AddModule<AuthorizationModule>();
+        }
 
+        protected override void Initialize()
+        {
             Init();
+            base.Initialize();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            
+            base.OnStartup(e);
         }
 
         private static void Init()

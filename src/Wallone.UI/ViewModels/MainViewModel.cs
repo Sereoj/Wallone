@@ -21,12 +21,8 @@ namespace Wallone.UI.ViewModels
 
         private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
 
-        private int footerHeight;
-        private string text = "This is text";
 
-        public MainViewModel()
-        {
-        }
+        public MainViewModel(){}
 
         public MainViewModel(IRegionManager regionManager)
         {
@@ -51,24 +47,10 @@ namespace Wallone.UI.ViewModels
             set => SetProperty(ref categories, value);
         }
 
-        public int FooterHeight
-        {
-            get => footerHeight;
-            set => SetProperty(ref footerHeight, value);
-        }
-
-        public string Text
-        {
-            get => text;
-            set => SetProperty(ref text, value);
-        }
-
         public DelegateCommand<NavigationViewItemInvokedEventArgs> MenuItemInvokedCommand { get; set; }
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            //navigationContext.NavigationService.Navigated += NavigationService_Navigated;
-
             var param = new NavigationParameters
             {
                 {"Root", "Gallery"},
@@ -76,31 +58,17 @@ namespace Wallone.UI.ViewModels
                 {"ID", "Main"},
                 {"Text", "Библиотека"}
             };
-            //navigationContext.NavigationService.RequestNavigate("Wallpapers", param);
             regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return true;
+            return navigationContext.Parameters["IsAuth"].Equals(true);
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
         {
             GC.Collect(2);
-        }
-
-        private void NavigationService_Navigated(object sender, RegionNavigationEventArgs e)
-        {
-            var param = new NavigationParameters
-            {
-                {"Root", "Gallery"},
-                {"Page", ""},
-                {"ID", "Main"},
-                {"Text", "Библиотека"}
-            };
-
-            regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
         }
 
         private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)
