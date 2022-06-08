@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Forms;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
+using Wallone.Core.Models.Settings;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
 using Wallone.UI.Properties;
@@ -29,10 +30,18 @@ namespace Wallone.UI
                 List<ToolStripItem> menuItems = GetMenuItems();
                 ContextMenuStrip menuStrip = new ContextMenuStrip();
                 menuStrip.Items.AddRange(menuItems.ToArray());
+
+                SettingsService.Get().General.PropertyChanged += SettingsChanged;
+
                 return menuStrip;
             }
 
             return null;
+        }
+
+        private static void SettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Autorun.Checked = ((General)sender).AutoRun;
         }
 
         private static List<ToolStripItem> GetMenuItems()
