@@ -32,6 +32,8 @@
     <None Remove="Fonts\icomoon-ultimate.ttf" />
     <None Remove="Fonts\icomoon.ttf" />
     <None Remove="Fonts\IcoMoon_0.ttf" />
+    <None Remove="Images\logo\dark.png" />
+    <None Remove="Images\logo\light.png" />
     <None Remove="Images\logo\logoUpdate.png" />
     <None Remove="Images\phases\day.png" />
     <None Remove="Images\phases\night.png" />
@@ -56,6 +58,12 @@
         </Resource>
         <Resource Include="Fonts\IcoMoon_0.ttf">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\logo\dark.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\logo\light.png">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Images\logo\logoUpdate.png">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>

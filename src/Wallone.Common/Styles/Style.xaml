@@ -4,6 +4,26 @@
     xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:ui="http://schemas.modernwpf.com/2019">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ui:ThemeResources CanBeAccessedAcrossThreads="True">
+            <ui:ThemeResources.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" ui:ThemeDictionary.Key="Light">
+                    <SolidColorBrush x:Key="PrimaryColor" Color="#F0F0F0" />
+                    <SolidColorBrush x:Key="BorderColor" Color="#F2F2F2" />
+                    <SolidColorBrush x:Key="ForegroundColor" Color="Black" />
+                    <ImageSource x:Key="LogoDrawingImage">/Wallone.Common;component/Images/logo/dark.png</ImageSource>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark" ui:ThemeDictionary.Key="Dark">
+                    <SolidColorBrush x:Key="PrimaryColor" Color="#202020" />
+                    <SolidColorBrush x:Key="BorderColor" Color="#383838" />
+                    <SolidColorBrush x:Key="ForegroundColor" Color="White" />
+                    <ImageSource x:Key="LogoDrawingImage">/Wallone.Common;component/Images/logo/light.png</ImageSource>
+                </ResourceDictionary>
+            </ui:ThemeResources.ThemeDictionaries>
+        </ui:ThemeResources>
+    </ResourceDictionary.MergedDictionaries>
+
+
     <!--#region Icons Fonts-->
     <system:Uri x:Key="Fonts">/Wallone.Common;component/Fonts/</system:Uri>
     <FontFamily x:Key="FontIconMoonFree">/Wallone.Common;component/Fonts/#IcoMoon-Free</FontFamily>
@@ -22,114 +42,11 @@
 
     <ImageSource x:Key="LogoUpdate">/Wallone.Common;component/Images/logo/logoUpdate.png</ImageSource>
 
-
     <ImageSource x:Key="PhaseSunrise">/Wallone.Common;component/Images/phases/sunrise.png</ImageSource>
     <ImageSource x:Key="PhaseDay">/Wallone.Common;component/Images/phases/day.png</ImageSource>
     <ImageSource x:Key="PhaseSunset">/Wallone.Common;component/Images/phases/sunset.png</ImageSource>
     <ImageSource x:Key="PhaseNight">/Wallone.Common;component/Images/phases/night.png</ImageSource>
 
-    <DrawingImage x:Key="LogoDrawingImage">
-        <DrawingImage.Drawing>
-            <DrawingGroup ClipGeometry="M0,0 V316.901 H409.92 V0 H0 Z">
-                <DrawingGroup.Transform>
-                    <TranslateTransform X="0.0030290926806628704" Y="0" />
-                </DrawingGroup.Transform>
-                <DrawingGroup Opacity="1" Transform="1,0,0,1,11.844,8.5">
-                    <DrawingGroup Transform="1,0,0,1,74.489,64.401" />
-                    <DrawingGroup Transform="1,0,0,1,69.426,60.856">
-                        <GeometryDrawing Brush="{ui:ThemeResource ForegroundColor}" Geometry="F1 M409.92,316.901z M0,0z M1.936,143.09L1.936,143.09C1.778,142.235,1.607,141.39,1.427,140.501L1.404,140.386 1.404,140.381A69.365,69.365,0,0,1,0.129,132.516A60.8,60.8,0,0,1,0.062,125.7L0.062,125.621C0.093,124.441,0.125,123.221,0.125,122.004A122.858,122.858,0,0,1,2.605,97.413A121.316,121.316,0,0,1,20.962,53.788A122.36,122.36,0,0,1,74.639,9.58799999999999A121.3,121.3,0,0,1,97.539,2.47899999999999A123.187,123.187,0,0,1,146.713,2.47899999999999A121.343,121.343,0,0,1,190.337,20.836A122.349,122.349,0,0,1,234.537,74.512A121.4,121.4,0,0,1,241.646,97.412A123.237,123.237,0,0,1,242.623,141.182L238.523,141.469C238.595,141.035,238.673,140.551,238.754,140.029A117.46,117.46,0,0,0,240.126,122A118.907,118.907,0,0,0,237.726,98.214A117.318,117.318,0,0,0,219.974,56.027A118.358,118.358,0,0,0,168.054,13.271A117.37,117.37,0,0,0,145.912,6.4A119.179,119.179,0,0,0,98.342,6.4A117.323,117.323,0,0,0,56.155,24.151A118.338,118.338,0,0,0,13.4,76.071A117.319,117.319,0,0,0,6.524,98.214A118.845,118.845,0,0,0,4.126,122C4.126,125.415 4.274,128.854 4.58,132.514 4.815,135.344 5.167,138.242 5.626,141.128L1.937,143.089z" />
-                    </DrawingGroup>
-                    <DrawingGroup Opacity="1" Transform="1,0,0,1,-11.84,-8.5">
-                        <DrawingGroup Transform="1,0,0,1,12.25,139.57">
-                            <GeometryDrawing Geometry="F1 M409.92,316.901z M0,0z M0,0L0.911,0.365 58.288,23.39">
-                                <GeometryDrawing.Pen>
-                                    <Pen
-                                        Brush="{ui:ThemeResource ForegroundColor}"
-                                        EndLineCap="Round"
-                                        LineJoin="Miter"
-                                        MiterLimit="1"
-                                        StartLineCap="Round"
-                                        Thickness="5" />
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingGroup>
-                    </DrawingGroup>
-                    <DrawingGroup Opacity="1" Transform="1,0,0,1,-11.84,-8.5">
-                        <DrawingGroup Transform="0.898794046299167,0.438371146789077,-0.438371146789077,0.898794046299167,72.83,45.13">
-                            <GeometryDrawing Geometry="F1 M409.92,316.901z M0,0z M0,0L0.9,0.382 57.51,24.418">
-                                <GeometryDrawing.Pen>
-                                    <Pen
-                                        Brush="{ui:ThemeResource ForegroundColor}"
-                                        EndLineCap="Round"
-                                        LineJoin="Miter"
-                                        MiterLimit="1"
-                                        StartLineCap="Round"
-                                        Thickness="5" />
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingGroup>
-                    </DrawingGroup>
-                    <DrawingGroup Opacity="1" Transform="1,0,0,1,-11.84,-8.5">
-                        <DrawingGroup Transform="1,0,0,1,201.33,8.5">
-                            <GeometryDrawing Geometry="F1 M409.92,316.901z M0,0z M0,0L0,51.883">
-                                <GeometryDrawing.Pen>
-                                    <Pen
-                                        Brush="{ui:ThemeResource ForegroundColor}"
-                                        EndLineCap="Round"
-                                        LineJoin="Miter"
-                                        MiterLimit="1"
-                                        StartLineCap="Round"
-                                        Thickness="5" />
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingGroup>
-                    </DrawingGroup>
-                    <DrawingGroup Opacity="1" Transform="1,0,0,1,-11.84,-8.5">
-                        <DrawingGroup Transform="0.82,0.57,-0.57,0.82,321.63,38.39">
-                            <GeometryDrawing Geometry="F1 M409.92,316.901z M0,0z M3.3,0L3.251,0.96 0,61.454">
-                                <GeometryDrawing.Pen>
-                                    <Pen
-                                        Brush="{ui:ThemeResource ForegroundColor}"
-                                        EndLineCap="Round"
-                                        LineJoin="Miter"
-                                        MiterLimit="1"
-                                        StartLineCap="Round"
-                                        Thickness="5" />
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingGroup>
-                    </DrawingGroup>
-                    <DrawingGroup Opacity="1" Transform="1,0,0,1,-11.84,-8.5">
-                        <DrawingGroup Transform="0.45,0.89,-0.89,0.45,392.79,131.06">
-                            <GeometryDrawing Geometry="F1 M409.92,316.901z M0,0z M9.556,0L9.407,1.074 0,68.759">
-                                <GeometryDrawing.Pen>
-                                    <Pen
-                                        Brush="{ui:ThemeResource ForegroundColor}"
-                                        EndLineCap="Round"
-                                        LineJoin="Miter"
-                                        MiterLimit="1"
-                                        StartLineCap="Round"
-                                        Thickness="5" />
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingGroup>
-                    </DrawingGroup>
-                    <DrawingGroup Transform="1,0,0,1,-55.511,-121.599">
-                        <GeometryDrawing Geometry="F1 M409.92,316.901z M0,0z M55.511,328.668C55.511,328.668 81.343,358.347 134.655,328.668 187.967,298.989 250.348,250.623 286.348,267.936 322.348,285.249 303.748,305.536 303.748,305.536 303.748,305.536 299.822,294.645 294.221,294.22 294.221,294.22 288.341,292.868 283.935,294.22 280.911,295.147 278.244,298.838 277.072,299.92 273.478,304.993 274.192,309.728 276.055,317.711 277.715,324.841 282.648,332.579 294.221,335.64 301.707,337.621 316.828,339.281 336,339.28 351.765,339.28 370.494,338.38 389.877,332.363">
-                            <GeometryDrawing.Pen>
-                                <Pen
-                                    Brush="{ui:ThemeResource ForegroundColor}"
-                                    EndLineCap="Flat"
-                                    LineJoin="Miter"
-                                    StartLineCap="Flat"
-                                    Thickness="5" />
-                            </GeometryDrawing.Pen>
-                        </GeometryDrawing>
-                    </DrawingGroup>
-                </DrawingGroup>
-            </DrawingGroup>
-        </DrawingImage.Drawing>
-    </DrawingImage>
     <!--  Override Controls  -->
 
     <Style x:Key="P" TargetType="TextBlock">

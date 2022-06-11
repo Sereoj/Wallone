@@ -94,8 +94,8 @@ namespace Wallone.UI.ViewModels.Users
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            id = (string) navigationContext.Parameters["id"];
-            ProfileItemsVM.Name = (string) navigationContext.Parameters["name"];
+            id = (string)navigationContext.Parameters["id"];
+            ProfileItemsVM.Name = (string)navigationContext.Parameters["name"];
 
             if (id != null)
             {

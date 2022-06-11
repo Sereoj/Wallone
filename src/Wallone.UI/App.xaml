@@ -13,11 +13,13 @@
                             <SolidColorBrush x:Key="PrimaryColor" Color="#F0F0F0" />
                             <SolidColorBrush x:Key="BorderColor" Color="#F2F2F2" />
                             <SolidColorBrush x:Key="ForegroundColor" Color="Black" />
+                            <ImageSource x:Key="LogoDrawingImage">/Wallone.Common;component/Images/logo/dark.png</ImageSource>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark" ui:ThemeDictionary.Key="Dark">
                             <SolidColorBrush x:Key="PrimaryColor" Color="#202020" />
                             <SolidColorBrush x:Key="BorderColor" Color="#383838" />
                             <SolidColorBrush x:Key="ForegroundColor" Color="White" />
+                            <ImageSource x:Key="LogoDrawingImage">/Wallone.Common;component/Images/logo/light.png</ImageSource>
                         </ResourceDictionary>
                     </ui:ThemeResources.ThemeDictionaries>
                 </ui:ThemeResources>

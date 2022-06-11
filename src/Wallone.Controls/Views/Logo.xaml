@@ -7,6 +7,6 @@
     xmlns:ui="http://schemas.modernwpf.com/2019"
     mc:Ignorable="d">
     <Grid>
-        <Image Source="{ui:ThemeResource LogoDrawingImage}" />
+        <Image Source="{DynamicResource LogoDrawingImage}" />
     </Grid>
 </UserControl>

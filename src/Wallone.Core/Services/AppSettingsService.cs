@@ -59,7 +59,7 @@ namespace Wallone.Core.Services
             AppSettings.ApplicationPath = path;
         }
 
-        public static void SetAppLocation(string path)
+        public static void SetAppDirectoryLocation(string path)
         {
             AppSettings.AppPath = path;
         }
