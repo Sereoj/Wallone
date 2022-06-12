@@ -19,13 +19,15 @@ namespace Wallone.Core.Builders
             if (!AppSettingsService.ExistDirectory(pathThemeDirectory)) CreateDirectory(pathThemeDirectory);
 
             AppSettingsService.SetThemesLocation(pathThemeDirectory);
+
+            LoggerService.Log(this, pathThemeDirectory);
             return this;
         }
 
         public ThemePathBuilder UseForFolders(string patten)
         {
             AppSettingsService.SetThemeNameForFolders(patten);
-
+            LoggerService.Log(this, patten);
             return this;
         }
 

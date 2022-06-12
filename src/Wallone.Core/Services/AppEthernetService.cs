@@ -15,7 +15,6 @@ namespace Wallone.Core.Services
                 var response = (HttpWebResponse) request.GetResponse();
                 codeStatus = response.StatusCode;
                 response.Close();
-
                 return true;
             }
             catch (Exception)

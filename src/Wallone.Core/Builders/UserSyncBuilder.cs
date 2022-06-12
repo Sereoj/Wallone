@@ -34,13 +34,13 @@ namespace Wallone.Core.Builders
             if (token != null)
             {
                 JObject data = await GetUserData();
+                await Task.CompletedTask;
                 if (data != null & UserService.ValidateWithToken(data))
                 {
                     isAuth = true;
                     return this;
                 }
             }
-
             isAuth = false;
             return this;
         }
@@ -57,6 +57,7 @@ namespace Wallone.Core.Builders
 
         public void Build()
         {
+            LoggerService.Log(this, $"isAuth {isAuth}");
         }
     }
 }

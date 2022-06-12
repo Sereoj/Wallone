@@ -178,12 +178,8 @@ namespace Wallone.UI.ViewModels.Users
                     ProfileItemsVM.Name = ProfileService.GetUsername();
                     ProfileItemsVM.Description = ProfileService.GetDescription();
 
-                    ProfileItemsVM.Avatar = ProfileService.GetAvatar() == null
-                        ? null
-                        : UriHelper.Get(ProfileService.GetAvatar());
-                    ProfileItemsVM.Cover = ProfileService.GetCover() == null
-                        ? null
-                        : UriHelper.Get(ProfileService.GetCover());
+                    ProfileItemsVM.Avatar = UriHelper.Get(ProfileService.GetAvatar());
+                    ProfileItemsVM.Cover = UriHelper.Get(ProfileService.GetCover());
 
                     ProfileItemsVM.Subscribers = ProfileService.GetSubscribers();
                     ProfileItemsVM.Subscriptions = ProfileService.GetSubscriptions();

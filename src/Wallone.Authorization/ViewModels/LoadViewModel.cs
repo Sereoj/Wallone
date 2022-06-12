@@ -115,6 +115,7 @@ namespace Wallone.Authorization.ViewModels
         private void SetMessage(string message)
         {
             Message = message;
+            LoggerService.Log(this, message);
         }
 
         private async void LoadData()
@@ -148,6 +149,7 @@ namespace Wallone.Authorization.ViewModels
                     IsLoading = true;
 
                     var data = await AppVersionService.GetVersionAsync();
+                    await Task.CompletedTask;
                     if (!string.IsNullOrEmpty(data))
                     {
                         var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
@@ -218,6 +220,8 @@ namespace Wallone.Authorization.ViewModels
                             regionManager.RequestNavigate("ContentRegion", "Main", authParameters);
                         else
                             regionManager.RequestNavigate("ContentRegion", "Login");
+
+                        builder.Build();
                     }
                     else
                     {

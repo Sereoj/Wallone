@@ -76,7 +76,6 @@ namespace Wallone.UI
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            
             base.OnStartup(e);
         }
 
@@ -86,6 +85,11 @@ namespace Wallone.UI
             var platformer = Platformer.GetHelper();
 
             var app = new AppSettingsBuilder()
+                .Query(new AppLoggerBuilder()
+                    .SetFileName(LoggerService.DefaultFileName())
+                    .Activate()
+                    .NewLine()
+                )
                 .Query(new AppPathBuilder()
                     .AppLocation(platformer.GetCurrentFolder())
                     .ApplicationPath(AppSettingsService.AppPath())

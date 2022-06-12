@@ -29,12 +29,16 @@ namespace Wallone.Core.Builders
             SettingsService.Load(); // Загрузка данных
 
             AppSettingsService.SetSettingsLocation(path);
+
+            LoggerService.Log(this, path);
             return this;
         }
 
         public SettingsBuilder SetConfigName(string name)
         {
             AppSettingsService.SetThemeConfigName(name);
+
+            LoggerService.Log(this, name);
             return this;
         }
 
