@@ -43,8 +43,6 @@ namespace Wallone.Authorization.ViewModels
 
             Header = Common.Translation.Localization.AppName;
 
-            LoadData();
-
             settings = new SettingsBuilder(SettingsService.Get()).ItemBuilder();
 
             ehternetTimer = new DispatcherTimer(DispatcherPriority.Send)
@@ -59,9 +57,6 @@ namespace Wallone.Authorization.ViewModels
         public UpdateViewModel UpdateViewModel { get; set; } = new UpdateViewModel();
         public NoConnectServerViewModel NoConnectServerViewModel { get; set; } = new NoConnectServerViewModel();
 
-        public NoNetworkViewModel NoNetworkViewModel { get; set; } = new NoNetworkViewModel();
-
-        public LoadingViewModel LoadingViewModel { get; set; } = new LoadingViewModel();
 
         public string Header
         {
@@ -120,25 +115,8 @@ namespace Wallone.Authorization.ViewModels
 
         private async void LoadData()
         {
-            var status = AppEthernetService.IsConnect(Router.domainExample); // true
-            SetMessage("Проверка соединения с интернетом");
-            await Task.Delay(1000);
-
-            NoNetworkViewModel.SetStatus(status);
-            IsInternet = !NoNetworkViewModel.IsShow(); // false
-
-            if (IsInternet)
-            {
-                SetMessage("Нет интернет соединения");
-                ehternetTimer.Interval = TimeSpan.FromMinutes(2);
-                IsLoading = false;
-            }
-            else
-            {
-                ehternetTimer.Interval = TimeSpan.FromSeconds(5);
                 var statusServer = AppEthernetService.IsConnect(Router.domainApi); // true
                 SetMessage("Проверка соединения c " + Router.OnlyNameDomain());
-                await Task.Delay(1000);
 
                 NoConnectServerViewModel.SetStatus(statusServer);
                 IsConnect = !NoConnectServerViewModel.IsShow();
@@ -234,9 +212,8 @@ namespace Wallone.Authorization.ViewModels
                     IsLoading = false;
                     SetMessage("Нет соединения c " + Router.OnlyNameDomainApi());
                 }
-            }
 
-            GC.Collect(2);
+                GC.Collect(2);
         }
 
         private void UseTheme()

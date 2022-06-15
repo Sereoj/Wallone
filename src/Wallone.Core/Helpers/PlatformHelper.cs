@@ -25,7 +25,7 @@ namespace Wallone.Core.Helpers
         private string RegistryStartupLocation = @"Software\Microsoft\Windows\CurrentVersion\Run";
         public override string GetCurrentFolder()
         {
-            return Directory.GetCurrentDirectory();
+            return AppDomain.CurrentDomain.BaseDirectory;
         }
 
         public override void SwitcherAutorun(string path, bool autorunChecked)

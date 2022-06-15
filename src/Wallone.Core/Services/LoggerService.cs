@@ -21,8 +21,7 @@ namespace Wallone.Core.Services
 
         public static string GetFolderPath()
         {
-            var path = AppSettingsService.GetAppLocation();
-            return path ?? Platformer.GetHelper().GetCurrentFolder();
+            return Platformer.GetHelper().GetCurrentFolder();
         }
 
         public static void Activate()
@@ -42,13 +41,20 @@ namespace Wallone.Core.Services
 
         public static void Log(object useClass,string message)
         {
-            if (isEnable)
+            try
             {
-                using (var file = new StreamWriter(GetFilePath(), true))
+                if (isEnable)
                 {
-                    file.WriteLine(ContentFormatter(useClass, message));
-                    file.Close();
+                    using (var file = new StreamWriter(GetFilePath(), true))
+                    {
+                        file.WriteLine(ContentFormatter(useClass, message));
+                        file.Close();
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                File.WriteAllText("log-error.txt", ex.Message);
             }
         }
 
