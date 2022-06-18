@@ -222,6 +222,7 @@ namespace Wallone.Authorization.ViewModels
             if (settings.GetGeolocation())
             {
                 var dataLocation = await LocationService.GetLocationAsync();
+                await Task.CompletedTask;
                 if (!string.IsNullOrEmpty(dataLocation))
                 {
                     var location = JsonConvert.DeserializeObject<Location>(dataLocation);

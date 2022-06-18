@@ -101,7 +101,7 @@ namespace Wallone.Core.Controllers
 
             if (phaseModel.dawnSolarTime < time && phaseModel.sunriseSolarTime > time)
             {
-                Trace.WriteLine($"Заря {phaseModel.dawnSolarTime} {phaseModel.sunriseSolarTime}");
+                LoggerService.Log(this, $"Заря {phaseModel.dawnSolarTime} {phaseModel.sunriseSolarTime}");
 
                 oldTime = phaseModel.dawnSolarTime;
                 currentPhase = Times.Dawn;
@@ -112,7 +112,7 @@ namespace Wallone.Core.Controllers
             }
             if (phaseModel.sunriseSolarTime < time && phaseModel.daySolarTime > time)
             {
-                Trace.WriteLine($"Утро {phaseModel.sunriseSolarTime} {phaseModel.daySolarTime}");
+                LoggerService.Log(this, $"Утро {phaseModel.sunriseSolarTime} {phaseModel.daySolarTime}");
 
                 oldTime = phaseModel.sunriseSolarTime;
                 currentPhase = Times.Sunrise;
@@ -122,8 +122,8 @@ namespace Wallone.Core.Controllers
             }
             if (phaseModel.daySolarTime < time && phaseModel.goldenSolarTime > time)
             {
-                Trace.WriteLine($"День {phaseModel.daySolarTime} {phaseModel.goldenSolarTime}");
-
+                LoggerService.Log(this, $"День {phaseModel.daySolarTime}");
+                LoggerService.Log(this, $"Золотое время {phaseModel.goldenSolarTime}");
                 oldTime = phaseModel.daySolarTime;
                 currentPhase = Times.Day;
                 var images = GetImagesWithTime(theme.Images, currentPhase);
@@ -132,7 +132,8 @@ namespace Wallone.Core.Controllers
             }
             if (phaseModel.goldenSolarTime < time && phaseModel.sunsetSolarTime > time)
             {
-                Trace.WriteLine($"Золотое время {phaseModel.goldenSolarTime} {phaseModel.sunsetSolarTime}");
+                LoggerService.Log(this, $"Золотое время {phaseModel.goldenSolarTime}");
+                LoggerService.Log(this, $"Закат {phaseModel.sunsetSolarTime}");
 
                 oldTime = phaseModel.goldenSolarTime;
                 currentPhase = Times.GoldenHour;
@@ -142,17 +143,21 @@ namespace Wallone.Core.Controllers
             }
             if (phaseModel.sunsetSolarTime < time && phaseModel.duskSolarTime > time)
             {
+                LoggerService.Log(this, $"Закат {phaseModel.sunsetSolarTime}");
+                LoggerService.Log(this, $"Ночь {phaseModel.duskSolarTime}");
+
                 oldTime = phaseModel.sunsetSolarTime;
                 currentPhase = Times.Sunset;
                 var images = GetImagesWithTime(theme.Images, currentPhase);
 
-                Trace.WriteLine($"Закат {phaseModel.sunsetSolarTime} {phaseModel.duskSolarTime}");
                 SetSpan(phaseModel.duskSolarTime, time, images.Count);
             }
             else
             {
                 if (phaseModel.duskSolarTime < time)
                 {
+                    LoggerService.Log(this, $"Ночь {phaseModel.duskSolarTime}");
+
                     oldTime = phaseModel.duskSolarTime;
                     currentPhase = Times.Night;
                     var images = GetImagesWithTime(theme.Images, currentPhase);
@@ -165,10 +170,6 @@ namespace Wallone.Core.Controllers
                     phaseModel.sunsetSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Sunset);
                     phaseModel.duskSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Dusk);
                     phaseModel.nightSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Night);
-
-                    Trace.WriteLine($"Ночь {oldTime}");
-                    Trace.WriteLine($"Утро {phaseModel.dawnSolarTime}");
-                    Trace.WriteLine($"Получается {phaseModel.dawnSolarTime - DateTime.Now}");
                     SetSpan(phaseModel.dawnSolarTime, time, images.Count);
                 }
             }
@@ -182,7 +183,6 @@ namespace Wallone.Core.Controllers
         {
             var time = Span(date2, date1, count);
             PhaseModel.nextPhaseSpan = time;
-            Trace.WriteLine($"SetSpan {time}");
             ThemeService.SetTimeSpan(time);
         }
 
@@ -233,17 +233,21 @@ namespace Wallone.Core.Controllers
                     PhaseModel.nextPhase = Times.Dawn;
                     break;
             }
+
+            LoggerService.Log(this, $"NextPhase {times}");
         }
 
         public TimeSpan Span(DateTime date2, DateTime date1, int count)
         {
             if (count == 0)
                 count = 1;
+            LoggerService.Log(this, $"Span {(date2 - date1) / count}");
             return (date2 - date1) / count;
         }
 
         public int GetSpanId(DateTime now, DateTime date1)
         {
+            LoggerService.Log(this, $"GetSpanId {(now - date1).Hours}");
             return (now - date1).Hours;
         }
 
@@ -251,6 +255,7 @@ namespace Wallone.Core.Controllers
         {
             if (filename == null || !AppSettingsService.ExistsFile(filename)) return false;
             SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filename, SPIF_UPDATEINIFILE);
+            LoggerService.Log(null, $"SetImage {filename}");
             return true;
         }
 
