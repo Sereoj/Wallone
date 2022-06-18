@@ -7,10 +7,9 @@ namespace Wallone.Core.Builders
     {
         public int Compare(string verionCurrent, string verionActual)
         {
-            if (verionActual != null)
-                return string.Compare(verionActual, verionCurrent, StringComparison.Ordinal);
-            else
-                return -1;
+            if (verionActual == null) return -1;
+            LoggerService.Log(this, $"verionCurrent {verionCurrent}, verionActual {verionActual}");
+            return string.Compare(verionActual, verionCurrent, StringComparison.Ordinal);
         }
     }
 }
