@@ -169,24 +169,6 @@ namespace Wallone.Authorization.ViewModels
                             UseTheme();
                         }
 
-                        var dataLocation = await LocationService.GetLocationAsync();
-                        if (!string.IsNullOrEmpty(dataLocation))
-                        {
-                            var location = JsonConvert.DeserializeObject<Location>(dataLocation);
-                            if (location != null)
-                            {
-                                var settings = new SettingsBuilder(SettingsService.Get())
-                                    .ItemBuilder();
-
-                                settings
-                                    .SetLatitude(location.latitude)
-                                    .SetLongitude(location.longitude)
-                                    .SetCountry(location.country)
-                                    .SetCity(location.city)
-                                    .Build();
-                            }
-                        }
-
                         var builder = await new UserSyncBuilder()
                             .GetToken()
                             .ValidateAsync();
