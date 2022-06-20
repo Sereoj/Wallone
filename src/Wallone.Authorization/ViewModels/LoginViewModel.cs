@@ -65,7 +65,7 @@ namespace Wallone.Authorization.ViewModels
                 .ItemBuilder()
                 .GetEmail();
 
-            Email = userEmail ?? "user@w2me.ru";
+            Email = userEmail;
         }
 
         private async void Login()

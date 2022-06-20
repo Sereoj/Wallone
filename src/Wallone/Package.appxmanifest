@@ -8,8 +8,8 @@
 
   <Identity
     Name="1a02e691-6fa5-4714-860d-c4bf7dd02f03"
-    Publisher="CN=ser12"
-    Version="1.0.2.0" />
+    Publisher="CN=Contoso Software, O=Contoso Corporation, C=US"
+    Version="1.0.4.0" />
 
   <Properties>
     <DisplayName>Wallone</DisplayName>
