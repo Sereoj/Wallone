@@ -6,6 +6,8 @@ using ModernWpf.Controls;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Builders;
+using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.UI.Services;
 
@@ -30,6 +32,11 @@ namespace Wallone.UI.ViewModels
 
             LoadBrands();
             LoadCategory();
+
+            var builder = new UserSyncBuilder()
+                .GetToken()
+                .ValidateAsync();
+
             ManagerViewModel = new ManagerViewModel(regionManager);
 
             MenuItemInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(OnMenuItemInvoked);
@@ -63,7 +70,7 @@ namespace Wallone.UI.ViewModels
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
-            return navigationContext.Parameters["IsAuth"].Equals(true);
+            return true;
         }
 
         public void OnNavigatedFrom(NavigationContext navigationContext)
@@ -90,7 +97,14 @@ namespace Wallone.UI.ViewModels
                     regionManager.RequestNavigate("PageRegion", "DownloadsPage", param);
                     break;
                 case "Profile":
-                    regionManager.RequestNavigate("PageRegion", "Profile", param);
+                    var paramProfile = new NavigationParameters
+                    {
+                        {"id", UserService.GetId()},
+                        {"header", "Профиль"},
+                        {"name", UserService.GetUsername()},
+                        {"isProfile", UserService.IsUser(UserService.GetId())}
+                    };
+                    regionManager.RequestNavigate("PageRegion", "Profile", paramProfile);
                     break;
                 case "Account":
                     regionManager.RequestNavigate("PageRegion", "Account", param);

@@ -85,13 +85,16 @@ namespace Wallone.UI.ViewModels.Controls
 
         private void OnProfileClicked()
         {
-            var param = new NavigationParameters
-            {
-                {"id", simplePage.user.id},
-                {"name", simplePage.user.username}
-            };
+            var user = SinglePageService.GetUser();
 
-            regionManager.RequestNavigate("PageRegion", "Profile", param);
+            var paramProfile = new NavigationParameters
+            {
+                {"id", user?.id},
+                {"header", "Профиль"},
+                {"name", user?.username},
+                {"isProfile", UserService.IsUser(user?.id)}
+            };
+            regionManager.RequestNavigate("PageRegion", "Profile", paramProfile);
         }
 
         private async void OnDownloadClicked()

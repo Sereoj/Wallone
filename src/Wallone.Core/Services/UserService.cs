@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Wallone.Core.Models;
 
@@ -92,6 +93,11 @@ namespace Wallone.Core.Services
         public static string ValidateLogin(JObject objects)
         {
             return objects["auth.failed"] != null ? objects["auth.failed"].ToString() : Validate(objects);
+        }
+
+        public static bool IsUser(string id)
+        {
+            return user.id == id;
         }
     }
 }

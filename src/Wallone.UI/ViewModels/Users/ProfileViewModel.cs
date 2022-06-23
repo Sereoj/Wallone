@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
@@ -87,6 +88,13 @@ namespace Wallone.UI.ViewModels.Users
             set => SetProperty(ref isContent, value);
         }
 
+        private bool isProfile;
+        public bool IsProfile
+        {
+            get => isProfile;
+            set => SetProperty(ref isProfile, value);
+        }
+
         public DelegateCommand ActionCommand { get; set; }
         public DelegateCommand EditProfileCommand { get; set; }
 
@@ -95,20 +103,38 @@ namespace Wallone.UI.ViewModels.Users
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
             id = (string)navigationContext.Parameters["id"];
+            Header = (string)navigationContext.Parameters["header"];
             ProfileItemsVM.Name = (string)navigationContext.Parameters["name"];
+            IsProfile = (bool)navigationContext.Parameters["isProfile"];
 
-            if (id != null)
+            var items = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder();
+
+            if (IsProfile)
+            {
+                if (!string.IsNullOrEmpty(UserService.GetId()))
+                {
+                    ProfileActionsVM.IsEnableEditProfile = true;
+                    ProfileActionsVM.IsEnableSub = false;
+                    Loaded(UserService.GetId(), true);
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(items.GetToken()) || string.IsNullOrEmpty(items.GetEmail()))
+                    {
+                        regionManager.RequestNavigate("ContentRegion", "Login");
+                    }
+                    else
+                    {
+                        regionManager.RequestNavigate("ContentRegion", "Register");
+                    }
+                }
+            }
+            else
             {
                 ProfileActionsVM.IsEnableEditProfile = false;
                 ProfileActionsVM.IsEnableSub = id != UserService.GetId();
                 Loaded(id, false);
-            }
-            else
-            {
-                ProfileActionsVM.IsEnableEditProfile = true;
-                ProfileActionsVM.IsEnableSub = false;
-                ProfileItemsVM.Name = UserService.GetUsername();
-                Loaded(UserService.GetId(), true);
             }
         }
 

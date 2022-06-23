@@ -28,7 +28,7 @@ namespace Wallone.Authorization
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            regionManager.RequestNavigate("ContentRegion", "Load");
+            regionManager.RequestNavigate("ContentRegion", "Main");
         }
     }
 }

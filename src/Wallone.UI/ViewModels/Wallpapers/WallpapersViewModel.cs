@@ -102,6 +102,13 @@ namespace Wallone.UI.ViewModels.Wallpapers
             var pageId = (string)navigationContext.Parameters["ID"];
             Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
 
+            var themeName = new SettingsBuilder(SettingsService.Get())
+                .ItemBuilder()
+                .GetImage();
+
+            var theme = new ThemeCreatedBuilder()
+                .SetName(themeName);
+
             PageBuilder = new PageGalleryBuilder()
                 .SetApplicationRouter(page)
                 .SetPagination(pagination)
