@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
+using Wallone.Core.Services.Routers;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.App
 {
     public class AppVersionService
     {

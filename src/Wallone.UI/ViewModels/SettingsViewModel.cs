@@ -7,6 +7,7 @@ using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Models.Settings;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
 
 namespace Wallone.UI.ViewModels
 {
@@ -19,8 +20,7 @@ namespace Wallone.UI.ViewModels
 
         private string name = "Настройки";
 
-        private SettingsItemBuilder settings
-            ;
+        private SettingsItemBuilder settings;
 
         public SettingsViewModel()
         {

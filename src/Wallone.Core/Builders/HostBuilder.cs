@@ -1,5 +1,8 @@
 ﻿using System;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
+using Wallone.Core.Services.Routers;
 
 namespace Wallone.Core.Builders
 {

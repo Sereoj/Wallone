@@ -11,6 +11,9 @@ using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
+using Wallone.Core.Services.Pages;
+using Wallone.Core.Services.Users;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Users
@@ -164,7 +167,7 @@ namespace Wallone.UI.ViewModels.Users
             UserService.Close();
             SettingsService.Save();
 
-            regionManager.RequestNavigate("ContentRegion", "Login");
+            regionManager.RequestNavigate("ContentRegion", "Main");
         }
 
         private async void OnSave()
@@ -243,7 +246,7 @@ namespace Wallone.UI.ViewModels.Users
 
         private User update()
         {
-            var list = AccountService.getUser();
+            var list = AccountService.GetUser();
 
             if (Name != AccountService.GetUsername()) list.username = Name;
 

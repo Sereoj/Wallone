@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.App
 {
     public class AppEthernetService
     {

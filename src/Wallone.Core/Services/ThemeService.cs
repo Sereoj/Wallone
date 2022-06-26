@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
+using Wallone.Core.Services.App;
 
 namespace Wallone.Core.Services
 {

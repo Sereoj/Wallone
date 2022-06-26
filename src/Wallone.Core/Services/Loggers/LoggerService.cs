@@ -2,7 +2,7 @@
 using System.IO;
 using Wallone.Core.Helpers;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.Loggers
 {
     public class LoggerService
     {

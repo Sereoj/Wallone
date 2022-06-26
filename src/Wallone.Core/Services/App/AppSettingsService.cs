@@ -4,7 +4,7 @@ using Wallone.Core.Extension;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models.App;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.App
 {
     // модель глобальных настроек
 

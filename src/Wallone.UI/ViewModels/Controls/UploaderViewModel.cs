@@ -5,6 +5,7 @@ using Prism.Mvvm;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Wallone.Core.Helpers;
+using Wallone.Core.Services.Pages;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Controls

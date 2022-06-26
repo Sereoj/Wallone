@@ -5,6 +5,7 @@ using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Models.Settings;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
 using Wallone.UI.Properties;
 
 namespace Wallone.UI.ViewModels

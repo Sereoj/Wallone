@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Wallone.Core.Models.App;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
+using Wallone.Core.Services.Users;
 
 namespace Wallone.Core.Builders
 {
@@ -42,11 +45,6 @@ namespace Wallone.Core.Builders
                 }
             }
             isAuth = false;
-            return this;
-        }
-
-        public UserSyncBuilder GetThemes()
-        {
             return this;
         }
 

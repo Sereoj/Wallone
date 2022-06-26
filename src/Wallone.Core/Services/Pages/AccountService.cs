@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wallone.Core.Models;
-using Wallone.Core.Services;
+using Wallone.Core.Services.Routers;
 
-namespace Wallone.UI.Services
+namespace Wallone.Core.Services.Pages
 {
     public class AccountService
     {
@@ -16,7 +16,7 @@ namespace Wallone.UI.Services
             Load(page);
         }
 
-        public static User getUser()
+        public static User GetUser()
         {
             return user;
         }

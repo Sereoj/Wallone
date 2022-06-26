@@ -10,6 +10,8 @@ using Wallone.Core;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
 using Wallone.UI.Controls;
 using Wallone.UI.ViewModels;
 using Wallone.UI.ViewModels.Controls;

@@ -3,9 +3,10 @@ using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
 using Wallone.Core.Builders;
+using Wallone.Core.Services.App;
 using Parameter = Wallone.Core.Models.Parameter;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.Routers
 {
     public class RequestRouter<T> : Router
     {

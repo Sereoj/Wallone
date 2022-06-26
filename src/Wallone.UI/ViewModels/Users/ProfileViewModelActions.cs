@@ -1,4 +1,5 @@
 ﻿using Prism.Mvvm;
+using Wallone.Core.Services.Pages;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Users

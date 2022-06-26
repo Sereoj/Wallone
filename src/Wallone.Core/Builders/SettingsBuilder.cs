@@ -2,6 +2,8 @@
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
 
 namespace Wallone.Core.Builders
 {

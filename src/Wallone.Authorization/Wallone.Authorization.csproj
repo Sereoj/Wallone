@@ -1,43 +1,43 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
-  <PropertyGroup>
-	  <TargetFramework>netcoreapp3.1</TargetFramework>
-	  <SatelliteResourceLanguages>none</SatelliteResourceLanguages>
-    <UseWPF>true</UseWPF>
-    <Description>Модуль авторизации</Description>
-    <Company>Wallone</Company>
-    <Product>Wallone</Product>
-    <PackageIcon>Icon.png</PackageIcon>
-    <PackageIconUrl />
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<SatelliteResourceLanguages>none</SatelliteResourceLanguages>
+		<UseWPF>true</UseWPF>
+		<Description>Модуль авторизации</Description>
+		<Company>Wallone</Company>
+		<Product>Wallone</Product>
+		<PackageIcon>Icon.png</PackageIcon>
+		<PackageIconUrl />
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugSymbols>false</DebugSymbols>
 		<DebugType>None</DebugType>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="Models\**" />
-	  <Compile Remove="Services\**" />
-	  <EmbeddedResource Remove="Models\**" />
-	  <EmbeddedResource Remove="Services\**" />
-	  <None Remove="Models\**" />
-	  <None Remove="Services\**" />
-	  <None Include="..\Wallone.UI\Icon.png">
-	    <Pack>True</Pack>
-	    <PackagePath></PackagePath>
-	  </None>
-	  <Page Remove="Models\**" />
-	  <Page Remove="Services\**" />
+		<Compile Remove="Models\**" />
+		<Compile Remove="Services\**" />
+		<EmbeddedResource Remove="Models\**" />
+		<EmbeddedResource Remove="Services\**" />
+		<None Remove="Models\**" />
+		<None Remove="Services\**" />
+		<None Include="..\Wallone.UI\Icon.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+		<Page Remove="Models\**" />
+		<Page Remove="Services\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
-    <PackageReference Include="RestSharp" Version="106.15.0" />
-  </ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Prism.Wpf" Version="8.1.97" />
+		<PackageReference Include="RestSharp" Version="106.15.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Wallone.Controls\Wallone.Controls.csproj" />
-    <ProjectReference Include="..\Wallone.Core\Wallone.Core.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Wallone.Controls\Wallone.Controls.csproj" />
+		<ProjectReference Include="..\Wallone.Core\Wallone.Core.csproj" />
+	</ItemGroup>
 
 </Project>

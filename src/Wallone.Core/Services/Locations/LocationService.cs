@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using Wallone.Core.Models.Settings;
+﻿using System.Threading.Tasks;
+using Wallone.Core.Services.Routers;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.Locations
 {
     public class LocationService
     {

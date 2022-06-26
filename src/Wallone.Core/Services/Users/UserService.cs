@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Wallone.Core.Models;
+using Wallone.Core.Services.Routers;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.Users
 {
     public class UserService
     {
@@ -36,7 +36,7 @@ namespace Wallone.Core.Services
             return items;
         }
 
-        internal static bool ValidateWithToken(JObject data)
+        public static bool ValidateWithToken(JObject data)
         {
             if (data != null)
                 if (data["id"] != null && data["name"] != null)

@@ -3,6 +3,7 @@ using ModernWpf;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
 
 namespace Wallone.Core.Builders
 {

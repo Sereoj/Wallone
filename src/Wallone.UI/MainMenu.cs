@@ -10,6 +10,7 @@ using Wallone.Core.Helpers;
 using Wallone.Core.Models.Settings;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
 using Wallone.UI.Properties;
 using Wallone.UI.Views;
 using Application = System.Windows.Forms.Application;

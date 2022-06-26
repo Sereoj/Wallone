@@ -1,6 +1,9 @@
 ﻿using System;
+using ModernWpf.Controls;
 using Prism.Regions;
 using Wallone.Core.Interfaces;
+using Wallone.Core.Services;
+using Wallone.Core.Services.Users;
 
 namespace Wallone.UI.ViewModels
 {
@@ -11,11 +14,6 @@ namespace Wallone.UI.ViewModels
         public ManagerViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-        }
-
-        public void ShowLoad()
-        {
-            regionManager.RequestNavigate("ContentRegion", "Load");
         }
         public void Show(Pages pages, string exMessage)
         {
@@ -32,7 +30,41 @@ namespace Wallone.UI.ViewModels
                 case Pages.NotFound:
                     regionManager.RequestNavigate("PageRegion", "NotFound", new NavigationParameters { { "Text", exMessage } });
                     break;
+            }
+        }
+
+        public void Open(NavigationViewItemInvokedEventArgs e)
+        {
+            var text = e.InvokedItemContainer.Content;
+
+            var param = new NavigationParameters
+            {
+                {"Root", e.InvokedItemContainer.Tag.ToString()},
+                {"Page", e.InvokedItemContainer.Name},
+                {"ID", e.InvokedItemContainer.Uid},
+                {"Text", text}
+            };
+
+            switch (e.InvokedItemContainer.Tag.ToString())
+            {
+                case "Downloads":
+                    regionManager.RequestNavigate("PageRegion", "DownloadsPage", param);
+                    break;
+                case "Profile":
+                    var paramProfile = new NavigationParameters
+                    {
+                        {"id", UserService.GetId()},
+                        {"header", "Профиль"},
+                        {"name", UserService.GetUsername()},
+                        {"isProfile", UserService.IsUser(UserService.GetId())}
+                    };
+                    regionManager.RequestNavigate("PageRegion", "Profile", paramProfile);
+                    break;
+                case "Account":
+                    regionManager.RequestNavigate("PageRegion", "Account", param);
+                    break;
                 default:
+                    regionManager.RequestNavigate("PageRegion", e.IsSettingsInvoked ? "Settings" : "Wallpapers", param);
                     break;
             }
         }

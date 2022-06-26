@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
 using Wallone.Core.Extension;
@@ -7,7 +6,7 @@ using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models.App;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.App
 {
     public class SettingsService
     {

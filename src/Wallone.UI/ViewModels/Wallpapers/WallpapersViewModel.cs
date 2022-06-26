@@ -13,6 +13,8 @@ using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
+using Wallone.Core.Services.Pages;
 using Wallone.UI.Interfaces;
 using Wallone.UI.Services;
 using Wallone.UI.ViewModels.Controls;

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Wallone.Core.Models;
+using Wallone.Core.Services.Routers;
 
-namespace Wallone.Core.Services
+namespace Wallone.Core.Services.Pages
 {
     public class SinglePageService
     {

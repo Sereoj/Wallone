@@ -6,12 +6,14 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
+using Wallone.Core.Services.Users;
 
 namespace Wallone.Authorization.ViewModels
 {
     public class LoginViewModel : BindableBase
     {
-        private readonly IRegionManager _regionManager;
+        private readonly IRegionManager regionManager;
 
         private string email;
 
@@ -21,7 +23,7 @@ namespace Wallone.Authorization.ViewModels
 
         public LoginViewModel(IRegionManager regionManager)
         {
-            _regionManager = regionManager;
+            this.regionManager = regionManager;
             Autocomplete();
             NavigateCommand = new DelegateCommand<string>(Navigate);
         }
@@ -51,7 +53,7 @@ namespace Wallone.Authorization.ViewModels
             switch (obj)
             {
                 case "Register":
-                    _regionManager.RequestNavigate("ContentRegion", "Register");
+                    regionManager.RequestNavigate("ContentRegion", "Register");
                     break;
                 case "Confirm":
                     Login();
@@ -113,7 +115,6 @@ namespace Wallone.Authorization.ViewModels
 
             if (UserService.GetToken() != null)
             {
-
                 var settings = new SettingsBuilder(SettingsService.Get())
                     .ItemBuilder();
 
@@ -121,7 +122,7 @@ namespace Wallone.Authorization.ViewModels
                 settings.SetToken(UserService.GetToken());
                 SettingsService.Save();
 
-                _regionManager.RequestNavigate("ContentRegion", "Main");
+                regionManager.RequestNavigate("ContentRegion", "Main");
             }
             else
             {
