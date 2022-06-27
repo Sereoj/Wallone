@@ -13,25 +13,28 @@ namespace Wallone.Core.Services.App
     {
         public static void UseTheme()
         {
-            var themeName = new SettingsBuilder(SettingsService.Get())
-                .ItemBuilder()
-                .GetImage();
+            var settingsItems = new SettingsBuilder(SettingsRepository.Get())
+                .ItemBuilder();
+
+            var themeName = settingsItems.GetImage();
 
             var theme = new ThemeCreatedBuilder()
                 .SetName(themeName)
                 .HasDownloaded()
                 .GetThemeModelFromFile();
 
-            var controller = new ThemeController();
-            controller.Load(theme);
+            var location = settingsItems.GetLocation();
 
-            var themeScheduler = new ThemeScheduler(controller);
-            themeScheduler.Start();
+            var themeController = new ThemeController<Theme>(theme, new GeolocationController<Location>(location));
+            if (themeController.ValidateFields())
+            {
+                var themeScheduler = new ThemeScheduler(themeController);
+                ThemeScheduler.Start();
+            }
         }
-
         public static async Task LoadGeolocationAsync()
         {
-            var useGeolocation = new SettingsBuilder(SettingsService.Get())
+            var useGeolocation = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetGeolocation();
 
@@ -59,7 +62,7 @@ namespace Wallone.Core.Services.App
 
         public static async Task UseGeolocation()
         {
-            var settings = new SettingsBuilder(SettingsService.Get())
+            var settings = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
 
             if (settings.GetGeolocation())

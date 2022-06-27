@@ -2,11 +2,8 @@
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Wallone.Core.Helpers;
 using Wallone.Core.Services.Pages;
-using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Controls
 {
@@ -18,13 +15,11 @@ namespace Wallone.UI.ViewModels.Controls
         {
             ActionCommand = new DelegateCommand(OnAction);
         }
-
         public Uri Cover
         {
             get => cover;
             set => SetProperty(ref cover, value);
         }
-
         public DelegateCommand ActionCommand { get; set; }
 
         private void OnAction()
@@ -32,7 +27,7 @@ namespace Wallone.UI.ViewModels.Controls
             var fileDialog = new OpenFileDialog();
             if (fileDialog.ShowDialog() == true)
             {
-                AccountService.SetCover(fileDialog.FileName);
+                AccountRepository.AccountService.SetCover(fileDialog.FileName);
                 Cover = UriHelper.Get(fileDialog.FileName);
             }
         }

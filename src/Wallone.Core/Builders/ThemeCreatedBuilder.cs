@@ -35,9 +35,9 @@ namespace Wallone.Core.Builders
         public ThemeCreatedBuilder Remove()
         {
             if (ThemeHasDownloaded)
-                if (AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
-                    if (AppSettingsService.ExistDirectory(ThemePath))
-                        AppSettingsService.RemoveDirectory(ThemePath);
+                if (AppSettingsRepository.AppSettingsService.GetUseForFolders() == "name" && ThemePath != null)
+                    if (AppSettingsRepository.AppSettingsService.ExistDirectory(ThemePath))
+                        AppSettingsRepository.AppSettingsService.RemoveDirectory(ThemePath);
 
             return this;
         }
@@ -88,9 +88,9 @@ namespace Wallone.Core.Builders
         public ThemeCreatedBuilder Save()
         {
             if (ThemePath == null || Theme == null) return this;
-            if (AppSettingsService.ExistDirectory(ThemePath))
+            if (AppSettingsRepository.AppSettingsService.ExistDirectory(ThemePath))
             {
-                var file = Path.Combine(ThemePath, AppSettingsService.GetThemeConfigName());
+                var file = Path.Combine(ThemePath, AppSettingsRepository.AppSettingsService.GetThemeConfigName());
                 File.WriteAllText(file, JsonConvert.SerializeObject(Theme, Formatting.Indented));
             }
 
@@ -180,8 +180,8 @@ namespace Wallone.Core.Builders
 
         public ThemeCreatedBuilder HasDownloaded()
         {
-            if (AppSettingsService.GetUseForFolders() == "name")
-                ThemeHasDownloaded = AppSettingsService.ExistDirectory(GetThemePath());
+            if (AppSettingsRepository.AppSettingsService.GetUseForFolders() == "name")
+                ThemeHasDownloaded = AppSettingsRepository.AppSettingsService.ExistDirectory(GetThemePath());
 
             return this;
         }
@@ -199,8 +199,8 @@ namespace Wallone.Core.Builders
         {
             ThemePath = GetThemePath();
 
-            if (AppSettingsService.GetUseForFolders() == "name")
-                if (ThemePath != null && AppSettingsService.ExistDirectory(ThemePath))
+            if (AppSettingsRepository.AppSettingsService.GetUseForFolders() == "name")
+                if (ThemePath != null && AppSettingsRepository.AppSettingsService.ExistDirectory(ThemePath))
                     return true;
 
             return false;
@@ -209,7 +209,7 @@ namespace Wallone.Core.Builders
         public ThemeCreatedBuilder ExistOrCreateDirectory()
         {
             if (AppConvert.Revert(Exist()))
-                AppSettingsService.CreateDirectory(ThemePath);
+                AppSettingsRepository.AppSettingsService.CreateDirectory(ThemePath);
             return this;
         }
 
@@ -233,7 +233,7 @@ namespace Wallone.Core.Builders
 
         public string GetThemePath()
         {
-            var themes = AppSettingsService.GetThemesLocation();
+            var themes = AppSettingsRepository.AppSettingsService.GetThemesLocation();
             return ThemeName != null ? Path.Combine(themes, ThemeName) : null;
         }
 
@@ -259,7 +259,7 @@ namespace Wallone.Core.Builders
 
         public string GetConfigPath()
         {
-            return Path.Combine(GetThemePath(), AppSettingsService.GetThemeConfigName());
+            return Path.Combine(GetThemePath(), AppSettingsRepository.AppSettingsService.GetThemeConfigName());
         }
 
         public SinglePage GetModelFromFile()

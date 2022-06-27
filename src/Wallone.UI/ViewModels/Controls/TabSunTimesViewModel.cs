@@ -56,7 +56,7 @@ namespace Wallone.UI.ViewModels.Controls
 
         public async void Start()
         {
-            var phase = PhaseService.GetPhase();
+            var phase = PhaseRepository.Get();
 
             SunriseTime = phase.sunriseSolarTime.ToLocalTime().ToShortTimeString();
             DayTime = phase.daySolarTime.ToLocalTime().ToShortTimeString();
@@ -86,6 +86,7 @@ namespace Wallone.UI.ViewModels.Controls
                 }
             }
             IsVisible = false;
+            await Task.CompletedTask;
         }
 
         public void OnNavigatedTo(NavigationContext navigationContext)

@@ -9,18 +9,18 @@ namespace Wallone.Core.Builders
     {
         public ThemePathBuilder CreateDirectory(string path)
         {
-            AppSettingsService.CreateDirectory(path);
+            AppSettingsRepository.AppSettingsService.CreateDirectory(path);
             return this;
         }
 
         public ThemePathBuilder ExistOrCreateDirectory(string path)
         {
-            var appLocation = AppSettingsService.GetAppLocation();
+            var appLocation = AppSettingsRepository.AppSettingsService.GetAppLocation();
             var pathThemeDirectory = Path.Combine(appLocation, path);
 
-            if (!AppSettingsService.ExistDirectory(pathThemeDirectory)) CreateDirectory(pathThemeDirectory);
+            if (!AppSettingsRepository.AppSettingsService.ExistDirectory(pathThemeDirectory)) CreateDirectory(pathThemeDirectory);
 
-            AppSettingsService.SetThemesLocation(pathThemeDirectory);
+            AppSettingsRepository.AppSettingsService.SetThemesLocation(pathThemeDirectory);
 
             LoggerService.Log(this, pathThemeDirectory);
             return this;
@@ -28,7 +28,7 @@ namespace Wallone.Core.Builders
 
         public ThemePathBuilder UseForFolders(string patten)
         {
-            AppSettingsService.SetThemeNameForFolders(patten);
+            AppSettingsRepository.AppSettingsService.SetThemeNameForFolders(patten);
             LoggerService.Log(this, patten);
             return this;
         }

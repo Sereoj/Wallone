@@ -1,4 +1,4 @@
-﻿namespace Wallone.Core.Services.App
+﻿namespace Wallone.Core.Models.App
 {
     public class AppSettings
     {

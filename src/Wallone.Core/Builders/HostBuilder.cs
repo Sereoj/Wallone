@@ -31,7 +31,7 @@ namespace Wallone.Core.Builders
 
         public HostBuilder SetHost()
         {
-            var valueHost = new SettingsBuilder(SettingsService.Get())
+            var valueHost = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetHost();
 
@@ -52,7 +52,7 @@ namespace Wallone.Core.Builders
 
         public HostBuilder SetPrefix()
         {
-            var valuePrefix = new SettingsBuilder(SettingsService.Get())
+            var valuePrefix = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetPrefix();
 
@@ -84,7 +84,7 @@ namespace Wallone.Core.Builders
 
         public HostBuilder Build()
         {
-            new SettingsBuilder(SettingsService.Get())
+            new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .SetHost(host)
                 .SetPrefix(prefix)

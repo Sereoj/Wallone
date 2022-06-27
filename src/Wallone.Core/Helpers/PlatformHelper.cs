@@ -34,7 +34,7 @@ namespace Wallone.Core.Helpers
         {
             RegistryKey startupKey = Registry.CurrentUser.OpenSubKey(RegistryStartupLocation, true);
 
-            var settings = new SettingsBuilder(SettingsService.Get())
+            var settings = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
 
             if (startupKey == null) return;

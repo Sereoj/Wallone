@@ -8,65 +8,59 @@ using Wallone.Core.Services.App;
 
 namespace Wallone.Core.Services
 {
-    public class ThemeService
+    public class ThemeRepository
     {
         private static Theme themeModel;
-        private static string themeName;
-        private static TimeSpan spanImage;
 
-        public static string GetCurrentName()
+        public class ThemeService
         {
-            return themeName ?? "default";
-        }
+            private static string themeName;
 
-        public static void SetCurrentName(string name)
-        {
-            themeName = AppFormat.Format(name);
-
-            new SettingsBuilder(SettingsService.Get())
-                .ItemBuilder()
-                .SetTheme(name)
-                .Build();
-        }
-
-        public static string GetPath()
-        {
-            return Path.Combine(AppSettingsService.GetThemesLocation(), themeName);
-        }
-
-        public static string GetPathConfig()
-        {
-            return Path.Combine(GetPath(), AppSettingsService.GetThemeConfigName());
-        }
-
-        public static void Set(Theme theme)
-        {
-            if (theme != null)
+            public static string GetCurrentName()
             {
-                SetCurrentName(theme.Name);
+                return themeName ?? "default";
             }
-            themeModel = theme;
+
+            public static void SetCurrentName(string name)
+            {
+                themeName = AppFormat.Format(name);
+
+                new SettingsBuilder(SettingsRepository.Get())
+                    .ItemBuilder()
+                    .SetTheme(name)
+                    .Build();
+            }
+
+            public static string GetPath()
+            {
+                return Path.Combine(AppSettingsRepository.AppSettingsService.GetThemesLocation(), themeName);
+            }
+
+            public static string GetPathConfig()
+            {
+                return Path.Combine(GetPath(), AppSettingsRepository.AppSettingsService.GetThemeConfigName());
+            }
+
+            public static void Set(Theme theme)
+            {
+                if (theme != null)
+                {
+                    SetCurrentName(theme.Name);
+                }
+                themeModel = theme;
+            }
+
+            public static Theme Get()
+            {
+                return themeModel;
+            }
         }
 
-        public static Theme Get()
-        {
-            return themeModel;
-        }
-
-        public static void SetTimeSpan(TimeSpan span)
-        {
-            spanImage = span;
-        }
-
-        public static TimeSpan GetTimeSpan()
-        {
-            return spanImage;
-        }
         public static void Load()
         {
             try
             {
-                var jsonText = File.ReadAllText(GetPathConfig());
+                var jsonText = File.ReadAllText(ThemeService.GetPathConfig());
                 themeModel = JsonConvert.DeserializeObject<Theme>(jsonText);
             }
             catch (Exception e)
@@ -79,7 +73,7 @@ namespace Wallone.Core.Services
         {
             try
             {
-                var file = GetPathConfig();
+                var file = ThemeService.GetPathConfig();
                 File.WriteAllText(file, JsonConvert.SerializeObject(themeModel, Formatting.Indented));
             }
             catch (Exception e)

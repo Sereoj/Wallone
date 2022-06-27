@@ -1,25 +1,31 @@
 ﻿using System;
 using Wallone.Core.Models;
+using Wallone.Core.Services.Loggers;
 
 namespace Wallone.Core.Services
 {
-    public class PhaseService
+    public class PhaseRepository
     {
-        private static Phase phase = new Phase();
-
-        public static Phase GetPhase()
+        private static Phase phase;
+        public class PhaseService
         {
-            return phase;
+            public static void SetCurrentPhase(Times times)
+            {
+                if (phase != null)
+                {
+                    phase.currentPhase = times;
+                    LoggerService.Log(typeof(PhaseService), $"times {times}");
+                }
+            }
         }
 
-        public static void SetModel(Phase phaseModel)
+        public static void Load(Phase phaseModel)
         {
             phase = phaseModel;
         }
-
-        public static void SetCurrentPhase(Times times)
+        public static Phase Get()
         {
-            phase.currentPhase = times;
+            return phase;
         }
     }
 }

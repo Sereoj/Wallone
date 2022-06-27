@@ -1,12 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Models.Settings;
-using Wallone.Core.Services;
 using Wallone.Core.Services.App;
 
 namespace Wallone.UI.ViewModels
@@ -30,7 +27,7 @@ namespace Wallone.UI.ViewModels
         {
             this.regionManager = regionManager;
 
-            settings = new SettingsBuilder(SettingsService.Get())
+            settings = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
 
             IsAutorun = settings.GetAutorun() && Platformer.GetHelper().CheckAutorun();
@@ -74,7 +71,7 @@ namespace Wallone.UI.ViewModels
             settings.Build();
 
 
-            SettingsService.Get().General.PropertyChanged += SettingsChanged;
+            SettingsRepository.Get().General.PropertyChanged += SettingsChanged;
         }
 
         public string Name
@@ -90,7 +87,7 @@ namespace Wallone.UI.ViewModels
             {
                 Platformer
                     .GetHelper()
-                    .SwitcherAutorun(AppSettingsService.GetApplicationPath(), value);
+                    .SwitcherAutorun(AppSettingsRepository.AppSettingsService.GetApplicationPath(), value);
                 SetProperty(ref isAutorun, value);
             }
         }

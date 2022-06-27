@@ -16,24 +16,44 @@ namespace Wallone.Core.Builders
             if (settings != null) this.settings = settings;
         }
 
+        /// <summary>
+        /// Установка текущей темы
+        /// </summary>
+        /// <param name="theme"></param>
+        /// <returns></returns>
         public SettingsItemBuilder SetTheme(string theme)
         {
             settings.General.Image = theme;
             return this;
         }
 
+        /// <summary>
+        /// Установка Email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public SettingsItemBuilder SetEmail(string email)
         {
             settings.User.Email = email;
             return this;
         }
 
+        /// <summary>
+        /// Установка токена для авторизации пользователя
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public SettingsItemBuilder SetToken(string token)
         {
             settings.User.Token = token;
             return this;
         }
 
+        /// <summary>
+        /// Установка языка приложения
+        /// </summary>
+        /// <param name="language"></param>
+        /// <returns></returns>
         public SettingsItemBuilder SetLanguage(string language)
         {
             settings.User.Language = language;
@@ -46,39 +66,135 @@ namespace Wallone.Core.Builders
             return this;
         }
 
+        /// <summary>
+        /// Установка хоста
+        /// </summary>
+        /// <param name="host"></param>
+        /// <returns></returns>
         public SettingsItemBuilder SetHost(string host)
         {
             settings.Server.Host = host;
             return this;
         }
 
+        /// <summary>
+        /// Установка префикса
+        /// </summary>
+        /// <param name="prefix"></param>
+        /// <returns></returns>
         public SettingsItemBuilder SetPrefix(string prefix)
         {
             settings.Server.Prefix = prefix;
             return this;
         }
 
-        public ISettings Get()
-        {
-            return settings;
-        }
-
+        /// <summary>
+        /// Установка режима геолокации
+        /// </summary>
+        /// <param name="mode"></param>
+        /// <returns></returns>
         public SettingsItemBuilder SetMode(Mode mode)
         {
             settings.Advanced.Type = mode;
             return this;
         }
 
+        public SettingsItemBuilder SetResolutionWidth(int value)
+        {
+            settings.General.ResolutionWidth = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetResolutionHeight(int value)
+        {
+            settings.General.ResolutionHeight = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetLatitude(double value)
+        {
+            settings.User.Latitude = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetLongitude(double value)
+        {
+            settings.User.Longitude = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetAnimation(bool value)
+        {
+            settings.General.Animation = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetModelWindow(bool value)
+        {
+            settings.General.IsArcticModal = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetGeolocation(bool isGeolocation)
+        {
+            settings.General.Geolocation = isGeolocation;
+            return this;
+        }
+
+        public SettingsItemBuilder SetCity(string locationCity)
+        {
+            settings.User.City = locationCity;
+            return this;
+        }
+
+        public SettingsItemBuilder SetAutorun(bool isRun)
+        {
+            settings.General.AutoRun = isRun;
+            return this;
+        }
+
+        public SettingsItemBuilder SetAutoSetImage(bool value)
+        {
+            settings.General.AutoSetImage = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetCountry(string locationCountry)
+        {
+            settings.User.Country = locationCountry;
+            return this;
+        }
+
+        public SettingsItemBuilder SetUseCustomResolution(bool value)
+        {
+            settings.General.UseCustomResolution = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetResolutionMode(ResolutionMode value)
+        {
+            settings.General.ResolutionMode = value;
+            return this;
+        }
+
+        public SettingsItemBuilder SetResolutionTemplate(int value)
+        {
+            settings.General.ResolutionTemplate = value;
+            return this;
+        }
+
+        /// <summary>
+        /// Получение настроек
+        /// </summary>
+        /// <returns></returns>
+        public ISettings Get()
+        {
+            return settings;
+        }
+
         public Mode GetMode()
         {
             return settings.Advanced.Type;
-        }
-
-
-        public void Build()
-        {
-            SettingsService.SetModel(settings);
-            SettingsService.Save();
         }
 
         public string GetToken()
@@ -101,34 +217,9 @@ namespace Wallone.Core.Builders
             return settings.Server.Prefix;
         }
 
-        public SettingsItemBuilder SetModelWindow(bool value)
-        {
-            settings.General.IsArcticModal = value;
-            return this;
-        }
-
         public string GetEmail()
         {
             return settings.User.Email;
-        }
-
-        public SettingsItemBuilder SetLatitude(double value)
-        {
-            settings.User.Latitude = value;
-            return this;
-        }
-
-
-        public SettingsItemBuilder SetLongitude(double value)
-        {
-            settings.User.Longitude = value;
-            return this;
-        }
-
-        public SettingsItemBuilder SetAnimation(bool value)
-        {
-            settings.General.Animation = value;
-            return this;
         }
 
         public bool GetAutoSetImage()
@@ -146,27 +237,9 @@ namespace Wallone.Core.Builders
             return settings.User.Longitude;
         }
 
-        public SettingsItemBuilder SetCountry(string locationCountry)
-        {
-            settings.User.Country = locationCountry;
-            return this;
-        }
-
         public bool GetAnimation()
         {
             return settings.General.Animation;
-        }
-
-        public SettingsItemBuilder SetCity(string locationCity)
-        {
-            settings.User.City = locationCity;
-            return this;
-        }
-
-        public SettingsItemBuilder SetAutorun(bool isRun)
-        {
-            settings.General.AutoRun = isRun;
-            return this;
         }
 
         public bool GetAutorun()
@@ -174,10 +247,23 @@ namespace Wallone.Core.Builders
             return settings.General.AutoRun;
         }
 
-        public SettingsItemBuilder SetGeolocation(bool isGeolocation)
+        public Location GetLocation()
         {
-            settings.General.Geolocation = isGeolocation;
-            return this;
+            if (settings.User != null)
+            {
+                return new Location()
+                {
+                    city = settings.User.City,
+                    country = settings.User.Country,
+                    latitude = GetLatitude(),
+                    longitude = GetLongitude(),
+                };
+            }
+            return new Location()
+            {
+                latitude = GetLatitude(),
+                longitude = GetLongitude(),
+            };
         }
 
         public bool GetGeolocation()
@@ -193,12 +279,6 @@ namespace Wallone.Core.Builders
         public bool GetModelWindow()
         {
             return settings.General.IsArcticModal;
-        }
-
-        public SettingsItemBuilder SetAutoSetImage(bool value)
-        {
-            settings.General.AutoSetImage = value;
-            return this;
         }
 
         public Geolocation GetGeolocationMode()
@@ -217,27 +297,9 @@ namespace Wallone.Core.Builders
             return settings.General.UseCustomResolution;
         }
 
-        public SettingsItemBuilder SetUseCustomResolution(bool value)
-        {
-            settings.General.UseCustomResolution = value;
-            return this;
-        }
-
-        public SettingsItemBuilder SetResolutionMode(ResolutionMode value)
-        {
-            settings.General.ResolutionMode = value;
-            return this;
-        }
-
         public ResolutionMode GetResolutionMode()
         {
             return settings.General.ResolutionMode;
-        }
-
-        public SettingsItemBuilder SetResolutionTemplate(int value)
-        {
-            settings.General.ResolutionTemplate = value;
-            return this;
         }
 
         public int GetResolutionTemplate()
@@ -255,16 +317,10 @@ namespace Wallone.Core.Builders
             return settings.General.ResolutionHeight;
         }
 
-        public SettingsItemBuilder SetResolutionWidth(int value)
+        public void Build()
         {
-            settings.General.ResolutionWidth = value;
-            return this;
-        }
-
-        public SettingsItemBuilder SetResolutionHeight(int value)
-        {
-            settings.General.ResolutionHeight = value;
-            return this;
+            SettingsRepository.Init(settings);
+            SettingsRepository.Save();
         }
     }
 }

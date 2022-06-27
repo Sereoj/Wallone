@@ -83,12 +83,12 @@ namespace Wallone.UI.ViewModels.Wallpapers
             {
                 IsLoading = true;
 
-                var themeDirectory = AppSettingsService.GetThemesLocation();
+                var themeDirectory = AppSettingsRepository.AppSettingsService.GetThemesLocation();
 
-                if (AppSettingsService.ExistDirectory(themeDirectory))
-                    AppSettingsService.CreateDirectory(themeDirectory);
+                if (AppSettingsRepository.AppSettingsService.ExistDirectory(themeDirectory))
+                    AppSettingsRepository.AppSettingsService.CreateDirectory(themeDirectory);
 
-                foreach (var filePath in Directory.EnumerateFiles(AppSettingsService.GetThemesLocation(), "theme.json",
+                foreach (var filePath in Directory.EnumerateFiles(AppSettingsRepository.AppSettingsService.GetThemesLocation(), "theme.json",
                              SearchOption.AllDirectories))
                 {
                     var jsonText = await File.ReadAllTextAsync(filePath);

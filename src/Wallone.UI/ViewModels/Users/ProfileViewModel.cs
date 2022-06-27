@@ -110,7 +110,7 @@ namespace Wallone.UI.ViewModels.Users
             ProfileItemsVM.Name = (string)navigationContext.Parameters["name"];
             IsProfile = (bool)navigationContext.Parameters["isProfile"];
 
-            var items = new SettingsBuilder(SettingsService.Get())
+            var items = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
 
             if (IsProfile)

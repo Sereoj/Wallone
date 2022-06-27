@@ -6,11 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
 using Wallone.Core.Helpers;
-using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
@@ -159,20 +157,27 @@ namespace Wallone.UI.ViewModels.Controls
             var builder = themeBuilder
                 .HasInstalled(SinglePageLogic.IsInstalled);
 
-            var theme = new ThemeController();
+            var settingsItemBuilder = new SettingsBuilder(SettingsRepository.Get())
+                .ItemBuilder();
 
             if (builder.GetHasNotInstalled())
             {
-                ThemeScheduler.Stop();
-                theme.Load(builder.GetThemeModelFromFile()); // загружаем тему
-                theme.Set(builder.GetThemeModelFromFile()); // устанавливаем как обои
-                ThemeScheduler.SetInterval(1000);
-                ThemeScheduler.Run();
-                regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
+               var location = settingsItemBuilder.GetLocation();
+
+                var themeController = new ThemeController<Theme>(builder.GetThemeModelFromFile(),
+                    new GeolocationController<Location>(location));
+
+                ThemeScheduler.Refresh();
+
+                if (settingsItemBuilder.GetModelWindow())
+                {
+                    regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
+                    Task.Delay(1000);
+                }
             }
             else
             {
-                ThemeService.Set(null);
+                ThemeRepository.ThemeService.Set(null);
             }
 
             SinglePageLogic.IsInstalled = builder.GetHasNotInstalled();
@@ -231,12 +236,12 @@ namespace Wallone.UI.ViewModels.Controls
 
             Trace.WriteLine("(LOAD)Theme path:  " + themePath);
 
-            if (AppSettingsService.ExistDirectory(themePath))
+            if (AppSettingsRepository.AppSettingsService.ExistDirectory(themePath))
             {
                 SinglePageLogic.IsDownloaded = true;
 
                 SinglePageLogic.IsEnableInstalled = true;
-                SinglePageLogic.IsInstalled = AppFormat.Compare(ThemeService.GetCurrentName(), themeName);
+                SinglePageLogic.IsInstalled = AppFormat.Compare(ThemeRepository.ThemeService.GetCurrentName(), themeName);
             }
             else
             {
@@ -298,7 +303,7 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void Loaded()
         {
-            SettingsService.Load();
+            SettingsRepository.Load();
 
             SinglePageItemsViewModel.Name = SinglePageService.GetHeader();
             SinglePageItemsViewModel.Username = SinglePageService.GetUsername();

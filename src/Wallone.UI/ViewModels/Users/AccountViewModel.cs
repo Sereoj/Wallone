@@ -160,12 +160,12 @@ namespace Wallone.UI.ViewModels.Users
 
         private void OnExit()
         {
-            var settings = new SettingsBuilder(SettingsService.Get())
+            var settings = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
             settings.SetToken(null);
 
             UserService.Close();
-            SettingsService.Save();
+            SettingsRepository.Save();
 
             regionManager.RequestNavigate("ContentRegion", "Main");
         }
@@ -174,10 +174,10 @@ namespace Wallone.UI.ViewModels.Users
         {
             var param = new List<Parameter>();
             if (avatar_path != null) param.Add(new Parameter { Name = "avatar", Type = "file", Value = avatar_path });
-            if (AccountService.GetCover() != null)
-                param.Add(new Parameter { Name = "cover", Type = "file", Value = AccountService.GetCover() });
+            if (AccountRepository.AccountService.GetCover() != null)
+                param.Add(new Parameter { Name = "cover", Type = "file", Value = AccountRepository.AccountService.GetCover() });
 
-            _ = await AccountService.EditUserPageAsync(update(), param);
+            _ = await AccountRepository.AccountService.EditUserPageAsync(UpdateUser(), param);
         }
 
         private void OnPersonPicture()
@@ -194,7 +194,7 @@ namespace Wallone.UI.ViewModels.Users
         {
             try
             {
-                var info = await AccountService.GetPageGuidsAsync();
+                var info = await AccountRepository.AccountService.GetPageGuidsAsync();
                 if (!string.IsNullOrEmpty(info))
                 {
                     var text = JsonConvert.DeserializeObject<Advertisement>(info);
@@ -212,25 +212,25 @@ namespace Wallone.UI.ViewModels.Users
         {
             try
             {
-                var data = await AccountService.GetPageAsync();
+                var data = await AccountRepository.AccountService.GetPageAsync();
 
                 if (!string.IsNullOrEmpty(data))
                 {
                     //var jArray = JArray.Parse(data);
                     account = JsonConvert.DeserializeObject<User>(data);
-                    AccountService.Load(account);
+                    AccountRepository.Load(account);
 
-                    Name = AccountService.GetUsername();
-                    Description = AccountService.GetDescription();
+                    Name = AccountRepository.AccountService.GetUsername();
+                    Description = AccountRepository.AccountService.GetDescription();
 
-                    DOB = AccountService.GetDOB();
+                    DOB = AccountRepository.AccountService.GetDOB();
 
-                    Github = AccountService.GetGithub();
-                    Facebook = AccountService.GetFacebook();
-                    VK = AccountService.GetVK();
-                    Twitter = AccountService.GetTwitter();
+                    Github = AccountRepository.AccountService.GetGithub();
+                    Facebook = AccountRepository.AccountService.GetFacebook();
+                    VK = AccountRepository.AccountService.GetVK();
+                    Twitter = AccountRepository.AccountService.GetTwitter();
 
-                    Country = SettingsService.Get().User.Country;
+                    Country = SettingsRepository.Get().User.Country;
                 }
             }
             catch (Exception ex)
@@ -244,21 +244,21 @@ namespace Wallone.UI.ViewModels.Users
             }
         }
 
-        private User update()
+        private User UpdateUser()
         {
-            var list = AccountService.GetUser();
+            var list = AccountRepository.GetUser();
 
-            if (Name != AccountService.GetUsername()) list.username = Name;
+            if (Name != AccountRepository.AccountService.GetUsername()) list.username = Name;
 
-            if (Description != AccountService.GetDescription()) list.description = Description;
+            if (Description != AccountRepository.AccountService.GetDescription()) list.description = Description;
 
-            if (DOB != AccountService.GetDOB()) list.dob = DOB.Value.ToShortDateString();
+            if (DOB != AccountRepository.AccountService.GetDOB()) list.dob = DOB.Value.ToShortDateString();
 
-            if (Github != AccountService.GetGithub()) list.github = Github;
+            if (Github != AccountRepository.AccountService.GetGithub()) list.github = Github;
 
-            if (Facebook != AccountService.GetFacebook()) list.facebook = Facebook;
-            if (VK != AccountService.GetVK()) list.vk = VK;
-            if (Twitter != AccountService.GetTwitter()) list.twitter = Twitter;
+            if (Facebook != AccountRepository.AccountService.GetFacebook()) list.facebook = Facebook;
+            if (VK != AccountRepository.AccountService.GetVK()) list.vk = VK;
+            if (Twitter != AccountRepository.AccountService.GetTwitter()) list.twitter = Twitter;
 
             return list;
         }

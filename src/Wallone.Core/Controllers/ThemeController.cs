@@ -1,302 +1,248 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Windows.System.UserProfile;
-using SunCalcNet.Model;
+﻿
+using System;
 using Wallone.Core.Builders;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
-using Wallone.Core.Services.Loggers;
+using Wallone.Core.Services.Locations;
 
 namespace Wallone.Core.Controllers
 {
-    public class ThemeController
+    public class GeolocationController<T>
     {
-        private static readonly uint SPI_SETDESKWALLPAPER = 20;
-        private static readonly uint SPIF_UPDATEINIFILE = 0x1;
+        private Location geolocationItems;
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int SystemParametersInfo(uint uiAction, uint uiParam, string pvParam, uint fWinIni);
-
-        private Phase PhaseModel { get; set; }
-        private SettingsItemBuilder SettingsItemBuilder { get; set; }
-        private double lat;
-        private double lng;
-        public ThemeController()
+        public GeolocationController(Location geolocationItems)
         {
-            PhaseModel = PhaseService.GetPhase();
-
-            SettingsItemBuilder = new SettingsBuilder(SettingsService.Get())
-                .ItemBuilder();
-            GetLocation();
+            this.geolocationItems = geolocationItems;
+            ValidateMode(GetGeolocationMode());
         }
 
-        public void GetLocation()
+        public Mode GetGeolocationMode()
         {
-            lat = SettingsItemBuilder.GetLatitude();
-            lng = SettingsItemBuilder.GetLongitude();
+            return new SettingsBuilder(SettingsRepository.Get())
+                .ItemBuilder()
+                .GetMode();
         }
 
-        public void Load(Theme theme)
+        private void ValidateMode(Mode mode)
         {
-            if (theme != null)
+            bool isGeolocation;
+            switch (mode)
             {
-                CheckLocation();
-                ThemeService.Set(theme);
-                ThemeService.Save();
+                case Mode.UseWebLocation:
+                    isGeolocation = true;
+                    break;
+                case Mode.NoUseLocation:
+                    isGeolocation = false;
+                    break;
+                case Mode.UseCustomTime:
+                    isGeolocation = true;
+                    break;
+                case Mode.UseWindowsLocation:
+                    isGeolocation = true;
+                    break;
+                default:
+                    mode = Mode.UseWebLocation;
+                    isGeolocation = true;
+                    break;
             }
+            LocationService.SetLocation(mode, isGeolocation);
+        }
+    }
+
+    public interface ICore
+    {
+        //Изображения
+        string GetPreviousImage(); // Предыдущее
+        string GetCurrentImage(); // Текущее
+        string GetNextImage(); //Следущее
+
+        //Время
+        DateTime GetPreviousDateTime();
+        DateTime GetCurrentDateTime();
+        DateTime GetNextDateTime();
+    }
+
+    public class ThemeWebLocation : ICore
+    {
+        public string GetPreviousImage()
+        {
+            throw new NotImplementedException();
         }
 
-
-
-        public void Set(Theme theme)
+        public string GetCurrentImage()
         {
-            if (theme != null)
+            throw new NotImplementedException();
+        }
+
+        public string GetNextImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetPreviousDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetCurrentDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetNextDateTime()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ThemeNoUseLocation : ICore
+    {
+        public string GetPreviousImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetCurrentImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetNextImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetPreviousDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetCurrentDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetNextDateTime()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ThemeCustomTime : ICore
+    {
+        public DateTime GetCurrentDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetCurrentImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetNextDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetNextImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetPreviousDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetPreviousImage()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ThemeWindowsLocation : ICore
+    {
+        public string GetPreviousImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetCurrentImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetNextImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetPreviousDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetCurrentDateTime()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetNextDateTime()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ThemeController<T>
+    {
+        private readonly Theme controller;
+        private GeolocationController<Location> geolocationController;
+        private ICore core;
+        public ThemeController(Theme controller, GeolocationController<Location> geolocationController)
+        {
+            this.controller = controller;
+            this.geolocationController = geolocationController;
+
+            switch (geolocationController.GetGeolocationMode())
             {
-                switch (SettingsItemBuilder.GetMode())
+                case Mode.UseWebLocation:
+                    core = new ThemeWebLocation();
+                    break;
+                case Mode.NoUseLocation:
+                    core = new ThemeNoUseLocation();
+                    break;
+                case Mode.UseCustomTime:
+                    core = new ThemeCustomTime();
+                    break;
+                case Mode.UseWindowsLocation:
+                    core = new ThemeWindowsLocation();
+                    break;
+                default:
+                    core = new ThemeWebLocation();
+                    LocationService.SetLocation(Mode.UseWebLocation, true);
+                    break;
+            }
+            ThemeRepository.ThemeService.Set(controller);
+        }
+
+        public ICore Core()
+        {
+            return core;
+        }
+
+        public bool ValidateFields()
+        {
+            if (!string.IsNullOrEmpty(controller.Uuid))
+            {
+                if (controller.Images != null)
                 {
-                    case Mode.UseWebLocation:
-                        UseWebLocation(theme, PhaseModel, lat, lng);
-                        break;
-                    case Mode.NoUseLocation:
-                        var image = GetCurrentImageByTime(theme.Images);
-                        SetImage(image.location);
-                        break;
+                    return true;
                 }
             }
-        }
-
-        private void CheckLocation()
-        {
-            if (double.IsNaN(lat) || double.IsNaN(lng))
-            {
-                SettingsItemBuilder.SetMode(Mode.NoUseLocation);
-                SettingsItemBuilder.Build();
-            }
-
-            if (SettingsItemBuilder.GetGeolocation() != true)
-            {
-                SettingsItemBuilder.SetMode(Mode.NoUseLocation);
-                SettingsItemBuilder.Build();
-            }
-
-        }
-
-        private void UseWebLocation(Theme theme, Phase phaseModel, double lat, double lng)
-        {
-            DateTime time = DateTime.Now;
-            DateTime oldTime = default;
-            Times currentPhase = Times.Dawn; 
-
-            var sunPhases = GetSunPhases(DateTime.Today, lat, lng).ToList();
-
-            phaseModel.dawnSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dawn);
-            phaseModel.sunriseSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunrise);
-            phaseModel.daySolarTime = GetSolarTime(sunPhases, SunPhaseName.SolarNoon);
-            phaseModel.goldenSolarTime = GetSolarTime(sunPhases, SunPhaseName.GoldenHour);
-            phaseModel.sunsetSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunset);
-            phaseModel.duskSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dusk);
-            phaseModel.nightSolarTime = GetSolarTime(sunPhases, SunPhaseName.Night);
-
-            if (phaseModel.dawnSolarTime < time && phaseModel.sunriseSolarTime > time)
-            {
-                LoggerService.Log(this, $"Заря {phaseModel.dawnSolarTime} {phaseModel.sunriseSolarTime}");
-
-                oldTime = phaseModel.dawnSolarTime;
-                currentPhase = Times.Dawn;
-
-                var images = GetImagesWithTime(theme.Images, currentPhase);
-                SetSpan(phaseModel.sunriseSolarTime, time, images.Count);
-
-            }
-            if (phaseModel.sunriseSolarTime < time && phaseModel.daySolarTime > time)
-            {
-                LoggerService.Log(this, $"Утро {phaseModel.sunriseSolarTime} {phaseModel.daySolarTime}");
-
-                oldTime = phaseModel.sunriseSolarTime;
-                currentPhase = Times.Sunrise;
-
-                var images = GetImagesWithTime(theme.Images, currentPhase);
-                SetSpan(phaseModel.daySolarTime, time, images.Count);
-            }
-            if (phaseModel.daySolarTime < time && phaseModel.goldenSolarTime > time)
-            {
-                LoggerService.Log(this, $"День {phaseModel.daySolarTime}");
-                LoggerService.Log(this, $"Золотое время {phaseModel.goldenSolarTime}");
-                oldTime = phaseModel.daySolarTime;
-                currentPhase = Times.Day;
-                var images = GetImagesWithTime(theme.Images, currentPhase);
-
-                SetSpan(phaseModel.goldenSolarTime, time, images.Count);
-            }
-            if (phaseModel.goldenSolarTime < time && phaseModel.sunsetSolarTime > time)
-            {
-                LoggerService.Log(this, $"Золотое время {phaseModel.goldenSolarTime}");
-                LoggerService.Log(this, $"Закат {phaseModel.sunsetSolarTime}");
-
-                oldTime = phaseModel.goldenSolarTime;
-                currentPhase = Times.GoldenHour;
-                var images = GetImagesWithTime(theme.Images, currentPhase);
-
-                SetSpan(phaseModel.sunsetSolarTime, time, images.Count);
-            }
-            if (phaseModel.sunsetSolarTime < time && phaseModel.duskSolarTime > time)
-            {
-                LoggerService.Log(this, $"Закат {phaseModel.sunsetSolarTime}");
-                LoggerService.Log(this, $"Ночь {phaseModel.duskSolarTime}");
-
-                oldTime = phaseModel.sunsetSolarTime;
-                currentPhase = Times.Sunset;
-                var images = GetImagesWithTime(theme.Images, currentPhase);
-
-                SetSpan(phaseModel.duskSolarTime, time, images.Count);
-            }
-            else
-            {
-                if (phaseModel.duskSolarTime < time)
-                {
-                    LoggerService.Log(this, $"Ночь {phaseModel.duskSolarTime}");
-
-                    oldTime = phaseModel.duskSolarTime;
-                    currentPhase = Times.Night;
-                    var images = GetImagesWithTime(theme.Images, currentPhase);
-
-                    var nextSunPhases = GetSunPhases(DateTime.Today.AddDays(1), lat, lng).ToList();
-                    phaseModel.dawnSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Dawn);
-                    phaseModel.sunriseSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Sunrise);
-                    phaseModel.daySolarTime = GetSolarTime(nextSunPhases, SunPhaseName.SolarNoon);
-                    phaseModel.goldenSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.GoldenHour);
-                    phaseModel.sunsetSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Sunset);
-                    phaseModel.duskSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Dusk);
-                    phaseModel.nightSolarTime = GetSolarTime(nextSunPhases, SunPhaseName.Night);
-                    SetSpan(phaseModel.dawnSolarTime, time, images.Count);
-                }
-            }
-
-            PhaseModel.currentPhase = currentPhase;
-            PhaseService.SetModel(phaseModel);
-            SetCurrentImage(theme, PhaseModel, oldTime, DateTime.Now, PhaseModel.currentPhase);
-        }
-
-        public void SetSpan(DateTime date2, DateTime date1, int count)
-        {
-            var time = Span(date2, date1, count);
-            PhaseModel.nextPhaseSpan = time;
-            ThemeService.SetTimeSpan(time);
-        }
-
-        public TimeSpan GetSpan()
-        {
-            return ThemeService.GetTimeSpan();
-        }
-
-        public void SetCurrentImage(Theme theme, Phase phaseModel, DateTime date1, DateTime nowDateTime, Times times)
-        {
-            var images = GetImagesWithTime(theme.Images, times);
-
-            PhaseService.SetCurrentPhase(times);
-            if (images.Count != 0)
-            {
-                var id = GetSpanId(nowDateTime, date1);
-                SetImage(images.Count > id ? images[id].location : images.LastOrDefault()!.location);
-            }
-            else
-            {
-                //рекурсия, пока не найдем
-                NextTime(times);
-                SetCurrentImage(theme, phaseModel, date1, nowDateTime, PhaseModel.nextPhase);
-            }
-        }
-
-
-        public void NextTime(Times times)
-        {
-            switch (times)
-            {
-                case Times.Dawn:
-                    PhaseModel.nextPhase = Times.Sunrise;
-                    break;
-                case Times.Sunrise:
-                    PhaseModel.nextPhase = Times.Day;
-                    break;
-                case Times.Day:
-                    PhaseModel.nextPhase = Times.GoldenHour;
-                    break;
-                case Times.GoldenHour:
-                    PhaseModel.nextPhase = Times.Sunset;
-                    break;
-                case Times.Sunset:
-                    PhaseModel.nextPhase = Times.Night;
-                    break;
-                case Times.Night:
-                    PhaseModel.nextPhase = Times.Dawn;
-                    break;
-            }
-
-            LoggerService.Log(this, $"NextPhase {times}");
-        }
-
-        public TimeSpan Span(DateTime date2, DateTime date1, int count)
-        {
-            if (count == 0)
-                count = 1;
-            LoggerService.Log(this, $"Span {(date2 - date1) / count}");
-            return (date2 - date1) / count;
-        }
-
-        public int GetSpanId(DateTime now, DateTime date1)
-        {
-            LoggerService.Log(this, $"GetSpanId {(now - date1).Hours}");
-            return (now - date1).Hours;
-        }
-
-        public static bool SetImage(string filename)
-        {
-            if (filename == null || !AppSettingsService.ExistsFile(filename)) return false;
-            SystemParametersInfo(SPI_SETDESKWALLPAPER, 0, filename, SPIF_UPDATEINIFILE);
-            LoggerService.Log(null, $"SetImage {filename}");
-            return true;
-        }
-
-        private static List<SunPhase> GetSunPhases(DateTime dateTime,double latitude, double longitude)
-        {
-            return SunCalcNet.SunCalc.GetSunPhases(dateTime, latitude, longitude).ToList();
-        }
-
-        private static DateTime GetSolarTime(List<SunPhase> sunPhases, SunPhaseName desiredPhase)
-        {
-            SunPhase sunPhase = sunPhases.FirstOrDefault(sp => sp.Name.Value == desiredPhase.Value);
-            return sunPhase.PhaseTime.ToLocalTime();
-        }
-
-
-        public List<Image> GetImagesWithTime(List<Image> images, Times time)
-        {
-            return images.Where(image => image.times == time).ToList();
-        }
-
-
-        public Image GetCurrentImageByTime(List<Image> images)
-        {
-            var hours = int.Parse(DateTime.Now.ToString("HH"));
-
-            if (6 <= hours && hours <= 11) return images.FirstOrDefault(image => image.times == Times.Sunrise);
-
-            if (12 <= hours && hours <= 17) return images.FirstOrDefault(image => image.times == Times.Day);
-
-            if (18 <= hours && hours <= 23) return images.FirstOrDefault(image => image.times == Times.Sunset);
-
-            if (24 >= hours && hours <= 6) return images.FirstOrDefault(image => image.times == Times.Night);
-
-            return null;
-        }
-
-        public bool IsAwake()
-        {
-            return ThemeService.Get() != null;
+            return false;
         }
     }
 }

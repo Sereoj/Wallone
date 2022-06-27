@@ -14,7 +14,7 @@ namespace Wallone.Core.Services.Routers
         public static async Task<T> GetAsync(string method, string page, List<Parameter> parameters)
         {
 
-            var token = new SettingsBuilder(SettingsService.Get())
+            var token = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetToken();
 
@@ -45,7 +45,7 @@ namespace Wallone.Core.Services.Routers
 
         public static async Task<T> GetAsync(string method)
         {
-            var token = new SettingsBuilder(SettingsService.Get())
+            var token = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetToken();
 
@@ -68,7 +68,7 @@ namespace Wallone.Core.Services.Routers
     {
         public static async Task<T> PostAsync(string method, T2 model, List<Parameter> parameters = null)
         {
-            var token = new SettingsBuilder(SettingsService.Get())
+            var token = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetToken();
 

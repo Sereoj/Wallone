@@ -7,13 +7,12 @@ using Wallone.Core.Models.App;
 namespace Wallone.Core.Services.App
 {
     // модель глобальных настроек
-
-    public class AppSettingsService
+    public class AppSettingsRepository
     {
         private static readonly AppSettings AppSettings;
         private static readonly ISettings Settings;
 
-        static AppSettingsService()
+        static AppSettingsRepository()
         {
             AppSettings = new AppSettings();
             Settings = new Settings();
@@ -28,95 +27,98 @@ namespace Wallone.Core.Services.App
         {
             return Settings;
         }
-
-        public static string GetThemesLocation()
+        public class AppSettingsService
         {
-            return AppSettings.ThemePath;
-        }
-
-        public static string GetUseForFolders()
-        {
-            return AppSettings.UseForFolders;
-        }
-
-        public static string GetAppLocation()
-        {
-            return AppSettings.AppPath;
-        }
-
-        public static string GetApplicationPath()
-        {
-            return AppSettings.ApplicationPath;
-        }
-
-        public static string AppPath()
-        {
-            var processName = Process.GetCurrentProcess().ProcessName + ".exe";
-            return Path.Combine(GetAppLocation(), processName);
-        }
-        public static void SetApplicationPath(string path)
-        {
-            AppSettings.ApplicationPath = path;
-        }
-
-        public static void SetAppDirectoryLocation(string path)
-        {
-            AppSettings.AppPath = path;
-        }
-
-        public static void SetThemesLocation(string path)
-        {
-            AppSettings.ThemePath = path;
-        }
-
-        public static void SetSettingsLocation(string path)
-        {
-            AppSettings.SettingsPath = path;
-        }
-
-        public static void SetThemeConfigName(string name)
-        {
-            AppSettings.ThemeConfig = string.IsNullOrEmpty(name) ? "theme.json" : name;
-        }
-
-        public static string GetThemeConfigName()
-        {
-            return AppSettings.ThemeConfig;
-        }
-
-        public static bool ExistsFile(string path)
-        {
-            return path.ExistsFile();
-        }
-
-        public static void CreateDirectory(string path)
-        {
-            path.CreateDirectory();
-        }
-
-        public static void RemoveDirectory(string path)
-        {
-            path.DeleteDirectory();
-        }
-
-        public static void SetThemeNameForFolders(string patten)
-        {
-            switch (patten)
+            public static string GetThemesLocation()
             {
-                case "name":
-                case "id":
-                    break;
-                default:
-                    patten = "name";
-                    break;
+                return AppSettings.ThemePath;
             }
 
-            AppSettings.UseForFolders = patten;
+            public static string GetUseForFolders()
+            {
+                return AppSettings.UseForFolders;
+            }
+
+            public static string GetAppLocation()
+            {
+                return AppSettings.AppPath;
+            }
+
+            public static string GetApplicationPath()
+            {
+                return AppSettings.ApplicationPath;
+            }
+
+            public static string AppPath()
+            {
+                var processName = Process.GetCurrentProcess().ProcessName + ".exe";
+                return Path.Combine(GetAppLocation(), processName);
+            }
+            public static void SetApplicationPath(string path)
+            {
+                AppSettings.ApplicationPath = path;
+            }
+
+            public static void SetAppDirectoryLocation(string path)
+            {
+                AppSettings.AppPath = path;
+            }
+
+            public static void SetThemesLocation(string path)
+            {
+                AppSettings.ThemePath = path;
+            }
+
+            public static void SetSettingsLocation(string path)
+            {
+                AppSettings.SettingsPath = path;
+            }
+
+            public static void SetThemeConfigName(string name)
+            {
+                AppSettings.ThemeConfig = string.IsNullOrEmpty(name) ? "theme.json" : name;
+            }
+
+            public static string GetThemeConfigName()
+            {
+                return AppSettings.ThemeConfig;
+            }
+
+            public static bool ExistsFile(string path)
+            {
+                return path.ExistsFile();
+            }
+
+            public static void CreateDirectory(string path)
+            {
+                path.CreateDirectory();
+            }
+
+            public static void RemoveDirectory(string path)
+            {
+                path.DeleteDirectory();
+            }
+
+            public static void SetThemeNameForFolders(string patten)
+            {
+                switch (patten)
+                {
+                    case "name":
+                    case "id":
+                        break;
+                    default:
+                        patten = "name";
+                        break;
+                }
+
+                AppSettings.UseForFolders = patten;
+            }
+
+            public static bool ExistDirectory(string path)
+            {
+                return path.ExistsDirectory();
+            }
         }
 
-        public static bool ExistDirectory(string path)
-        {
-            return path.ExistsDirectory();
-        }
     }
 }

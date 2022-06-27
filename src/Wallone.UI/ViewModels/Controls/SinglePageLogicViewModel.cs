@@ -1,5 +1,6 @@
 ﻿using ModernWpf.Controls;
 using Prism.Mvvm;
+using Wallone.Core.Services;
 using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Controls

@@ -8,7 +8,7 @@ namespace Wallone.Core.Builders
     {
         public AppPathBuilder AppLocation(string path)
         {
-            AppSettingsService.SetAppDirectoryLocation(path);
+            AppSettingsRepository.AppSettingsService.SetAppDirectoryLocation(path);
 
             LoggerService.Log(this, path);
             return this;
@@ -16,7 +16,7 @@ namespace Wallone.Core.Builders
 
         public AppPathBuilder ApplicationPath(string path)
         {
-            AppSettingsService.SetApplicationPath(path);
+            AppSettingsRepository.AppSettingsService.SetApplicationPath(path);
 
             LoggerService.Log(this, path);
             return this;

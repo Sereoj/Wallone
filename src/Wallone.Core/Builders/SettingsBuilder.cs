@@ -11,13 +11,13 @@ namespace Wallone.Core.Builders
     {
         public SettingsBuilder(ISettings settings)
         {
-            SettingsService.SetModel(settings);
+            SettingsRepository.Init(settings);
         }
 
         public SettingsBuilder CreateFile(string path)
         {
-            SettingsService.SetFile(path);
-            SettingsService.Save();
+            SettingsRepository.SetFilename(path);
+            SettingsRepository.Save();
             return this;
         }
 
@@ -25,12 +25,12 @@ namespace Wallone.Core.Builders
         {
             var path = Path.Combine(Platformer.GetHelper().GetCurrentFolder(), filename);
 
-            SettingsService.SetFile(path); // Установка пути
-            if (!SettingsService.Exist()) // Проверка файла
+            SettingsRepository.SetFilename(path); // Установка пути
+            if (!SettingsRepository.SettingsService.Exist()) // Проверка файла
                 CreateFile(path); // Создание файла
-            SettingsService.Load(); // Загрузка данных
+            SettingsRepository.Load(); // Загрузка данных
 
-            AppSettingsService.SetSettingsLocation(path);
+            AppSettingsRepository.AppSettingsService.SetSettingsLocation(path);
 
             LoggerService.Log(this, path);
             return this;
@@ -38,7 +38,7 @@ namespace Wallone.Core.Builders
 
         public SettingsBuilder SetConfigName(string name)
         {
-            AppSettingsService.SetThemeConfigName(name);
+            AppSettingsRepository.AppSettingsService.SetThemeConfigName(name);
 
             LoggerService.Log(this, name);
             return this;
@@ -46,12 +46,12 @@ namespace Wallone.Core.Builders
 
         public SettingsItemBuilder ItemBuilder()
         {
-            return new SettingsItemBuilder(SettingsService.Get());
+            return new SettingsItemBuilder(SettingsRepository.Get());
         }
 
         public SettingsBuilder Build()
         {
-            SettingsService.Save();
+            SettingsRepository.Save();
             return this;
         }
     }

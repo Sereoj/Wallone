@@ -141,12 +141,12 @@ namespace Wallone.Authorization.ViewModels
             var msg = UserService.ValidateRegister(objects);
             if (UserService.GetToken() != null)
             {
-                var settings = new SettingsBuilder(SettingsService.Get())
+                var settings = new SettingsBuilder(SettingsRepository.Get())
                     .ItemBuilder();
 
                 settings.SetEmail(Email);
                 settings.SetToken(UserService.GetToken());
-                SettingsService.Save();
+                SettingsRepository.Save();
 
                 _regionManager.RequestNavigate("ContentRegion", "Main");
             }

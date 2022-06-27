@@ -7,7 +7,8 @@
         Day,
         GoldenHour,
         Sunset,
-        Night
+        Night,
+        NotFound
     }
 
     public enum Mode
@@ -16,13 +17,15 @@
         NoUseLocation,
         UseCustomTime,
         UseWindowsLocation,
+        NotFound
     }
 
     public enum ResolutionMode
     {
         Custom,
         Template,
-        Auto
+        Auto,
+        NotFound
     }
     public class Link
     {

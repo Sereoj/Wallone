@@ -16,7 +16,7 @@ namespace Wallone.Core.Builders
 
         public UserSyncBuilder GetToken()
         {
-            token = SettingsService.GetToken();
+            token = UserService.GetToken();
             return this;
         }
 

@@ -8,27 +8,24 @@ using Wallone.Core.Models.App;
 
 namespace Wallone.Core.Services.App
 {
-    public class SettingsService
+    public class SettingsRepository
     {
-        private static string file;
         private static ISettings Settings { get; set; }
+        private static string file;
 
-        public static void SetModel(ISettings settings)
+        public static void Init(ISettings settings)
         {
-            Settings = settings;
+            if (settings != null)
+            {
+                Settings = settings;
+            }
         }
 
-        public static void SetFile(string path)
+        public static void SetFilename(string path)
         {
-            file = path;
+            file = !string.IsNullOrEmpty(path) ? path : "app.settings";
         }
 
-        public static bool Exist()
-        {
-            return file.ExistsFile();
-        }
-
-        //Ручное сохранение
         public static void Save()
         {
             Settings.Information = "!!Это файл настроек, пожалуйста не удаляйте и не изменяйте его!!";
@@ -36,7 +33,6 @@ namespace Wallone.Core.Services.App
             File.WriteAllText(file, JsonConvert.SerializeObject(Settings, Formatting.Indented));
         }
 
-        //Загрузка конфига, выполняется один раз
         public static void Load()
         {
             try
@@ -49,9 +45,12 @@ namespace Wallone.Core.Services.App
             }
         }
 
-        public static string GetToken()
+        public class SettingsService
         {
-            return Settings.User.Token;
+            public static bool Exist()
+            {
+                return file.ExistsFile();
+            }
         }
 
         public static ISettings Get()

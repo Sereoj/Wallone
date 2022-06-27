@@ -24,7 +24,7 @@ namespace Wallone.UI
 
         public static ContextMenuStrip GetMenu(Views.MainWindow window)
         {
-            if (window != null && SettingsService.Get() != null)
+            if (window != null && SettingsRepository.Get() != null)
             {
                 main = window;
 
@@ -32,7 +32,7 @@ namespace Wallone.UI
                 ContextMenuStrip menuStrip = new ContextMenuStrip();
                 menuStrip.Items.AddRange(menuItems.ToArray());
 
-                SettingsService.Get().General.PropertyChanged += SettingsChanged;
+                SettingsRepository.Get().General.PropertyChanged += SettingsChanged;
 
                 return menuStrip;
             }
@@ -48,7 +48,7 @@ namespace Wallone.UI
         private static List<ToolStripItem> GetMenuItems()
         {
 
-            var itemBuilder = new SettingsBuilder(SettingsService.Get())
+            var itemBuilder = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
 
             List<ToolStripItem> items = new List<ToolStripItem>();
@@ -85,9 +85,9 @@ namespace Wallone.UI
         {
             Autorun.Checked = !Autorun.Checked;
 
-            var path = AppSettingsService.GetApplicationPath();
+            var path = AppSettingsRepository.AppSettingsService.GetApplicationPath();
 
-            if (AppSettingsService.ExistsFile(path))
+            if (AppSettingsRepository.AppSettingsService.ExistsFile(path))
             {
                 Platformer.GetHelper().SwitcherAutorun(path, Autorun.Checked);
             }
@@ -95,9 +95,7 @@ namespace Wallone.UI
 
         private static void OnUpdateImage(object sender, EventArgs e)
         {
-            ThemeScheduler.Stop();
-            ThemeScheduler.SetInterval(1000);
-            ThemeScheduler.Run();
+            ThemeScheduler.Refresh();
         }
 
         private static void OnSelect(object sender, EventArgs e)

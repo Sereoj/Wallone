@@ -63,7 +63,7 @@ namespace Wallone.Authorization.ViewModels
 
         private void Autocomplete()
         {
-            var userEmail = new SettingsBuilder(SettingsService.Get())
+            var userEmail = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetEmail();
 
@@ -115,12 +115,12 @@ namespace Wallone.Authorization.ViewModels
 
             if (UserService.GetToken() != null)
             {
-                var settings = new SettingsBuilder(SettingsService.Get())
+                var settings = new SettingsBuilder(SettingsRepository.Get())
                     .ItemBuilder();
 
                 settings.SetEmail(Email);
                 settings.SetToken(UserService.GetToken());
-                SettingsService.Save();
+                SettingsRepository.Save();
 
                 regionManager.RequestNavigate("ContentRegion", "Main");
             }

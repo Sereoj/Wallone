@@ -26,11 +26,11 @@ namespace Wallone.UI.ViewModels
         {
             this.regionManager = regionManager;
 
-            CurrentTheme = new SettingsBuilder(SettingsService.Get())
+            CurrentTheme = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetWindowTheme();
 
-            SettingsService.Get().General.PropertyChanged += SettingsChanged;
+            SettingsRepository.Get().General.PropertyChanged += SettingsChanged;
         }
 
 
