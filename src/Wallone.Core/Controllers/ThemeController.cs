@@ -1,5 +1,7 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Wallone.Core.Builders;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
@@ -68,17 +70,17 @@ namespace Wallone.Core.Controllers
     {
         public string GetPreviousImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetPrevious();
         }
 
         public string GetCurrentImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetCurrentImage();
         }
 
         public string GetNextImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetNext();
         }
 
         public DateTime GetPreviousDateTime()
@@ -101,17 +103,17 @@ namespace Wallone.Core.Controllers
     {
         public string GetPreviousImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetPrevious();
         }
 
         public string GetCurrentImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetCurrentImage();
         }
 
         public string GetNextImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetNext();
         }
 
         public DateTime GetPreviousDateTime()
@@ -132,32 +134,34 @@ namespace Wallone.Core.Controllers
 
     public class ThemeCustomTime : ICore
     {
+        public string GetPreviousImage()
+        {
+            return ThemeRepository.ThemeService.GetPrevious();
+        }
+
+        public string GetCurrentImage()
+        {
+            return ThemeRepository.ThemeService.GetCurrentImage();
+        }
+
+        public string GetNextImage()
+        {
+            return ThemeRepository.ThemeService.GetNext();
+        }
         public DateTime GetCurrentDateTime()
         {
             throw new NotImplementedException();
         }
 
-        public string GetCurrentImage()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public DateTime GetNextDateTime()
         {
             throw new NotImplementedException();
         }
 
-        public string GetNextImage()
-        {
-            throw new NotImplementedException();
-        }
 
         public DateTime GetPreviousDateTime()
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetPreviousImage()
         {
             throw new NotImplementedException();
         }
@@ -167,17 +171,17 @@ namespace Wallone.Core.Controllers
     {
         public string GetPreviousImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetPrevious();
         }
 
         public string GetCurrentImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetCurrentImage();
         }
 
         public string GetNextImage()
         {
-            throw new NotImplementedException();
+            return ThemeRepository.ThemeService.GetNext();
         }
 
         public DateTime GetPreviousDateTime()
@@ -198,12 +202,12 @@ namespace Wallone.Core.Controllers
 
     public class ThemeController<T>
     {
-        private readonly Theme controller;
+        private readonly Theme themeModel;
         private GeolocationController<Location> geolocationController;
         private ICore core;
-        public ThemeController(Theme controller, GeolocationController<Location> geolocationController)
+        public ThemeController(Theme themeModel, GeolocationController<Location> geolocationController)
         {
-            this.controller = controller;
+            this.themeModel = themeModel;
             this.geolocationController = geolocationController;
 
             switch (geolocationController.GetGeolocationMode())
@@ -225,7 +229,8 @@ namespace Wallone.Core.Controllers
                     LocationService.SetLocation(Mode.UseWebLocation, true);
                     break;
             }
-            ThemeRepository.ThemeService.Set(controller);
+            ThemeRepository.ThemeService.SetImageId("2");
+            ThemeRepository.ThemeService.Set(themeModel);
         }
 
         public ICore Core()
@@ -235,9 +240,9 @@ namespace Wallone.Core.Controllers
 
         public bool ValidateFields()
         {
-            if (!string.IsNullOrEmpty(controller.Uuid))
+            if (!string.IsNullOrEmpty(themeModel.Uuid))
             {
-                if (controller.Images != null)
+                if (themeModel.Images != null)
                 {
                     return true;
                 }

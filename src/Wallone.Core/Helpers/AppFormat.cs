@@ -6,7 +6,7 @@ namespace Wallone.Core.Helpers
     {
         public static string Format(string current)
         {
-            return current ?? "default1";
+            return current;
         }
 
         public static bool Compare(string settingThemeName, string singleThemeName)

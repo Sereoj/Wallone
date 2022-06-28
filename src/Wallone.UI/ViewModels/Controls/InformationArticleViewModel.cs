@@ -171,8 +171,8 @@ namespace Wallone.UI.ViewModels.Controls
 
                 if (settingsItemBuilder.GetModelWindow())
                 {
-                    regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
-                    Task.Delay(1000);
+                    //regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
+                    //Task.Delay(1000);
                 }
             }
             else
@@ -241,7 +241,7 @@ namespace Wallone.UI.ViewModels.Controls
                 SinglePageLogic.IsDownloaded = true;
 
                 SinglePageLogic.IsEnableInstalled = true;
-                SinglePageLogic.IsInstalled = AppFormat.Compare(ThemeRepository.ThemeService.GetCurrentName(), themeName);
+                SinglePageLogic.IsInstalled = AppFormat.Compare(ThemeRepository.ThemeService.GetCurrentThemeName(), themeName);
             }
             else
             {

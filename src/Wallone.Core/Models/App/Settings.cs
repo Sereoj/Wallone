@@ -8,8 +8,8 @@ namespace Wallone.Core.Models.App
     {
         public string Information { get; set; }
         public Models.Settings.User User { get; set; } = new Models.Settings.User();
-        public Models.Settings.General General { get; set; } = new General();
-        public Models.Settings.Advanced Advanced { get; set; } = new Advanced();
-        public Models.Settings.Server Server { get; set; } = new Server();
+        public General General { get; set; } = new General();
+        public Advanced Advanced { get; set; } = new Advanced();
+        public Server Server { get; set; } = new Server();
     }
 }
