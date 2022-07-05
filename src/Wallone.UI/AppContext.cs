@@ -31,6 +31,16 @@ namespace Wallone.UI
                 Icon = Properties.Resources.favicon
             };
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
+            notifyIcon.BalloonTipClosed += NotifyIconOnBalloonTipClosed;
+        }
+
+        private void NotifyIconOnBalloonTipClosed(object sender, EventArgs e)
+        {
+            var thisIcon = (NotifyIcon)sender;
+            thisIcon.Visible = false;
+            thisIcon.Dispose();
+
+            Close();
         }
 
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -70,7 +80,10 @@ namespace Wallone.UI
 
         public static void Close()
         {
-            notifyIcon.Dispose();
+            if(notifyIcon != null)
+            {
+                notifyIcon.Dispose();
+            }
             Application.Current.Shutdown();
         }
     }

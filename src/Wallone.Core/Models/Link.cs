@@ -1,5 +1,8 @@
-﻿namespace Wallone.Core.Models
+﻿using System;
+
+namespace Wallone.Core.Models
 {
+    [Flags]
     public enum Times
     {
         Dawn,
@@ -11,6 +14,7 @@
         NotFound
     }
 
+    [Flags]
     public enum Mode
     {
         UseWebLocation,
@@ -20,6 +24,7 @@
         NotFound
     }
 
+    [Flags]
     public enum ResolutionMode
     {
         Custom,
@@ -38,7 +43,7 @@
 
     public class Image
     {
-        public string id { get; set; }
+        public int id { get; set; }
         public Times times { get; set; }
         public string location { get; set; }
     }

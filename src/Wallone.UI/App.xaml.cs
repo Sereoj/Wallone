@@ -91,6 +91,7 @@ namespace Wallone.UI
                     .SetFileName(LoggerService.DefaultFileName())
                     .Activate()
                     .NewLine()
+                    .StartLine()
                 )
                 .Query(new AppPathBuilder()
                     .AppLocation(platformer.GetCurrentFolder())

@@ -4,6 +4,12 @@ using Wallone.Core.Helpers;
 
 namespace Wallone.Core.Services.Loggers
 {
+    public enum Message
+    {
+        Default,
+        Warn,
+        Error
+    }
     public class LoggerService
     {
         private static bool isEnable;
@@ -39,7 +45,7 @@ namespace Wallone.Core.Services.Loggers
             return Path.Combine(GetFolderPath(), FileName);
         }
 
-        public static void Log(object useClass,string message)
+        public static void Log(object useClass,string message, Message type = Message.Default)
         {
             try
             {
@@ -47,20 +53,24 @@ namespace Wallone.Core.Services.Loggers
                 {
                     using (var file = new StreamWriter(GetFilePath(), true))
                     {
-                        file.WriteLine(ContentFormatter(useClass, message));
+                        file.WriteLineAsync(ContentFormatter(useClass, message, type));
                         file.Close();
                     }
                 }
             }
             catch (Exception ex)
             {
-                File.WriteAllText("log-error.txt", ex.Message);
+                using (var file = new StreamWriter("critical.txt", true))
+                {
+                    file.WriteLineAsync(ex.Message);
+                    file.Close();
+                }
             }
         }
 
-        private static string ContentFormatter(object useClass, string message)
+        private static string ContentFormatter(object useClass, string message, Message type = Message.Default)
         {
-            return $"{DateTime.Now} - {useClass} - {message}";
+            return $"{DateTime.Now} - {type} - {useClass} - {message}";
         }
     }
 }

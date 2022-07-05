@@ -78,6 +78,7 @@ namespace Wallone.Core.Builders
             if (!ValidateHost())
                 host = default_host;
 
+            LoggerService.Log(this, $"Валидация сервера");
             LoggerService.Log(this, $"Host: {ValidateHost()} Prefix: {ValidatePrefix()}");
             return this;
         }

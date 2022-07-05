@@ -75,9 +75,6 @@ namespace Wallone.Core.Builders
                     User = SinglePageService.GetUser(),
                     Preview = Path.Combine(ThemePath, ThemeThumbFileName),
                     Images = images,
-                    Brand = SinglePageService.GetBrand(),
-                    Categories = SinglePageService.GetCategories(),
-                    Description = SinglePageService.GetDescription(),
                     Created_at = SinglePageService.GetDate(),
                     Resolution = "Не доступно, отвечает за пользовательские разрешения изображений для мониторов",
                     HashCode = null
@@ -104,7 +101,7 @@ namespace Wallone.Core.Builders
                 foreach (var item in images)
                     this.images.Add(new Image
                     {
-                        id = item.id,
+                        id = int.Parse(item.id),
                         times = item.name,
                         location = UriHelper.GetUri(item.location, ThemePath, "?")
                     });

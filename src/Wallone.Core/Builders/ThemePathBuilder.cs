@@ -22,14 +22,14 @@ namespace Wallone.Core.Builders
 
             AppSettingsRepository.AppSettingsService.SetThemesLocation(pathThemeDirectory);
 
-            LoggerService.Log(this, pathThemeDirectory);
+            LoggerService.Log(this, $"Расположение папки с темами {pathThemeDirectory}");
             return this;
         }
 
         public ThemePathBuilder UseForFolders(string patten)
         {
             AppSettingsRepository.AppSettingsService.SetThemeNameForFolders(patten);
-            LoggerService.Log(this, patten);
+            LoggerService.Log(this, $"Поиск тем по шаблону {patten}");
             return this;
         }
 

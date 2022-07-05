@@ -22,5 +22,11 @@ namespace Wallone.Core.Builders
             LoggerService.Log(null, null);
             return this;
         }
+
+        public AppLoggerBuilder StartLine()
+        {
+            LoggerService.Log(null, $"Запуск приложения Wallone");
+            return this;
+        }
     }
 }
