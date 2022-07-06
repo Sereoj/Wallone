@@ -171,8 +171,8 @@ namespace Wallone.UI.ViewModels.Controls
 
                 if (settingsItemBuilder.GetModelWindow())
                 {
-                    //regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
-                    //Task.Delay(1000);
+                    regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
+                    Task.Delay(1000);
                 }
             }
             else

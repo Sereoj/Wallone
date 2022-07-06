@@ -86,7 +86,7 @@ namespace Wallone.Core.Schedulers
                 Stop();
             }
         }
-            private double Time(long tick)
+        private double Time(long tick)
         {
             return new TimeSpan(tick).TotalMilliseconds;
         }
@@ -118,6 +118,7 @@ namespace Wallone.Core.Schedulers
         public static void Refresh()
         {
             Stop();
+            timer.Interval = 1000;
             Start();
         }
     }
