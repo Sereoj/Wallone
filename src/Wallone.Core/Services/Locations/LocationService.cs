@@ -21,7 +21,7 @@ namespace Wallone.Core.Services.Locations
                 .SetGeolocation(useGeolocation)
                 .SetMode(useWebLocation)
                 .Build();
-            LoggerService.Log(typeof(LocationService), $"useGeolocation: {useGeolocation} SetMode: {useWebLocation}");
+            LoggerService.LogAsync(typeof(LocationService), $"useGeolocation: {useGeolocation} SetMode: {useWebLocation}");
         }
     }
 }

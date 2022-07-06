@@ -46,7 +46,7 @@ namespace Wallone.Core.Builders
                     Router.SetDomain(host);
                     break;
             }
-            LoggerService.Log(this, valueHost);
+            _ = LoggerService.LogAsync(this, valueHost);
             return this;
         }
 
@@ -67,7 +67,7 @@ namespace Wallone.Core.Builders
                     Router.SetDomainApi(host + prefix);
                     break;
             }
-            LoggerService.Log(this, valuePrefix);
+            _ = LoggerService.LogAsync(this, valuePrefix);
             return this;
         }
 
@@ -78,8 +78,8 @@ namespace Wallone.Core.Builders
             if (!ValidateHost())
                 host = default_host;
 
-            LoggerService.Log(this, $"Валидация сервера");
-            LoggerService.Log(this, $"Host: {ValidateHost()} Prefix: {ValidatePrefix()}");
+            _ = LoggerService.LogAsync(this, $"Валидация сервера");
+            _ = LoggerService.LogAsync(this, $"Host: {ValidateHost()} Prefix: {ValidatePrefix()}");
             return this;
         }
 

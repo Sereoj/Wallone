@@ -15,7 +15,7 @@ namespace Wallone.Core.Services
                 if (phase != null)
                 {
                     phase.currentPhase = times;
-                    LoggerService.Log(typeof(PhaseService), $"{times}");
+                    _ = LoggerService.LogAsync(typeof(PhaseService), $"{times}");
                 }
             }
 
@@ -24,7 +24,7 @@ namespace Wallone.Core.Services
                 if (phase != null)
                 {
                     phase.nextPhaseSpan = timeSpan;
-                    LoggerService.Log(typeof(PhaseService), $"SetNextPhaseSpan {timeSpan}");
+                    _ = LoggerService.LogAsync(typeof(PhaseService), $"SetNextPhaseSpan {timeSpan}");
                 }
             }
 
@@ -33,33 +33,38 @@ namespace Wallone.Core.Services
                 return phase.currentPhase;
             }
 
-            public static void NextPhase()
+            public static Times NextPhase()
             {
                 switch (CurrentPhase())
                 {
                     case Times.Dawn:
                         SetCurrentPhase(Times.Sunrise);
-                        break;
+                        return GetCurrentPhase();
                     case Times.Sunrise:
                         SetCurrentPhase(Times.Day);
-                        break;
+                        return GetCurrentPhase();
                     case Times.Day:
                         SetCurrentPhase(Times.GoldenHour);
-                        break;
+                        return GetCurrentPhase();
                     case Times.GoldenHour:
                         SetCurrentPhase(Times.Sunset);
-                        break;
+                        return GetCurrentPhase();
                     case Times.Sunset:
                         SetCurrentPhase(Times.Night);
-                        break;
+                        return GetCurrentPhase();
                     case Times.Night:
                         SetCurrentPhase(Times.Dawn);
-                        break;
+                        return GetCurrentPhase();
                     case Times.NotFound:
-                        break;
+                        return GetCurrentPhase();
                     default:
-                        break;
+                        return GetCurrentPhase();
                 }
+            }
+
+            private static Times GetCurrentPhase()
+            {
+                return CurrentPhase();
             }
 
             public static Times GetNextPhase()
@@ -84,6 +89,29 @@ namespace Wallone.Core.Services
                         return Times.NotFound;
                 }
             }
+
+            public static Times GetPreviousPhase()
+            {
+                switch (CurrentPhase())
+                {
+                    case Times.Dawn:
+                        return Times.Night;
+                    case Times.Sunrise:
+                        return Times.Dawn;
+                    case Times.Day:
+                        return Times.Sunrise;
+                    case Times.GoldenHour:
+                        return Times.Day;
+                    case Times.Sunset:
+                        return Times.GoldenHour;
+                    case Times.Night:
+                        return Times.Sunset;
+                    case Times.NotFound:
+                        return Times.NotFound;
+                    default:
+                        return Times.NotFound;
+                }
+            }
         }
 
         public class Math
@@ -92,13 +120,13 @@ namespace Wallone.Core.Services
             {
                 if (imageCount == 0)
                 {
-                    LoggerService.Log(typeof(Math), $"Изображений не должно быть 0!");
+                    _ = LoggerService.LogAsync(typeof(Math), $"Изображений не должно быть 0!");
                     imageCount = 1;
                 }
 
                var timeSpan = (nextDateTime - nowDateTime) / imageCount;
 
-                LoggerService.Log(typeof(Math), $"SunSpanImages {timeSpan}");
+                _ = LoggerService.LogAsync(typeof(Math), $"SunSpanImages {timeSpan}");
                 return timeSpan;
             }
         }

@@ -29,7 +29,7 @@ namespace Wallone.Core.Services
         {
             public static List<ThemeCollection> Get()
             {
-                return collections;
+                return collections.ToList();
             }
 
             public static void Add(ThemeCollection theme)
@@ -40,7 +40,7 @@ namespace Wallone.Core.Services
                 }
                 else
                 {
-                    LoggerService.Log(typeof(Collection), "Данная модель уже существует с таким Id\nВозможно theme.json собран неправильно", Message.Warn);
+                    _ = LoggerService.LogAsync(typeof(Collection), "Данная модель уже существует с таким Id\nВозможно theme.json собран неправильно", Message.Warn);
                 }
             }
 
@@ -52,7 +52,7 @@ namespace Wallone.Core.Services
                 }
                 else
                 {
-                    LoggerService.Log(typeof(Collection), $"Данная модель уже не существует с таким Id {theme.Id}. Возможно theme.json собран неправильно", Message.Warn);
+                    _ = LoggerService.LogAsync(typeof(Collection), $"Данная модель уже не существует с таким Id {theme.Id}. Возможно theme.json собран неправильно", Message.Warn);
                 }
             }
 
@@ -60,7 +60,7 @@ namespace Wallone.Core.Services
             {
                 if(collections == null)
                 {
-                    LoggerService.Log(typeof(Collection), "Невозможно очистить коллекцию, поскольку она уже пуста!", Message.Warn);
+                    _ = LoggerService.LogAsync(typeof(Collection), "Невозможно очистить коллекцию, поскольку она уже пуста!", Message.Warn);
                 }
                 else
                 {
@@ -99,7 +99,7 @@ namespace Wallone.Core.Services
             {
                 if (count == 0)
                 {
-                    LoggerService.Log(typeof(ThemeService), $"Число не должно быть равным 0", Message.Warn);
+                    _ = LoggerService.LogAsync(typeof(ThemeService), $"Число не должно быть равным 0", Message.Warn);
                     count = 1;
                 }
                 return (date2 - date1) / count;
@@ -124,7 +124,7 @@ namespace Wallone.Core.Services
                 }
                 else
                 {
-                    LoggerService.Log(typeof(ThemeService), $"Модель не должна быть пуста. Необходимо заново переустановить тему!", Message.Warn);
+                    _ = LoggerService.LogAsync(typeof(ThemeService), $"Модель не должна быть пуста. Необходимо заново переустановить тему!", Message.Warn);
                 }
 
             }
@@ -151,7 +151,20 @@ namespace Wallone.Core.Services
                     var imageLocation = themeCollection.Location;
                     return AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation) ? imageLocation : null;
                 }
-                LoggerService.Log(typeof(ThemeService), "Не удалось установить изображение", Message.Warn);
+                _ = LoggerService.LogAsync(typeof(ThemeService), "Не удалось найти модель изображения", Message.Warn);
+                return null;
+            }
+
+            public static string GetCurrentImage(Times themeCollection)
+            {
+                var image = GetImagesOrderBy().FirstOrDefault(s => s.times == themeCollection);
+                if (image != null)
+                {
+                    themeImageId = image.id;
+                    var imageLocation = image.location;
+                    return AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation) ? imageLocation : null;
+                }
+                _ = LoggerService.LogAsync(typeof(ThemeService), "Не удалось найти модель изображения", Message.Warn);
                 return null;
             }
         }

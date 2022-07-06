@@ -32,7 +32,7 @@ namespace Wallone.Core.Builders
 
             AppSettingsRepository.AppSettingsService.SetSettingsLocation(path);
 
-            LoggerService.Log(this, $"Расположение настроек: {path}");
+            _ = LoggerService.LogAsync(this, $"Расположение настроек: {path}");
             return this;
         }
 
@@ -40,7 +40,7 @@ namespace Wallone.Core.Builders
         {
             AppSettingsRepository.AppSettingsService.SetThemeConfigName(name);
 
-            LoggerService.Log(this, $"Используемый конфиг - {name} для чтения тем");
+            _ = LoggerService.LogAsync(this, $"Используемый конфиг - {name} для чтения тем");
             return this;
         }
 

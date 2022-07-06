@@ -55,7 +55,7 @@ namespace Wallone.Core.Builders
 
         public void Build()
         {
-            LoggerService.Log(this, $"isAuth {isAuth}");
+            _ = LoggerService.LogAsync(this, $"isAuth {isAuth}");
         }
     }
 }

@@ -6,6 +6,7 @@ using SunCalcNet.Model;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
+using Wallone.Core.Schedulers;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Locations;
@@ -66,109 +67,57 @@ namespace Wallone.Core.Controllers
 
     public interface ICore
     {
+        void Init();
         //Изображения
         string GetPreviousImage(); // Предыдущее
         string GetCurrentImage(); // Текущее
         string GetNextImage(); //Следущее
+        void SkipPhase();
+        bool IsNotNull();
 
-        //Время
-        DateTime GetPreviousDateTime(Times times);
-        DateTime GetCurrentDateTime(Times times);
-        DateTime GetNextDateTime(Times times);
+        //Время и Phase
+        DateTime GetPreviousPhaseDateTime(Times times);
+        DateTime GetCurrentPhaseDateTime(Times times);
+        DateTime GetNextPhaseDateTime(Times times);
         Times GetPhase();
+
+        //Время и изображения в Phase
+        TimeSpan GetNextImageDateTime();
     }
 
     public class ThemeWebLocation : ICore
     {
         private readonly Location getLocation;
-
+        private bool isNotNull;
+        private Phase phaseNextDay;
         public ThemeWebLocation(Location getLocation)
         {
             this.getLocation = getLocation;
-
             DateTime dateTime = DateTime.Now;
-
             var phaseModel = PhaseRepository.Set(new Phase());
+            phaseModel = SetLocationForPhases(phaseModel, dateTime); // Устанавливаем время на каждый промежуток.
+            PhaseRepository.Load(phaseModel);
+        }
 
-            SetLocationForPhases(phaseModel, dateTime); // Устанавливаем время на каждый промежуток.
-
+        public void Init()
+        {
+            DateTime dateTime = DateTime.Now;
             FindCurrentPhase(dateTime);
-            CreateCollection();
-            GetCurrentImage();
+            CreateCollection(dateTime);
         }
 
-        /// <summary>
-        /// Создание коллекции с изображениями с периодом времени.
-        /// </summary>
-        private void CreateCollection()
+        public List<Image> GetImagesWithPhase(List<Image> images, Times time)
         {
-            var images = GetImagesWithPhase(ThemeRepository.GetImagesOrderBy(), PhaseRepository.PhaseService.CurrentPhase());
-
-            //Если есть изображения в данном Phase
-            if(images != null)
-            {
-                int index = 0;
-                int count = images.Count;
-
-                var StartedAt = GetCurrentDateTime(PhaseRepository.PhaseService.CurrentPhase());
-                var EndedAt = GetCurrentDateTime(PhaseRepository.PhaseService.GetNextPhase());
-                var nextImagesTimeSpan = PhaseRepository.Math.CalcSunTimes(StartedAt, EndedAt, count); // следующее изображение появится в то время..
-
-                foreach (var item in images)
-                {
-                    index++;
-                    //Начало
-                    if (images.FirstOrDefault().id == item.id)
-                    {
-                        ThemeRepository.Collection.Add(new ThemeCollection()
-                        {
-                            Id = item.id,
-                            Location = item.location,
-                            Phase = item.times,
-                            Duration = nextImagesTimeSpan,
-                            StartedAt = StartedAt,
-                            EndAt = StartedAt + nextImagesTimeSpan,
-                        });
-                        continue;
-                    }
-
-                    ThemeRepository.Collection.Add(new ThemeCollection()
-                    {
-                        Id = item.id,
-                        Location = item.location,
-                        Phase = item.times,
-                        Duration = nextImagesTimeSpan,
-                        StartedAt = StartedAt + nextImagesTimeSpan * (index - 1),
-                        EndAt = StartedAt + (nextImagesTimeSpan * index),
-                    });
-                }
-                PhaseRepository.Time.SetNextTime(nextImagesTimeSpan);
-            }
-            else
-            {
-                ThemeRepository.Collection.Clear();
-                PhaseRepository.PhaseService.NextPhase(); // меняем на следующее
-                CreateCollection(); // снова выполняем эту функцию пока не найдем.
-            }
+            return images.Where(image => image.times == time).ToList();
         }
-
-        /// <summary>
-        /// Поиск текущего Phase
-        /// </summary>
-        /// <param name="dateTime"></param>
-        private void FindCurrentPhase(DateTime dateTime)
+        public Times GetPhase()
         {
-            IsDawnSolarTime(dateTime);
-            IsSunriseSolarTime(dateTime);
-            IsDaySolarTime(dateTime);
-            IsGoldenSolarTime(dateTime);
-            IsSunsetSolarTime(dateTime);
-            IsDuskSolarTime(dateTime);
+            return PhaseRepository.Get().currentPhase;
         }
 
         public string GetPreviousImage()
         {
-            LoggerService.Log(null, null);
+            _ = LoggerService.LogAsync(null, null);
 
             var collection = ThemeRepository.Collection.Get();
 
@@ -183,27 +132,26 @@ namespace Wallone.Core.Controllers
             }
             return null;
         }
-
         public string GetCurrentImage()
         {
-            LoggerService.Log(null, null);
-
+            _ = LoggerService.LogAsync(null, null);
             var collection = ThemeRepository.Collection.Get();
-
+            _ = LoggerService.LogAsync(this, $"Collection {collection.Count}");
             foreach (var item in collection)
             {
+                _ = LoggerService.LogAsync(this, $"S: {item.StartedAt} N: {DateTime.Now} E: {item.EndAt}");
                 if(item.StartedAt < DateTime.Now && DateTime.Now < item.EndAt)
                 {
                     ThemeRepository.ThemeService.SetImageId(item.Id);
                     return ThemeRepository.ThemeService.GetCurrentImage(item);
                 }
             }
-            return null;
+            return ThemeRepository.ThemeService.GetCurrentImage(GetPhase());
         }
 
         public string GetNextImage()
         {
-            LoggerService.Log(null, null);
+            _ = LoggerService.LogAsync(null, null);
 
             var collection = ThemeRepository.Collection.Get();
 
@@ -219,7 +167,17 @@ namespace Wallone.Core.Controllers
             return null;
         }
 
-        public DateTime GetPreviousDateTime(Times currentPhase)
+        public TimeSpan GetNextImageDateTime()
+        {
+            var nextTime = PhaseRepository.Time.GetNextTime();
+            if (nextTime.TotalSeconds != 0)
+            {
+                return PhaseRepository.Time.GetNextTime();
+            }
+            return TimeSpan.FromSeconds(10);
+        }
+
+        public DateTime GetPreviousPhaseDateTime(Times currentPhase)
         {
             switch (currentPhase)
             {
@@ -239,8 +197,7 @@ namespace Wallone.Core.Controllers
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        public DateTime GetCurrentDateTime(Times times)
+        public DateTime GetCurrentPhaseDateTime(Times times)
         {
             switch (times)
             {
@@ -261,8 +218,7 @@ namespace Wallone.Core.Controllers
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        public DateTime GetNextDateTime(Times currentPhase)
+        public DateTime GetNextPhaseDateTime(Times currentPhase)
         {
             switch (currentPhase)
             {
@@ -282,37 +238,6 @@ namespace Wallone.Core.Controllers
                     throw new ArgumentOutOfRangeException();
             }
         }
-
-        /// <summary>
-        /// Задать необходимые промежутки
-        /// </summary>
-        /// <param name="nowDateTime"></param>
-        private void SetLocationForPhases(Phase phaseModel, DateTime nowDateTime)
-        {
-            var sunPhases = GetSunPhases(nowDateTime, getLocation.latitude, getLocation.longitude).ToList();
-
-            phaseModel.dawnSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dawn);
-            phaseModel.sunriseSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunrise);
-            phaseModel.daySolarTime = GetSolarTime(sunPhases, SunPhaseName.SolarNoon);
-            phaseModel.goldenSolarTime = GetSolarTime(sunPhases, SunPhaseName.GoldenHour);
-            phaseModel.sunsetSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunset);
-            phaseModel.duskSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dusk);
-            phaseModel.nightSolarTime = GetSolarTime(sunPhases, SunPhaseName.Night);
-            PhaseRepository.Load(phaseModel);
-        }
-
-        private void UpdateLocationForPhases(DateTime nowDateTime)
-        {
-            var phaseModel = PhaseRepository.Get();
-
-            var sunPhases = GetSunPhases(nowDateTime, getLocation.latitude, getLocation.longitude).ToList();
-
-            phaseModel.dawnSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dawn);
-            phaseModel.sunriseSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunrise);
-            phaseModel.daySolarTime = GetSolarTime(sunPhases, SunPhaseName.SolarNoon);
-            PhaseRepository.Load(phaseModel);
-        }
-
         /// <summary>
         /// Проверка на раннее утро
         /// </summary>
@@ -332,7 +257,6 @@ namespace Wallone.Core.Controllers
             }
             return false;
         }
-
         /// <summary>
         /// Проверка на утро
         /// </summary>
@@ -352,7 +276,6 @@ namespace Wallone.Core.Controllers
             }
             return false;
         }
-
         /// <summary>
         /// Проверка на полдень
         /// </summary>
@@ -372,7 +295,6 @@ namespace Wallone.Core.Controllers
             }
             return false;
         }
-
         /// <summary>
         /// Золотой час, солнце опускается
         /// </summary>
@@ -391,7 +313,6 @@ namespace Wallone.Core.Controllers
             }
             return false;
         }
-
         protected bool IsSunsetSolarTime(DateTime nowDateTime)
         {
             var phaseModel = PhaseRepository.Get();
@@ -406,7 +327,6 @@ namespace Wallone.Core.Controllers
             }
             return false;
         }
-
         protected bool IsDuskSolarTime(DateTime nowDateTime)
         {
             var phaseModel = PhaseRepository.Get();
@@ -421,6 +341,19 @@ namespace Wallone.Core.Controllers
             return false;
         }
 
+        public bool IsNotNull()
+        {
+            return isNotNull;
+        }
+        public void SkipPhase()
+        {
+            DateTime nowDateTime = DateTime.Now;
+
+            PhaseRepository.PhaseService.NextPhase(); // меняем на следующее
+            CreateCollection(nowDateTime); // снова выполняем эту функцию пока не найдем.
+            _ = LoggerService.LogAsync(this, $"Пропуск фазы: {PhaseRepository.PhaseService.GetPreviousPhase()}");
+        }
+
         /// <summary>
         /// Получить весь список 
         /// </summary>
@@ -432,7 +365,6 @@ namespace Wallone.Core.Controllers
         {
             return SunCalcNet.SunCalc.GetSunPhases(dateTime, latitude, longitude).ToList();
         }
-
         /// <summary>
         /// Получить определенный промежуток
         /// </summary>
@@ -445,130 +377,307 @@ namespace Wallone.Core.Controllers
             return sunPhase.PhaseTime.ToLocalTime();
         }
 
-        public List<Image> GetImagesWithPhase(List<Image> images, Times time)
+        /// <summary>
+        /// Создание коллекции с изображениями с периодом времени.
+        /// </summary>
+        private void CreateCollection(DateTime nowDateTime)
         {
-            return images.Where(image => image.times == time).ToList();
+            ThemeRepository.Collection.Clear();
+
+            var images = GetImagesWithPhase(ThemeRepository.GetImagesOrderBy(), PhaseRepository.PhaseService.CurrentPhase());
+
+            //Если есть изображения в данном Phase
+            if (images != null)
+            {
+                int index = 0;
+                int count = images.Count;
+                if (images.Count > 0)
+                {
+                    var currentPhase = PhaseRepository.PhaseService.CurrentPhase();
+                    var nextPhase = PhaseRepository.PhaseService.GetNextPhase();
+
+                    var StartedAt = GetCurrentPhaseDateTime(currentPhase);
+                    var EndedAt = GetCurrentPhaseDateTime(nextPhase);
+
+                    if (StartedAt > EndedAt)
+                    {
+                        UpdateLocationForPhases(nowDateTime);
+                        EndedAt = phaseNextDay.dawnSolarTime;
+                    }
+
+                    var nextImagesTimeSpan = PhaseRepository.Math.CalcSunTimes(StartedAt, EndedAt, count); // следующее изображение появится в то время..
+                    
+                    PhaseRepository.Time.SetNextTime(nextImagesTimeSpan);
+
+                    foreach (var item in images)
+                    {
+                        index++;
+                        //Начало
+                        if (images.FirstOrDefault().id == item.id)
+                        {
+                            ThemeRepository.Collection.Add(new ThemeCollection()
+                            {
+                                Id = item.id,
+                                Location = item.location,
+                                Phase = item.times,
+                                Duration = nextImagesTimeSpan,
+                                StartedAt = StartedAt,
+                                EndAt = StartedAt + nextImagesTimeSpan,
+                            });
+                            continue;
+                        }
+
+                        ThemeRepository.Collection.Add(new ThemeCollection()
+                        {
+                            Id = item.id,
+                            Location = item.location,
+                            Phase = item.times,
+                            Duration = nextImagesTimeSpan,
+                            StartedAt = StartedAt + nextImagesTimeSpan * (index - 1),
+                            EndAt = StartedAt + (nextImagesTimeSpan * index),
+                        });
+                    }
+                    isNotNull = true;
+                }
+                else
+                {
+                    isNotNull = false;
+                    PhaseRepository.Time.SetNextTime(TimeSpan.FromSeconds(10));
+                }
+            }
         }
 
-        public Times GetPhase()
+        /// <summary>
+        /// Поиск текущего Phase
+        /// </summary>
+        /// <param name="dateTime"></param>
+        private void FindCurrentPhase(DateTime dateTime)
         {
-            return PhaseRepository.Get().currentPhase;
+            IsDawnSolarTime(dateTime);
+            IsSunriseSolarTime(dateTime);
+            IsDaySolarTime(dateTime);
+            IsGoldenSolarTime(dateTime);
+            IsSunsetSolarTime(dateTime);
+            IsDuskSolarTime(dateTime);
+        }
+
+        /// <summary>
+        /// Задать необходимые промежутки
+        /// </summary>
+        /// <param name="nowDateTime"></param>
+        private Phase SetLocationForPhases(Phase phaseModel, DateTime nowDateTime)
+        {
+            var sunPhases = GetSunPhases(nowDateTime, getLocation.latitude, getLocation.longitude).ToList();
+
+            phaseModel.dawnSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dawn);
+            phaseModel.sunriseSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunrise);
+            phaseModel.daySolarTime = GetSolarTime(sunPhases, SunPhaseName.SolarNoon);
+            phaseModel.goldenSolarTime = GetSolarTime(sunPhases, SunPhaseName.GoldenHour);
+            phaseModel.sunsetSolarTime = GetSolarTime(sunPhases, SunPhaseName.Sunset);
+            phaseModel.duskSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dusk);
+            phaseModel.nightSolarTime = GetSolarTime(sunPhases, SunPhaseName.Night);
+
+            //phaseModel.dawnSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.sunriseSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.daySolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.goldenSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.sunsetSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.duskSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.nightSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+
+            SetLocationForPhasesLogger(phaseModel);
+
+            return phaseModel;
+        }
+
+        private void SetLocationForPhasesLogger(Phase phaseModel)
+        {
+            _ = LoggerService.LogAsync(this, $"dawnSolarTime: {phaseModel.dawnSolarTime}");
+            _ = LoggerService.LogAsync(this, $"sunriseSolarTime: {phaseModel.sunriseSolarTime}");
+            _ = LoggerService.LogAsync(this, $"daySolarTime: {phaseModel.daySolarTime}");
+            _ = LoggerService.LogAsync(this, $"goldenSolarTime: {phaseModel.goldenSolarTime}");
+            _ = LoggerService.LogAsync(this, $"sunsetSolarTime: {phaseModel.sunsetSolarTime}");
+            _ = LoggerService.LogAsync(this, $"duskSolarTime: {phaseModel.duskSolarTime}");
+            _ = LoggerService.LogAsync(this, $"nightSolarTime: {phaseModel.nightSolarTime}");
+        }
+
+        public void UpdateLocationForPhases(DateTime nowDateTime)
+        {
+            phaseNextDay = SetLocationForPhases(new Phase(), nowDateTime.AddDays(1));
         }
     }
 
     public class ThemeNoUseLocation : ICore
     {
-        public string GetPreviousImage()
-        {
-            return null;
-        }
-
         public string GetCurrentImage()
         {
-            return null;
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetCurrentPhaseDateTime(Times times)
+        {
+            throw new NotImplementedException();
         }
 
         public string GetNextImage()
         {
-            return null;
+            throw new NotImplementedException();
         }
 
-        public DateTime GetPreviousDateTime(Times times)
+        public TimeSpan GetNextImageDateTime()
         {
             throw new NotImplementedException();
         }
 
-        public DateTime GetCurrentDateTime(Times times)
+        public DateTime GetNextPhaseDateTime(Times times)
         {
             throw new NotImplementedException();
         }
 
-        public DateTime GetNextDateTime(Times times)
-        {
-            throw new NotImplementedException();
-        }
         public Times GetPhase()
         {
-            return PhaseRepository.Get().currentPhase;
+            throw new NotImplementedException();
+        }
+
+        public string GetPreviousImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetPreviousPhaseDateTime(Times times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsNotNull()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SkipPhase()
+        {
+            throw new NotImplementedException();
         }
     }
 
     public class ThemeCustomTime : ICore
     {
-        public string GetPreviousImage()
-        {
-            return null;
-        }
-
         public string GetCurrentImage()
         {
-            return null;
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetCurrentPhaseDateTime(Times times)
+        {
+            throw new NotImplementedException();
         }
 
         public string GetNextImage()
         {
-            return null;
+            throw new NotImplementedException();
         }
 
-        public DateTime GetCurrentDateTime(Times times)
+        public TimeSpan GetNextImageDateTime()
         {
             throw new NotImplementedException();
         }
 
-
-
-        public DateTime GetNextDateTime(Times times)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public DateTime GetPreviousDateTime(Times times)
+        public DateTime GetNextPhaseDateTime(Times times)
         {
             throw new NotImplementedException();
         }
 
         public Times GetPhase()
         {
-            return PhaseRepository.Get().currentPhase;
+            throw new NotImplementedException();
+        }
+
+        public string GetPreviousImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetPreviousPhaseDateTime(Times times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsNotNull()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SkipPhase()
+        {
+            throw new NotImplementedException();
         }
     }
 
     public class ThemeWindowsLocation : ICore
     {
-        public string GetPreviousImage()
-        {
-            return null;
-        }
-
         public string GetCurrentImage()
         {
-            return null;
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetCurrentPhaseDateTime(Times times)
+        {
+            throw new NotImplementedException();
         }
 
         public string GetNextImage()
         {
-            return null;
+            throw new NotImplementedException();
         }
 
-        public DateTime GetPreviousDateTime(Times times)
+        public TimeSpan GetNextImageDateTime()
         {
             throw new NotImplementedException();
         }
 
-        public DateTime GetCurrentDateTime(Times times)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DateTime GetNextDateTime(Times times)
+        public DateTime GetNextPhaseDateTime(Times times)
         {
             throw new NotImplementedException();
         }
 
         public Times GetPhase()
         {
-            return PhaseRepository.Get().currentPhase;
+            throw new NotImplementedException();
+        }
+
+        public string GetPreviousImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime GetPreviousPhaseDateTime(Times times)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool IsNotNull()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SkipPhase()
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -628,5 +737,6 @@ namespace Wallone.Core.Controllers
         {
             return AppFormat.Format(ThemeRepository.Get().Name);
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Wallone.Core.Helpers;
 
 namespace Wallone.Core.Services.Loggers
@@ -45,7 +46,7 @@ namespace Wallone.Core.Services.Loggers
             return Path.Combine(GetFolderPath(), FileName);
         }
 
-        public static void Log(object useClass,string message, Message type = Message.Default)
+        public static async Task LogAsync(object useClass,string message, Message type = Message.Default)
         {
             try
             {
@@ -53,7 +54,7 @@ namespace Wallone.Core.Services.Loggers
                 {
                     using (var file = new StreamWriter(GetFilePath(), true))
                     {
-                        file.WriteLineAsync(ContentFormatter(useClass, message, type));
+                        await file.WriteLineAsync(ContentFormatter(useClass, message, type));
                         file.Close();
                     }
                 }
@@ -62,10 +63,11 @@ namespace Wallone.Core.Services.Loggers
             {
                 using (var file = new StreamWriter("critical.txt", true))
                 {
-                    file.WriteLineAsync(ex.Message);
+                    await file.WriteLineAsync(ex.Message);
                     file.Close();
                 }
             }
+            await Task.CompletedTask;
         }
 
         private static string ContentFormatter(object useClass, string message, Message type = Message.Default)

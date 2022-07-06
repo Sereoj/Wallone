@@ -32,14 +32,14 @@ namespace Wallone.Core.Controllers
 
             public static void EnableTransitions(bool value)
             {
-                IntPtr result = IntPtr.Zero;
                 if(value)
                 {
-                    SendMessageTimeout(Window.GetProgman(), 0x52c, IntPtr.Zero, IntPtr.Zero, 0, 500, out result);
+                    IntPtr result = IntPtr.Zero;
+                    var message = SendMessageTimeout(Window.GetProgman(), 0x52c, IntPtr.Zero, IntPtr.Zero, 0, 500, out result);
 
-                    if(result == IntPtr.Zero)
+                    if(message == 0)
                     {
-                        LoggerService.Log(typeof(Animation), $"Анимация смены обоев не поддерживается в {OSHelper.IsWindows()} {OSHelper.Get().Version}");
+                        _ = LoggerService.LogAsync(typeof(Animation), $"Анимация смены обоев не поддерживается в {OSHelper.IsWindows()} {OSHelper.Get().Version}");
                     }
                 }
             }
@@ -48,8 +48,6 @@ namespace Wallone.Core.Controllers
         {
             public static void Set(string path)
             {
-                OSHelper.Get();
-
                 ThreadStart threadStarter = () =>
                 {
                     IActiveDesktop _activeDesktop = ActiveDesktopWrapper.GetActiveDesktop();

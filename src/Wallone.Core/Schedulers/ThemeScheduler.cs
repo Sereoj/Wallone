@@ -4,6 +4,7 @@ using Wallone.Core.Models;
 using Wallone.Core.Builders;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Loggers;
+using System;
 
 namespace Wallone.Core.Schedulers
 {
@@ -17,8 +18,11 @@ namespace Wallone.Core.Schedulers
         {
             this.themeController = themeController;
 
-            timer = new Timer();
-            timer.Interval = 1000;
+            timer = new Timer
+            {
+                Interval = 1000,
+                AutoReset = true
+            };
             timer.Elapsed += Timer_Elapsed;
         }
 
@@ -28,26 +32,70 @@ namespace Wallone.Core.Schedulers
                 .ItemBuilder()
                 .GetAnimation();
 
-            var path = themeController.Core().GetCurrentImage();
+            themeController.Core().Init();
 
-            LoggerService.Log(this, $"Текущая тема: {themeController.GetThemeName()}");
-            LoggerService.Log(this, $"Текущая фаза: {themeController.Core().GetPhase()}");
-            LoggerService.Log(this, $"Текущее изображение: {themeController.Core().GetCurrentImage()}");
-            LoggerService.Log(this, $"Следующее изображение: {themeController.Core().GetNextImage()}");
+            AutoReset(false);
+            _= LoggerService.LogAsync(this, $"AutoReset {timer.AutoReset}");
+            if (themeController.Core().IsNotNull())
+            {
+                var path = themeController.Core().GetCurrentImage();
+                _ = LoggerService.LogAsync(this, $"Текущая тема: {themeController.GetThemeName()}");
+                _ = LoggerService.LogAsync(this, $"Текущая фаза: {themeController.Core().GetPhase()}");
+                _ = LoggerService.LogAsync(this, $"Текущее изображение: {path}");
 
-            WallpaperInstaller.Animation.EnableTransitions(useAnimation);
-            WallpaperInstaller.Controller.Set(path);
+                WallpaperInstaller.Animation.EnableTransitions(useAnimation);
+                WallpaperInstaller.Controller.Set(path);
 
-            timer.Stop();
+                var time = Time(themeController.Core().GetNextImageDateTime().Ticks);
+                _ = LoggerService.LogAsync(this, $"Ждем: {TimeSpan.FromMilliseconds(time)}");
+                SetInterval(time);
+            }
+            else
+            {
+                themeController.Core().SkipPhase();
 
+                var path = themeController.Core().GetCurrentImage();
 
+                _ = LoggerService.LogAsync(this, $"Текущая тема: {themeController.GetThemeName()}");
+                _ = LoggerService.LogAsync(this, $"Текущая фаза: {themeController.Core().GetPhase()}");
+                _ = LoggerService.LogAsync(this, $"Текущее изображение: {path}");
+
+                WallpaperInstaller.Animation.EnableTransitions(useAnimation);
+                WallpaperInstaller.Controller.Set(path);
+
+                var time = Time(themeController.Core().GetNextImageDateTime().Ticks);
+                _ = LoggerService.LogAsync(this, $"Ждем снова: {TimeSpan.FromMilliseconds(time)}");
+                SetInterval(time);
+            }
+            AutoReset(true);
+            _ = LoggerService.LogAsync(this, $"AutoReset {timer.AutoReset}");
+        }
+        private void AutoReset(bool value)
+        {
+            timer.AutoReset = value;
+        }
+        public void SetInterval(double value)
+        {
+            if(value > 0)
+            {
+                timer.Interval = value;
+            }
+            else
+            {
+                _ =LoggerService.LogAsync(this, $"Таймер не должен быть {value}");
+                Stop();
+            }
+        }
+            private double Time(long tick)
+        {
+            return new TimeSpan(tick).TotalMilliseconds;
         }
 
         public static void Start()
         {
             if (timer == null)
             {
-                LoggerService.Log(typeof(ThemeScheduler), "Невозможно запустить таймер, поскольку не существует экземпляра", Message.Error);
+                _ = LoggerService.LogAsync(typeof(ThemeScheduler), "Невозможно запустить таймер, поскольку не существует экземпляра", Message.Error);
             }
             else
             {
@@ -59,7 +107,7 @@ namespace Wallone.Core.Schedulers
         {
             if (timer == null)
             {
-                LoggerService.Log(typeof(ThemeScheduler), "Невозможно остановить таймер, поскольку не существует экземпляра", Message.Error);
+                _ = LoggerService.LogAsync(typeof(ThemeScheduler), "Невозможно остановить таймер, поскольку не существует экземпляра", Message.Error);
             }
             else
             {
