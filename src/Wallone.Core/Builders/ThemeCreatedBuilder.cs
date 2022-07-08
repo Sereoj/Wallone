@@ -256,7 +256,14 @@ namespace Wallone.Core.Builders
 
         public string GetConfigPath()
         {
-            return Path.Combine(GetThemePath(), AppSettingsRepository.AppSettingsService.GetThemeConfigName());
+            var themePath = GetThemePath();
+            var themeConfig = AppSettingsRepository.AppSettingsService.GetThemeConfigName();
+
+            if(themePath != null && themeConfig != null)
+            {
+                return Path.Combine(themePath, themeConfig);
+            }
+            return null;
         }
 
         public SinglePage GetModelFromFile()

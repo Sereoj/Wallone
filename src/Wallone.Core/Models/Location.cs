@@ -1,10 +1,13 @@
-﻿namespace Wallone.Core.Models
+﻿using System;
+
+namespace Wallone.Core.Models
 {
+    [Flags]
     public enum Geolocation
     {
-        Custom,
-        Auto,
-        Windows
+        Auto = 0,
+        Windows = 1,
+        Custom = 2
     }
     public class Location
     {

@@ -73,6 +73,11 @@ namespace Wallone.Core.Services
             private static string themeName;
             private static int themeImageId;
 
+            public static List<Image> GetImagesWithPhase(List<Image> images, Times time)
+            {
+                return images.Where(image => image.times == time).ToList();
+            }
+
             public static string GetCurrentThemeName()
             {
                 return themeName;
@@ -166,6 +171,109 @@ namespace Wallone.Core.Services
                 }
                 _ = LoggerService.LogAsync(typeof(ThemeService), "Не удалось найти модель изображения", Message.Warn);
                 return null;
+            }
+
+            /// <summary>
+            /// Проверка на раннее утро
+            /// </summary>
+            /// <param name="nowDateTime"></param>
+            /// <returns></returns>
+            public static bool IsDawnSolarTime(DateTime nowDateTime)
+            {
+                var phaseModel = PhaseRepository.Get();
+
+                var date1 = phaseModel.dawnSolarTime;
+                var date2 = phaseModel.sunriseSolarTime;
+
+                if (date1 < nowDateTime && date2 > nowDateTime)
+                {
+                    PhaseRepository.PhaseService.SetCurrentPhase(Times.Dawn);
+                    return true;
+                }
+                return false;
+            }
+            /// <summary>
+            /// Проверка на утро
+            /// </summary>
+            /// <param name="nowDateTime"></param>
+            /// <returns></returns>
+            public static bool IsSunriseSolarTime(DateTime nowDateTime)
+            {
+                var phaseModel = PhaseRepository.Get();
+
+                var date1 = phaseModel.sunriseSolarTime;
+                var date2 = phaseModel.daySolarTime;
+
+                if (date1 < nowDateTime && date2 > nowDateTime)
+                {
+                    PhaseRepository.PhaseService.SetCurrentPhase(Times.Sunrise);
+                    return true;
+                }
+                return false;
+            }
+            /// <summary>
+            /// Проверка на полдень
+            /// </summary>
+            /// <param name="nowDateTime"></param>
+            /// <returns></returns>
+            public static bool IsDaySolarTime(DateTime nowDateTime)
+            {
+                var phaseModel = PhaseRepository.Get();
+
+                var date1 = phaseModel.daySolarTime;
+                var date2 = phaseModel.goldenSolarTime;
+
+                if (date1 < nowDateTime && date2 > nowDateTime)
+                {
+                    PhaseRepository.PhaseService.SetCurrentPhase(Times.Day);
+                    return true;
+                }
+                return false;
+            }
+            /// <summary>
+            /// Золотой час, солнце опускается
+            /// </summary>
+            /// <param name="nowDateTime"></param>
+            /// <returns></returns>
+            public static bool IsGoldenSolarTime(DateTime nowDateTime)
+            {
+                var phaseModel = PhaseRepository.Get();
+
+                var date1 = phaseModel.goldenSolarTime;
+                var date2 = phaseModel.sunsetSolarTime;
+                if (date1 < nowDateTime && date2 > nowDateTime)
+                {
+                    PhaseRepository.PhaseService.SetCurrentPhase(Times.GoldenHour);
+                    return true;
+                }
+                return false;
+            }
+            public static bool IsSunsetSolarTime(DateTime nowDateTime)
+            {
+                var phaseModel = PhaseRepository.Get();
+
+                var date1 = phaseModel.sunsetSolarTime;
+                var date2 = phaseModel.duskSolarTime;
+
+                if (date1 < nowDateTime && date2 > nowDateTime)
+                {
+                    PhaseRepository.PhaseService.SetCurrentPhase(Times.Sunset);
+                    return true;
+                }
+                return false;
+            }
+            public static bool IsDuskSolarTime(DateTime nowDateTime)
+            {
+                var phaseModel = PhaseRepository.Get();
+
+                var date1 = phaseModel.duskSolarTime;
+
+                if (date1 < nowDateTime)
+                {
+                    PhaseRepository.PhaseService.SetCurrentPhase(Times.Night);
+                    return true;
+                }
+                return false;
             }
         }
 

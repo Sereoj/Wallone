@@ -10,7 +10,7 @@ namespace Wallone.Core.Schedulers
 {
     public class ThemeScheduler
     {
-        private readonly ThemeController<Theme> themeController;
+        private ThemeController<Theme> themeController;
 
         private static Timer timer;
 
@@ -93,7 +93,7 @@ namespace Wallone.Core.Schedulers
 
         public static void Start()
         {
-            if (timer == null)
+            if (!Is())
             {
                 _ = LoggerService.LogAsync(typeof(ThemeScheduler), "Невозможно запустить таймер, поскольку не существует экземпляра", Message.Error);
             }
@@ -105,9 +105,10 @@ namespace Wallone.Core.Schedulers
 
         public static void Stop()
         {
-            if (timer == null)
+            if (!Is())
             {
                 _ = LoggerService.LogAsync(typeof(ThemeScheduler), "Невозможно остановить таймер, поскольку не существует экземпляра", Message.Error);
+
             }
             else
             {
@@ -120,6 +121,11 @@ namespace Wallone.Core.Schedulers
             Stop();
             timer.Interval = 1000;
             Start();
+        }
+
+        public static bool Is()
+        {
+            return timer != null;
         }
     }
 }

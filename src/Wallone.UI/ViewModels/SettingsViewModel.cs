@@ -1,5 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
+using System;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
@@ -45,6 +46,7 @@ namespace Wallone.UI.ViewModels
                 _ => ThemeIndexSelected = 0
             };
 
+            //
             GeolocationIndexSelected = settings.GetGeolocationMode() switch
             {
                 Geolocation.Custom => 0,
@@ -167,11 +169,22 @@ namespace Wallone.UI.ViewModels
             set
             {
                 settings
-                    .SetGeolocationMode((Geolocation)value)
+                    .SetGeolocationMode(IntToGeolocation(value))
                     .Build();
-                UpdateUiGeolocation((Geolocation)value);
+                UpdateUiGeolocation(IntToGeolocation(value));
                 SetProperty(ref geolocationIndexSelected, value);
             }
+        }
+
+        private Geolocation IntToGeolocation(int value)
+        {
+            return value switch
+            {
+                0 => Geolocation.Custom,
+                1 => Geolocation.Auto,
+                2 => Geolocation.Windows,
+                _ => Geolocation.Auto,
+            };
         }
 
         private double latitude;
@@ -330,14 +343,14 @@ namespace Wallone.UI.ViewModels
         {
             switch (geolocation)
             {
-                case Geolocation.Custom:
-                    IsEnableCustomLocation = true;
-                    break;
                 case Geolocation.Auto:
                     IsEnableCustomLocation = false;
                     break;
                 case Geolocation.Windows:
                     IsEnableCustomLocation = false;
+                    break;
+                case Geolocation.Custom:
+                    IsEnableCustomLocation = true;
                     break;
             }
         }

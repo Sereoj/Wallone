@@ -167,7 +167,14 @@ namespace Wallone.UI.ViewModels.Controls
                 var themeController = new ThemeController<Theme>(builder.GetThemeModelFromFile(),
                     new GeolocationController<Location>(location));
 
-                ThemeScheduler.Refresh();
+                if(themeController.ValidateFields())
+                {
+                    if (!ThemeScheduler.Is())
+                    {
+                        new ThemeScheduler(themeController);
+                    }
+                    ThemeScheduler.Refresh();
+                }
 
                 if (settingsItemBuilder.GetModelWindow())
                 {

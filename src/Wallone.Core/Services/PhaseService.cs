@@ -5,6 +5,13 @@ using Wallone.Core.Services.Loggers;
 
 namespace Wallone.Core.Services
 {
+    public class PhaseFactory
+    {
+        public static Phase Create()
+        {
+            return new Phase();
+        }
+    }
     public class PhaseRepository
     {
         private static Phase phase;

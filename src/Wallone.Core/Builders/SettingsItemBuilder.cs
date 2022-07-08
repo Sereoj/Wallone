@@ -93,7 +93,7 @@ namespace Wallone.Core.Builders
         /// </summary>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public SettingsItemBuilder SetMode(Mode mode)
+        public SettingsItemBuilder SetMode(Geolocation mode)
         {
             settings.Advanced.Type = mode;
             return this;
@@ -192,7 +192,7 @@ namespace Wallone.Core.Builders
             return settings;
         }
 
-        public Mode GetMode()
+        public Geolocation GetMode()
         {
             return settings.Advanced.Type;
         }

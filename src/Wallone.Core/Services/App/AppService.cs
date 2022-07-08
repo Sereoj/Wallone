@@ -32,18 +32,6 @@ namespace Wallone.Core.Services.App
                 ThemeScheduler.Start();
             }
         }
-        public static async Task LoadGeolocationAsync()
-        {
-            var useGeolocation = new SettingsBuilder(SettingsRepository.Get())
-                .ItemBuilder()
-                .GetGeolocation();
-
-            if (useGeolocation)
-            {
-                await UseGeolocation();
-                await Task.CompletedTask;
-            }
-        }
 
         public static async Task LoadVersionAsync()
         {
@@ -60,26 +48,40 @@ namespace Wallone.Core.Services.App
             }
         }
 
-        public static async Task UseGeolocation()
+        public static async Task UseGeolocationAsync()
         {
-            var settings = new SettingsBuilder(SettingsRepository.Get())
+            var items = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
 
-            if (settings.GetGeolocation())
+            if(items.GetGeolocation())
             {
-                var dataLocation = await LocationService.GetLocationAsync();
-                await Task.CompletedTask;
-                if (!string.IsNullOrEmpty(dataLocation))
+                switch (items.GetGeolocationMode())
                 {
-                    var location = JsonConvert.DeserializeObject<Location>(dataLocation);
-                    if (location != null)
-                        settings
-                            .SetLatitude(location.latitude)
-                            .SetLongitude(location.longitude)
-                            .SetCountry(location.country)
-                            .SetCity(location.city)
-                            .SetMode(Mode.UseWebLocation)
+                    case Geolocation.Auto:
+                        await GeoLocationRepository.Auto.InitAsync();
+                        break;
+                    case Geolocation.Windows:
+                        if(GeoLocationRepository.Windows.Is())
+                        {
+                            await GeoLocationRepository.Windows.InitAsync();
+                        }
+                        else
+                        {
+                            items
+                            .SetGeolocationMode(Geolocation.Auto)
                             .Build();
+                            await UseGeolocationAsync();
+                        }
+                        break;
+                    case Geolocation.Custom:
+                        GeoLocationRepository.Custom.Init();
+                        break;
+                    default:
+                        items
+                            .SetGeolocationMode(Geolocation.Auto)
+                            .Build();
+                        await UseGeolocationAsync();
+                        break;
                 }
             }
         }

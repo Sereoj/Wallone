@@ -41,8 +41,8 @@ namespace Wallone.UI.ViewModels
         {
             this.regionManager = regionManager;
 
-            Task.Run(async () => await AppService.LoadVersionAsync())
-                .ContinueWith(async task => await AppService.LoadGeolocationAsync());
+            Task.Run(async () => await AppService.LoadVersionAsync());
+            AppService.UseGeolocationAsync();
             AppService.UseTheme();
 
             var builder = new UserSyncBuilder()

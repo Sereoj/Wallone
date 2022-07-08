@@ -15,16 +15,6 @@ namespace Wallone.Core.Models
     }
 
     [Flags]
-    public enum Mode
-    {
-        UseWebLocation,
-        NoUseLocation,
-        UseCustomTime,
-        UseWindowsLocation,
-        NotFound
-    }
-
-    [Flags]
     public enum ResolutionMode
     {
         Custom,
