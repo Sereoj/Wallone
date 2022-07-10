@@ -22,18 +22,20 @@ namespace Wallone.Core.Services
 
             var categories = new ObservableCollection<NavigationViewItem>();
 
-            foreach (var item in items.Where(item => item.Status))
+            if(items != null)
             {
-                categories.Add(new NavigationViewItem
+                foreach (var item in items.Where(item => item.Status))
                 {
-                    Uid = item.ID,
-                    Content = item.Name,
-                    Name = "Brands",
-                    Icon = FontIconService.SetIcon("ultimate", item.Icon),
-                    Tag = "Gallery"
-                });
+                    categories.Add(new NavigationViewItem
+                    {
+                        Uid = item.ID,
+                        Content = item.Name,
+                        Name = "Brands",
+                        Icon = FontIconService.SetIcon("ultimate", item.Icon),
+                        Tag = "Gallery"
+                    });
+                }
             }
-
             return categories;
         }
     }
