@@ -190,6 +190,11 @@ namespace Wallone.Core.Services
                 return null;
             }
 
+            public static void Remove()
+            {
+                themeModel = null;
+            }
+
             /// <summary>
             /// Проверка на раннее утро
             /// </summary>

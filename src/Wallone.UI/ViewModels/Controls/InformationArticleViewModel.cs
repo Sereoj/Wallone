@@ -170,7 +170,9 @@ namespace Wallone.UI.ViewModels.Controls
             {
                var location = settingsItemBuilder.GetLocation();
 
-                var themeController = new ThemeController<Theme>(builder.GetThemeModelFromFile(),
+                var model = builder.GetThemeModelFromFile();
+
+                var themeController = new ThemeController<Theme>(model,
                     new GeolocationController<Location>(location));
 
                 if(themeController.ValidateFields())
@@ -180,17 +182,23 @@ namespace Wallone.UI.ViewModels.Controls
                         new ThemeScheduler(themeController);
                     }
                     ThemeScheduler.Refresh();
-                }
 
-                if (settingsItemBuilder.GetModelWindow())
+                    if (settingsItemBuilder.GetModelWindow())
+                    {
+                        regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
+                    }
+                }
+                else
                 {
-                    regionManager.RequestNavigate("TabSunTimes", "TabSunTimes");
-                    Task.Delay(1000);
+                    var param = new NavigationParameters();
+                    param.Add("text", themeController.Messages());
+
+                    regionManager.RequestNavigate("TabSunTimes", "TabInformation", param);
                 }
             }
             else
             {
-                ThemeRepository.ThemeService.Set(null);
+                ThemeRepository.ThemeService.Remove();
             }
 
             SinglePageLogic.IsInstalled = builder.GetHasNotInstalled();

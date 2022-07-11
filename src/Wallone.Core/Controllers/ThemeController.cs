@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using SunCalcNet.Model;
 using Wallone.Core.Helpers;
@@ -979,6 +980,7 @@ namespace Wallone.Core.Controllers
     public class ThemeController<T>
     {
         private readonly Theme themeModel;
+        private string message;
         private ICore core;
 
         public ThemeController(Theme themeModel, GeolocationController<Location> geolocationController)
@@ -1017,17 +1019,21 @@ namespace Wallone.Core.Controllers
             {
                 if (string.IsNullOrEmpty(themeModel.Uuid))
                 {
+
                     _ = LoggerService.LogAsync(this, "Uuid темы не должно быть пустым");
+                    message = "Uuid темы не должно быть пустым";
                     return false;
                 }
                 if (string.IsNullOrEmpty(themeModel.Name))
                 {
                     _ = LoggerService.LogAsync(this, "Имя темы не должно быть пустым");
+                    message = "Имя темы не должно быть пустым";
                     return false;
                 }
                 if (themeModel.Images == null)
                 {
                     _ = LoggerService.LogAsync(this, "Изображения темы не должны быть пустыми");
+                    message = "Изображения темы не должны быть пустыми";
                     return false;
                 }
                 if (themeModel.Images != null)
@@ -1037,9 +1043,10 @@ namespace Wallone.Core.Controllers
                         if(!AppSettingsRepository.AppSettingsService.ExistsFile(item.location))
                         {
                             _ = LoggerService.LogAsync(this, $"{themeModel.Name} - ID {item.id} - Неизвестный путь", Message.Error);
+                            message = $"Файл не найден {new FileInfo(item.location).Name}, {item.id}";
+                            return false;
                         }
                     }
-                    return false;
                 }
 
                 return true;
@@ -1053,5 +1060,9 @@ namespace Wallone.Core.Controllers
             return AppFormat.Format(ThemeRepository.Get().Name);
         }
 
+        public string Messages()
+        {
+            return message;
+        }
     }
 }
