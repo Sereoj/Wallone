@@ -67,7 +67,7 @@ namespace Wallone.Core.Helpers
 
         public override void OpenUpdateLink()
         {
-            System.Diagnostics.Process.Start(Router.domain + "/update");
+            Process.Start(new ProcessStartInfo(Router.domain + "/download") { UseShellExecute = true });
         }
     }
 

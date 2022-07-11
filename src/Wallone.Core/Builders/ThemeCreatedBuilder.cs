@@ -77,7 +77,6 @@ namespace Wallone.Core.Builders
                     Images = images,
                     Created_at = SinglePageService.GetDate(),
                     Resolution = "Не доступно, отвечает за пользовательские разрешения изображений для мониторов",
-                    HashCode = null
                 };
             return this;
         }
