@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Prism.Commands;
@@ -7,6 +8,7 @@ using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
+using Wallone.Core.Services.Routers;
 using Wallone.Core.Services.Users;
 
 namespace Wallone.Authorization.ViewModels
@@ -30,6 +32,7 @@ namespace Wallone.Authorization.ViewModels
             _regionManager = regionManager;
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
+            OpenLinkCommand = new DelegateCommand(OnOpenLink);
         }
 
         public string Name
@@ -63,6 +66,7 @@ namespace Wallone.Authorization.ViewModels
         }
 
         public DelegateCommand<string> NavigateCommand { get; set; }
+        public DelegateCommand OpenLinkCommand { get; set; }
 
         private void Navigate(string obj)
         {
@@ -75,26 +79,12 @@ namespace Wallone.Authorization.ViewModels
                 case "Confirm":
                     Register(Name, Email, Password, Confirm);
                     break;
-                case "Guest":
-                    //var number = new Random().Next();
-                    //var name = "Guest";
-                    //var email = "guest_" + number + "@w2me.ru";
-                    //var password = temppass();
-                    //Register(name, email, password, password);
-                    break;
             }
         }
 
-        private string temppass()
+        private void OnOpenLink()
         {
-            var abc = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM!@#$%^&*()"; //набор символов
-            var kol = 8; // кол-во символов
-            var result = "";
-
-            var rnd = new Random();
-            var lng = abc.Length;
-            for (var i = 0; i < kol; i++) result += abc[rnd.Next(lng)];
-            return "guest_" + result;
+            Process.Start(new ProcessStartInfo(Router.domain + "/policy") { UseShellExecute = true });
         }
 
         private async void Register(string name, string email, string password, string confirm)

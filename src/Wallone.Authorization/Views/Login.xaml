@@ -83,7 +83,7 @@
                         VerticalAlignment="Top"
                         FontFamily="{StaticResource FontGardensC}"
                         FontSize="14"
-                        Foreground="Red"
+                        Foreground="#EB1D36"
                         Text="{Binding Message, FallbackValue=HelloErrors}"
                         TextWrapping="Wrap" />
                 </StackPanel>

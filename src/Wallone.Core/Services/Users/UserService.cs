@@ -81,7 +81,7 @@ namespace Wallone.Core.Services.Users
 
             foreach (var item in objects)
                 if (item.Value != null)
-                    msg += item.Value[0] + " ";
+                    msg += item.Value[0] + "\n";
             return msg;
         }
 
