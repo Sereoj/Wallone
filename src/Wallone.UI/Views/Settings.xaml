@@ -43,31 +43,24 @@
                     Grid.Column="1"
                     Margin="20,0">
                     <StackPanel VerticalAlignment="Top">
-                        <Border Background="{ui:ThemeResource BorderColor}" CornerRadius="15">
+                        <Expander Header="Основные" IsExpanded="True">
                             <StackPanel Margin="10">
-                                <CheckBox Content="Автозапуск приложения" IsChecked="{Binding IsAutorun}" />
-                                <CheckBox Content="Автоматически устанавливать изображения" IsChecked="{Binding IsAutoSetImage}" />
-                                <CheckBox Content="Отображать модальное окно при включении темы" IsChecked="{Binding IsSetModel}" />
-                                <CheckBox Content="Использовать анимацию при смене обоев" IsChecked="{Binding IsAnimation}" />
-                            </StackPanel>
-                        </Border>
-                        <Border
-                            Margin="0,10,0,0"
-                            Background="{ui:ThemeResource BorderColor}"
-                            CornerRadius="15">
-                            <StackPanel Margin="10">
-                                <TextBlock Margin="0,0,0,5" Text="Тема:" />
+                                <CheckBox Content="Автозапуск приложения" IsChecked="{Binding IsAutorun}" ToolTip="Позволяет приложению запускаются автоматичеки после загрузки Windows"/>
+                                <CheckBox Content="Автоматически устанавливать изображения" IsChecked="{Binding IsAutoSetImage}" ToolTip="Скаченная тема автоматически устанавливается"/>
+                                <CheckBox Content="Отображание фазы псоле включения темы" IsChecked="{Binding IsSetModel}" ToolTip="При нажатии кнопки включения, снизу отображается окно с фазами солнца"/>
+                                <CheckBox Content="Использовать анимацию при смене обоев" IsChecked="{Binding IsAnimation}" ToolTip="Смена обоев просиходит с анимацией"/>
+                                <TextBlock Margin="0,0,0,5" Text="Тема:"/>
                                 <ComboBox Width="530" SelectedIndex="{Binding ThemeIndexSelected}">
                                     <ComboBoxItem Content="Авто" />
                                     <ComboBoxItem Content="Светлая" />
                                     <ComboBoxItem Content="Темная" />
                                 </ComboBox>
                             </StackPanel>
-                        </Border>
-                        <Border
-                            Margin="0,10,0,0"
-                            Background="{ui:ThemeResource BorderColor}"
-                            CornerRadius="15">
+                        </Expander>
+                        <Expander
+                            Header="Геолокация"
+                            IsExpanded="True"
+                            Margin="0,10,0,0">
                             <StackPanel Margin="10">
                                 <CheckBox Content="Использовать геолокацию" IsChecked="{Binding IsGeolocation}" />
                                 <ComboBox
@@ -95,12 +88,13 @@
                                         Margin="10,0,0,0"
                                         Content="Помощь" />
                                 </WrapPanel>
+                                <TextBlock Text="При изменении параметров, необходимо заново включить тему." Margin="10,10"/>
                             </StackPanel>
-                        </Border>
-                        <Border
-                            Margin="0,10,0,0"
-                            Background="{ui:ThemeResource BorderColor}"
-                            CornerRadius="15">
+                        </Expander>
+                        <Expander
+                            Header="Изображения"
+                            IsExpanded="True"
+                            Margin="0,10,0,0">
                             <StackPanel Margin="10">
                                 <CheckBox Content="Пользовательское разрешение изображений" IsChecked="{Binding IsCustomResolution}" />
 
@@ -139,8 +133,9 @@
                                         Margin="10,0,0,0"
                                         Content="Помощь" />
                                 </WrapPanel>
+                                <TextBlock Text="При изменении параметров, необходимо заново скачать и включить тему." Margin="10,10"/>
                             </StackPanel>
-                        </Border>
+                        </Expander>
                     </StackPanel>
                 </Grid>
             </Grid>
