@@ -6,6 +6,7 @@ using SunCalcNet.Model;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
 using Wallone.Core.Services.Locations;
 using Wallone.Core.Services.Loggers;
 
@@ -56,6 +57,7 @@ namespace Wallone.Core.Controllers
         private readonly Location getLocation;
         private bool isNotNull;
         private Phase phaseNextDay;
+        private string path;
         public ThemeWebLocation(Location getLocation)
         {
             this.getLocation = getLocation;
@@ -69,6 +71,18 @@ namespace Wallone.Core.Controllers
             DateTime dateTime = DateTime.Now;
             FindCurrentPhase(dateTime);
             CreateCollection(dateTime);
+
+            var collection = ThemeRepository.Collection.Get();
+            _ = LoggerService.LogAsync(this, $"Collection {collection.Count}");
+            foreach (var item in collection)
+            {
+                _ = LoggerService.LogAsync(this, $"S: {item.StartedAt} N: {DateTime.Now} E: {item.EndAt}");
+                if (item.StartedAt < DateTime.Now && DateTime.Now < item.EndAt)
+                {
+                    ThemeRepository.ThemeService.SetImageId(item.Id);
+                    path = ThemeRepository.ThemeService.GetCurrentImage(item);
+                }
+            }
         }
         public Times GetPhase()
         {
@@ -102,6 +116,7 @@ namespace Wallone.Core.Controllers
                 if(item.StartedAt < DateTime.Now && DateTime.Now < item.EndAt)
                 {
                     ThemeRepository.ThemeService.SetImageId(item.Id);
+                    _ = LoggerService.LogAsync(this, $"SetImageId {item.Id}");
                     return ThemeRepository.ThemeService.GetCurrentImage(item);
                 }
             }
@@ -1015,6 +1030,18 @@ namespace Wallone.Core.Controllers
                     _ = LoggerService.LogAsync(this, "Изображения темы не должны быть пустыми");
                     return false;
                 }
+                if (themeModel.Images != null)
+                {
+                    foreach (var item in themeModel.Images)
+                    {
+                        if(!AppSettingsRepository.AppSettingsService.ExistsFile(item.location))
+                        {
+                            _ = LoggerService.LogAsync(this, $"{themeModel.Name} - ID {item.id} - Неизвестный путь", Message.Error);
+                        }
+                    }
+                    return false;
+                }
+
                 return true;
             }
 

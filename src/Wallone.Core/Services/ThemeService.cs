@@ -72,6 +72,7 @@ namespace Wallone.Core.Services
         {
             private static string themeName;
             private static int themeImageId;
+            private static string themeImagePath; 
 
             public static List<Image> GetImagesWithPhase(List<Image> images, Times time)
             {
@@ -154,7 +155,14 @@ namespace Wallone.Core.Services
                 {
                     themeImageId = themeCollection.Id;
                     var imageLocation = themeCollection.Location;
-                    return AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation) ? imageLocation : null;
+                    if(AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation))
+                    {
+                        return imageLocation;
+                    }
+                    else
+                    {
+                        _ = LoggerService.LogAsync(typeof(ThemeService), "Не удалось найти изображение, переустановите тему", Message.Warn);
+                    }
                 }
                 _ = LoggerService.LogAsync(typeof(ThemeService), "Не удалось найти модель изображения", Message.Warn);
                 return null;
@@ -167,7 +175,16 @@ namespace Wallone.Core.Services
                 {
                     themeImageId = image.id;
                     var imageLocation = image.location;
-                    return AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation) ? imageLocation : null;
+                    if(AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation))
+                    {
+                        themeImagePath = imageLocation;
+                        return imageLocation;
+                    }
+                    else
+                    {
+                        themeImagePath = null;
+                        return null;
+                    }
                 }
                 _ = LoggerService.LogAsync(typeof(ThemeService), "Не удалось найти модель изображения", Message.Warn);
                 return null;
@@ -274,6 +291,11 @@ namespace Wallone.Core.Services
                     return true;
                 }
                 return false;
+            }
+
+            public static string GetStaticImage()
+            {
+                return themeImagePath;
             }
         }
 

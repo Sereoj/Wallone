@@ -5,6 +5,7 @@ using Wallone.Core.Builders;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Loggers;
 using System;
+using Wallone.Core.Services;
 
 namespace Wallone.Core.Schedulers
 {
@@ -21,7 +22,7 @@ namespace Wallone.Core.Schedulers
             timer = new Timer
             {
                 Interval = 1000,
-                AutoReset = true
+                AutoReset = false
             };
             timer.Elapsed += Timer_Elapsed;
         }
@@ -31,19 +32,21 @@ namespace Wallone.Core.Schedulers
             var useAnimation = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetAnimation();
+            WallpaperInstaller.Animation.EnableTransitions(useAnimation);
 
             themeController.Core().Init();
 
             AutoReset(false);
             _= LoggerService.LogAsync(this, $"AutoReset {timer.AutoReset}");
+
+            var path = themeController.Core().GetCurrentImage();
+
             if (themeController.Core().IsNotNull())
             {
-                var path = themeController.Core().GetCurrentImage();
                 _ = LoggerService.LogAsync(this, $"Текущая тема: {themeController.GetThemeName()}");
                 _ = LoggerService.LogAsync(this, $"Текущая фаза: {themeController.Core().GetPhase()}");
                 _ = LoggerService.LogAsync(this, $"Текущее изображение: {path}");
 
-                WallpaperInstaller.Animation.EnableTransitions(useAnimation);
                 WallpaperInstaller.Controller.Set(path);
 
                 var time = Time(themeController.Core().GetNextImageDateTime().Ticks);
@@ -54,13 +57,9 @@ namespace Wallone.Core.Schedulers
             {
                 themeController.Core().SkipPhase();
 
-                var path = themeController.Core().GetCurrentImage();
-
                 _ = LoggerService.LogAsync(this, $"Текущая тема: {themeController.GetThemeName()}");
                 _ = LoggerService.LogAsync(this, $"Текущая фаза: {themeController.Core().GetPhase()}");
                 _ = LoggerService.LogAsync(this, $"Текущее изображение: {path}");
-
-                WallpaperInstaller.Animation.EnableTransitions(useAnimation);
                 WallpaperInstaller.Controller.Set(path);
 
                 var time = Time(themeController.Core().GetNextImageDateTime().Ticks);

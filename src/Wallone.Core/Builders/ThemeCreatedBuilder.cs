@@ -212,8 +212,7 @@ namespace Wallone.Core.Builders
 
         public ThemeCreatedBuilder SetName(string name)
         {
-            ThemeName = name;
-            Trace.WriteLine("SetName:" + name);
+            ThemeName = AppFormat.Format(name);
             return this;
         }
 

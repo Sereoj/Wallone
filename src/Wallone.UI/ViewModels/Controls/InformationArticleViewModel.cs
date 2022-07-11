@@ -104,7 +104,8 @@ namespace Wallone.UI.ViewModels.Controls
             {
                 SinglePageLogic.IsEnableDownloaded = false;
 
-                Trace.WriteLine("Theme Download: " + SinglePageLogic.IsDownloaded);
+                var settingsItemBuilder = new SettingsBuilder(SettingsRepository.Get())
+                    .ItemBuilder();
 
                 var builder = await themeBuilder
                     .HasDownloaded() //Если не установлена, проходим проверку
@@ -122,6 +123,11 @@ namespace Wallone.UI.ViewModels.Controls
                 if (builder.Exist())
                 {
                     SinglePageLogic.IsEnableInstalled = true;
+
+                    if(settingsItemBuilder.GetAutoSetImage())
+                    {
+                        OnInstallClicked();
+                    }
                 }
                 else
                 {
@@ -195,7 +201,7 @@ namespace Wallone.UI.ViewModels.Controls
         private async void OnFavoriteClicked()
         {
             SinglePageLogic.IsEnableFavorited = false;
-            Trace.WriteLine("Favorite");
+
             themeBuilder
                 .HasFavorited(SinglePageLogic.IsFavorited)
                 .Build();
@@ -213,8 +219,6 @@ namespace Wallone.UI.ViewModels.Controls
         private async void OnReactionClicked()
         {
             SinglePageLogic.IsEnableLiked = false;
-
-            Trace.WriteLine("Like");
 
             themeBuilder
                 .HasNotLiked(SinglePageLogic.IsLiked)
@@ -241,8 +245,6 @@ namespace Wallone.UI.ViewModels.Controls
             var themeName = themeBuilder.GetName();
             var themePath = themeBuilder.GetThemePath();
 
-            Trace.WriteLine("(LOAD)Theme path:  " + themePath);
-
             if (AppSettingsRepository.AppSettingsService.ExistDirectory(themePath))
             {
                 SinglePageLogic.IsDownloaded = true;
@@ -259,12 +261,6 @@ namespace Wallone.UI.ViewModels.Controls
                 SinglePageLogic.IsInstalled = false;
                 SinglePageLogic.IsEnableInstalled = false;
             }
-
-            Trace.WriteLine("(LOAD)Theme Favorited: " + SinglePageLogic.IsFavorited);
-            Trace.WriteLine("(LOAD)Theme Liked: " + SinglePageLogic.IsLiked);
-
-            Trace.WriteLine("(LOAD)Theme Downloaded: " + SinglePageLogic.IsDownloaded);
-            Trace.WriteLine("(LOAD)Theme Installed: " + SinglePageLogic.IsInstalled);
         }
 
         private async void tags(List<Tag> list)
@@ -326,11 +322,9 @@ namespace Wallone.UI.ViewModels.Controls
                 SinglePageItemsViewModel.Avatar =
                     UriHelper.Get(SinglePageService.GetAvatar());
 
-            Trace.WriteLine("(LOAD)Theme Name: " + simplePage.name);
-
             themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
                 .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .SetName(AppFormat.Format(simplePage.name));
+                .SetName(simplePage.name);
 
             categories(SinglePageService.GetCategories());
             tags(SinglePageService.GetTags());
