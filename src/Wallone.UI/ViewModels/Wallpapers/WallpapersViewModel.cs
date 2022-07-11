@@ -14,6 +14,7 @@ using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Pages;
 using Wallone.UI.Interfaces;
 using Wallone.UI.Services;
@@ -139,14 +140,26 @@ namespace Wallone.UI.ViewModels.Wallpapers
             {
                 if (isNextPage && countPosts != 0)
                 {
-                    pagination++;
-                    PageBuilder.SetPagination(pagination)
-                        .ValidateRouter()
-                        .CreatePageQuery();
-                    Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), false);
+                    NewPage();
                 }
             }
+            else if (data.offset100 - 100 == data.offset)
+            {
+                NewPage();
+            }
 
+        }
+
+        private void NewPage()
+        {
+            if (isNextPage && countPosts != 0)
+            {
+                pagination++;
+                PageBuilder.SetPagination(pagination)
+                    .ValidateRouter()
+                    .CreatePageQuery();
+                Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), false);
+            }
         }
 
         public async void Loaded(string router, List<Parameter> parameters, bool isLoaded)
