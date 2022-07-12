@@ -56,6 +56,7 @@ namespace Wallone.Core.Schedulers
             else
             {
                 themeController.Core().SkipPhase();
+                path = themeController.Core().GetCurrentImage();
 
                 _ = LoggerService.LogAsync(this, $"Текущая тема: {themeController.GetThemeName()}");
                 _ = LoggerService.LogAsync(this, $"Текущая фаза: {themeController.Core().GetPhase()}");

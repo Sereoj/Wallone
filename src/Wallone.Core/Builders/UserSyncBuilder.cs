@@ -14,15 +14,28 @@ namespace Wallone.Core.Builders
         private bool isAuth;
         private string token;
 
+        public UserSyncBuilder CreateUserModel()
+        {
+            UserRepository.Create();
+            return this;
+        }
+
         public UserSyncBuilder GetToken()
         {
-            token = UserService.GetToken();
+            token = UserRepository.GetToken();
+            if(string.IsNullOrEmpty(token))
+            {
+                token = new SettingsBuilder(SettingsRepository.Get())
+                    .ItemBuilder()
+                    .GetToken();
+            }
             return this;
         }
 
         private static async Task<JObject> GetUserData()
         {
-            var json = await UserService.GetLoginWithTokenAsync();
+            var json = await UserRepository.UserService.GetLoginWithTokenAsync();
+            await Task.CompletedTask;
             if (!string.IsNullOrEmpty(json))
             {
                 var objects = JObject.Parse(json);
@@ -38,7 +51,7 @@ namespace Wallone.Core.Builders
             {
                 JObject data = await GetUserData();
                 await Task.CompletedTask;
-                if (data != null & UserService.ValidateWithToken(data))
+                if (data != null & UserRepository.UserService.ValidateWithToken(data))
                 {
                     isAuth = true;
                     return this;

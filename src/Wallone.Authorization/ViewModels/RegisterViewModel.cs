@@ -91,7 +91,7 @@ namespace Wallone.Authorization.ViewModels
         {
             try
             {
-                var json = await UserService.GetRegisterAsync(name, email, password, confirm);
+                var json = await UserRepository.UserService.GetRegisterAsync(name, email, password, confirm);
                 var s = AppEthernetService.GetStatus();
 
                 switch (s)
@@ -127,15 +127,17 @@ namespace Wallone.Authorization.ViewModels
         private void LoadRegister(string json)
         {
             var objects = JObject.Parse(json);
+            UserRepository.Create();
+            var msg = UserRepository.UserService.ValidateRegister(objects);
+            var token = UserRepository.GetToken();
 
-            var msg = UserService.ValidateRegister(objects);
-            if (UserService.GetToken() != null)
+            if (token != null)
             {
                 var settings = new SettingsBuilder(SettingsRepository.Get())
                     .ItemBuilder();
 
                 settings.SetEmail(Email);
-                settings.SetToken(UserService.GetToken());
+                settings.SetToken(token);
                 SettingsRepository.Save();
 
                 _regionManager.RequestNavigate("ContentRegion", "Main");

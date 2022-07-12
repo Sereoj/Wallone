@@ -93,7 +93,7 @@ namespace Wallone.UI.ViewModels.Controls
                 {"id", user?.id},
                 {"header", "Профиль"},
                 {"name", user?.username},
-                {"isProfile", UserService.IsUser(user?.id)}
+                {"isProfile", UserRepository.UserService.IsUser(user?.id)}
             };
             regionManager.RequestNavigate("PageRegion", "Profile", paramProfile);
         }

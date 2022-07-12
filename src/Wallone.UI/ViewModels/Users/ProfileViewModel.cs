@@ -115,11 +115,13 @@ namespace Wallone.UI.ViewModels.Users
 
             if (IsProfile)
             {
-                if (!string.IsNullOrEmpty(UserService.GetId()))
+
+                var userId = UserRepository.Fields.GetUserId();
+                if (!string.IsNullOrEmpty(userId))
                 {
                     ProfileActionsVM.IsEnableEditProfile = true;
                     ProfileActionsVM.IsEnableSub = false;
-                    Loaded(UserService.GetId(), true);
+                    Loaded(userId, true);
                 }
                 else
                 {
@@ -136,7 +138,7 @@ namespace Wallone.UI.ViewModels.Users
             else
             {
                 ProfileActionsVM.IsEnableEditProfile = false;
-                ProfileActionsVM.IsEnableSub = id != UserService.GetId();
+                ProfileActionsVM.IsEnableSub = id != UserRepository.Fields.GetUserId();
                 Loaded(id, false);
             }
         }

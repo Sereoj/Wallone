@@ -48,13 +48,28 @@
                     MinWidth="340"
                     Margin="15,2,0,0"
                     Orientation="Vertical">
-                    <TextBlock
-                        x:Name="Username"
-                        Padding="0,3"
-                        FontFamily="{StaticResource FontGardensC}"
-                        Style="{StaticResource H5}"
-                        Text="{Binding SinglePageItemsViewModel.Username, TargetNullValue=HelloUsername}"
-                        TextWrapping="Wrap" />
+                    <WrapPanel>
+                        <TextBlock
+                            x:Name="Username"
+                            Margin="0,0,5,0"
+                            Padding="0,3"
+                            Cursor="Hand"
+                            FontFamily="{StaticResource FontGardensC}"
+                            Style="{StaticResource H5}"
+                            Text="{Binding SinglePageItemsViewModel.Username, TargetNullValue=HelloUsername}"
+                            TextWrapping="Wrap"
+                            ToolTip="Имя пользователя" />
+                        <TextBlock
+                            x:Name="Verficated"
+                            Padding="0,3"
+                            Cursor="Hand"
+                            FontFamily="{StaticResource FontIconMoonUltimate}"
+                            Foreground="#035397"
+                            Style="{StaticResource H5}"
+                            Text="&#xEE76;"
+                            TextWrapping="Wrap"
+                            ToolTip="Пользователь верифицирован" />
+                    </WrapPanel>
                     <TextBlock
                         x:Name="CreatedAt"
                         Padding="0,2"
@@ -66,7 +81,8 @@
                         Padding="0,2"
                         Command="{Binding ProfileCommand}"
                         Cursor="Hand"
-                        FontSize="14">
+                        FontSize="14"
+                        ToolTip="Перейти в профиль">
                         Перейти в профиль
                     </ui:HyperlinkButton>
                 </StackPanel>
@@ -98,9 +114,11 @@
                     </StackPanel.Style>
                     <WrapPanel>
                         <TextBlock
+                            Cursor="Hand"
                             FontFamily="{StaticResource FontIconMoonUltimate}"
                             Style="{StaticResource P}"
-                            Text="&#xECAE;" />
+                            Text="&#xECAE;"
+                            ToolTip="Просмотры" />
                         <TextBlock
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
@@ -110,9 +128,11 @@
                     </WrapPanel>
                     <WrapPanel>
                         <TextBlock
+                            Cursor="Hand"
                             FontFamily="{StaticResource FontIconMoonUltimate}"
                             Style="{StaticResource P}"
-                            Text="&#xEC76;" />
+                            Text="&#xEC76;"
+                            ToolTip="Скачивания" />
                         <TextBlock
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
@@ -122,9 +142,11 @@
                     </WrapPanel>
                     <WrapPanel>
                         <TextBlock
+                            Cursor="Hand"
                             FontFamily="{StaticResource FontIconMoonUltimate}"
                             Style="{StaticResource P}"
-                            Text="&#xECEA;" />
+                            Text="&#xECEA;"
+                            ToolTip="Установки" />
                         <TextBlock
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
@@ -145,9 +167,11 @@
                     </StackPanel.Style>
                     <WrapPanel>
                         <TextBlock
+                            Cursor="Hand"
                             FontFamily="{StaticResource FontIconMoonUltimate}"
                             Style="{StaticResource P}"
-                            Text="&#xEC5A;" />
+                            Text="&#xEC5A;"
+                            ToolTip="Бренд" />
                         <TextBlock
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
@@ -157,9 +181,11 @@
                     </WrapPanel>
                     <WrapPanel>
                         <TextBlock
+                            Cursor="Hand"
                             FontFamily="{StaticResource FontIconMoonUltimate}"
                             Style="{StaticResource P}"
-                            Text="&#xE93E;" />
+                            Text="&#xE93E;"
+                            ToolTip="Категории" />
                         <ui:ItemsRepeater
                             MinWidth="175"
                             MaxWidth="375"
@@ -178,9 +204,11 @@
                     </WrapPanel>
                     <WrapPanel>
                         <TextBlock
+                            Cursor="Hand"
                             FontFamily="{StaticResource FontIconMoonUltimate}"
                             Style="{StaticResource P}"
-                            Text="&#xE9F5;" />
+                            Text="&#xE9F5;"
+                            ToolTip="Теги" />
                         <ui:ItemsRepeater
                             MinWidth="175"
                             MaxWidth="375"

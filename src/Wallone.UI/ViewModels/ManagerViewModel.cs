@@ -53,10 +53,10 @@ namespace Wallone.UI.ViewModels
                 case "Profile":
                     var paramProfile = new NavigationParameters
                     {
-                        {"id", UserService.GetId()},
+                        {"id", UserRepository.Fields.GetUserId()},
                         {"header", "Профиль"},
-                        {"name", UserService.GetUsername()},
-                        {"isProfile", UserService.IsUser(UserService.GetId())}
+                        {"name", UserRepository.Fields.GetUsername()},
+                        {"isProfile", UserRepository.UserService.IsUser(UserRepository.Fields.GetUserId())}
                     };
                     regionManager.RequestNavigate("PageRegion", "Profile", paramProfile);
                     break;

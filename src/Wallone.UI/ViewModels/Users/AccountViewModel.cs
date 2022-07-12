@@ -164,7 +164,7 @@ namespace Wallone.UI.ViewModels.Users
                 .ItemBuilder();
             settings.SetToken(null);
 
-            UserService.Close();
+            UserRepository.Close();
             SettingsRepository.Save();
 
             regionManager.RequestNavigate("ContentRegion", "Main");
