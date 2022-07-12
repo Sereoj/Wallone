@@ -8,6 +8,7 @@ using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
 
 namespace Wallone.UI.ViewModels
 {

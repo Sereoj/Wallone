@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
+using Wallone.Core.Services.App;
 
 namespace Wallone.Core.Services.Loggers
 {
@@ -14,8 +17,8 @@ namespace Wallone.Core.Services.Loggers
     public class LoggerService
     {
         private static bool isEnable;
+        private static List<string> tempMessage = new List<string>();
         public static string FileName { get; private set; }
-
 
         public static string DefaultFileName()
         {
@@ -45,8 +48,11 @@ namespace Wallone.Core.Services.Loggers
         {
             return Path.Combine(GetFolderPath(), FileName);
         }
-
-        public static async Task LogAsync(object useClass,string message, Message type = Message.Default)
+        internal static void SysLog(object useClass, string message, Message type = Message.Default)
+        {
+            tempMessage.Add(ContentFormatter(useClass, message, type));
+        }
+        public static async Task LogAsync(object useClass, string message, Message type = Message.Default)
         {
             try
             {
@@ -68,6 +74,34 @@ namespace Wallone.Core.Services.Loggers
                 }
             }
             await Task.CompletedTask;
+        }
+
+        public static bool Is()
+        {
+            return new SettingsBuilder(SettingsRepository.Get())
+                .ItemBuilder()
+                .GetLog();
+        }
+
+        public static void Init()
+        {
+            if(Is())
+            {
+                using (var file = new StreamWriter(GetFilePath(), true))
+                {
+                    foreach (var item in tempMessage)
+                    {
+                        file.WriteLine(item);
+                    }
+                    file.Close();
+                }
+                tempMessage.Clear();
+                Activate();
+            }
+            else
+            {
+                Deactivate();
+            }
         }
 
         private static string ContentFormatter(object useClass, string message, Message type = Message.Default)

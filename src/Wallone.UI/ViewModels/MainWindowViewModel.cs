@@ -6,6 +6,7 @@ using Wallone.Core.Builders;
 using Wallone.Core.Models.Settings;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
 using Wallone.UI.Properties;
 
 namespace Wallone.UI.ViewModels
@@ -25,7 +26,6 @@ namespace Wallone.UI.ViewModels
         public MainWindowViewModel(IRegionManager regionManager)
         {
             this.regionManager = regionManager;
-
             CurrentTheme = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder()
                 .GetWindowTheme();

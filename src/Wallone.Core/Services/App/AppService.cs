@@ -6,6 +6,7 @@ using Wallone.Core.Models;
 using Wallone.Core.Models.App;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services.Locations;
+using Wallone.Core.Services.Loggers;
 
 namespace Wallone.Core.Services.App
 {

@@ -10,7 +10,7 @@ namespace Wallone.Core.Builders
         {
             AppSettingsRepository.AppSettingsService.SetAppDirectoryLocation(path);
 
-            _ = LoggerService.LogAsync(this, path);
+            LoggerService.SysLog(this, path);
             return this;
         }
 
@@ -18,7 +18,7 @@ namespace Wallone.Core.Builders
         {
             AppSettingsRepository.AppSettingsService.SetApplicationPath(path);
 
-            _ = LoggerService.LogAsync(this, path);
+            LoggerService.SysLog(this, path);
             return this;
         }
 

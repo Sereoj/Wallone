@@ -19,13 +19,13 @@ namespace Wallone.Core.Builders
 
         public AppLoggerBuilder NewLine()
         {
-            _ = LoggerService.LogAsync(null, null);
+            LoggerService.SysLog(null, null);
             return this;
         }
 
         public AppLoggerBuilder StartLine()
         {
-            _ = LoggerService.LogAsync(null, $"Запуск приложения Wallone");
+            LoggerService.SysLog(null, $"Запуск приложения Wallone");
             return this;
         }
     }

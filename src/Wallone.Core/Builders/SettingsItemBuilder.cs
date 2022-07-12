@@ -183,6 +183,12 @@ namespace Wallone.Core.Builders
             return this;
         }
 
+        public SettingsItemBuilder SetLog(bool value)
+        {
+            settings.Advanced.Log = value;
+            return this;
+        }
+
         /// <summary>
         /// Получение настроек
         /// </summary>
@@ -315,6 +321,11 @@ namespace Wallone.Core.Builders
         public int GetResolutionHeight()
         {
             return settings.General.ResolutionHeight;
+        }
+
+        public bool GetLog()
+        {
+            return settings.Advanced.Log;
         }
 
         public void Build()

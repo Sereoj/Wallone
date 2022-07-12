@@ -69,7 +69,7 @@ namespace Wallone.UI.ViewModels
 
             ImgResolutionWidth = settings.GetResolutionWidth();
             ImgResolutionHeight = settings.GetResolutionHeight();
-
+            IsLog = settings.GetLog();
             settings.Build();
 
 
@@ -318,6 +318,19 @@ namespace Wallone.UI.ViewModels
                     .SetResolutionHeight(value)
                     .Build();
                 SetProperty(ref imgResolutionHeight, value);
+            }
+        }
+
+        private bool isLog;
+        public bool IsLog
+        {
+            get => isLog;
+            set
+            {
+                settings
+                    .SetLog(value)
+                    .Build();
+                SetProperty(ref isLog, value);
             }
         }
 

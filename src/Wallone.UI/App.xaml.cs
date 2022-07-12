@@ -90,7 +90,6 @@ namespace Wallone.UI
             var app = new AppSettingsBuilder()
                 .Query(new AppLoggerBuilder()
                     .SetFileName(LoggerService.DefaultFileName())
-                    .Activate()
                     .NewLine()
                     .StartLine()
                 )
@@ -112,6 +111,7 @@ namespace Wallone.UI
                     .Validate()
                     .Build()
                 );
+            LoggerService.Init();
         }
     }
 }
