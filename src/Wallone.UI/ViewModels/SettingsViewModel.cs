@@ -330,6 +330,8 @@ namespace Wallone.UI.ViewModels
                 settings
                     .SetLog(value)
                     .Build();
+                new AppLoggerBuilder()
+                    .Set(value);
                 SetProperty(ref isLog, value);
             }
         }

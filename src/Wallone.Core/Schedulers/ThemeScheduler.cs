@@ -37,7 +37,6 @@ namespace Wallone.Core.Schedulers
             themeController.Core().Init();
 
             AutoReset(false);
-            _= LoggerService.LogAsync(this, $"AutoReset {timer.AutoReset}");
 
             var path = themeController.Core().GetCurrentImage();
 
@@ -68,7 +67,6 @@ namespace Wallone.Core.Schedulers
                 SetInterval(time);
             }
             AutoReset(true);
-            _ = LoggerService.LogAsync(this, $"AutoReset {timer.AutoReset}");
         }
         private void AutoReset(bool value)
         {

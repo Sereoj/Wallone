@@ -103,9 +103,9 @@
                         helpers:PasswordBoxHelper.Password="{Binding Confirm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <WrapPanel>
                         <CheckBox
-                        Content="Согласен на обработку данных"
-                        MaxHeight="35"
-                        Margin="0,0,10,0"/>
+                            MaxHeight="35"
+                            Margin="0,0,10,0"
+                            Content="Согласен на обработку данных" />
                         <ui:HyperlinkButton Command="{Binding OpenLinkCommand}">
                             Открыть
                         </ui:HyperlinkButton>
@@ -114,15 +114,15 @@
                 <StackPanel x:Name="MessageBar" Grid.Row="2">
                     <ScrollViewer>
                         <TextBlock
-                        Width="300"
-                        Margin="0,20,0,40"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        FontFamily="{StaticResource FontGardensC}"
-                        FontSize="14"
-                        Foreground="#EB1D36"
-                        Text="{Binding Message, FallbackValue=Messages}"
-                        TextWrapping="Wrap" />
+                            Width="300"
+                            Margin="0,20,0,40"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontFamily="{StaticResource FontGardensC}"
+                            FontSize="14"
+                            Foreground="#EB1D36"
+                            Text="{Binding Message, FallbackValue=Messages}"
+                            TextWrapping="Wrap" />
                     </ScrollViewer>
                 </StackPanel>
                 <StackPanel x:Name="BottomBar" Grid.Row="3">

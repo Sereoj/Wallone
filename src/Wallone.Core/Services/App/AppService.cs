@@ -31,6 +31,7 @@ namespace Wallone.Core.Services.App
             {
                 var themeScheduler = new ThemeScheduler(themeController);
                 ThemeScheduler.Start();
+                LoggerService.SysLog(null, $"Запуск планировщика");
             }
         }
 

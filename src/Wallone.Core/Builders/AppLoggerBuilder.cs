@@ -1,4 +1,5 @@
-﻿using Wallone.Core.Services;
+﻿using System;
+using Wallone.Core.Services;
 using Wallone.Core.Services.Loggers;
 
 namespace Wallone.Core.Builders
@@ -17,6 +18,12 @@ namespace Wallone.Core.Builders
             return this;
         }
 
+        public AppLoggerBuilder Deactivate()
+        {
+            LoggerService.Deactivate();
+            return this;
+        }
+
         public AppLoggerBuilder NewLine()
         {
             LoggerService.SysLog(null, null);
@@ -27,6 +34,18 @@ namespace Wallone.Core.Builders
         {
             LoggerService.SysLog(null, $"Запуск приложения Wallone");
             return this;
+        }
+
+        public void Set(bool value)
+        {
+            if (value)
+            {
+                Activate();
+            }
+            else
+            {
+                Deactivate();
+            }
         }
     }
 }

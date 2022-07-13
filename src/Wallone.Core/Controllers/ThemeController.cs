@@ -15,7 +15,7 @@ namespace Wallone.Core.Controllers
 {
     public class GeolocationController<T>
     {
-        private Location location;
+        private readonly Location location;
 
         public GeolocationController(Location location)
         {
