@@ -37,11 +37,6 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" />
-        <views:NoNetworkControl
-            x:Name="NoNetwork"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
         <ScrollViewer
             x:Name="ScrollViewer"
             CanContentScroll="False"

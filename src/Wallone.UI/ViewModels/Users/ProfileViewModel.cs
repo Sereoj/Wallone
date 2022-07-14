@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using RestSharp;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
@@ -202,34 +204,41 @@ namespace Wallone.UI.ViewModels.Users
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    //var jArray = JArray.Parse(data);
-                    profilePage = JsonConvert.DeserializeObject<Profile>(data);
-                    ProfileService.Load(profilePage);
-
-                    ProfileItemsVM.Name = ProfileService.GetUsername();
-                    ProfileItemsVM.Description = ProfileService.GetDescription();
-
-                    ProfileItemsVM.Avatar = UriHelper.Get(ProfileService.GetAvatar());
-                    ProfileItemsVM.Cover = UriHelper.Get(ProfileService.GetCover());
-
-                    ProfileItemsVM.Subscribers = ProfileService.GetSubscribers();
-                    ProfileItemsVM.Subscriptions = ProfileService.GetSubscriptions();
-                    ProfileItemsVM.Likes = ProfileService.GetLikes();
-                    ProfileItemsVM.Publish = ProfileService.GetPublish();
-
-                    ProfileActionsVM.IsMyProfile = isMyProfile;
-
-                    switch (ProfileService.GetSubscriber())
+                    var message = JObject.Parse(data);
+                    if (!string.IsNullOrEmpty(message["message"]?.ToString()))
                     {
-                        case "true":
-                            ProfileActionsVM.ActionStatus = "false";
-                            break;
-                        case "false":
-                            ProfileActionsVM.ActionStatus = "true";
-                            break;
+                        ManagerViewModel.Show(Pages.NotFound, "Не найдена страница пользователя");
                     }
+                    else
+                    {
+                        profilePage = JsonConvert.DeserializeObject<Profile>(data);
+                        ProfileService.Load(profilePage);
 
-                    posts(ProfileService.GetPosts());
+                        ProfileItemsVM.Name = ProfileService.GetUsername();
+                        ProfileItemsVM.Description = ProfileService.GetDescription();
+
+                        ProfileItemsVM.Avatar = UriHelper.Get(ProfileService.GetAvatar());
+                        ProfileItemsVM.Cover = UriHelper.Get(ProfileService.GetCover());
+
+                        ProfileItemsVM.Subscribers = ProfileService.GetSubscribers();
+                        ProfileItemsVM.Subscriptions = ProfileService.GetSubscriptions();
+                        ProfileItemsVM.Likes = ProfileService.GetLikes();
+                        ProfileItemsVM.Publish = ProfileService.GetPublish();
+
+                        ProfileActionsVM.IsMyProfile = isMyProfile;
+
+                        switch (ProfileService.GetSubscriber())
+                        {
+                            case "true":
+                                ProfileActionsVM.ActionStatus = "false";
+                                break;
+                            case "false":
+                                ProfileActionsVM.ActionStatus = "true";
+                                break;
+                        }
+
+                        posts(ProfileService.GetPosts());
+                    }
                 }
 
                 IsLoading = false;

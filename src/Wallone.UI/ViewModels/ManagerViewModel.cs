@@ -3,6 +3,7 @@ using ModernWpf.Controls;
 using Prism.Regions;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Services;
+using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Users;
 
 namespace Wallone.UI.ViewModels
@@ -29,6 +30,7 @@ namespace Wallone.UI.ViewModels
                     break;
                 case Pages.NotFound:
                     regionManager.RequestNavigate("PageRegion", "NotFound", new NavigationParameters { { "Text", exMessage } });
+                    _= LoggerService.LogAsync(this, $"{exMessage}", Message.Error);
                     break;
             }
         }

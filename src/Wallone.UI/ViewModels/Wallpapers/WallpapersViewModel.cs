@@ -32,8 +32,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         private bool isContent;
 
-        private bool isInternet;
-
         private bool isLoading = true;
 
         private bool isNoItems = true;
@@ -61,16 +59,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
             set
             {
                 SetProperty(ref isLoading, value);
-                IsContent = value == false;
-            }
-        }
-
-        public bool IsInternet
-        {
-            get => isInternet;
-            set
-            {
-                SetProperty(ref isInternet, value);
                 IsContent = value == false;
             }
         }
@@ -159,7 +147,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             try
             {
-                IsInternet = false;
                 if (isLoaded)
                 {
                     IsLoading = true;
@@ -169,7 +156,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 var items = await ThumbService.GetThumbsAsync(router, parameters);
                 await LoadImages(items);
-                Validate();
 
                 PageBuilder.ClearQuery();
                 isNextPage = true;
@@ -207,20 +193,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 }
             }
             await Task.CompletedTask;
-        }
-
-        private void Validate()
-        {
-            var status = AppEthernetService.GetStatus();
-
-            if (status == 0)
-            {
-                IsInternet = true;
-            }
-            else
-            {
-                IsNoItems = Library.Count == 0;
-            }
         }
     }
 }
