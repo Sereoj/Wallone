@@ -32,7 +32,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
         private bool isLoading = true;
 
         private string name;
-        private SinglePage simplePage;
+        private SinglePage singlePage;
 
         public SinglePageViewModel()
         {
@@ -135,15 +135,26 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     .SetName(pageName);
 
                 var data = await SinglePageService.GetPageAsync(uuid);
-                simplePage = JsonConvert.DeserializeObject<SinglePage>(data);
+                singlePage = JsonConvert.DeserializeObject<SinglePage>(data);
 
-                if (simplePage != null)
+                if (singlePage != null)
                 {
                     if (theme.Exist())
                     {
                         if (theme.ValidateConfig())
                         {
-                            simplePage.images = theme.GetModelFromFile().images;
+                            var themeModel = theme.GetModelFromFile();
+                            if (string.IsNullOrEmpty(singlePage.name) || string.IsNullOrEmpty(singlePage.uuid))
+                            {
+                                singlePage.name = themeModel.name;
+                                //singlePage.uuid = themeModel.uuid;
+                                if (singlePage.user == null && themeModel.user != null)
+                                {
+                                    singlePage.user = themeModel.user;
+                                }
+                                singlePage.created_at = themeModel.created_at;
+                            }
+                            singlePage.images = themeModel.images;
                         }
                         else
                         {
@@ -152,18 +163,26 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     }
 
 
-                    SinglePageService.Load(simplePage);
+                    SinglePageService.Load(singlePage);
 
                     Name = SinglePageService.GetHeader();
 
                     var param = new NavigationParameters
                     {
-                        {"simplePage", simplePage}
+                        {"singlePage", singlePage}
                     };
                     regionManager.RequestNavigate("Slider", "ImagePreview", param);
                     regionManager.RequestNavigate("Information", "InformationArticle", param);
 
-                    posts(SinglePageService.GetPosts());
+
+                    if (IsPosts(SinglePageService.GetPosts()))
+                    {
+                        posts(SinglePageService.GetPosts());
+                    }
+                    else
+                    {
+
+                    }
                 }
 
                 IsLoading = false;
@@ -176,22 +195,26 @@ namespace Wallone.UI.ViewModels.Wallpapers
             GC.Collect(1, GCCollectionMode.Forced);
         }
 
+        private bool IsPosts(List<Thumb> thumbs)
+        {
+            return ThumbService.IsNotNull(thumbs);
+        }
+
         private async void posts(List<Thumb> list)
         {
             Posts.Clear();
             try
             {
-                if (ThumbService.IsNotNull(list))
-                    foreach (var item in list)
+                foreach (var item in list)
+                {
+                    Posts.Add(new ArticleViewModel(regionManager)
                     {
-                        Posts.Add(new ArticleViewModel(regionManager)
-                        {
-                            Uuid = item.Uuid,
-                            Name = item.Name,
-                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
-                        });
-                        await Task.CompletedTask;
-                    }
+                        Uuid = item.Uuid,
+                        Name = item.Name,
+                        ImageSource = new BitmapImage(UriHelper.Get(item.Preview))
+                    });
+                    await Task.CompletedTask;
+                }
             }
             catch (Exception ex)
             {

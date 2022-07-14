@@ -21,7 +21,7 @@ namespace Wallone.UI.ViewModels.Controls
     public class InformationArticleViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
-        private SinglePage simplePage;
+        private SinglePage singlePage;
         private ThemeCreatedBuilder themeBuilder;
 
         public InformationArticleViewModel()
@@ -57,8 +57,8 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            simplePage = (SinglePage)navigationContext.Parameters["simplePage"];
-            if (simplePage == null)
+            singlePage = (SinglePage)navigationContext.Parameters["singlePage"];
+            if (singlePage == null)
             {
                 var param = new NavigationParameters
                 {
@@ -111,7 +111,7 @@ namespace Wallone.UI.ViewModels.Controls
                     .HasDownloaded() //Если не установлена, проходим проверку
                     .ExistOrCreateDirectory() // Если папка существует или не создана
                     .Remove() //Если существует и статус false, то удалить
-                    .SetImages(simplePage.links)
+                    .SetImages(singlePage.links)
                     .ImageDownload(); //Разрешение на скачивание
 
                 await builder.PreviewDownloadAsync();
@@ -262,8 +262,8 @@ namespace Wallone.UI.ViewModels.Controls
             }
             else
             {
-                SinglePageLogic.IsEnableDownloaded = simplePage.isActive;
-                SinglePageLogic.IsEnableLiked = simplePage.isActive;
+                SinglePageLogic.IsEnableDownloaded = singlePage.isActive;
+                SinglePageLogic.IsEnableLiked = singlePage.isActive;
 
                 SinglePageLogic.IsDownloaded = false;
                 SinglePageLogic.IsInstalled = false;
@@ -307,9 +307,9 @@ namespace Wallone.UI.ViewModels.Controls
 
         private void Update(SinglePage data)
         {
-            SinglePageItemsViewModel.Views = data?.views ?? simplePage.views;
-            SinglePageItemsViewModel.Likes = data?.likes ?? simplePage.likes;
-            SinglePageItemsViewModel.Downloads = data?.downloads ?? simplePage.downloads;
+            SinglePageItemsViewModel.Views = data?.views ?? singlePage.views;
+            SinglePageItemsViewModel.Likes = data?.likes ?? singlePage.likes;
+            SinglePageItemsViewModel.Downloads = data?.downloads ?? singlePage.downloads;
         }
 
         public void Loaded()
@@ -332,7 +332,7 @@ namespace Wallone.UI.ViewModels.Controls
 
             themeBuilder = new ThemeBuilder<ThemeCreatedBuilder>()
                 .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
-                .SetName(simplePage.name);
+                .SetName(singlePage.name);
 
             categories(SinglePageService.GetCategories());
             tags(SinglePageService.GetTags());

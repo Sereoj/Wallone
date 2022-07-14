@@ -20,7 +20,7 @@ namespace Wallone.UI.ViewModels.Controls
         private BitmapImage frontImageSource;
         private bool isEnable;
         private int selectedIndex;
-        private SinglePage simplePage;
+        private SinglePage singlePage;
 
 
         private bool startAnimationValue;
@@ -97,13 +97,13 @@ namespace Wallone.UI.ViewModels.Controls
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            simplePage = (SinglePage) navigationContext.Parameters["simplePage"];
+            singlePage = (SinglePage) navigationContext.Parameters["singlePage"];
 
-            if (simplePage != null)
+            if (singlePage != null)
             {
-                if (ThemePreviewService.IsNotNull(simplePage.images))
+                if (ThemePreviewService.IsNotNull(singlePage.images))
                 {
-                    foreach (var item in simplePage.images) SetImageList(item.times, UriHelper.Get(item.location));
+                    foreach (var item in singlePage.images) SetImageList(item.times, UriHelper.Get(item.location));
 
                     isEnable = true;
                     SelectedIndex = Items.IndexOf(Items.FirstOrDefault());
