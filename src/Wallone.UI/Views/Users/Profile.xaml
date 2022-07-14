@@ -13,8 +13,8 @@
     xmlns:views="clr-namespace:Wallone.Controls.Views;assembly=Wallone.Controls"
     d:DataContext="{d:DesignInstance Type=users:ProfileViewModel,
                                      IsDesignTimeCreatable=True}"
-    d:DesignHeight="900"
-    d:DesignWidth="1920"
+    d:DesignHeight="800"
+    d:DesignWidth="600"
     prism:ViewModelLocator.AutoWireViewModel="True"
     SizeChanged="UserControl_SizeChanged"
     mc:Ignorable="d">
@@ -90,14 +90,11 @@
                             x:Name="ImageCover"
                             Grid.Row="0"
                             ClipToBounds="True">
-                            <Rectangle>
-                                <Rectangle.Fill>
-                                    <ImageBrush
-                                        ImageSource="{Binding ProfileItemsVM.Cover}"
-                                        Stretch="UniformToFill"
-                                        TileMode="Tile" />
-                                </Rectangle.Fill>
-                            </Rectangle>
+                            <Canvas>
+                                <Canvas.Background>
+                                    <ImageBrush ImageSource="{Binding ProfileItemsVM.Cover}" Stretch="UniformToFill" />
+                                </Canvas.Background>
+                            </Canvas>
                             <Border
                                 Height="160"
                                 Margin="5,0,5,0"
@@ -137,9 +134,8 @@
                                     </Grid.RenderTransform>
                                     <ui:PersonPicture Width="120" ProfilePicture="{Binding ProfileItemsVM.Avatar}" />
                                 </Grid>
-                                <!--  Название и описание хз, сломается наверн  -->
                                 <StackPanel
-                                    x:Name="NameNDescBlock"
+                                    x:Name="UserInfo"
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Opacity="1"
@@ -366,7 +362,7 @@
                                                     Duration="0:0:0.4" />
                                                 <!--  Это Desc 0  -->
                                                 <DoubleAnimation
-                                                    Storyboard.TargetName="NameNDescBlock"
+                                                    Storyboard.TargetName="UserInfo"
                                                     Storyboard.TargetProperty="Opacity"
                                                     To="0"
                                                     Duration="0:0:0.4" />
@@ -413,7 +409,7 @@
                                                     Duration="0:0:0.4" />
                                                 <!--  Это Desc 1  -->
                                                 <DoubleAnimation
-                                                    Storyboard.TargetName="NameNDescBlock"
+                                                    Storyboard.TargetName="UserInfo"
                                                     Storyboard.TargetProperty="Opacity"
                                                     To="1"
                                                     Duration="0:0:0.4" />
@@ -441,7 +437,8 @@
                             x:Name="ToolbarBlock"
                             Grid.Row="1"
                             Margin="0,20"
-                            HorizontalAlignment="Center">
+                            HorizontalAlignment="Center"
+                            Visibility="Hidden">
                             <Button
                                 Width="160"
                                 Height="50"
@@ -476,7 +473,7 @@
                                 Visibility="{Binding ProfileActionsVM.IsEnableVK, Converter={StaticResource BoolToVis}}" />
                         </WrapPanel>
                         <StackPanel
-                            x:Name="PostsBlock"
+                            x:Name="Posts"
                             Grid.Row="2"
                             Margin="0,20">
                             <TextBlock
