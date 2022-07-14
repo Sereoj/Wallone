@@ -12,8 +12,8 @@
     xmlns:wallpapers="clr-namespace:Wallone.UI.ViewModels.Wallpapers"
     d:DataContext="{d:DesignInstance Type=wallpapers:SinglePageViewModel,
                                      IsDesignTimeCreatable=True}"
-    d:DesignHeight="2000"
-    d:DesignWidth="2048"
+    d:DesignHeight="800"
+    d:DesignWidth="600"
     mc:Ignorable="d">
     <!--  Border использование для рамок  -->
     <UserControl.Resources>
@@ -32,7 +32,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <views:LoadingControl
+        <!--<views:LoadingControl
             x:Name="Loading"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -41,13 +41,14 @@
             x:Name="NoNetwork"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />
+            Visibility="{Binding IsInternet, Converter={StaticResource BoolToVis}}" />-->
         <ScrollViewer
             x:Name="ScrollViewer"
             IsTabStop="False"
             ScrollChanged="ScrollViewer_ScrollChanged">
             <Grid>
-                <Grid Visibility="{Binding IsContent, Converter={StaticResource BoolToVis}}">
+                <Grid>
+                    <!--<Grid Visibility="{Binding IsContent, Converter={StaticResource BoolToVis}}">-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60" />
                         <RowDefinition Height="*" />
@@ -133,7 +134,8 @@
                             <StackPanel
                                 x:Name="RandomEntriesBlock"
                                 Margin="0,20,0,0"
-                                Focusable="False">
+                                Focusable="False"
+                                Visibility="{Binding IsPosts, Converter={StaticResource BoolToVis}}">
                                 <StackPanel HorizontalAlignment="Center">
                                     <TextBlock
                                         Padding="0,2"
@@ -151,6 +153,28 @@
                                         </ui:GridView.ItemTemplate>
                                     </ui:GridView>
                                 </StackPanel>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock
+                                    Padding="0,2"
+                                    HorizontalAlignment="Center"
+                                    FontFamily="{StaticResource FontGardensC}"
+                                    Style="{StaticResource H4}"
+                                    Text="Упс, что-то пошло не так..." />
+                                <Grid Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="2*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{StaticResource Placeholder}" />
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                        <TextBlock Style="{StaticResource P}" Text="Возможно вы используйте офлайн версию темы" />
+                                        <TextBlock Style="{StaticResource P}" Text="1) Разместите вашу тему на нашем сайте" />
+                                        <TextBlock Style="{StaticResource P}" Text="2) Пополняйте или изменяйте изображения" />
+                                        <TextBlock Style="{StaticResource P}" Text="3) Делитесь с пользователями" />
+                                    </StackPanel>
+
+                                </Grid>
                             </StackPanel>
                         </StackPanel>
                     </Grid>

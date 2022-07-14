@@ -27,9 +27,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         private bool isContent;
 
-        private bool isInternet;
-
         private bool isLoading = true;
+        private bool isPosts;
 
         private string name;
         private SinglePage singlePage;
@@ -62,20 +61,20 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
-        public bool IsInternet
-        {
-            get => isInternet;
-            set
-            {
-                SetProperty(ref isInternet, value);
-                IsContent = value == false;
-            }
-        }
-
         public bool IsContent
         {
             get => isContent;
             set => SetProperty(ref isContent, value);
+        }
+
+        public bool IsPosts
+        {
+            get => isLoading;
+            set
+            {
+                SetProperty(ref isLoading, value);
+                IsContent = value == false;
+            }
         }
 
         public SinglePageAdsViewModel SinglePageAds { get; set; } = new SinglePageAdsViewModel();
@@ -175,13 +174,14 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     regionManager.RequestNavigate("Information", "InformationArticle", param);
 
 
-                    if (IsPosts(SinglePageService.GetPosts()))
+                    if (IsNotPosts(SinglePageService.GetPosts()))
                     {
                         posts(SinglePageService.GetPosts());
+                        IsPosts = true;
                     }
                     else
                     {
-
+                        IsPosts = false;
                     }
                 }
 
@@ -195,7 +195,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             GC.Collect(1, GCCollectionMode.Forced);
         }
 
-        private bool IsPosts(List<Thumb> thumbs)
+        private bool IsNotPosts(List<Thumb> thumbs)
         {
             return ThumbService.IsNotNull(thumbs);
         }

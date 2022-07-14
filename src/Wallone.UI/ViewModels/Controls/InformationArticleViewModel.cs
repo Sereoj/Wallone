@@ -128,19 +128,18 @@ namespace Wallone.UI.ViewModels.Controls
                     {
                         OnInstallClicked();
                     }
+
+                    var data =
+                        await SinglePageService.SetDownloadAsync(
+                            AppConvert.BoolToString(builder.GetHasNotDownloaded()));
+                    Update(data);
                 }
                 else
                 {
+                    ThemeRepository.ThemeService.Remove();
                     SinglePageLogic.IsInstalled = false;
                     SinglePageLogic.IsEnableInstalled = false;
                 }
-
-
-                var data =
-                    await SinglePageService.SetDownloadAsync(
-                        AppConvert.BoolToString(builder.GetHasNotDownloaded()));
-
-                Update(data);
 
                 SinglePageLogic.IsDownloaded = builder.GetHasNotDownloaded();
                 SinglePageLogic.IsEnableDownloaded = true;
@@ -255,6 +254,7 @@ namespace Wallone.UI.ViewModels.Controls
 
             if (AppSettingsRepository.AppSettingsService.ExistDirectory(themePath))
             {
+                SinglePageLogic.IsEnableDownloaded = true;
                 SinglePageLogic.IsDownloaded = true;
 
                 SinglePageLogic.IsEnableInstalled = true;
