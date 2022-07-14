@@ -112,7 +112,7 @@ namespace Wallone.UI.ViewModels
         private bool isAutoSetImage;
         public bool IsAutoSetImage
         {
-            get { return isAutoSetImage; }
+            get => isAutoSetImage;
             set
             {
                 settings
@@ -125,7 +125,7 @@ namespace Wallone.UI.ViewModels
         private int themeIndexSelected;
         public int ThemeIndexSelected
         {
-            get { return themeIndexSelected; }
+            get => themeIndexSelected;
             set
             {
                 settings
@@ -139,7 +139,7 @@ namespace Wallone.UI.ViewModels
         private bool isSetModel;
         public bool IsSetModel
         {
-            get { return isSetModel; }
+            get => isSetModel;
             set
             {
                 settings
@@ -152,7 +152,7 @@ namespace Wallone.UI.ViewModels
         private bool isAnimation;
         public bool IsAnimation
         {
-            get { return isAnimation; }
+            get => isAnimation;
             set
             {
                 settings
@@ -165,7 +165,7 @@ namespace Wallone.UI.ViewModels
         private int geolocationIndexSelected;
         public int GeolocationIndexSelected
         {
-            get { return geolocationIndexSelected; }
+            get => geolocationIndexSelected;
             set
             {
                 settings
@@ -190,7 +190,7 @@ namespace Wallone.UI.ViewModels
         private double latitude;
         public double Latitude
         {
-            get { return latitude; }
+            get => latitude;
             set
             {
                 settings
@@ -204,7 +204,7 @@ namespace Wallone.UI.ViewModels
         private double longitude;
         public double Longitude
         {
-            get { return longitude; }
+            get => longitude;
             set
             {
                 settings
@@ -217,7 +217,7 @@ namespace Wallone.UI.ViewModels
         private bool isCustomResolution;
         public bool IsCustomResolution
         {
-            get { return isCustomResolution; }
+            get => isCustomResolution;
             set
             {
                 settings
@@ -233,14 +233,14 @@ namespace Wallone.UI.ViewModels
         private bool isEnableListLocation;
         public bool IsEnableListLocation
         {
-            get { return isEnableListLocation; }
+            get => isEnableListLocation;
             set { SetProperty(ref isEnableListLocation, value); }
         }
 
         private bool isEnableCustomLocation;
         public bool IsEnableCustomLocation
         {
-            get { return isEnableCustomLocation; }
+            get => isEnableCustomLocation;
             set { SetProperty(ref isEnableCustomLocation, value); }
         }
 
@@ -248,7 +248,7 @@ namespace Wallone.UI.ViewModels
         private bool isEnableResolutionList;
         public bool IsEnableResolutionList
         {
-            get { return isEnableResolutionList; }
+            get => isEnableResolutionList;
             set { SetProperty(ref isEnableResolutionList, value); }
         }
 
@@ -256,7 +256,7 @@ namespace Wallone.UI.ViewModels
         private int resolutionTemplateSelected;
         public int ResolutionTemplateSelected
         {
-            get { return resolutionTemplateSelected; }
+            get => resolutionTemplateSelected;
             set
             {
                 settings
@@ -270,7 +270,7 @@ namespace Wallone.UI.ViewModels
         private int resolutionModeSelected;
         public int ResolutionModeSelected
         {
-            get { return resolutionModeSelected; }
+            get => resolutionModeSelected;
             set
             {
                 settings
@@ -284,21 +284,21 @@ namespace Wallone.UI.ViewModels
         private bool isEnableResolutionTemplate;
         public bool IsEnableResolutionTemplate
         {
-            get { return isEnableResolutionTemplate; }
+            get => isEnableResolutionTemplate;
             set { SetProperty(ref isEnableResolutionTemplate, value); }
         }
 
         private bool isEnableResolutionCustom;
         public bool IsEnableResolutionCustom
         {
-            get { return isEnableResolutionCustom; }
+            get => isEnableResolutionCustom;
             set { SetProperty(ref isEnableResolutionCustom, value); }
         }
 
         private int imgResolutionWidth;
         public int ImgResolutionWidth
         {
-            get { return imgResolutionWidth; }
+            get => imgResolutionWidth;
             set
             {
                 settings
@@ -311,7 +311,7 @@ namespace Wallone.UI.ViewModels
         private int imgResolutionHeight;
         public int ImgResolutionHeight
         {
-            get { return imgResolutionHeight; }
+            get => imgResolutionHeight;
             set
             {
                 settings

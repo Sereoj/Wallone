@@ -22,7 +22,6 @@ namespace Wallone.Core.Services
                 if (phase != null)
                 {
                     phase.currentPhase = times;
-                    _ = LoggerService.LogAsync(typeof(PhaseService), $"{times}");
                 }
             }
 
@@ -31,7 +30,6 @@ namespace Wallone.Core.Services
                 if (phase != null)
                 {
                     phase.nextPhaseSpan = timeSpan;
-                    _ = LoggerService.LogAsync(typeof(PhaseService), $"SetNextPhaseSpan {timeSpan}");
                 }
             }
 
@@ -130,10 +128,8 @@ namespace Wallone.Core.Services
                     _ = LoggerService.LogAsync(typeof(Math), $"Изображений не должно быть 0!");
                     imageCount = 1;
                 }
-
-               var timeSpan = (nextDateTime - nowDateTime) / imageCount;
-
-                _ = LoggerService.LogAsync(typeof(Math), $"SunSpanImages {timeSpan}");
+                
+                var timeSpan = (nextDateTime - nowDateTime) / imageCount;
                 return timeSpan;
             }
         }

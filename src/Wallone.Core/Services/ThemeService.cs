@@ -170,22 +170,21 @@ namespace Wallone.Core.Services
 
             public static string GetCurrentImage(Times themeCollection)
             {
-                var image = GetImagesOrderBy().FirstOrDefault(s => s.times == themeCollection);
-                if (image != null)
+                if (IsImages())
                 {
-                    themeImageId = image.id;
-                    var imageLocation = image.location;
-                    if(AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation))
+                    var image = GetImagesOrderBy().FirstOrDefault(s => s.times == themeCollection);
+                    if (image != null)
                     {
-                        themeImagePath = imageLocation;
-                        return imageLocation;
-                    }
-                    else
-                    {
-                        themeImagePath = null;
-                        return null;
+                        themeImageId = image.id;
+                        var imageLocation = image.location;
+                        if (AppSettingsRepository.AppSettingsService.ExistsFile(imageLocation))
+                        {
+                            themeImagePath = imageLocation;
+                            return imageLocation;
+                        }
                     }
                 }
+                themeImagePath = null;
                 _ = LoggerService.LogAsync(typeof(ThemeService), "Не удалось найти модель изображения", Message.Warn);
                 return null;
             }
@@ -193,6 +192,10 @@ namespace Wallone.Core.Services
             public static void Remove()
             {
                 themeModel = null;
+                new SettingsBuilder(SettingsRepository.Get())
+                    .ItemBuilder()
+                    .SetTheme(null)
+                    .Build();
             }
 
             /// <summary>
@@ -335,9 +338,14 @@ namespace Wallone.Core.Services
             return themeModel;
         }
 
+        public static bool IsImages()
+        {
+            return Get() != null && themeModel.Images != null;
+        }
+
         public static List<Image> GetImages()
         {
-            return themeModel.Images.OrderBy(image => image.times == Times.Dawn).ToList();
+            return themeModel.Images;
         }
 
         public static List<Image> GetImagesOrderBy()
@@ -347,6 +355,12 @@ namespace Wallone.Core.Services
         public static List<Image> GetImagesOrderBy(Times times)
         {
             return themeModel.Images.OrderBy(image => image.times == times).ToList();
+        }
+
+        public static string GetName()
+        {
+            var value = Get();
+            return value?.Name;
         }
     }
 }
