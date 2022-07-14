@@ -27,9 +27,10 @@ namespace Wallone.Core.Controllers
         }
         public class Animation
         {
+            public static bool Enable { get; private set; }
+
             [DllImport("user32.dll", CharSet = CharSet.Auto)]
             private static extern int SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint fuFlags, uint uTimeout, out IntPtr result);
-
             public static void EnableTransitions(bool value)
             {
                 if(value)
@@ -42,25 +43,49 @@ namespace Wallone.Core.Controllers
                         _ = LoggerService.LogAsync(typeof(Animation), $"Анимация смены обоев не поддерживается в {OSHelper.IsWindows()} {OSHelper.Get().Version}");
                     }
                 }
+
+                Enable = value;
             }
         }
         public class Controller
         {
-            public static void Set(string path)
+            private static void ActiveDesktop(string path)
             {
                 ThreadStart threadStarter = () =>
                 {
                     IActiveDesktop _activeDesktop = ActiveDesktopWrapper.GetActiveDesktop();
                     _activeDesktop.SetWallpaper(path, 1);
-                    _activeDesktop.SetWallpaperOptions(ActiveDesktopWrapper.GetWallpaperOpt(WallPaperStyle.WPSTYLE_TILE), 0);
+                    _activeDesktop.SetWallpaperOptions(ActiveDesktopWrapper.GetWallpaperOpt(WallPaperStyle.WPSTYLE_SPAN), 0);
                     _activeDesktop.ApplyChanges(AD_Apply.ALL | AD_Apply.FORCE);
-
                     Marshal.ReleaseComObject(_activeDesktop);
                 };
                 Thread thread = new Thread(threadStarter);
                 thread.SetApartmentState(ApartmentState.STA);  // Set the thread to STA (required!)
                 thread.Start();
                 thread.Join(1000);
+            }
+
+            public static void DesktopWallpaper(string path)
+            {
+                IDesktopWallpaper desktopWallpaper = DesktopWallpaperFactory.Create();
+
+                for (uint i = 0; i < desktopWallpaper.GetMonitorDevicePathCount(); i++)
+                {
+                    string monitorId = desktopWallpaper.GetMonitorDevicePathAt(i);
+                    desktopWallpaper.SetWallpaper(monitorId, path);
+                }
+                Marshal.ReleaseComObject(desktopWallpaper);
+            }
+            public static void Set(string path)
+            {
+                if (Animation.Enable)
+                {
+                    ActiveDesktop(path);
+                }
+                else
+                {
+                    DesktopWallpaper(path);
+                }
             }
         }
     }

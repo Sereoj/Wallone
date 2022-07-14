@@ -1,6 +1,6 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
-using System;
+using Prism.Commands;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
@@ -20,6 +20,8 @@ namespace Wallone.UI.ViewModels
 
         private SettingsItemBuilder settings;
 
+        public DelegateCommand HelperGeoCommand { get; set; }
+        public DelegateCommand HelperImageCommand { get; set; }
         public SettingsViewModel()
         {
         }
@@ -72,8 +74,19 @@ namespace Wallone.UI.ViewModels
             IsLog = settings.GetLog();
             settings.Build();
 
-
             SettingsRepository.Get().General.PropertyChanged += SettingsChanged;
+
+            HelperGeoCommand = new DelegateCommand(OnHelperGeo);
+            HelperImageCommand = new DelegateCommand(OnHelperImage);
+        }
+
+        private void OnHelperImage()
+        {
+          
+        }
+
+        private void OnHelperGeo()
+        {
         }
 
         public string Name
@@ -351,7 +364,11 @@ namespace Wallone.UI.ViewModels
 
         private void SettingsChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            IsAutorun = ((General)sender).AutoRun;
+            if (sender != null)
+            {
+                var general = (General)sender;
+                IsAutorun = general.AutoRun;
+            }
         }
 
         private void UpdateUiGeolocation(Geolocation geolocation)

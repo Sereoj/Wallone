@@ -98,6 +98,7 @@
                                     <Button
                                         Width="110"
                                         Margin="10,0,0,0"
+                                        Command="{Binding HelperGeoCommand}"
                                         Content="Помощь" />
                                 </WrapPanel>
                                 <TextBlock Margin="10,10" Text="При изменении параметров, необходимо заново включить тему." />
@@ -143,6 +144,7 @@
                                     <Button
                                         Width="110"
                                         Margin="10,0,0,0"
+                                        Command="{Binding HelperImageCommand}"
                                         Content="Помощь" />
                                 </WrapPanel>
                                 <TextBlock Margin="10,10" Text="При изменении параметров, необходимо заново скачать и включить тему." />

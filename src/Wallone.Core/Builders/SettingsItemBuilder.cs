@@ -88,17 +88,6 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        /// <summary>
-        /// Установка режима геолокации
-        /// </summary>
-        /// <param name="mode"></param>
-        /// <returns></returns>
-        public SettingsItemBuilder SetMode(Geolocation mode)
-        {
-            settings.Advanced.Type = mode;
-            return this;
-        }
-
         public SettingsItemBuilder SetResolutionWidth(int value)
         {
             settings.General.ResolutionWidth = value;
@@ -196,11 +185,6 @@ namespace Wallone.Core.Builders
         public ISettings Get()
         {
             return settings;
-        }
-
-        public Geolocation GetMode()
-        {
-            return settings.Advanced.Type;
         }
 
         public string GetToken()
