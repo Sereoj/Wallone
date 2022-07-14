@@ -344,13 +344,13 @@ namespace Wallone.Core.Controllers
             phaseModel.duskSolarTime = GetSolarTime(sunPhases, SunPhaseName.Dusk);
             phaseModel.nightSolarTime = GetSolarTime(sunPhases, SunPhaseName.Night);
 
-            phaseModel.dawnSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
-            phaseModel.sunriseSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
-            phaseModel.daySolarTime = nowDateTime = nowDateTime.AddSeconds(30);
-            phaseModel.goldenSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
-            phaseModel.sunsetSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
-            phaseModel.duskSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
-            phaseModel.nightSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.dawnSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.sunriseSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.daySolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.goldenSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.sunsetSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.duskSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
+            //phaseModel.nightSolarTime = nowDateTime = nowDateTime.AddSeconds(30);
 
             SetLocationForPhasesLogger(phaseModel);
 
