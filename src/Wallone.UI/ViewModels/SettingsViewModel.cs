@@ -349,8 +349,16 @@ namespace Wallone.UI.ViewModels
             }
         }
 
+        private string themePath;
+        public string ThemePath
+        {
+            get => themePath;
+            set => SetProperty(ref themePath, value);
+        }
+
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
+            ThemePath = AppSettingsRepository.AppSettingsService.GetThemesLocation();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

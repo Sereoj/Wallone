@@ -51,30 +51,36 @@ namespace Wallone.Core.Controllers
         {
             private static void ActiveDesktop(string path)
             {
-                ThreadStart threadStarter = () =>
+                if (path != null)
                 {
-                    IActiveDesktop _activeDesktop = ActiveDesktopWrapper.GetActiveDesktop();
-                    _activeDesktop.SetWallpaper(path, 1);
-                    _activeDesktop.SetWallpaperOptions(ActiveDesktopWrapper.GetWallpaperOpt(WallPaperStyle.WPSTYLE_SPAN), 0);
-                    _activeDesktop.ApplyChanges(AD_Apply.ALL | AD_Apply.FORCE);
-                    Marshal.ReleaseComObject(_activeDesktop);
-                };
-                Thread thread = new Thread(threadStarter);
-                thread.SetApartmentState(ApartmentState.STA);  // Set the thread to STA (required!)
-                thread.Start();
-                thread.Join(1000);
+                    ThreadStart threadStarter = () =>
+                    {
+                        IActiveDesktop _activeDesktop = ActiveDesktopWrapper.GetActiveDesktop();
+                        _activeDesktop.SetWallpaper(path, 1);
+                        _activeDesktop.SetWallpaperOptions(ActiveDesktopWrapper.GetWallpaperOpt(WallPaperStyle.WPSTYLE_SPAN), 0);
+                        _activeDesktop.ApplyChanges(AD_Apply.ALL | AD_Apply.FORCE);
+                        Marshal.ReleaseComObject(_activeDesktop);
+                    };
+                    Thread thread = new Thread(threadStarter);
+                    thread.SetApartmentState(ApartmentState.STA);  // Set the thread to STA (required!)
+                    thread.Start();
+                    thread.Join(1000);
+                }
             }
 
             public static void DesktopWallpaper(string path)
             {
-                IDesktopWallpaper desktopWallpaper = DesktopWallpaperFactory.Create();
-
-                for (uint i = 0; i < desktopWallpaper.GetMonitorDevicePathCount(); i++)
+                if (path != null)
                 {
-                    string monitorId = desktopWallpaper.GetMonitorDevicePathAt(i);
-                    desktopWallpaper.SetWallpaper(monitorId, path);
+                    IDesktopWallpaper desktopWallpaper = DesktopWallpaperFactory.Create();
+
+                    for (uint i = 0; i < desktopWallpaper.GetMonitorDevicePathCount(); i++)
+                    {
+                        string monitorId = desktopWallpaper.GetMonitorDevicePathAt(i);
+                        desktopWallpaper.SetWallpaper(monitorId, path);
+                    }
+                    Marshal.ReleaseComObject(desktopWallpaper);
                 }
-                Marshal.ReleaseComObject(desktopWallpaper);
             }
             public static void Set(string path)
             {

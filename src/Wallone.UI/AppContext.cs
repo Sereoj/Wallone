@@ -1,7 +1,5 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Forms;
-using Wallone.UI.Properties;
 using Wallone.UI.Views;
 using Application = System.Windows.Application;
 
@@ -31,16 +29,6 @@ namespace Wallone.UI
                 Icon = Properties.Resources.favicon
             };
             notifyIcon.MouseClick += NotifyIcon_MouseClick;
-            notifyIcon.BalloonTipClosed += NotifyIconOnBalloonTipClosed;
-        }
-
-        private void NotifyIconOnBalloonTipClosed(object sender, EventArgs e)
-        {
-            var thisIcon = (NotifyIcon)sender;
-            thisIcon.Visible = false;
-            thisIcon.Dispose();
-
-            Close();
         }
 
         private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
@@ -59,13 +47,6 @@ namespace Wallone.UI
             }
         }
 
-        public static void SetMessage(string message)
-        {
-            if (message == null)
-                message = Common.Translation.Localization.AppName;
-            notifyIcon.Text = message;
-        }
-
         public static void ShowPopup(string message, string title = null)
         {
             notifyIcon.BalloonTipTitle = title ?? Common.Translation.Localization.AppName;
@@ -82,6 +63,7 @@ namespace Wallone.UI
         {
             if(notifyIcon != null)
             {
+                Show(false);
                 notifyIcon.Dispose();
             }
             Application.Current.Shutdown();
