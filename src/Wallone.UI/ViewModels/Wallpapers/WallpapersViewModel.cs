@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -34,13 +35,15 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         private bool isLoading = true;
 
-        private bool isNoItems = true;
+        private bool isNoItems;
 
         private int pagination = 1;
         private bool isNextPage;
-        private int countPosts = 1;
+        private int countPosts;
 
-        public WallpapersViewModel() { }
+        public WallpapersViewModel()
+        {
+        }
 
         public WallpapersViewModel(IRegionManager regionManager)
         {
@@ -72,7 +75,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
         public bool IsNoItems
         {
             get => isNoItems;
-            set => SetProperty(ref isNoItems, value);
+            set
+            {
+                SetProperty(ref isNoItems, value);
+                IsContent = value == false;
+            }
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -89,9 +96,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var page = (string) navigationContext.Parameters["Page"];
+            var page = (string)navigationContext.Parameters["Page"];
             var pageId = (string)navigationContext.Parameters["ID"];
-            Header = (string) navigationContext.Parameters["Text"] ?? "Библиотека";
+            Header = (string)navigationContext.Parameters["Text"] ?? "Библиотека";
 
             PageBuilder = new PageGalleryBuilder()
                 .SetApplicationRouter(page)
@@ -101,7 +108,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .ValidateRouter()
                 .CreatePageQuery();
 
-            Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
+            _= Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
         }
 
         public ObservableCollection<ArticleViewModel> Library { get; set; } =
@@ -116,6 +123,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
         private void OnViewerScrollChanged(ScrollChangedEventArgs e)
         {
             var data = ScrollViewerService.Get(ref e);
+
 
             if (data.percent80 < data.offset && data.percent90 > data.offset)
             {
@@ -139,31 +147,52 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 PageBuilder.SetPagination(pagination)
                     .ValidateRouter()
                     .CreatePageQuery();
-                Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), false);
+                _= Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), false);
             }
         }
 
-        public async void Loaded(string router, List<Parameter> parameters, bool isLoaded)
+        private void SetLoading(bool value, bool revert = false)
+        {
+            if (revert)
+            {
+                IsLoading = false;
+                return;
+            }
+
+            if (value)
+            {
+                IsLoading = true;
+            }
+        }
+
+        public void SetNoContent(int num)
+        {
+            if (num > 0)
+            {
+                IsNoItems = false;
+                return;
+            }
+
+            IsNoItems = true;
+        }
+
+        public async Task Loaded(string router, List<Parameter> parameters, bool isLoaded)
         {
             try
             {
-                if (isLoaded)
-                {
-                    IsLoading = true;
-                }
 
+                SetLoading(isLoaded);
                 isNextPage = false;
 
                 var items = await ThumbService.GetThumbsAsync(router, parameters);
-                await LoadImages(items);
-
-                PageBuilder.ClearQuery();
-                isNextPage = true;
-
-                if (IsLoading)
+                if (Validate(items))
                 {
-                    IsLoading = false;
+                    LoadImages(items);
+                    PageBuilder.ClearQuery();
+                    isNextPage = true;
                 }
+                //SetNoContent(items.Count);
+                SetLoading(isLoaded, true);
             }
             catch (Exception ex)
             {
@@ -171,28 +200,33 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
-        private async Task LoadImages(List<Thumb> items)
+        private bool Validate(List<Thumb> items)
         {
-            if (ThumbService.IsNotNull(items))
-            {
-                countPosts = items.Count;
+            if (!ThumbService.IsNotNull(items))
+                return false;
+            if (items.Count == 0)
+                return false;
+            return true;
+        }
 
-                foreach (var item in items)
+        private void LoadImages(List<Thumb> items)
+        {
+            countPosts = items.Count;
+
+            foreach (var item in items)
+            {
+                if (ThumbService.IsIdNotNull(item.Uuid))
                 {
-                    if (ThumbService.IsIdNotNull(item.Uuid))
+                    Library.Add(new ArticleViewModel(regionManager)
                     {
-                        Library.Add(new ArticleViewModel(regionManager)
-                        {
-                            Uuid = item.Uuid,
-                            Name = ThumbService.ValidateName(item.Name),
-                            ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
-                            Views = ThumbService.ValidateViews(item.Views),
-                            Downloads = ThumbService.ValidateDownloads(item.Downloads)
-                        });
-                    }
+                        Uuid = item.Uuid,
+                        Name = ThumbService.ValidateName(item.Name),
+                        ImageSource = new BitmapImage(UriHelper.Get(item.Preview)),
+                        Views = ThumbService.ValidateViews(item.Views),
+                        Downloads = ThumbService.ValidateDownloads(item.Downloads)
+                    });
                 }
             }
-            await Task.CompletedTask;
         }
     }
 }

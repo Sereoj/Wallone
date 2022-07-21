@@ -159,8 +159,16 @@
                                     Content="Логирование действий"
                                     IsChecked="{Binding IsLog}"
                                     ToolTip="Позволяет приложению ввести лог" />
+                            </StackPanel>
+                        </Expander>
+                        <Expander
+                            Margin="0,10,0,0"
+                            Header="Тестирование"
+                            IsExpanded="True">
+                            <StackPanel Margin="10">
+                                <TextBlock Text="Путь до темы" />
                                 <TextBox
-                                    Margin="0,0,10,0"
+                                    Margin="0,10,10,0"
                                     ui:ControlHelper.PlaceholderText="Путь до темы"
                                     IsReadOnly="True"
                                     Text="{Binding ThemePath}" />

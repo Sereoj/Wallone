@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -207,7 +208,7 @@ namespace Wallone.UI.ViewModels.Users
                     var message = JObject.Parse(data);
                     if (!string.IsNullOrEmpty(message["message"]?.ToString()))
                     {
-                        ManagerViewModel.Show(Pages.NotFound, "Не найдена страница пользователя");
+                        ManagerViewModel.Handler();
                     }
                     else
                     {

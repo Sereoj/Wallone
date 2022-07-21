@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services.Routers;
 
@@ -29,6 +30,11 @@ namespace Wallone.Core.Services.Pages
         public static SinglePage GetSimplePage()
         {
             return simplePage;
+        }
+
+        public static string GetTitle()
+        {
+            return AppFormat.Format(simplePage.name);
         }
 
         public static string GetHeader()

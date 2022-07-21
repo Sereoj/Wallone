@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net;
 using ModernWpf.Controls;
 using Prism.Regions;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Services;
+using Wallone.Core.Services.App;
 using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Users;
 
@@ -69,6 +71,23 @@ namespace Wallone.UI.ViewModels
                     regionManager.RequestNavigate("PageRegion", e.IsSettingsInvoked ? "Settings" : "Wallpapers", param);
                     break;
             }
+        }
+
+        public bool Handler()
+        {
+            if (AppEthernetService.GetStatus() == HttpStatusCode.Unauthorized)
+            {
+                Show(Pages.NotFound, "Просмотр пользователя возможен только с авторизацией");
+                return false;
+            }
+
+            if (AppEthernetService.GetStatus() == HttpStatusCode.OK)
+            {
+                Show(Pages.NotFound, "Не найдена страница пользователя");
+                return false;
+            }
+
+            return true;
         }
     }
 }
