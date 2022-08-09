@@ -81,7 +81,7 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        public PageGalleryBuilder CreatePageQuery()
+        public void CreatePageQuery()
         {
             if (routerWebsite != null)
             {
@@ -91,7 +91,6 @@ namespace Wallone.Core.Builders
                     Value = paginationId.ToString()
                 });
             }
-            return this;
         }
 
         public List<Parameter> GetPageQuery()

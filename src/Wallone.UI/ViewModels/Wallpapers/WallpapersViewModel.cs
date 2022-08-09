@@ -1,21 +1,16 @@
-﻿using System;
+﻿using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using Prism.Commands;
-using Prism.Mvvm;
-using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
-using Wallone.Core.Services;
-using Wallone.Core.Services.App;
-using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Pages;
 using Wallone.UI.Interfaces;
 using Wallone.UI.Services;
@@ -52,7 +47,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             ViewerScrollChangedCommand = new DelegateCommand<ScrollChangedEventArgs>(OnViewerScrollChanged);
         }
 
-        public PageGalleryBuilder PageBuilder { get; private set; }
+        public PageGalleryBuilder PageBuilder { get; private set; } = new PageGalleryBuilder();
 
         public DelegateCommand<ScrollChangedEventArgs> ViewerScrollChangedCommand { get; set; }
 
@@ -82,6 +77,15 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
+        public ObservableCollection<ArticleViewModel> Library { get; set; } =
+            new ObservableCollection<ArticleViewModel>();
+
+        public string Header
+        {
+            get => header;
+            set => SetProperty(ref header, value);
+        }
+
         public bool IsNavigationTarget(NavigationContext navigationContext)
         {
             return true;
@@ -100,7 +104,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
             var pageId = (string)navigationContext.Parameters["ID"];
             Header = (string)navigationContext.Parameters["Text"] ?? "Библиотека";
 
-            PageBuilder = new PageGalleryBuilder()
+            PageBuilder
                 .SetApplicationRouter(page)
                 .SetPagination(pagination)
                 .SetBrand(page, pageId)
@@ -108,22 +112,13 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .ValidateRouter()
                 .CreatePageQuery();
 
-            _= Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
-        }
-
-        public ObservableCollection<ArticleViewModel> Library { get; set; } =
-            new ObservableCollection<ArticleViewModel>();
-
-        public string Header
-        {
-            get => header;
-            set => SetProperty(ref header, value);
+            _ = Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
+            _ = Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
         }
 
         private void OnViewerScrollChanged(ScrollChangedEventArgs e)
         {
             var data = ScrollViewerService.Get(ref e);
-
 
             if (data.percent80 < data.offset && data.percent90 > data.offset)
             {
@@ -132,11 +127,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     NewPage();
                 }
             }
-            else if (data.offset100 - 100 == data.offset)
-            {
-                NewPage();
-            }
-
         }
 
         private void NewPage()
@@ -147,7 +137,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 PageBuilder.SetPagination(pagination)
                     .ValidateRouter()
                     .CreatePageQuery();
-                _= Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), false);
+                _ = Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), false);
             }
         }
 
@@ -165,17 +155,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
-        public void SetNoContent(int num)
-        {
-            if (num > 0)
-            {
-                IsNoItems = false;
-                return;
-            }
-
-            IsNoItems = true;
-        }
-
         public async Task Loaded(string router, List<Parameter> parameters, bool isLoaded)
         {
             try
@@ -191,7 +170,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     PageBuilder.ClearQuery();
                     isNextPage = true;
                 }
-                //SetNoContent(items.Count);
                 SetLoading(isLoaded, true);
             }
             catch (Exception ex)
