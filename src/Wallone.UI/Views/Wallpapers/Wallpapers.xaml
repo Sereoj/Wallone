@@ -31,14 +31,14 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid x:Name="Body">
+    <StackPanel x:Name="Body">
         <Grid x:Name="Header" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="250" />
             </Grid.ColumnDefinitions>
-            <StackPanel Margin="20,20">
-                <TextBox Text="Поиск" />
+            <StackPanel Margin="20,0,20,0">
+                <TextBox ui:ControlHelper.PlaceholderText="Поиск" />
                 <WrapPanel x:Name="Tags">
                     <ui:HyperlinkButton Margin="0,0,20,0">#Новые</ui:HyperlinkButton>
                     <ui:HyperlinkButton Margin="0,0,20,0">#Популярные</ui:HyperlinkButton>
@@ -47,12 +47,12 @@
             </StackPanel>
             <WrapPanel
                 Grid.Column="1"
-                Margin="0,20,20,20"
+                Margin="0,0,20,0"
                 VerticalAlignment="Top">
                 <WrapPanel>
                     <ui:HyperlinkButton Margin="0,0,10,0">RU</ui:HyperlinkButton>
                     <TextBlock VerticalAlignment="Center">|</TextBlock>
-                    <ui:HyperlinkButton Margin="0,0,10,0">EN</ui:HyperlinkButton>
+                    <ui:HyperlinkButton Margin="10,0,10,0">EN</ui:HyperlinkButton>
                 </WrapPanel>
                 <WrapPanel>
                     <ui:PersonPicture Width="33" />
@@ -60,5 +60,19 @@
                 </WrapPanel>
             </WrapPanel>
         </Grid>
-    </Grid>
+        <Grid x:Name="Content" VerticalAlignment="top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel x:Name="Head" Margin="20,0">
+                <TextBlock x:Name="Title" Text="#Темы #Новые изображения" />
+                <TextBlock x:Name="Description" Text="Красочные обои на рабочий стол" />
+            </StackPanel>
+            <ui:GridView
+                x:Name="Images"
+                Grid.Row="1"
+                Margin="20,0" />
+        </Grid>
+    </StackPanel>
 </UserControl>
