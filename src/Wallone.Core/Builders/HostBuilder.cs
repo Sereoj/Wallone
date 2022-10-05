@@ -8,8 +8,8 @@ namespace Wallone.Core.Builders
 {
     public class HostBuilder : IAppSettings
     {
-        private const string default_prefix = "/api/v1";
-        private const string default_host = "https://dev.w2me.ru";
+        private const string DefaultPrefix = "/api/v1";
+        private const string DefaultHost = "https://wallone.ru";
 
         private static string host;
         private static string prefix;
@@ -38,7 +38,7 @@ namespace Wallone.Core.Builders
             switch (valueHost)
             {
                 case null:
-                    host = default_host;
+                    host = DefaultHost;
                     Router.SetDomain(host);
                     break;
                 default:
@@ -59,7 +59,7 @@ namespace Wallone.Core.Builders
             switch (valuePrefix)
             {
                 case null:
-                    prefix = default_prefix;
+                    prefix = DefaultPrefix;
                     Router.SetDomainApi(host + prefix);
                     break;
                 default:
@@ -74,9 +74,9 @@ namespace Wallone.Core.Builders
         public HostBuilder Validate()
         {
             if (!ValidatePrefix())
-                prefix = default_prefix;
+                prefix = DefaultPrefix;
             if (!ValidateHost())
-                host = default_host;
+                host = DefaultHost;
 
             LoggerService.SysLog(this, $"Валидация сервера");
             LoggerService.SysLog(this, $"Host: {ValidateHost()} Prefix: {ValidatePrefix()}");
