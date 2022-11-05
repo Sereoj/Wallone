@@ -50,14 +50,7 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var param = new NavigationParameters
-            {
-                {"Root", "Gallery"},
-                {"Page", ""},
-                {"ID", "Main"},
-                {"Text", "Библиотека"}
-            };
-            regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
+            regionManager.RequestNavigate("PageRegion", "Wallpapers");
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)
