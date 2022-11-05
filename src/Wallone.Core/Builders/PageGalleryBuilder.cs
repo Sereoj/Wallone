@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using Wallone.Core.Models;
+using Wallone.Core.Services.Routers;
 
 namespace Wallone.Core.Builders
 {
@@ -29,11 +30,11 @@ namespace Wallone.Core.Builders
         {
             routerWebsite = routerApplication.ToLower() switch
             {
-                "new" => "wallpapers/new",
-                "popular" => "wallpapers/popular",
-                "wait" => "wallpapers/wait",
-                "favourite" => "wallpapers/favorite",
-                _ => "wallpapers"
+                "new" => Pages.News,
+                "popular" => Pages.Popular,
+                "wait" => Pages.Soon,
+                "favourite" => Pages.Favorites,
+                _ => Pages.Main
             };
 
             return this;
@@ -53,19 +54,6 @@ namespace Wallone.Core.Builders
         public int GetPagination()
         {
             return paginationId;
-        }
-
-        public PageGalleryBuilder SetBrand(string page, string pageId)
-        {
-            if (page.Contains("brands", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(pageId))
-            {
-                Parameters.Add(new Parameter()
-                {
-                    Name = "brand_id",
-                    Value = pageId
-                });
-            }
-            return this;
         }
 
         public PageGalleryBuilder SetCategory(string page, string pageId)

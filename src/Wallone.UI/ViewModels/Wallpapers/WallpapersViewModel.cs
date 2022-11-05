@@ -4,6 +4,7 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -11,6 +12,7 @@ using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
+using Wallone.Core.Services.App;
 using Wallone.Core.Services.Pages;
 using Wallone.UI.Interfaces;
 using Wallone.UI.Services;
@@ -24,7 +26,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
         public ManagerViewModel ManagerViewModel { get; }
 
-        private string header = "Библиотека";
+        private string header;
 
         private bool isContent;
 
@@ -102,12 +104,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             var page = (string)navigationContext.Parameters["Page"];
             var pageId = (string)navigationContext.Parameters["ID"];
-            Header = (string)navigationContext.Parameters["Text"] ?? "Библиотека";
+            Header = (string)navigationContext.Parameters["Text"];
 
             PageBuilder
                 .SetApplicationRouter(page)
                 .SetPagination(pagination)
-                .SetBrand(page, pageId)
                 .SetCategory(page, pageId)
                 .ValidateRouter()
                 .CreatePageQuery();
@@ -141,6 +142,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
+        /*
+         * Отображение анимации
+         */
         private void SetLoading(bool value, bool revert = false)
         {
             if (revert)
@@ -164,7 +168,9 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 isNextPage = false;
 
                 var items = await ThumbService.GetThumbsAsync(router, parameters);
-                if (Validate(items))
+                var statusCode = AppEthernetService.GetStatus();
+
+                if (Validate(items) && statusCode == HttpStatusCode.OK)
                 {
                     LoadImages(items);
                     PageBuilder.ClearQuery();
@@ -178,13 +184,11 @@ namespace Wallone.UI.ViewModels.Wallpapers
             }
         }
 
-        private bool Validate(List<Thumb> items)
+        private static bool Validate(List<Thumb> items)
         {
             if (!ThumbService.IsNotNull(items))
                 return false;
-            if (items.Count == 0)
-                return false;
-            return true;
+            return items.Count != 0;
         }
 
         private void LoadImages(List<Thumb> items)

@@ -8,7 +8,6 @@ using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
-using Wallone.Core.Services.Loggers;
 
 namespace Wallone.UI.ViewModels
 {
@@ -18,15 +17,7 @@ namespace Wallone.UI.ViewModels
 
         public ManagerViewModel ManagerViewModel { get; }
 
-        private ObservableCollection<NavigationViewItem> brands = new ObservableCollection<NavigationViewItem>();
-
         private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
-
-        public ObservableCollection<NavigationViewItem> Brands
-        {
-            get => brands;
-            set => SetProperty(ref brands, value);
-        }
 
         public ObservableCollection<NavigationViewItem> Categories
         {
@@ -50,8 +41,6 @@ namespace Wallone.UI.ViewModels
                 .CreateUserModel()
                 .GetToken()
                 .ValidateAsync();
-
-            LoadBrands();
             LoadCategory();
 
             ManagerViewModel = new ManagerViewModel(regionManager);
@@ -86,8 +75,6 @@ namespace Wallone.UI.ViewModels
             var manager = new ManagerViewModel(regionManager);
             manager.Open(e);
         }
-
-        public void LoadBrands() => Brands = BrandsService.LoadBrands();
 
         public void LoadCategory() => Categories = CategoriesService.LoadCategories();
     }

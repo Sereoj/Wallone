@@ -39,17 +39,9 @@
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem
                     x:Name="Gallery"
-                    Content="Библиотека"
+                    Content="Главная"
                     Cursor="Hand"
                     Icon="Library"
-                    Tag="Gallery" />
-                <!--  Brands  -->
-                <ui:NavigationViewItem
-                    x:Name="Brands"
-                    Content="Бренды"
-                    Cursor="Hand"
-                    Icon="AllApps"
-                    MenuItemsSource="{Binding Brands}"
                     Tag="Gallery" />
                 <!--  Categories  -->
                 <ui:NavigationViewItem

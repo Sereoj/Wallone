@@ -9,7 +9,7 @@ namespace Wallone.Core.Builders
     public class HostBuilder : IAppSettings
     {
         private string default_prefix = "/api/v1";
-        private string default_host = "https://dev.w2me.ru";
+        private string default_host;
 
         private static string host;
         private static string prefix;

@@ -80,14 +80,14 @@ namespace Wallone.Core.Services.Users
 
             public static Task<string> GetLoginAsync(string email, string password)
             {
-                var items = RequestRouter<string, Login>.PostAsync("login", new Login { email = email, password = password });
+                var items = RequestRouter<string, Login>.PostAsync(Routers.Pages.Login, new Login { email = email, password = password });
                 return items;
             }
 
             public static Task<string> GetRegisterAsync(string name, string email, string password,
                 string password_confirmation)
             {
-                var items = RequestRouter<string, Register>.PostAsync("register",
+                var items = RequestRouter<string, Register>.PostAsync(Routers.Pages.Register,
                     new Register
                     {
                         username = name,

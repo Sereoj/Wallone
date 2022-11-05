@@ -84,7 +84,7 @@ namespace Wallone.Authorization.ViewModels
 
         private void OnOpenLink()
         {
-            Process.Start(new ProcessStartInfo(Router.domain + "/policy") { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo(Router.domain + $"/{Pages.Policy}") { UseShellExecute = true });
         }
 
         private async void Register(string name, string email, string password, string confirm)
