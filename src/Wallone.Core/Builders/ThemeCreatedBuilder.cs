@@ -10,6 +10,7 @@ using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Pages;
 
 namespace Wallone.Core.Builders
@@ -19,7 +20,7 @@ namespace Wallone.Core.Builders
     {
         private readonly List<Image> images = new List<Image>();
 
-        private List<Link> links;
+        private List<Image> links;
         private static bool ThemeHasDownloaded { get; set; }
         private static bool ThemeHasInstalled { get; set; }
         private static bool ThemeHasFavorited { get; set; }
@@ -93,20 +94,13 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        public ThemeCreatedBuilder SetImages(List<Link> images)
+        public ThemeCreatedBuilder SetLinksForDownload(List<Image> images)
         {
-            this.images.Clear();
             if (images != null)
-                foreach (var item in images)
-                    this.images.Add(new Image
-                    {
-                        id = int.Parse(item.id),
-                        times = item.name,
-                        location = UriHelper.GetUri(item.location, ThemePath, "?")
-                    });
-
-            links = images;
-
+            {
+                this.images.Clear();
+                links = images;
+            }
             return this;
         }
 
@@ -135,6 +129,13 @@ namespace Wallone.Core.Builders
 
                     await DownloadTask(item.location, path);
                     await Task.Delay(100);
+
+                    images.Add(new Image()
+                    {
+                        id = item.id,
+                        times = item.times,
+                        location = path
+                    });
                 }
 
             return this;
@@ -145,7 +146,7 @@ namespace Wallone.Core.Builders
             if (AppConvert.Revert(ThemeHasDownloaded))
             {
                 var preview = SinglePageService.GetPreview();
-                var uri = UriHelper.Get(preview).LocalPath;
+                var uri = UriHelper.Get(preview).OriginalString;
 
                 await DownloadTask(uri, Path.Combine(ThemePath, ThemeThumbFileName));
                 await Task.Delay(100);

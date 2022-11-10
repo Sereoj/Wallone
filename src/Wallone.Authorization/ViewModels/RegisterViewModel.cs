@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
+using Wallone.Core.Models;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Routers;
@@ -99,6 +101,9 @@ namespace Wallone.Authorization.ViewModels
                     case HttpStatusCode.OK:
                         LoadRegister(json);
                         break;
+                    case HttpStatusCode.UnprocessableEntity:
+                        Errors(json);
+                        break;
                     case HttpStatusCode.MethodNotAllowed:
                         Message = "Неверная отправка данных";
                         break;
@@ -124,12 +129,16 @@ namespace Wallone.Authorization.ViewModels
             }
         }
 
+        private void Errors(string json)
+        {
+            var data = JsonConvert.DeserializeObject<RegisterDataModel>(json);
+            Message = data?.message;
+        }
         private void LoadRegister(string json)
         {
-            var objects = JObject.Parse(json);
             UserRepository.Create();
-            var msg = UserRepository.UserService.ValidateRegister(objects);
-            var token = UserRepository.GetToken();
+
+            var token = UserRepository.GetToken(json);
 
             if (token != null)
             {
@@ -141,10 +150,6 @@ namespace Wallone.Authorization.ViewModels
                 SettingsRepository.Save();
 
                 _regionManager.RequestNavigate("ContentRegion", "Main");
-            }
-            else
-            {
-                Message = msg;
             }
 
             GC.Collect(2);

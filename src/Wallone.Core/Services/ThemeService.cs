@@ -127,12 +127,10 @@ namespace Wallone.Core.Services
                 {
                     SetCurrentName(theme.Name);
                     themeModel = theme;
-                }
-                else
-                {
-                    _ = LoggerService.LogAsync(typeof(ThemeService), $"Модель не должна быть пуста. Необходимо заново переустановить тему!", Message.Warn);
-                }
 
+                    _ = LoggerService.LogAsync(typeof(ThemeService),
+                        $"Тема найдена {theme.Name}");
+                }
             }
 
             public static void SetImageId(int imageId)
@@ -189,7 +187,7 @@ namespace Wallone.Core.Services
                 return null;
             }
 
-            public static void Remove()
+            public static void Disable()
             {
                 themeModel = null;
                 new SettingsBuilder(SettingsRepository.Get())

@@ -65,5 +65,10 @@ namespace Wallone.Core.Helpers
 
             return Get("/Wallone.Common;component/Images/Placeholder.png");
         }
+
+        public static string ChangeUriPattern(string path, string replaceFrom, string replaceTo)
+        {
+            return path.Replace("{"+ replaceFrom + "}", replaceTo);
+        }
     }
 }

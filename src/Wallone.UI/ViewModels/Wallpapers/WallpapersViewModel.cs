@@ -163,7 +163,6 @@ namespace Wallone.UI.ViewModels.Wallpapers
         {
             try
             {
-
                 SetLoading(isLoaded);
                 isNextPage = false;
 

@@ -5,16 +5,12 @@ using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
-using Wallone.Core.Services;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Pages;
 using Wallone.Core.Services.Users;
-using Wallone.UI.Services;
 
 namespace Wallone.UI.ViewModels.Users
 {
@@ -163,6 +159,8 @@ namespace Wallone.UI.ViewModels.Users
             var settings = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
             settings.SetToken(null);
+
+            UserRepository.UserService.GetLogoutAsync();
 
             UserRepository.Close();
             SettingsRepository.Save();

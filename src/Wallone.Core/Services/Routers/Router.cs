@@ -15,6 +15,8 @@
     {
         public const string Login = "login";
         public const string Register = "register";
+        public const string Logout = "logout";
+        public const string Token = "user";
         public const string Policy = "policy";
 
         public const string Main = "themes";
@@ -22,13 +24,14 @@
         public const string Popular = "themes/popular";
         public const string Soon = "themes/soon";
         public const string Favorites = "themes/favorites";
+
+        public const string Single = "themes/{theme}/show";
     }
     public class Router
     {
         public static string domainExample { get; set; } = "https://example.com";
         public static string domainApi { get; set; }
         public static string domain { get; set; }
-
 
         public static void SetDomainApi(string value)
         {
@@ -52,7 +55,7 @@
         
         private static string HttpToNull(string value)
         {
-           return value.Replace("https://", null).Replace("http://", null);
+            return value.Replace("https://", null).Replace("http://", null);
         }
     }
 }

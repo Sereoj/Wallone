@@ -107,11 +107,13 @@ namespace Wallone.UI.ViewModels.Controls
                 var settingsItemBuilder = new SettingsBuilder(SettingsRepository.Get())
                     .ItemBuilder();
 
+                var links = singlePage.links;
+
                 var builder = await themeBuilder
                     .HasDownloaded() //Если не установлена, проходим проверку
                     .ExistOrCreateDirectory() // Если папка существует или не создана
                     .Remove() //Если существует и статус false, то удалить
-                    .SetImages(singlePage.links)
+                    .SetLinksForDownload(links)
                     .ImageDownload(); //Разрешение на скачивание
 
                 await builder.PreviewDownloadAsync();
@@ -136,7 +138,7 @@ namespace Wallone.UI.ViewModels.Controls
                 }
                 else
                 {
-                    ThemeRepository.ThemeService.Remove();
+                    ThemeRepository.ThemeService.Disable();
                     SinglePageLogic.IsInstalled = false;
                     SinglePageLogic.IsEnableInstalled = false;
                 }
@@ -197,7 +199,7 @@ namespace Wallone.UI.ViewModels.Controls
             }
             else
             {
-                ThemeRepository.ThemeService.Remove();
+                ThemeRepository.ThemeService.Disable();
             }
 
             SinglePageLogic.IsInstalled = builder.GetHasNotInstalled();
@@ -334,7 +336,14 @@ namespace Wallone.UI.ViewModels.Controls
                 .Query(new ThemeCreatedBuilder()) // Запрос к ThemeCreatedBuilder
                 .SetName(singlePage.name);
 
-            categories(SinglePageService.GetCategories());
+            categories(new List<CategoryShort>()
+            {
+                new CategoryShort()
+                {
+                    id = "0",
+                    name = SinglePageService.GetCategory()
+                }
+            });
             tags(SinglePageService.GetTags());
             setStatusForButtons();
         }

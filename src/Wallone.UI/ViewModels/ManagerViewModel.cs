@@ -18,6 +18,7 @@ namespace Wallone.UI.ViewModels
         {
             this.regionManager = regionManager;
         }
+
         public void Show(Pages pages, string exMessage)
         {
             switch (pages)

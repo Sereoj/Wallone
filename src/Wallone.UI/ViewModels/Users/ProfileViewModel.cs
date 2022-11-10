@@ -118,7 +118,6 @@ namespace Wallone.UI.ViewModels.Users
 
             if (IsProfile)
             {
-
                 var userId = UserRepository.Fields.GetUserId();
                 if (!string.IsNullOrEmpty(userId))
                 {

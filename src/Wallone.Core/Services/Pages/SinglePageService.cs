@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services.Routers;
+using Wallone.Core.Services.Users;
 
 namespace Wallone.Core.Services.Pages
 {
@@ -85,9 +86,9 @@ namespace Wallone.Core.Services.Pages
             return simplePage?.brand;
         }
 
-        public static List<CategoryShort> GetCategories()
+        public static string GetCategory()
         {
-            return simplePage?.categories;
+            return simplePage?.category;
         }
 
         public static List<Tag> GetTags()
@@ -149,8 +150,11 @@ namespace Wallone.Core.Services.Pages
 
         public static Task<string> GetPageAsync(string fields = null)
         {
-            var items = RequestRouter<string>.GetAsync("wallpapers/one/" + fields + "/show", null, null);
-            return items;
+            if (!string.IsNullOrEmpty(UserRepository.GetToken()))
+            {
+                return RequestRouter<string>.GetWithTokenAsync(UriHelper.ChangeUriPattern(Routers.Pages.Single, "theme", fields), null, null);
+            }
+            return RequestRouter<string>.GetAsync(UriHelper.ChangeUriPattern(Routers.Pages.Single, "theme", fields), null, null);
         }
 
         public static Task<string> GetPageAdsAsync()
@@ -161,21 +165,21 @@ namespace Wallone.Core.Services.Pages
 
         public static Task<SinglePage> SetDownloadAsync(string value)
         {
-            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.uuid,
+            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostWithTokenAsync("wallpapers/one/" + simplePage.uuid,
                 new SinglePageUpdate {hasDownload = value});
             return items;
         }
 
         public static Task<SinglePage> SetFavoriteAsync(string value)
         {
-            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.uuid,
+            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostWithTokenAsync("wallpapers/one/" + simplePage.uuid,
                 new SinglePageUpdate {hasFavorite = value});
             return items;
         }
 
         public static Task<SinglePage> SetReactionAsync(string value)
         {
-            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostAsync("wallpapers/one/" + simplePage.uuid,
+            var items = RequestRouter<SinglePage, SinglePageUpdate>.PostWithTokenAsync("wallpapers/one/" + simplePage.uuid,
                 new SinglePageUpdate {hasLike = value});
             return items;
         }

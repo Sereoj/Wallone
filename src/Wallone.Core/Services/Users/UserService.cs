@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Wallone.Core.Models;
 using Wallone.Core.Services.Loggers;
@@ -6,6 +8,12 @@ using Wallone.Core.Services.Routers;
 
 namespace Wallone.Core.Services.Users
 {
+    public class UserTokenble
+    {
+        public string id { get; set; }
+        public string name { get; set; }
+        public string token { get; set; }
+    }
     public class UserFactory
     {
         public static User Create()
@@ -26,6 +34,11 @@ namespace Wallone.Core.Services.Users
         {
             user = null;
         }
+
+        public static User Get()
+        {
+            return user;
+        }
         public static void Load(User userModel)
         {
             if(user != null)
@@ -37,9 +50,25 @@ namespace Wallone.Core.Services.Users
                 _= LoggerService.LogAsync(typeof(UserRepository), "Модель пользователя не найдена!", Message.Error);
             }
         }
+
+        public static UserTokenble UserTokenble(string json)
+        {
+            return JsonConvert.DeserializeObject<UserTokenble>(json);
+        }
+        public static string GetToken(string json)
+        {
+            var data = UserTokenble(json);
+            SetToken(data?.token);
+            return data?.token;
+        }
         public static string GetToken()
         {
             return token;
+        }
+
+        public static void SetToken(string value)
+        {
+            token = value;
         }
         public static void Close()
         {
@@ -59,21 +88,30 @@ namespace Wallone.Core.Services.Users
 
         public class UserService
         {
-            internal static Task<string> GetLoginWithTokenAsync()
+            public static Task<string> GetLogoutAsync()
             {
-                var items = RequestRouter<string>.GetAsync("user", null, null);
+                var items = RequestRouter<string,string>.PostWithTokenAsync(Routers.Pages.Logout, null, null);
                 return items;
             }
 
-            public static bool ValidateWithToken(JObject data)
+            public static Task<string> GetLoginWithTokenAsync()
+            {
+                var items = RequestRouter<string>.GetWithTokenAsync(Routers.Pages.Token, null, null);
+                return items;
+            }
+
+            public static bool ValidateWithToken(string data)
             {
                 if (data != null)
-                    if (data["id"] != null && data["name"] != null)
+                {
+                    var user = UserTokenble(data);
+                    if (user.id != null && user.name != null)
                     {
-                        user.id = data["id"].ToString();
-                        user.username = data["name"].ToString();
+                        Get().id = user.id;
+                        Get().username = user.name;
                         return true;
                     }
+                }
 
                 return false;
             }
@@ -96,32 +134,6 @@ namespace Wallone.Core.Services.Users
                         password_confirmation = password_confirmation
                     });
                 return items;
-            }
-
-            private static string Validate(JObject objects)
-            {
-                if (objects["token"] != null)
-                {
-                    user.id = objects["id"].ToString();
-                    return token = objects["token"].ToString();
-                }
-
-                string msg = null;
-
-                foreach (var item in objects)
-                    if (item.Value != null)
-                        msg += item.Value[0] + "\n";
-                return msg;
-            }
-
-            public static string ValidateRegister(JObject objects)
-            {
-                return Validate(objects);
-            }
-
-            public static string ValidateLogin(JObject objects)
-            {
-                return objects["auth.failed"] != null ? objects["auth.failed"].ToString() : Validate(objects);
             }
 
             public static bool IsUser(string id)

@@ -27,10 +27,10 @@ namespace Wallone.Core.Services
                 {
                     categories.Add(new NavigationViewItem
                     {
-                        Uid = item.ID,
-                        Content = item.Name,
+                        Uid = item.id,
+                        Content = item.name_ru,
                         Name = "Categories",
-                        Icon = FontIconService.SetIcon("ultimate", item.Icon),
+                        Icon = null,
                         Tag = "Gallery"
                     });
                 }

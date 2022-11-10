@@ -32,14 +32,12 @@ namespace Wallone.Core.Builders
             return this;
         }
 
-        private static async Task<JObject> GetUserData()
+        private static async Task<string> GetUserData()
         {
             var json = await UserRepository.UserService.GetLoginWithTokenAsync();
-            await Task.CompletedTask;
             if (!string.IsNullOrEmpty(json))
             {
-                var objects = JObject.Parse(json);
-                return objects;
+                return json;
             }
 
             return null;
@@ -49,8 +47,7 @@ namespace Wallone.Core.Builders
         {
             if (token != null)
             {
-                JObject data = await GetUserData();
-                await Task.CompletedTask;
+                string data = await GetUserData();
                 if (data != null & UserRepository.UserService.ValidateWithToken(data))
                 {
                     isAuth = true;

@@ -10,12 +10,12 @@ namespace Wallone.Core.Models
         public string views { get; set; }
         public string likes { get; set; }
         public string downloads { get; set; }
-        public List<CategoryShort> categories { get; set; }
+        public string category { get; set; }
         public List<Tag> tags { get; set; }
         public BrandShort brand { get; set; }
         public string preview { get; set; }
         public List<Images> images { get; set; }
-        public List<Link> links { get; set; }
+        public List<Image> links { get; set; }
         public string hasLike { get; set; }
         public string hasFavorite { get; set; }
         public bool isActive { get; set; }

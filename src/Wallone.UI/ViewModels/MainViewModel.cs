@@ -14,7 +14,6 @@ namespace Wallone.UI.ViewModels
     public class MainViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager regionManager;
-
         public ManagerViewModel ManagerViewModel { get; }
 
         private ObservableCollection<NavigationViewItem> categories = new ObservableCollection<NavigationViewItem>();
@@ -50,7 +49,14 @@ namespace Wallone.UI.ViewModels
 
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            regionManager.RequestNavigate("PageRegion", "Wallpapers");
+            var param = new NavigationParameters
+            {
+                {"Root", "Gallery"},
+                {"Page", ""},
+                {"ID", "Main"},
+                {"Text", "Библиотека"}
+            };
+            regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

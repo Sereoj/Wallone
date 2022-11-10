@@ -33,7 +33,6 @@ namespace Wallone.UI.ViewModels
             SettingsRepository.Get().General.PropertyChanged += SettingsChanged;
         }
 
-
         public string Title
         {
             get => title;
