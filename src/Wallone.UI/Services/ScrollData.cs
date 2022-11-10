@@ -7,5 +7,6 @@
         public double percent80 { get; set; }
         public double percent90 { get; set; }
         public double percent95 { get; set; }
+        public double ratio { get; set; }
     }
 }

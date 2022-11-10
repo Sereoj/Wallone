@@ -114,23 +114,17 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 .CreatePageQuery();
 
             _ = Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
-            _ = Loaded(PageBuilder.GetWebsiteRouter(), PageBuilder.GetPageQuery(), true);
         }
 
         private void OnViewerScrollChanged(ScrollChangedEventArgs e)
         {
-            var data = ScrollViewerService.Get(ref e);
-
-            if (data.percent80 < data.offset && data.percent90 > data.offset)
+            if (ScrollViewerService.GetRatio() >= 0.9)
             {
-                if (isNextPage && countPosts != 0)
-                {
-                    NewPage();
-                }
+                LoadNewPage();
             }
         }
 
-        private void NewPage()
+        private void LoadNewPage()
         {
             if (isNextPage && countPosts != 0)
             {

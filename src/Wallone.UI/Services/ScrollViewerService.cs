@@ -15,5 +15,15 @@ namespace Wallone.UI.Services
             data.percent95 = e.ExtentHeight / 100 * 95;
             return data;
         }
+
+        public static void SetRatio(double ratio)
+        {
+            data.ratio = ratio;
+        }
+
+        public static double GetRatio()
+        {
+            return data.ratio;
+        }
     }
 }

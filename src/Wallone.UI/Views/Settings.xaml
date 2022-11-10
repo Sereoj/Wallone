@@ -67,6 +67,11 @@
                                     <ComboBoxItem Content="Светлая" />
                                     <ComboBoxItem Content="Темная" />
                                 </ComboBox>
+                                <TextBlock Margin="0,0,0,5" Text="Тип скачивания:" />
+                                <ComboBox Width="530" SelectedIndex="{Binding test}">
+                                    <ComboBoxItem Content="Мгновенно" />
+                                    <ComboBoxItem Content="Одиночно" />
+                                </ComboBox>
                             </StackPanel>
                         </Expander>
                         <Expander
