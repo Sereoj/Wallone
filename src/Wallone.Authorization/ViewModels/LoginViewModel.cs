@@ -131,8 +131,10 @@ namespace Wallone.Authorization.ViewModels
                 var settings = new SettingsBuilder(SettingsRepository.Get())
                     .ItemBuilder();
 
-                settings.SetEmail(Email);
-                settings.SetToken(token);
+                settings
+                    .SetEmail(Email);
+                settings
+                    .SetToken(token);
                 SettingsRepository.Save();
 
                 regionManager.RequestNavigate("ContentRegion", "Main");

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
+using Wallone.Core.Services.App;
 using Wallone.Core.Services.Pages;
 using Wallone.UI.ViewModels.Controls;
 
@@ -113,7 +115,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 {
                     var message = Json<Advertisement>.Decode(data);
                     SinglePageAds.IsVisible = true;
-                    SinglePageAds.Text = message?.text ?? "Не удалось загрузить =(";
+                    SinglePageAds.Text = message?.text;
                 }
             }
             catch (Exception ex)
@@ -141,7 +143,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
                         if (theme.ValidateConfig())
                         {
                             var themeModel = theme.GetModelFromFile();
-                            if (string.IsNullOrEmpty(singlePage.name) || string.IsNullOrEmpty(singlePage.uuid))
+
+                            if (AppEthernetService.GetStatus() != HttpStatusCode.OK)
                             {
                                 singlePage.name = themeModel.name;
                                 //singlePage.uuid = themeModel.uuid;
@@ -149,9 +152,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
                                 {
                                     singlePage.user = themeModel.user;
                                 }
-                                singlePage.created_at = themeModel.created_at;
                             }
-                            singlePage.images = themeModel.images;
+                            //singlePage.images = themeModel.images;
                         }
                         else
                         {
