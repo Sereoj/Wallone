@@ -81,26 +81,6 @@ namespace Wallone.Core.Services.Pages
             return profile.posts;
         }
 
-        public static Task<string> GetPageAsync(string page_id)
-        {
-            var items = RequestRouter<string>.GetAsync($"user/{page_id}/info", null, null);
-            return items;
-        }
-
-        public static Task<Profile> SetAppendFriendAsync()
-        {
-            var items = RequestRouter<Profile, Subscription>.PostAsync("user/add",
-                new Subscription {friend_id = GetId()});
-            return items;
-        }
-
-        public static Task<Profile> SetRemoveFriendAsync()
-        {
-            var items = RequestRouter<Profile, Subscription>.PostAsync("user/remove",
-                new Subscription {friend_id = GetId()});
-            return items;
-        }
-
         public static string GetFacebook()
         {
             return profile?.facebook;

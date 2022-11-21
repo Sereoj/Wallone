@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Wallone.Core.Models.App;
+using Wallone.Core.Requests;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Loggers;
@@ -34,7 +35,7 @@ namespace Wallone.Core.Builders
 
         private static async Task<string> GetUserData()
         {
-            var json = await UserRepository.UserService.GetLoginWithTokenAsync();
+            var json = await AuthorizeRequest.GetLoginWithTokenAsync();
             if (!string.IsNullOrEmpty(json))
             {
                 return json;

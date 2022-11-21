@@ -310,7 +310,7 @@ namespace Wallone.Core.Services
             try
             {
                 var jsonText = File.ReadAllText(ThemeService.GetPathConfig());
-                themeModel = JsonConvert.DeserializeObject<Theme>(jsonText);
+                themeModel = Json<Theme>.Decode(jsonText);
             }
             catch (Exception e)
             {

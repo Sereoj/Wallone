@@ -94,7 +94,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                     if (JsonHelper.IsValidJson(jsonText))
                     {
-                        var item = JsonConvert.DeserializeObject<Theme>(jsonText);
+                        var item = Json<Theme>.Decode(jsonText);
 
                         if (item == null) continue;
                         if (!ThumbService.IsIdNotNull(item.Uuid)) continue;

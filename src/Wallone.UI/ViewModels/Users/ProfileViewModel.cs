@@ -15,6 +15,7 @@ using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
+using Wallone.Core.Requests;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Pages;
@@ -183,12 +184,12 @@ namespace Wallone.UI.ViewModels.Users
             switch (ProfileActionsVM.ActionStatus)
             {
                 case "true":
-                    data = await ProfileService.SetAppendFriendAsync();
+                    data = await UserProfileRequest.SetAppendFriendAsync();
                     update(data);
                     ProfileActionsVM.ActionStatus = "false";
                     break;
                 case "false":
-                    data = await ProfileService.SetRemoveFriendAsync();
+                    data = await UserProfileRequest.SetRemoveFriendAsync();
                     update(data);
                     ProfileActionsVM.ActionStatus = "true";
                     break;
@@ -200,7 +201,7 @@ namespace Wallone.UI.ViewModels.Users
             try
             {
                 IsLoading = true;
-                var data = await ProfileService.GetPageAsync(id);
+                var data = await UserProfileRequest.GetUserProfileWithTokenAsync(id);
 
                 if (!string.IsNullOrEmpty(data))
                 {
@@ -211,7 +212,7 @@ namespace Wallone.UI.ViewModels.Users
                     }
                     else
                     {
-                        profilePage = JsonConvert.DeserializeObject<Profile>(data);
+                        profilePage = Json<Profile>.Decode(data);
                         ProfileService.Load(profilePage);
 
                         ProfileItemsVM.Name = ProfileService.GetUsername();

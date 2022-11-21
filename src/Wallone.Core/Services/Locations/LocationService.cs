@@ -8,6 +8,7 @@ using Wallone.Core.Services.App;
 using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Routers;
 using Windows.Devices.Geolocation;
+using Wallone.Core.Requests;
 
 namespace Wallone.Core.Services.Locations
 {
@@ -58,11 +59,6 @@ namespace Wallone.Core.Services.Locations
 
         public class Auto
         {
-            private static Task<string> GetFromEthernet()
-            {
-                var items = RequestRouter<string>.GetAsync("app/ip");
-                return items;
-            }
             public static Location Get()
             {
                 return new SettingsBuilder(SettingsRepository.Get())
@@ -75,12 +71,12 @@ namespace Wallone.Core.Services.Locations
                 var items = new SettingsBuilder(SettingsRepository.Get())
                     .ItemBuilder();
 
-                var data = await GetFromEthernet();
+                var data = await IPRequest.GetFromEthernet();
                 await Task.CompletedTask;
 
                 try
                 {
-                    var location = JsonConvert.DeserializeObject<Location>(data);
+                    var location = Json<Location>.Decode(data);
                     SetGeolocation(location);
 
                     items.SetLatitude(location.latitude)

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Routers;
@@ -53,7 +54,7 @@ namespace Wallone.Core.Services.Users
 
         public static UserTokenble UserTokenble(string json)
         {
-            return JsonConvert.DeserializeObject<UserTokenble>(json);
+            return Json<UserTokenble>.Decode(json);
         }
         public static string GetToken(string json)
         {
@@ -88,17 +89,6 @@ namespace Wallone.Core.Services.Users
 
         public class UserService
         {
-            public static Task<string> GetLogoutAsync()
-            {
-                var items = RequestRouter<string,string>.PostWithTokenAsync(Routers.Pages.Logout, null, null);
-                return items;
-            }
-
-            public static Task<string> GetLoginWithTokenAsync()
-            {
-                var items = RequestRouter<string>.GetWithTokenAsync(Routers.Pages.Token, null, null);
-                return items;
-            }
 
             public static bool ValidateWithToken(string data)
             {
@@ -114,26 +104,6 @@ namespace Wallone.Core.Services.Users
                 }
 
                 return false;
-            }
-
-            public static Task<string> GetLoginAsync(string email, string password)
-            {
-                var items = RequestRouter<string, Login>.PostAsync(Routers.Pages.Login, new Login { email = email, password = password });
-                return items;
-            }
-
-            public static Task<string> GetRegisterAsync(string name, string email, string password,
-                string password_confirmation)
-            {
-                var items = RequestRouter<string, Register>.PostAsync(Routers.Pages.Register,
-                    new Register
-                    {
-                        username = name,
-                        email = email,
-                        password = password,
-                        password_confirmation = password_confirmation
-                    });
-                return items;
             }
 
             public static bool IsUser(string id)

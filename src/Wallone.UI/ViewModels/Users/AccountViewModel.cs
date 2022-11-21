@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Wallone.Core.Builders;
 using Wallone.Core.Helpers;
 using Wallone.Core.Models;
+using Wallone.Core.Requests;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Pages;
 using Wallone.Core.Services.Users;
@@ -160,7 +161,7 @@ namespace Wallone.UI.ViewModels.Users
                 .ItemBuilder();
             settings.SetToken(null);
 
-            UserRepository.UserService.GetLogoutAsync();
+            AuthorizeRequest.GetLogoutAsync();
 
             UserRepository.Close();
             SettingsRepository.Save();
@@ -175,7 +176,7 @@ namespace Wallone.UI.ViewModels.Users
             if (AccountRepository.AccountService.GetCover() != null)
                 param.Add(new Parameter { Name = "cover", Type = "file", Value = AccountRepository.AccountService.GetCover() });
 
-            _ = await AccountRepository.AccountService.EditUserPageAsync(UpdateUser(), param);
+            _ = await AccountRequest.EditUserAsync(UpdateUser(), param);
         }
 
         private void OnPersonPicture()
@@ -192,10 +193,10 @@ namespace Wallone.UI.ViewModels.Users
         {
             try
             {
-                var info = await AccountRepository.AccountService.GetPageGuidsAsync();
+                var info = await AccountRequest.GetGuideInformationAsync();
                 if (!string.IsNullOrEmpty(info))
                 {
-                    var text = JsonConvert.DeserializeObject<Advertisement>(info);
+                    var text = Json<Advertisement>.Decode(info);
 
                     TextInformation = text?.text ?? "Информация не доступна";
                 }
@@ -210,12 +211,11 @@ namespace Wallone.UI.ViewModels.Users
         {
             try
             {
-                var data = await AccountRepository.AccountService.GetPageAsync();
+                var data = await AccountRequest.GetAccountInformationForEditAsync();
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    //var jArray = JArray.Parse(data);
-                    account = JsonConvert.DeserializeObject<User>(data);
+                    account = Json<User>.Decode(data);
                     AccountRepository.Load(account);
 
                     Name = AccountRepository.AccountService.GetUsername();

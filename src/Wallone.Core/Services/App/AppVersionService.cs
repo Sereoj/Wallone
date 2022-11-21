@@ -17,12 +17,6 @@ namespace Wallone.Core.Services.App
             return ActualVersion;
         }
 
-        public static Task<string> GetVersionAsync()
-        {
-            var items = RequestRouter<string>.GetAsync("app/version");
-            return items;
-        }
-
         public static void SetVersion(string version)
         {
             ActualVersion = version ?? "1.0";

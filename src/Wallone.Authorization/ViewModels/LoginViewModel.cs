@@ -5,7 +5,9 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
+using Wallone.Core.Requests;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Users;
 
@@ -74,7 +76,7 @@ namespace Wallone.Authorization.ViewModels
         {
             try
             {
-                var json = await UserRepository.UserService.GetLoginAsync(Email, Password);
+                var json = await AuthorizeRequest.GetLoginAsync(Email, Password);
                 var s = AppEthernetService.GetStatus();
 
                 switch (s)
@@ -115,7 +117,7 @@ namespace Wallone.Authorization.ViewModels
 
         private void Errors(string json)
         {
-            var data = JsonConvert.DeserializeObject<LoginDataModel>(json);
+            var data = Json<LoginDataModel>.Decode(json);
             Message = data?.message;
         }
 

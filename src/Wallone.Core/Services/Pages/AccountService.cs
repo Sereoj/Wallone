@@ -84,24 +84,6 @@ namespace Wallone.Core.Services.Pages
             {
                 return user.twitter;
             }
-
-            public static Task<string> GetPageAsync()
-            {
-                var items = RequestRouter<string>.GetAsync("user/profile", null, null);
-                return items;
-            }
-
-            public static Task<User> EditUserPageAsync(User user, List<Parameter> parameters)
-            {
-                var items = RequestRouter<User, User>.PostAsync("user/edit", user, parameters);
-                return items;
-            }
-
-            public static Task<string> GetPageGuidsAsync()
-            {
-                var items = RequestRouter<string>.GetAsync("app/guids");
-                return items;
-            }
         }
     }
 }

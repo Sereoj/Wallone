@@ -1,9 +1,26 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Wallone.Core.Services.Loggers;
 
 namespace Wallone.Core.Helpers
 {
+    public class Json<T>
+    {
+        public static T Decode(string values)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(values);
+            }
+            catch (Exception e)
+            {
+                _ = LoggerService.LogAsync(typeof(Json<T>), $"{e.Message}");
+                throw;
+            }
+        }
+    }
+
     public class JsonHelper
     {
         public static bool IsValidJson(string strInput)

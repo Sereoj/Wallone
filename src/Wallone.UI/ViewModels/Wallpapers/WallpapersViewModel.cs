@@ -166,7 +166,8 @@ namespace Wallone.UI.ViewModels.Wallpapers
                 if (Validate(items) && statusCode == HttpStatusCode.OK)
                 {
                     LoadImages(items);
-                    PageBuilder.ClearQuery();
+                    PageBuilder
+                        .ClearQuery();
                     isNextPage = true;
                 }
                 SetLoading(isLoaded, true);

@@ -7,7 +7,9 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Wallone.Core.Builders;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
+using Wallone.Core.Requests;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
 using Wallone.Core.Services.Routers;
@@ -93,7 +95,7 @@ namespace Wallone.Authorization.ViewModels
         {
             try
             {
-                var json = await UserRepository.UserService.GetRegisterAsync(name, email, password, confirm);
+                var json = await AuthorizeRequest.GetRegisterAsync(name, email, password, confirm);
                 var s = AppEthernetService.GetStatus();
 
                 switch (s)
@@ -131,7 +133,7 @@ namespace Wallone.Authorization.ViewModels
 
         private void Errors(string json)
         {
-            var data = JsonConvert.DeserializeObject<RegisterDataModel>(json);
+            var data = Json<RegisterDataModel>.Decode(json);
             Message = data?.message;
         }
         private void LoadRegister(string json)

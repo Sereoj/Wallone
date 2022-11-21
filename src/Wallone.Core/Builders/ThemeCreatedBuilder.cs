@@ -272,7 +272,9 @@ namespace Wallone.Core.Builders
             if (ValidateConfig())
             {
                 var jsonText = File.ReadAllText(configFile);
-                return JsonConvert.DeserializeObject<SinglePage>(jsonText);
+
+                //Json<SinglePage>.Decode
+                return Json<SinglePage>.Decode(jsonText);
             }
 
             return null;
@@ -285,7 +287,7 @@ namespace Wallone.Core.Builders
             if (ValidateConfig())
             {
                 var jsonText = File.ReadAllText(configFile);
-                Theme = JsonConvert.DeserializeObject<Theme>(jsonText);
+                Theme = Json<Theme>.Decode(jsonText);
                 return GetModel();
             }
 

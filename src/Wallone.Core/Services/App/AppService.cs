@@ -2,8 +2,10 @@
 using Newtonsoft.Json;
 using Wallone.Core.Builders;
 using Wallone.Core.Controllers;
+using Wallone.Core.Helpers;
 using Wallone.Core.Models;
 using Wallone.Core.Models.App;
+using Wallone.Core.Requests;
 using Wallone.Core.Schedulers;
 using Wallone.Core.Services.Locations;
 using Wallone.Core.Services.Loggers;
@@ -17,7 +19,8 @@ namespace Wallone.Core.Services.App
             var settingsItems = new SettingsBuilder(SettingsRepository.Get())
                 .ItemBuilder();
 
-            var themeName = settingsItems.GetImage();
+            var themeName = settingsItems
+                .GetImage();
 
             var theme = new ThemeCreatedBuilder()
                 .SetName(themeName)
@@ -37,11 +40,11 @@ namespace Wallone.Core.Services.App
 
         public static async Task LoadVersionAsync()
         {
-            var data = await AppVersionService.GetVersionAsync();
+            var data = await AppVersionRequest.GetVersionAsync();
             await Task.CompletedTask;
             if (!string.IsNullOrEmpty(data))
             {
-                var appVersion = JsonConvert.DeserializeObject<AppVersion>(data);
+                var appVersion = Json<AppVersion>.Decode(data);
                 AppVersionService.SetVersion(appVersion?.Version);
             }
             else

@@ -111,7 +111,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var message = JsonConvert.DeserializeObject<Advertisement>(data);
+                    var message = Json<Advertisement>.Decode(data);
                     SinglePageAds.IsVisible = true;
                     SinglePageAds.Text = message?.text ?? "Не удалось загрузить =(";
                 }
@@ -132,7 +132,7 @@ namespace Wallone.UI.ViewModels.Wallpapers
                     .SetName(pageName);
 
                 var data = await SinglePageService.GetPageAsync(uuid);
-                singlePage = JsonConvert.DeserializeObject<SinglePage>(data);
+                singlePage = Json<SinglePage>.Decode(data);
 
                 if (singlePage != null)
                 {

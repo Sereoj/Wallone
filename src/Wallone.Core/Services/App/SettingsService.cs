@@ -38,7 +38,7 @@ namespace Wallone.Core.Services.App
             try
             {
                 var jsonText = File.ReadAllText(file);
-                if (JsonHelper.IsValidJson(jsonText)) Settings = JsonConvert.DeserializeObject<Settings>(jsonText);
+                if (JsonHelper.IsValidJson(jsonText)) Settings = Json<Settings>.Decode(jsonText);
             }
             catch (Exception ex)
             {
