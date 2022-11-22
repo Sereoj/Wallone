@@ -63,15 +63,6 @@
                                 Margin="0,10,0,0"
                                 Style="{StaticResource H3}"
                                 Text="{Binding Name, TargetNullValue=Content}" />
-                            <TextBlock
-                                Margin="10,15,0,0"
-                                Cursor="Hand"
-                                Focusable="False"
-                                FontFamily="{StaticResource FontIconMoonUltimate}"
-                                IsHitTestVisible="True"
-                                Style="{StaticResource H3}"
-                                Text="&#xEC32;"
-                                ToolTip="Изображения обработаны сервером" />
                         </WrapPanel>
 
                     </Grid>
