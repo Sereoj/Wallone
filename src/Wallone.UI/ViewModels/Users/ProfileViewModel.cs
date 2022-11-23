@@ -196,50 +196,41 @@ namespace Wallone.UI.ViewModels.Users
             }
         }
 
-        public async void Loaded(string id, bool isMyProfile)
+        public async void Loaded(string userId, bool isMyProfile)
         {
             try
             {
                 IsLoading = true;
-                var data = await UserProfileRequest.GetUserProfileWithTokenAsync(id);
+                var data = await UserProfileRequest.GetUserProfileWithTokenAsync(userId);
 
                 if (!string.IsNullOrEmpty(data))
                 {
-                    var message = JObject.Parse(data);
-                    if (!string.IsNullOrEmpty(message["message"]?.ToString()))
+                    profilePage = Json<Profile>.Decode(data);
+                    ProfileService.Load(profilePage);
+
+                    ProfileItemsVM.Name = ProfileService.GetUsername();
+                    ProfileItemsVM.Slug = ProfileService.GetUserLink();
+                    ProfileItemsVM.Description = ProfileService.GetDescription();
+                    ProfileItemsVM.Avatar = UriHelper.Get(ProfileService.GetAvatar());
+
+                    ProfileItemsVM.Subscribers = ProfileService.GetSubscribers();
+                    ProfileItemsVM.Subscriptions = ProfileService.GetSubscriptions();
+                    ProfileItemsVM.Likes = ProfileService.GetLikes();
+                    ProfileItemsVM.Publish = ProfileService.GetPublish();
+
+                    ProfileActionsVM.IsMyProfile = isMyProfile;
+
+                    switch (ProfileService.GetSubscriber())
                     {
-                        ManagerViewModel.Handler();
+                        case "true":
+                            ProfileActionsVM.ActionStatus = "false";
+                            break;
+                        case "false":
+                            ProfileActionsVM.ActionStatus = "true";
+                            break;
                     }
-                    else
-                    {
-                        profilePage = Json<Profile>.Decode(data);
-                        ProfileService.Load(profilePage);
 
-                        ProfileItemsVM.Name = ProfileService.GetUsername();
-                        ProfileItemsVM.Description = ProfileService.GetDescription();
-
-                        ProfileItemsVM.Avatar = UriHelper.Get(ProfileService.GetAvatar());
-                        ProfileItemsVM.Cover = UriHelper.Get(ProfileService.GetCover());
-
-                        ProfileItemsVM.Subscribers = ProfileService.GetSubscribers();
-                        ProfileItemsVM.Subscriptions = ProfileService.GetSubscriptions();
-                        ProfileItemsVM.Likes = ProfileService.GetLikes();
-                        ProfileItemsVM.Publish = ProfileService.GetPublish();
-
-                        ProfileActionsVM.IsMyProfile = isMyProfile;
-
-                        switch (ProfileService.GetSubscriber())
-                        {
-                            case "true":
-                                ProfileActionsVM.ActionStatus = "false";
-                                break;
-                            case "false":
-                                ProfileActionsVM.ActionStatus = "true";
-                                break;
-                        }
-
-                        posts(ProfileService.GetPosts());
-                    }
+                    posts(ProfileService.GetPosts());
                 }
 
                 IsLoading = false;
@@ -248,8 +239,6 @@ namespace Wallone.UI.ViewModels.Users
             {
                 ManagerViewModel.Show(Pages.NotFound, ex.Message);
             }
-
-            GC.Collect(1, GCCollectionMode.Forced);
         }
 
         private void update(Profile data)

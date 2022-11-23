@@ -139,7 +139,6 @@ namespace Wallone.Authorization.ViewModels
 
                 regionManager.RequestNavigate("ContentRegion", "Main");
             }
-            GC.Collect(2);
         }
     }
 }

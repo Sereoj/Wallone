@@ -74,21 +74,17 @@ namespace Wallone.UI.ViewModels
             }
         }
 
-        public bool Handler()
+        public void Handler()
         {
             if (AppEthernetService.GetStatus() == HttpStatusCode.Unauthorized)
             {
                 Show(Pages.NotFound, "Просмотр пользователя возможен только с авторизацией");
-                return false;
             }
 
-            if (AppEthernetService.GetStatus() == HttpStatusCode.OK)
+            if (AppEthernetService.GetStatus() == HttpStatusCode.NotFound)
             {
                 Show(Pages.NotFound, "Не найдена страница пользователя");
-                return false;
             }
-
-            return true;
         }
     }
 }

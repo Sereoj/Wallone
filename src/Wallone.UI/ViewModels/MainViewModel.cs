@@ -26,7 +26,7 @@ namespace Wallone.UI.ViewModels
 
         public DelegateCommand<NavigationViewItemInvokedEventArgs> MenuItemInvokedCommand { get; set; }
 
-        public MainViewModel(){}
+        public MainViewModel(){ }
 
         public MainViewModel(IRegionManager regionManager)
         {

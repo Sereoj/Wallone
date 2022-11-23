@@ -77,9 +77,18 @@ namespace Wallone.Core.Services.Users
         }
         public class Fields
         {
+            public static void SetUserId(string value)
+            {
+                user.id = value;
+            }
             public static string GetUserId()
             {
                 return user.id;
+            }
+
+            public static void SetUsername(string value)
+            {
+                user.username = value;
             }
             public static string GetUsername()
             {
@@ -89,16 +98,18 @@ namespace Wallone.Core.Services.Users
 
         public class UserService
         {
-
             public static bool ValidateWithToken(string data)
             {
                 if (data != null)
                 {
                     var user = UserTokenble(data);
-                    if (user.id != null && user.name != null)
+                    string userId = user.id;
+                    string username = user.name;
+
+                    if (!string.IsNullOrEmpty(user.id) && !string.IsNullOrEmpty(user.name))
                     {
-                        Get().id = user.id;
-                        Get().username = user.name;
+                        Fields.SetUserId(userId);
+                        Fields.SetUsername(username);
                         return true;
                     }
                 }
@@ -108,7 +119,7 @@ namespace Wallone.Core.Services.Users
 
             public static bool IsUser(string id)
             {
-                return user.id == id;
+                return Fields.GetUserId() == id;
             }
         }
     }

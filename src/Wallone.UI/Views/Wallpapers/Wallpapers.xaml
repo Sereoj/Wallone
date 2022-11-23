@@ -60,31 +60,14 @@
             </b:Interaction.Triggers>
             <Grid>
                 <Grid Visibility="{Binding IsContent, Converter={StaticResource BoolToVis}}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto" MaxWidth="50" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="auto" MaxWidth="50" />
                     </Grid.ColumnDefinitions>
-                    <!--  Grid Header  -->
-                    <Grid
-                        x:Name="Header"
-                        Grid.Row="0"
-                        Grid.Column="1">
-                        <TextBlock
-                            Margin="0,10,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Style="{StaticResource H3}"
-                            Text="{Binding Header, FallbackValue=Content}" />
-                    </Grid>
                     <!--  Grid Article  -->
                     <Grid
                         x:Name="Article"
-                        Grid.Row="1"
                         Grid.Column="1"
                         Margin="0,20,0,0"
                         HorizontalAlignment="Center"

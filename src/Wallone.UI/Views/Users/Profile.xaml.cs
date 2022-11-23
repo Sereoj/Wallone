@@ -43,7 +43,7 @@ namespace Wallone.UI.Views.Users
         {
             //TODO: ПРОЗРАЧНОСТЬ
             //Trace.WriteLine(ActualWidth);
-            Description.Visibility = ActualWidth > 625 ? Visibility.Visible : Visibility.Hidden;
+            //Description.Visibility = ActualWidth > 625 ? Visibility.Visible : Visibility.Hidden;
         }
     }
 }

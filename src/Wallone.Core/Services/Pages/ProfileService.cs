@@ -9,11 +9,6 @@ namespace Wallone.Core.Services.Pages
     {
         private static Profile profile;
 
-        public ProfileService(Profile page)
-        {
-            Load(page);
-        }
-
         public static void Load(Profile page)
         {
             if (page != null)
@@ -27,7 +22,12 @@ namespace Wallone.Core.Services.Pages
 
         public static string GetUsername()
         {
-            return profile?.name ?? "Lorem";
+            return profile?.name ?? "Username";
+        }
+
+        public static string GetUserLink()
+        {
+            return "@" + profile?.slug;
         }
 
         public static string GetAvatar()

@@ -41,6 +41,7 @@
     <None Remove="Images\phases\sunset.png" />
     <None Remove="Images\Placeholder1280x720.png" />
     <None Remove="Images\TransparentPlaceholder.png" />
+    <None Remove="Images\verify.png" />
   </ItemGroup>
 	
     <ItemGroup>
@@ -87,6 +88,9 @@
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Images\TransparentPlaceholder.png">
+          <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Images\verify.png">
           <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </Resource>
     </ItemGroup>

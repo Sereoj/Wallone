@@ -40,6 +40,8 @@
     <ImageSource x:Key="Placeholder1280">/Wallone.Common;component/Images/Placeholder1280x720.png</ImageSource>
     <ImageSource x:Key="TransparentPlaceholder">/Wallone.Common;component/Images/TransparentPlaceholder.png</ImageSource>
 
+    <ImageSource x:Key="Verify">/Wallone.Common;component/Images/verify.png</ImageSource>
+
     <ImageSource x:Key="LogoUpdate">/Wallone.Common;component/Images/logo/logoUpdate.png</ImageSource>
 
     <ImageSource x:Key="PhaseSunrise">/Wallone.Common;component/Images/phases/sunrise.png</ImageSource>

@@ -7,11 +7,10 @@ namespace Wallone.UI.ViewModels.Users
     {
         private Uri avatar;
 
-        private Uri cover;
-
         private string description;
         private string likes;
         private string name;
+        private string slug;
 
         private string publish;
 
@@ -24,14 +23,10 @@ namespace Wallone.UI.ViewModels.Users
             set => SetProperty(ref name, value);
         }
 
-        public Uri Cover
+        public string Slug
         {
-            get => cover;
-            set
-            {
-                SetProperty(ref cover, value);
-                RaisePropertyChanged();
-            }
+            get => slug;
+            set => SetProperty(ref slug, value);
         }
 
         public Uri Avatar
