@@ -31,6 +31,11 @@
             </Setter>
         </Style>
     </UserControl.Resources>
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="SizeChanged">
+            <prism:InvokeCommandAction Command="{Binding SizeChangedCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
     <Grid>
         <views:NoItemControl
             x:Name="NoContent"

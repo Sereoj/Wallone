@@ -21,6 +21,7 @@
     Closing="MainWindow_OnClosing"
     Deactivated="MainWindow_OnDeactivated"
     Icon="/favicon.ico"
+    SizeChanged="MainWindow_OnSizeChanged"
     Topmost="False"
     WindowStartupLocation="CenterScreen"
     WindowState="Normal"

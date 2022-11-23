@@ -4,8 +4,11 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Drawing;
 using System.Net;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Wallone.Core.Builders;
@@ -13,6 +16,7 @@ using Wallone.Core.Helpers;
 using Wallone.Core.Interfaces;
 using Wallone.Core.Models;
 using Wallone.Core.Services.App;
+using Wallone.Core.Services.Loggers;
 using Wallone.Core.Services.Pages;
 using Wallone.UI.Interfaces;
 using Wallone.UI.Services;
@@ -47,11 +51,14 @@ namespace Wallone.UI.ViewModels.Wallpapers
             this.regionManager = regionManager;
             ManagerViewModel = new ManagerViewModel(regionManager);
             ViewerScrollChangedCommand = new DelegateCommand<ScrollChangedEventArgs>(OnViewerScrollChanged);
+            SizeChangedCommand = new DelegateCommand<SizeChangedEventArgs>(OnSizeChanged);
         }
 
         public PageGalleryBuilder PageBuilder { get; private set; } = new PageGalleryBuilder();
 
         public DelegateCommand<ScrollChangedEventArgs> ViewerScrollChangedCommand { get; set; }
+
+        public DelegateCommand<SizeChangedEventArgs> SizeChangedCommand { get; set; }
 
         public bool IsLoading
         {
@@ -119,6 +126,17 @@ namespace Wallone.UI.ViewModels.Wallpapers
         private void OnViewerScrollChanged(ScrollChangedEventArgs e)
         {
             if (ScrollViewerService.GetRatio() >= 0.9)
+            {
+                LoadNewPage();
+            }
+        }
+
+        private void OnSizeChanged(SizeChangedEventArgs e)
+        {
+            var w = System.Windows.SystemParameters.PrimaryScreenWidth;
+            var size = AppSizeService.Get();
+
+            if (w <= size.Width && pagination == 1)
             {
                 LoadNewPage();
             }
