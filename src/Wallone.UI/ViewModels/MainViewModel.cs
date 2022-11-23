@@ -71,8 +71,11 @@ namespace Wallone.UI.ViewModels
 
         private void OnMenuItemInvoked(NavigationViewItemInvokedEventArgs e)
         {
-            var manager = new ManagerViewModel(regionManager);
-            manager.Open(e);
+            if ((string)e.InvokedItemContainer.Tag != "Categories")
+            {
+                var manager = new ManagerViewModel(regionManager);
+                manager.Open(e);
+            }
         }
 
         public void LoadCategory() => Categories = CategoriesService.LoadCategories();

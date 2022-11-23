@@ -50,7 +50,7 @@
                     Cursor="Hand"
                     Icon="GlobalNavigationButton"
                     MenuItemsSource="{Binding Categories}"
-                    Tag="Gallery" />
+                    Tag="Categories" />
                 <ui:NavigationViewItemSeparator />
                 <ui:NavigationViewItem
                     x:Name="New"

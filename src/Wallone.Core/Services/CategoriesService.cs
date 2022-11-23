@@ -31,7 +31,7 @@ namespace Wallone.Core.Services
                         Content = item.name_ru,
                         Name = "Categories",
                         Icon = null,
-                        Tag = "Gallery"
+                        Tag = "ItemCategories"
                     });
                 }
             }
