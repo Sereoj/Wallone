@@ -52,7 +52,12 @@ namespace Wallone.Core.Builders
                 if (data != null & UserRepository.UserService.ValidateWithToken(data))
                 {
                     isAuth = true;
+                    _ = LoggerService.LogAsync(this, "Выполнен вход", Message.Error);
                     return this;
+                }
+                else
+                {
+                    _ = LoggerService.LogAsync(this, "Ошибка авторизации", Message.Error);
                 }
             }
             isAuth = false;

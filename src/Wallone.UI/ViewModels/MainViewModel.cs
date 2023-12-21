@@ -8,6 +8,9 @@ using Prism.Regions;
 using Wallone.Core.Builders;
 using Wallone.Core.Services;
 using Wallone.Core.Services.App;
+using Wallone.Core.Services.Users;
+using static Wallone.Core.Services.Pages.AccountRepository;
+using static Wallone.Core.Services.Users.UserRepository;
 
 namespace Wallone.UI.ViewModels
 {
@@ -24,6 +27,13 @@ namespace Wallone.UI.ViewModels
             set => SetProperty(ref categories, value);
         }
 
+        private string user;
+        public string User
+        {
+            get => user;
+            set => SetProperty(ref user, value);
+        }
+
         public DelegateCommand<NavigationViewItemInvokedEventArgs> MenuItemInvokedCommand { get; set; }
 
         public MainViewModel(){ }
@@ -35,11 +45,7 @@ namespace Wallone.UI.ViewModels
             Task.Run(async () => await AppService.LoadVersionAsync());
             Task.Run(async () => await AppService.UseGeolocationAsync());
             AppService.UseTheme();
-
-            var builder = new UserSyncBuilder()
-                .CreateUserModel()
-                .GetToken()
-                .ValidateAsync();
+            
             LoadCategory();
 
             ManagerViewModel = new ManagerViewModel(regionManager);
@@ -56,6 +62,14 @@ namespace Wallone.UI.ViewModels
                 {"ID", "Main"},
                 {"Text", "Библиотека"}
             };
+
+            var builder = new UserSyncBuilder()
+            .CreateUserModel()
+            .GetToken()
+            .ValidateAsync();
+
+            User = Fields.GetUsername();
+
             regionManager.RequestNavigate("PageRegion", "Wallpapers", param);
         }
 

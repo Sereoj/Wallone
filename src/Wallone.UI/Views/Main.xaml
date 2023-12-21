@@ -111,12 +111,19 @@
                 <ContentControl prism:RegionManager.RegionName="PageRegion" />
             </ui:NavigationView.Content>
         </ui:NavigationView>
-        <TextBlock
-            Margin="45,6,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontSize="16"
-            Text="{x:Static translation:Localization.AppName}" />
-
+        <WrapPanel>
+            <TextBlock
+                Margin="45,6,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontSize="16"
+                Text="{x:Static translation:Localization.AppName}" />
+            <TextBlock
+                Margin="10,6,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                FontSize="16"
+                Text="{Binding User}" />
+        </WrapPanel>
     </Grid>
 </UserControl>
